@@ -44,7 +44,7 @@ export default {
       manualWispRules: {
         ssid: [
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0232')
           },
           {
@@ -54,13 +54,13 @@ export default {
         ],
         password: [
           {
-            rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0232')
-          },
-          {
             rule: value => isFieldHasSpaces(value),
             message: this.$t('trans1020')
           },
+          // {
+          //   rule: value => !/^\s*$/g.test(value),
+          //   message: this.$t('trans0232')
+          // },
           {
             rule: value => isValidPassword(value, 8, 128),
             message: this.$t('trans1252')
@@ -112,7 +112,7 @@ export default {
             // 这一套只验证ssid是否为空
             'upperApForm.ssid': [
               {
-                rule: value => !/^\s*$/g.test(value),
+                rule: value => !/^\s*$/g.test(value.trim()),
                 message: this.$t('trans0232')
               }
             ]
@@ -122,19 +122,19 @@ export default {
             // 这一套要验证ssid和密码
             'upperApForm.ssid': [
               {
-                rule: value => !/^\s*$/g.test(value),
+                rule: value => !/^\s*$/g.test(value.trim()),
                 message: this.$t('trans0232')
               }
             ],
             'upperApForm.password': [
               {
-                rule: value => !/^\s*$/g.test(value),
-                message: this.$t('trans0232')
-              },
-              {
                 rule: value => isFieldHasSpaces(value),
                 message: this.$t('trans1020')
               },
+              // {
+              //   rule: value => !/^\s*$/g.test(value),
+              //   message: this.$t('trans0232')
+              // },
               {
                 rule: value => isValidPassword(value, 8, 128),
                 message: this.$t('trans1252')
@@ -293,6 +293,15 @@ export default {
       if (nv === EncryptMethod.open) {
         this.manualWispForm.password = '';
       }
+    },
+    hiddenModalShow() {
+      this.modalShow = false;
+      this.manualWispForm = {
+        ssid: '',
+        password: '',
+        band: '2.4G',
+        security: EncryptMethod.wpa2
+      };
     }
   }
 };

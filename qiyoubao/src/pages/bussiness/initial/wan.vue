@@ -185,7 +185,7 @@
           </m-form>
         </div>
         <div class="btn-inner">
-          <button @click.stop="()=>modalShow=false"
+          <button @click.stop="hiddenModalShow"
                   class="btn btn-default">{{$t('trans0025')}}</button>
           <button class="btn"
                   @click="submitManualUpperForm">{{$t('trans0018')}}</button>
@@ -259,7 +259,7 @@ export default {
       pppoeRules: {
         account: [
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0232')
           },
           {
@@ -269,7 +269,7 @@ export default {
         ],
         password: [
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0232')
           },
           {

@@ -47,6 +47,10 @@ export default {
       rules: {
         password: [
           {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
+          },
+          {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')
           },
