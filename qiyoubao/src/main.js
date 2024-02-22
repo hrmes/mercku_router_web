@@ -133,7 +133,8 @@ const launch = () => {
         upgrading = false;
       },
       timeout: opt.timeout,
-      showLoading: false
+      showLoading: false,
+      delayTime: 10
     });
   };
 

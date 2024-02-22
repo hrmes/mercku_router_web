@@ -205,6 +205,10 @@ export default {
       wifiFormRules: {
         ssid24g: [
           {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
+          },
+          {
             rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0232')
           },
@@ -220,15 +224,15 @@ export default {
             message: this.$t('trans0451')
           },
           {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
-          },
-          {
             rule: value => value !== this.wifiForm.ssidGame,
             message: this.$t('trans1258')
           }
         ],
         password24g: [
+          {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1020')
+          },
           {
             rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0232')
@@ -238,15 +242,15 @@ export default {
             message: this.$t('trans0452')
           },
           {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
-          },
-          {
             rule: value => isValidPassword(value, 8, 31),
             message: this.$t('trans0125').replace('%d', 8).replace('%d', 31)
           }
         ],
         ssidGame: [
+          {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
+          },
           {
             rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0232')
@@ -260,10 +264,6 @@ export default {
             message: this.$t('trans0451')
           },
           {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
-          },
-          {
             rule: value => this.wifiForm.ssid24g !== value &&
               this.ssid5g !== value,
             message: this.$t('trans1258')
@@ -271,16 +271,16 @@ export default {
         ],
         passwordGame: [
           {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1020')
+          },
+          {
             rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0232')
           },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')
-          },
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
           },
           {
             rule: value => isValidPassword(value, 8, 31),
@@ -289,16 +289,16 @@ export default {
         ],
         passwordAdmin: [
           {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1020')
+          },
+          {
             rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0232')
           },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')
-          },
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
           },
           {
             rule: value => isValidPassword(value, 8, 31),

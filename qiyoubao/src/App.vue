@@ -57,7 +57,6 @@ export default {
       let subMenu = [];
       if (hasAside) {
         const { 2: mainMenuName } = this.$route.path.split('/');
-        console.log(mainMenuName);
         switch (mainMenuName) {
           case 'setting':
             subMenu = this.menus.filter(item => item.name === 'setting');

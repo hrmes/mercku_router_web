@@ -230,7 +230,6 @@ export default {
       netStatus: WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       pageActive: true,
       deviceLoading: true,
-      meshLoading: true,
       ssid: '',
       deviceCount: '-',
       deviceCountTimer: null,
@@ -418,7 +417,6 @@ export default {
     },
     async getMeshInfo() {
       try {
-        this.meshLoading = true;
         const res1 = await this.$http.getMeshNode();
         const meshNodeList = res1.data.result;
         if (meshNodeList.length === 0) {
@@ -435,8 +433,6 @@ export default {
         }
       } catch (error) {
         console.error('Error fetching mesh info:', error);
-      } finally {
-        this.meshLoading = false;
       }
     },
     async getLocalDeviceInfo() {
