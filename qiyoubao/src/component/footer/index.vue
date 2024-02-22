@@ -51,7 +51,6 @@
           <span class="company-logo"
                 @click.stop="showOffcialPage"></span>
         </div>
-
         <!-- <img class="power-by"
              v-if="isShowPowerBy"
              src="../../assets/images/img-power-by.png" /> -->
@@ -454,7 +453,7 @@ export default {
       .copy,
       .policy-text {
         margin-left: 0;
-        text-align: center;
+        white-space: nowrap;
         &:first-child {
           &::before {
             content: '';

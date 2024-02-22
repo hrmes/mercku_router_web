@@ -298,62 +298,70 @@ export default {
       rules: {
         'b24g.ssid': [
           {
-            rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0232')
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
           },
           {
-            rule: value => getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31,
-            message: this.$t('trans1255')
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
           },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
           {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
+            rule: value => getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31,
+            message: this.$t('trans1255')
           },
         ],
         'b24g.password': [
           {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
-          },
-          {
             rule: value => isFieldHasSpaces(value),
             message: this.$t('trans1020')
           },
-          {
-            rule: value => isValidPassword(value, 8, 31),
-            message: this.$t('trans0118')
-          }
-        ],
-        'b5g.ssid': [
           {
             rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31,
-            message: this.$t('trans1255')
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
+          },
+          {
+            rule: value => isValidPassword(value, 8, 31),
+            message: this.$t('trans0125').replace('%d', 8).replace('%d', 31)
+          }
+        ],
+        'b5g.ssid': [
+          {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
+          },
+          {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
           },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
           {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
+            rule: value => getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31,
+            message: this.$t('trans1255')
           },
         ],
         'b5g.password': [
           {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
-          },
-          {
             rule: value => isFieldHasSpaces(value),
             message: this.$t('trans1020')
+          },
+          {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
           },
           {
             rule: value => isValidPassword(value, 8, 31),
@@ -362,31 +370,34 @@ export default {
         ],
         'bGame.ssid': [
           {
-            rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0232')
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
           },
           {
-            rule: value => getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31,
-            message: this.$t('trans1255')
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
           },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
           {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
+            rule: value => getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31,
+            message: this.$t('trans1255')
           },
-
         ],
         'bGame.password': [
           {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1020')
           },
           {
             rule: value => isFieldHasSpaces(value),
             message: this.$t('trans1020')
+          },
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
           },
           {
             rule: value => isValidPassword(value, 8, 31),

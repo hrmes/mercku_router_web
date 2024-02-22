@@ -12,7 +12,7 @@
             <m-form ref="wifiForm"
                     :model="wifiForm"
                     :rules="wifiFormRules">
-              <p class="step-tips">{{$t('trans0167').toUpperCase()}}</p>
+              <p class="step-tips">{{$t('trans0167')}}</p>
               <div class="card-wrapper">
                 <m-form-item prop="smart_connect"
                              class="no-validate">
@@ -32,7 +32,8 @@
                                style="margin-bottom:10px">
                     <div class="tip-label">
                       <div class="title">{{`${$t('trans0255')} ${$t('trans0168')} :`}}</div>
-                      <div class="value">{{wifiForm.ssid24g}}</div>
+                      <div class="value"
+                           :title="wifiForm.ssid24g">{{wifiForm.ssid24g}}</div>
                     </div>
                     <div class="tip-label">
                       <div class="title"> {{`${$t('trans0256')} ${$t('trans0168')} :`}}</div>
@@ -45,7 +46,7 @@
                              :placeholder="$t('trans0321')"
                              v-model="wifiForm.password24g" />
                   </m-form-item>
-                  <m-form-item style="margin-top:10px">
+                  <m-form-item style="margin-top:13px">
                     <m-switch :label="$t('trans1257')"
                               v-model="copyB24gPwd"
                               @change="customizedAdminPwd" />
@@ -213,15 +214,15 @@ export default {
             message: this.$t('trans0232')
           },
           {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0451')
+          },
+          {
             rule: value => {
               console.log('ssid24g Bytes is', getStringByte(value.trim()));
               return getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31;
             },
             message: this.$t('trans1255')
-          },
-          {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0451')
           },
           {
             rule: value => value !== this.wifiForm.ssidGame,
@@ -256,12 +257,12 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31,
-            message: this.$t('trans1255')
-          },
-          {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
+          },
+          {
+            rule: value => getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31,
+            message: this.$t('trans1255')
           },
           {
             rule: value => this.wifiForm.ssid24g !== value &&
@@ -515,6 +516,7 @@ export default {
         }
         .tip-label {
           display: flex;
+          width: 100%;
           font-size: 12px;
           color: var(--text_gery-color);
           margin-top: 10px;
@@ -522,7 +524,10 @@ export default {
             width: 30%;
           }
           .value {
-            flex: 1;
+            width: 70%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
           }
         }
         .form-item {
@@ -690,6 +695,19 @@ export default {
             margin: 0;
             width: unset;
           }
+          .tip-label {
+            .title {
+              width: 33%;
+            }
+            .value {
+              width: 67%;
+              overflow: unset;
+              text-overflow: unset;
+              word-break: break-all;
+              white-space: normal;
+            }
+          }
+
           .region-grid {
             display: block;
           }

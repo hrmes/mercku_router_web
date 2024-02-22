@@ -289,6 +289,8 @@ export default {
 }
 .urllimit {
   width: 100%;
+  min-height: 400px;
+  position: relative;
   .url-table {
     width: 100%;
     .table-head {
@@ -335,6 +337,9 @@ export default {
     .modal-content {
       width: auto;
     }
+  }
+  .urllimit {
+    min-height: unset;
   }
 }
 </style>

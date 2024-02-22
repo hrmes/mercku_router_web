@@ -16,7 +16,7 @@
         <div class="col-2">
           <div class="step-item step-item1">
             <m-form>
-              <p class="step-tips">{{$t('trans1241').toUpperCase()}}</p>
+              <p class="step-tips">{{$t('trans1241')}}</p>
               <m-form-item>
                 <qiyou-radio-card-group v-model="netType"
                                         :options="options"

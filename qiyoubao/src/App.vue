@@ -207,7 +207,6 @@ export default {
 .scrollbar-wrap {
   height: 100%;
   overflow: auto;
-  font-family: 'PingFangSC', 'Microsoft Yahei', sans-serif;
   @media screen and (min-width: 768px) {
     &::-webkit-scrollbar,
     ::-webkit-scrollbar {
