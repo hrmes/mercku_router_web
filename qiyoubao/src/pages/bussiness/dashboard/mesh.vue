@@ -14,7 +14,7 @@
           <div class="legend-wrap">
             <span class="btn-icon close"
                   @click.stop="resetChartPosition">
-              <i class=" iconfont ic_center"></i>
+              <i class="iconfont ic_center"></i>
             </span>
             <div class="info">
               <p class="legend-title">
@@ -1024,6 +1024,9 @@ export default {
       top: 0;
       left: 0;
       z-index: 5;
+      .btn-container {
+        background-color: var(--common_card-bgc);
+      }
     }
     .content {
       width: 100%;
@@ -1173,6 +1176,7 @@ export default {
             padding: 4px 10px;
             border-radius: 5px;
             color: #fff;
+            font-weight: 600;
             margin-right: 5px;
             background-image: linear-gradient(97deg, #50cc83 6%, #3cc146 90%);
             &.model-name {

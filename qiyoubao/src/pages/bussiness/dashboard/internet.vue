@@ -11,8 +11,7 @@
       <div class="main-wrap">
         <div class="layout-left-wrap">
           <div class="speed__wrap">
-            <div v-if="isRouter"
-                 class="section__body ">
+            <div class="section__body ">
               <div class="waninfo__wrapper">
                 <div class="realtime__speed speed">
                   <div class="speed__item">
@@ -106,12 +105,6 @@
                 </button>
               </div>
             </div>
-            <div v-else
-                 class="section__body section__body--bridge">
-              <img src="@/assets/images/img-bridge.png"
-                   alt="">
-              <p>{{$t('trans0984')}}</p>
-            </div>
           </div>
         </div>
         <div class="layout-right-wrap">
@@ -142,7 +135,7 @@
           </div>
           <div class="section">
             <div class=" ipv4 section__inner"
-                 :class="{'stretch':isRouter&&!this.ipv6NetInfo.enabled}">
+                 :class="{'stretch':!this.ipv6NetInfo.enabled}">
               <div class="section__title">{{$t('trans0301')}}</div>
               <div class="section__body">
                 <div class="item">
@@ -175,9 +168,9 @@
               </div>
             </div>
             <transition name="fade">
-              <div v-if="isRouter&&this.ipv6NetInfo.enabled"
+              <div v-if="this.ipv6NetInfo.enabled"
                    class=" ipv6 section__inner"
-                   :class="{'stretch':isRouter&&!this.ipv6NetInfo.enabled}">
+                   :class="{'stretch':!this.ipv6NetInfo.enabled}">
                 <div class="section__title">{{$t('trans0700')}}</div>
                 <div class="section__body">
                   <div class="item">
@@ -218,7 +211,7 @@
   </div>
 </template>
 <script>
-import { SpeedTestStatus, RouterMode, WanNetStatus, WanType, RepeaterStatus } from 'base/util/constant';
+import { SpeedTestStatus, WanNetStatus, WanType, RepeaterStatus } from 'base/util/constant';
 import { formatBandWidth } from 'base/util/util';
 import speedTestMixin from 'base/mixins/speed-test';
 
@@ -246,10 +239,6 @@ export default {
       speedInfo: {},
       netInfo: {},
       traffic: {},
-      wanNetStatsTimer: null,
-      speedTestTimer: null,
-      wanInfoTimer: null,
-      uptimeTimer: null,
       getIsConnnected: false,
       ipv6NetInfo: {
         enabled: null,
@@ -265,7 +254,11 @@ export default {
         checking: this.$t('trans0564')
       },
       wispRepeaterStatus: RepeaterStatus.checking,
+      wanNetStatsTimer: null,
+      wanInfoTimer: null,
       wispRepeaterStatsTimer: null,
+      speedTestTimer: null,
+      uptimeTimer: null,
     };
   },
   created() {
@@ -274,9 +267,8 @@ export default {
     });
   },
   mounted() {
-    this.getWanNetInfo();
-    this.getIpv6NetInfo();
     this.createIntervalTask();
+    this.getIpv6NetInfo();
     this.getRouteMeta();
   },
   computed: {
@@ -285,9 +277,6 @@ export default {
     },
     pageName() {
       return this.$t(this.$route.meta.text);
-    },
-    isRouter() {
-      return RouterMode.router === this.$store.state.mode;
     },
     isWisp() {
       return this.$store.state.wanType === WanType.wisp;
@@ -456,17 +445,18 @@ export default {
       });
     },
     createIntervalTask() {
-      if (this.isRouter) {
-        this.getWanNetStats();
-      }
+      this.getWanNetStats();
+      this.getWanNetInfo(true);
     },
     clearIntervalTask() {
+      clearTimeout(this.wanInfoTimer);
+      this.wanInfoTimer = null;
       clearTimeout(this.wanNetStatsTimer);
       this.wanNetStatsTimer = null;
+      clearTimeout(this.wispRepeaterStatsTimer);
+      this.wispRepeaterStatsTimer = null;
       clearInterval(this.uptimeTimer);
       this.uptimeTimer = null;
-      clearInterval(this.wispRepeaterStatsTimer);
-      this.wispRepeaterStatsTimer = null;
     },
     speedTest(force = false) {
       this.$http
@@ -497,10 +487,12 @@ export default {
       this.speedStatus = SpeedTestStatus.testing;
       this.speedInfo = {};// 让速度值归零，等待后续重跑
 
-      this.clearIntervalTask();
+      this.speedTestTimer = null;
+      clearInterval(this.speedTestTimer);
       this.speedTest(force);
       this.speedTestTimer = setInterval(() => {
         if (this.testSpeedNumber <= 0) {
+          this.speedTestTimer = null;
           clearInterval(this.speedTestTimer);
           this.testSpeedNumber = this.testTimeout;
           this.speedStatus = SpeedTestStatus.done;
@@ -536,17 +528,25 @@ export default {
           }
         });
     },
-    getWanNetInfo() {
+    getWanNetInfo(firstFlag = false) {
       this.$http
         .getWanNetInfo()
         .then(res => {
-          this.wanInfoTimer = null;
-          clearTimeout(this.wanInfoTimer);
           this.netInfo = res.data.result;
           this.$store.state.wanType = this.netInfo.type;
           localStorage.setItem('wanType', this.netInfo.type);
           if (this.isWisp) {
-            this.getMeshRepeaterStatus();
+            clearTimeout(this.wanInfoTimer);
+            this.wanInfoTimer = null;
+            if (firstFlag) {
+              this.getMeshRepeaterStatus();
+            }
+            if (this.pageActive) {
+              this.wanInfoTimer = setTimeout(() => {
+                console.log('retry');
+                this.getWanNetInfo();
+              }, 10000);
+            }
           }
         })
         .catch(() => {
@@ -612,13 +612,13 @@ export default {
       this.$http
         .getMeshRepeaterStatus(undefined, { hideToast: true })
         .then(res => {
-          const {
-            data: {
-              result: { status }
-            }
-          } = res;
-          this.wispRepeaterStatus = status;
           if (this.pageActive) {
+            const {
+              data: {
+                result: { status }
+              }
+            } = res;
+            this.wispRepeaterStatus = status;
             this.wispRepeaterStatsTimer = setTimeout(() => {
               this.getMeshRepeaterStatus();
             }, 10000);
@@ -670,20 +670,6 @@ export default {
     .section__body {
       display: flex;
       flex-direction: column;
-      &.section__body--bridge {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 100%;
-        height: 100%;
-        font-size: 18px;
-        font-weight: 500;
-        > img {
-          width: 25%;
-          aspect-ratio: 1;
-        }
-      }
     }
   }
   .layout-right-wrap {
@@ -966,13 +952,6 @@ export default {
       margin: 0;
       .section__body {
         flex-direction: column-reverse;
-        &.section__body--bridge {
-          margin: 30px 0;
-          font-size: 14px;
-          > img {
-            width: 40%;
-          }
-        }
       }
     }
     .layout-right-wrap {

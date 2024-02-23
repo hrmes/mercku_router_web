@@ -106,7 +106,8 @@ export default {
       }
       .sub-title {
         font-size: 14px;
-        display: flex;
+        width: 100%;
+        word-break: break-word;
       }
       a {
         color: var(--primary-color);
@@ -128,15 +129,12 @@ export default {
         }
       }
       .flex-right {
-        flex: 1;
+        width: calc(100% - 60px);
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
-        .sub-title {
-          display: flex;
-          flex-wrap: wrap;
-        }
         .link {
+          display: inline;
           position: relative;
           .jump-app-info {
             display: none;
@@ -237,16 +235,14 @@ export default {
         .main-title {
           margin-bottom: 5px;
         }
-        .sub-title {
-        }
       }
       .row-1 {
         .flex-left {
           margin-bottom: 20px;
         }
         .flex-right {
+          width: 100%;
           .sub-title {
-            display: block;
             .link {
               display: inline-block;
               .jump-app-info {

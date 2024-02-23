@@ -433,6 +433,7 @@ export default {
         failed: this.$t('trans1294'),
         checking: this.$t('trans0564')
       },
+      wanInfoTimer: null,
       wispRepeaterStatus: RepeaterStatus.checking,
       wispRepeaterStatsTimer: null,
       pageActive: true
@@ -493,7 +494,7 @@ export default {
     }
   },
   mounted() {
-    this.getWanNetInfo();
+    this.getWanNetInfo(true);
   },
   computed: {
     isPppoe() {
@@ -560,8 +561,11 @@ export default {
         this.staticForm.mask
       );
     },
-    getWanNetInfo() {
-      this.$loading.open();
+    getWanNetInfo(firstFlag = false) {
+      if (this.isFirstEntry) {
+        this.$loading.open();
+        this.isFirstEntry = false;
+      }
       this.$http
         .getWanNetInfo()
         .then(res => {
@@ -596,7 +600,7 @@ export default {
               };
             }
             if (this.isWisp) {
-              this.createIntervalTask();
+              this.createIntervalTask(firstFlag);
               this.upperApForm = this.netInfo.wisp.apclient;
               this.pwdDisabled =
                 this.netInfo.wisp.apclient.security === EncryptMethod.OPEN ||
@@ -708,9 +712,16 @@ export default {
         this.save(form);
       }
     },
-    createIntervalTask() {
-      if (this.isWisp) {
+    createIntervalTask(firstFlag = false) {
+      if (firstFlag) {
         this.getMeshRepeaterStatus();
+      }
+      clearTimeout(this.wanInfoTimer);
+      this.wanInfoTimer = null;
+      if (this.pageActive) {
+        this.wanInfoTimer = setTimeout(() => {
+          this.getWanNetInfo();
+        }, 10000);
       }
     },
     getMeshRepeaterStatus() {
@@ -719,13 +730,13 @@ export default {
       this.$http
         .getMeshRepeaterStatus(undefined, { hideToast: true })
         .then(res => {
-          const {
-            data: {
-              result: { status }
-            }
-          } = res;
-          this.wispRepeaterStatus = status;
           if (this.pageActive) {
+            const {
+              data: {
+                result: { status }
+              }
+            } = res;
+            this.wispRepeaterStatus = status;
             this.wispRepeaterStatsTimer = setTimeout(() => {
               this.getMeshRepeaterStatus();
             }, 10000);
@@ -741,6 +752,8 @@ export default {
         });
     },
     clearIntervalTask() {
+      clearTimeout(this.wanInfoTimer);
+      this.wanInfoTimer = null;
       clearTimeout(this.wispRepeaterStatsTimer);
       this.wispRepeaterStatsTimer = null;
     }

@@ -1,6 +1,9 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4193378 */
   font-display: swap;
+  text-rendering: auto;
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: grayscale;
   src: url('iconfont.woff2?t=1694416654454') format('woff2'),
 }
 
@@ -8,8 +11,6 @@
   font-family: "iconfont" !important;
   font-size: 16px;
   font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 .ic_device_game_selected:before {

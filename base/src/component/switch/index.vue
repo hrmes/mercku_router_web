@@ -90,8 +90,8 @@ export default {
       &::before {
         content: '\e6b5';
         font-family: 'iconfont';
-        font-size: 14px;
-        font-weight: 600;
+        font-size: 13px;
+        font-weight: 400;
         color: var(--switch_off_icon-color);
       }
     }

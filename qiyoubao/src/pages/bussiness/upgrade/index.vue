@@ -57,8 +57,9 @@ export default {
     color: var(--text_default-color);
     background: var(--logout_btn-bgc);
     border-radius: 5px;
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: unset;
     &.selected {
+      box-shadow: unset;
       background: var(--text_default-color);
       color: var(--primary-bgc);
     }
