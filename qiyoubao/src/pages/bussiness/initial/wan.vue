@@ -512,7 +512,9 @@ export default {
     submitManualUpperForm() {
       if (this.$refs.manualWispForm.validate()) {
         const form = { type: this.netType };
-        form.wisp.apclient = this.manualWispForm;
+        form.wisp = {
+          apclient: this.manualWispForm
+        };
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),

@@ -47,16 +47,16 @@ export default {
       rules: {
         password: [
           {
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1020')
+          },
+          {
             rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0232')
           },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')
-          },
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
           },
           {
             rule: value => isValidPassword(value, 8, 31),

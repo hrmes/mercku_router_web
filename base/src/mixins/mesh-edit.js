@@ -88,7 +88,7 @@ export default {
           .then(() => {
             router.name = name;
             this.$store.state.deviceColor = this.selectedColorName;
-            localStorage.setItem('deviceColor', this.selectedColorName);
+            sessionStorage.setItem('deviceColor', this.selectedColorName);
             this?.createIntervalTask?.();
             this.$toast(this.$t('trans0040'), 2000, 'success');
             this.showMeshEditModal = false;

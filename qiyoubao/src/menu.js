@@ -243,7 +243,7 @@ export default function getMenu(role, mode = RouterMode.router) {
       {
         url: '/system/log',
         name: 'system.log',
-        text: 'trans0421',
+        text: 'trans1138',
         config
       },
       {
