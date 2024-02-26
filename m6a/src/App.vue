@@ -26,7 +26,8 @@
   </div>
 </template>
 <script>
-import './style/common.scss';
+import 'base/style/common.scss';
+import '@/style/router-model.scss';
 import defaultLayout from './layouts/default.vue';
 import primaryLayout from './layouts/primary.vue';
 import getMenu from './menu';
@@ -159,11 +160,6 @@ export default {
 </script>
 
 <style lang="scss">
-@font-face {
-  font-family: 'DINAlternate';
-  src: url('./style/iconfont/DIN.ttf');
-  font-display: swap;
-}
 [data-title]:hover:after {
   opacity: 1;
   visibility: visible;
@@ -203,7 +199,6 @@ export default {
 .scrollbar-wrap {
   height: 100%;
   overflow: auto;
-  font-family: 'PingFang', 'Helvetica', sans-serif;
   background: var(--scrollbar_wrap-bgc__isNotLogin);
   &.is-login-page {
     background: var(--scrollbar_wrap-bgc__isLogin);

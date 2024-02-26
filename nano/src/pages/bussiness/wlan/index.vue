@@ -183,30 +183,38 @@ export default {
       wifiFormRules: {
         ssid24g: [
           {
-            rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0237')
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
           },
           {
-            rule: value => getStringByte(value.trim()) <= 20,
-            message: this.$t('trans0261')
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
           },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
           {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
+            rule: value => getStringByte(value.trim()) <= 20,
+            message: this.$t('trans0261')
+          },
+          {
+            rule: () => this.validateSsid5G(),
+            message: this.$t('trans0660')
           }
         ],
         password24g: [
           {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
-          },
-          {
             rule: value => isFieldHasSpaces(value),
             message: this.$t('trans1020')
+          },
+          {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
           },
           {
             rule: value => isValidPassword(value),
@@ -215,20 +223,20 @@ export default {
         ],
         ssid5g: [
           {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0237')
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
           },
           {
-            rule: value => getStringByte(value) <= 20,
-            message: this.$t('trans0261')
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
           },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
           {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
+            rule: value => getStringByte(value) <= 20,
+            message: this.$t('trans0261')
           },
           {
             rule: () => this.validateSsid5G(),
@@ -237,12 +245,16 @@ export default {
         ],
         password5g: [
           {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
-          },
-          {
             rule: value => isFieldHasSpaces(value),
             message: this.$t('trans1020')
+          },
+          {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
           },
           {
             rule: value => isValidPassword(value),

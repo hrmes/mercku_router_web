@@ -1116,6 +1116,7 @@ export default {
             padding: 4px 10px;
             border-radius: 5px;
             color: #fff;
+            font-weight: 600;
             margin-right: 5px;
             background-image: linear-gradient(97deg, #50cc83 6%, #3cc146 90%);
             &.model-name {
