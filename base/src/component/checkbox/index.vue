@@ -110,7 +110,7 @@ export default {
       }
     }
     &.disabled {
-      background: var(--checkbox_disabled-bgc);
+      opacity: 0.5;
       cursor: not-allowed;
     }
   }

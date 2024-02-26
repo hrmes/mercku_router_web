@@ -375,17 +375,6 @@ export default {
       );
     },
     checkInternetAccess() {
-      this.$http
-        .login(
-          { password: '' },
-          {
-            hideToast: true
-          }
-        )
-        .catch(() => {
-          // password is not empty, go to login page
-          this.$router.push({ path: '/login' });
-        });
       if (this.needCheck) {
         localStorage.removeItem('wanConfig');
         setTimeout(() => {
@@ -410,6 +399,7 @@ export default {
               this.$router.replace({ path: '/initial/wifi' });
               break;
             default:
+              this.$toast(this.$t('trans1240'));
               this.isChecking = false;
               break;
           }
