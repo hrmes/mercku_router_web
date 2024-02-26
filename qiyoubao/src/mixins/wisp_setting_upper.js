@@ -33,14 +33,7 @@ export default {
         band: '2.4G',
         security: EncryptMethod.wpa2
       },
-      upperApFormRules: {
-        'upperApForm.ssid': [
-          {
-            rule: value => value,
-            message: this.$t('trans0237')
-          }
-        ]
-      },
+      upperApFormRules: null,
       manualWispRules: {
         ssid: [
           {
@@ -57,12 +50,13 @@ export default {
             rule: value => isFieldHasSpaces(value),
             message: this.$t('trans1020')
           },
-          // {
-          //   rule: value => !/^\s*$/g.test(value),
-          //   message: this.$t('trans0232')
-          // },
           {
-            rule: value => isValidPassword(value, 8, 128),
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value =>
+              getStringByte(value) >= 8 && getStringByte(value) <= 128,
             message: this.$t('trans1252')
           }
         ]
@@ -131,10 +125,10 @@ export default {
                 rule: value => isFieldHasSpaces(value),
                 message: this.$t('trans1020')
               },
-              // {
-              //   rule: value => !/^\s*$/g.test(value),
-              //   message: this.$t('trans0232')
-              // },
+              {
+                rule: value => !/^\s*$/g.test(value.trim()),
+                message: this.$t('trans0232')
+              },
               {
                 rule: value => isValidPassword(value, 8, 128),
                 message: this.$t('trans1252')
@@ -227,6 +221,7 @@ export default {
                 bssid: i.bssid
               })
             );
+            console.log('processdUpperList is', this.processedUpperApList);
             this.selectIsLoading = LoadingStatus.success;
           } else {
             this.getApclientScanTimer = setTimeout(() => {
@@ -252,9 +247,7 @@ export default {
         });
     },
     selectedChange(option) {
-      this.pwdDisabled =
-        option.security === EncryptMethod.OPEN ||
-        option.security === EncryptMethod.open;
+      this.pwdDisabled = option.security.toLowerCase() === EncryptMethod.open;
       this.saveDisable = false;
       const {
         ssid,

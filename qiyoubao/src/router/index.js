@@ -2,53 +2,49 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import login from 'pages/login/index.vue';
+import wanInitial from 'pages/bussiness/initial/wan.vue';
+import wifiInitial from 'pages/bussiness/initial/wifi.vue';
+import unconnect from 'pages/error/unconnect/index.vue';
+
 import dashboard from 'pages/bussiness/dashboard/index.vue';
 import device from 'pages/bussiness/dashboard/device.vue';
-
 import mesh from 'pages/bussiness/dashboard/mesh.vue';
 import internet from 'pages/bussiness/dashboard/internet.vue';
-import wan from 'pages/bussiness/setting/wan.vue';
-import wifi from 'pages/bussiness/setting/wifi.vue';
-import unconnect from 'pages/error/unconnect/index.vue';
 import meshAdd from 'pages/bussiness/mesh/add.vue';
-import safe from 'pages/bussiness/setting/safe.vue';
-import blacklist from 'pages/bussiness/setting/blacklist.vue';
-import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
-import telnet from 'pages/bussiness/advance/telnet.vue';
-import tr069 from 'pages/bussiness/advance/tr069.vue';
 import limit from 'pages/bussiness/dashboard/limit/index.vue';
 import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
 import urlLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
-import vpn from 'pages/bussiness/advance/vpn/index.vue';
-import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
-// import wps from 'pages/bussiness/setting/wps.vue';
-import mode from 'pages/bussiness/advance/mode.vue';
-import log from 'pages/bussiness/advance/log.vue';
-import wanInitial from 'pages/bussiness/initial/wan.vue';
-import wifiInitial from 'pages/bussiness/initial/wifi.vue';
-import restore from 'pages/bussiness/advance/restore.vue';
 import gameAcceleration from 'pages/bussiness/advance/game.vue';
+
+import wifi from 'pages/bussiness/setting/wifi.vue';
+import wan from 'pages/bussiness/setting/wan.vue';
+import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
+import safe from 'base/pages/bussiness/setting/safe.vue';
+import blacklist from 'base/pages/bussiness/setting/blacklist.vue';
+import timezone from 'base/pages/bussiness/setting/timezone.vue';
+import region from 'base/pages/bussiness/setting/region.vue';
+import upnp from 'base/pages/bussiness/setting/upnp.vue';
+import ledSwitch from 'base/pages/bussiness/setting/led-switch.vue';
+
+import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
+import dmz from 'base/pages/bussiness/advance/dmz.vue';
+import dhcp from 'base/pages/bussiness/advance/dhcp.vue';
+import rsvdip from 'base/pages/bussiness/advance/rsvdip/index.vue';
+import mac from 'base/pages/bussiness/advance/mac.vue';
+import ddns from 'base/pages/bussiness/advance/ddns.vue';
+import vpn from 'pages/bussiness/advance/vpn/index.vue';
+import diagnosis from 'base/pages/bussiness/advance/diagnosis.vue';
+import firewall from 'base/pages/bussiness/advance/firewall.vue';
+import wwa from 'base/pages/bussiness/advance/wwa.vue';
+import tr069 from 'base/pages/bussiness/advance/tr069.vue';
+
 import upgrade from 'pages/bussiness/upgrade/index.vue';
 import online from 'pages/bussiness/upgrade/online.vue';
 import offline from 'pages/bussiness/upgrade/offline.vue';
 import auto from 'pages/bussiness/upgrade/auto.vue';
-
-import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
-import ddns from 'base/pages/bussiness/advance/ddns.vue';
-import timezone from 'base/pages/bussiness/setting/timezone.vue';
-import upnp from 'base/pages/bussiness/setting/upnp.vue';
-import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
-import dmz from 'base/pages/bussiness/advance/dmz.vue';
-import firewall from 'base/pages/bussiness/advance/firewall.vue';
-import region from 'base/pages/bussiness/setting/region.vue';
-import dhcp from 'base/pages/bussiness/advance/dhcp.vue';
-import mac from 'base/pages/bussiness/advance/mac.vue';
-import wwa from 'base/pages/bussiness/advance/wwa.vue';
-import rsvdip from 'base/pages/bussiness/advance/rsvdip/index.vue';
-import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
-// import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
-import ledSwitch from 'base/pages/bussiness/setting/led-switch.vue';
+import log from 'pages/bussiness/advance/log.vue';
 import backup from 'base/pages/bussiness/advance/backup.vue';
+import restore from 'pages/bussiness/advance/restore.vue';
 
 import store from '../store';
 
@@ -272,24 +268,6 @@ const routes = {
         hasAside: true
       }
     },
-    // {
-    //   path: '/setting/schedule',
-    //   name: 'schedule',
-    //   component: wifiSchedule,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
-    // {
-    //   path: '/setting/wps',
-    //   name: 'wps',
-    //   component: wps,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
     {
       path: '/advance/portforwarding',
       name: 'advance.portforwarding',
@@ -303,15 +281,6 @@ const routes = {
       path: '/advance/rsvdip',
       name: 'advance.rsvdip',
       component: rsvdip,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
-    {
-      path: '/advance/rsvdip/form/:id?',
-      name: 'advance.rsvdip.form',
-      component: rsvdipForm,
       meta: {
         layout: 'primary',
         hasAside: true
@@ -381,36 +350,9 @@ const routes = {
       }
     },
     {
-      path: '/advance/vpn/form/:id?',
-      name: 'advance.vpn.form',
-      component: vpnForm,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
-    {
       path: '/advance/tr069',
       name: 'advance.tr069',
       component: tr069,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
-    {
-      path: '/advance/telnet',
-      name: 'advance.telnet',
-      component: telnet,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
-    {
-      path: '/advance/mode',
-      name: 'advance.mode',
-      component: mode,
       meta: {
         layout: 'primary',
         hasAside: true

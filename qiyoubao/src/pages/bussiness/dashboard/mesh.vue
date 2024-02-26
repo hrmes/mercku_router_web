@@ -400,7 +400,7 @@ export default {
       return type === GUEST;
     },
     isWired(band) {
-      return band === 'wired';
+      return band === 'wired' || band === 'game_wired';
     },
     connectQuality(color) {
       let result = '';

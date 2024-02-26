@@ -28,7 +28,9 @@
                   {{localDeviceInfo.name}}
                 </div>
                 <div class="other">
-                  <div class="band">{{bandMap[`${localDeviceInfo.online_info.band}`] }}</div>
+                  <div class="band"
+                       :class="{'wired':isWired}">
+                    {{bandMap[`${localDeviceInfo.online_info.band}`] }}</div>
                   <div class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
                   </div>
                 </div>
@@ -296,7 +298,7 @@ export default {
       return this.netStatus === WanNetStatus.connected;
     },
     isWired() {
-      return this.localDeviceInfo.online_info.band === 'wired';
+      return this.localDeviceInfo.online_info.band === 'wired' || this.localDeviceInfo.online_info.band === 'game_wired';
     },
     realtimeSpeedUp() {
       return this.formatSpeed(this.netInfo.realUp);
@@ -777,6 +779,9 @@ h6 {
             margin-right: 10px;
             border-radius: 3px;
             background-image: linear-gradient(294deg, #1ad692 20%, #03aa56);
+            &.wired {
+              background-image: linear-gradient(294deg, #3da8ff 20%, #0c70b8);
+            }
           }
           .uptime {
             color: var(--common_gery-color);

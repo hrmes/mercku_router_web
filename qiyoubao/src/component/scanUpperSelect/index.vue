@@ -53,7 +53,7 @@
                 <span class="encrypt"
                       v-if="option.security!==EncryptMethod.OPEN && option.security!==EncryptMethod.open"></span>
                 <span class="rssi"
-                      :class="[option.rssi>GoodRssiValue?RssiStatus.good:RssiStatus.normal]"></span>
+                      :class="[getRssiIcon(option.rssi)]"></span>
               </div>
             </div>
           </div>
@@ -80,9 +80,10 @@
 import scrollTo from 'base/component/utils/scroll-to';
 import { EncryptMethod, RefreshSVGPath } from 'base/util/constant';
 
-const RssiStatus = {
+const SignalStrength = {
   good: 'good',
-  normal: 'normal'
+  normal: 'normal',
+  bad: 'bad'
 };
 const LoadingStatus = {
   empty: 0,
@@ -91,7 +92,6 @@ const LoadingStatus = {
   success: 3,
   default: 4
 };
-const GoodRssiValue = -66;
 
 export default {
   props: {
@@ -132,8 +132,6 @@ export default {
     return {
       RefreshSVGPath,
       EncryptMethod,
-      RssiStatus,
-      GoodRssiValue,
       LoadingStatus,
       selected: this.getOptionByBssid(this.bssid),
       opened: false
@@ -207,6 +205,17 @@ export default {
       if (this.isClickable) {
         this.rescanApclient();
       }
+    },
+    getRssiIcon(rssi) {
+      let className = SignalStrength.bad;
+      const GoodRssiVal = -60;
+      const normalRssiVal = -75;
+      if (rssi > GoodRssiVal) {
+        className = SignalStrength.good;
+      } else if (rssi > normalRssiVal) {
+        className = SignalStrength.normal;
+      }
+      return className;
     }
   }
 };
@@ -289,10 +298,6 @@ export default {
       top: 20px;
       transform: translateY(-100%);
     }
-    // @media screen and (max-height: 830px) {
-    //   position: static !important;
-    //   margin-top: 3px;
-    // }
     .select-popup__item {
       display: flex;
       justify-content: space-between;
@@ -340,7 +345,7 @@ export default {
         color: var(--text_default-color);
         width: 35px;
         height: 17px;
-        margin-right: 10px;
+        margin-right: 8px;
         border-radius: 2px;
         background: var(--darker_hr-color);
       }
@@ -356,6 +361,7 @@ export default {
       .icon__container {
         display: flex;
         justify-content: space-between;
+        margin-left: 8px;
         .rssi {
           width: 14px;
           height: 14px;

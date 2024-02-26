@@ -204,7 +204,6 @@ import {
   isValidMask,
   ipReg,
   getStringByte,
-  isValidPassword
 } from 'base/util/util';
 import wispSettingUpper from '@/mixins/wisp_setting_upper';
 
@@ -264,7 +263,7 @@ export default {
           },
           {
             rule: value => getStringByte(value) <= 120,
-            message: this.$t('trans1174')
+            message: this.$t('trans1290')
           },
         ],
         password: [
@@ -273,8 +272,8 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => isValidPassword(value, 1, 120),
-            message: this.$t('trans1174')
+            rule: value => getStringByte(value) <= 120,
+            message: this.$t('trans1290')
           },
         ]
       },
@@ -505,8 +504,7 @@ export default {
     },
     echoWisp(option) {
       this.pwdDisabled =
-        option.security === EncryptMethod.OPEN ||
-        option.security === EncryptMethod.open;
+        option.security.toLowerCase() === EncryptMethod.open;
       this.upperApForm = option;
     },
     submitManualUpperForm() {

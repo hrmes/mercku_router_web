@@ -36,7 +36,7 @@
   </div>
 </template>
 <script>
-import { isValidPassword } from 'base/util/util';
+import { isValidPassword, isFieldHasComma, isFieldHasSpaces } from 'base/util/util';
 
 export default {
   data() {
@@ -47,8 +47,20 @@ export default {
       rules: {
         password: [
           {
-            rule: value => isValidPassword(value),
-            message: this.$t('trans0169')
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1020')
+          },
+          {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
+          },
+          {
+            rule: value => isValidPassword(value, 8, 31),
+            message: this.$t('trans0125').replace('%d', 8).replace('%d', 31)
           }
         ]
       }

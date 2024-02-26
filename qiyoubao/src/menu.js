@@ -88,18 +88,6 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0779',
         config
       }
-      // {
-      //   url: '/setting/schedule',
-      //   name: 'schedule',
-      //   text: 'trans0962',
-      //   config
-      // }
-      // {
-      //   url: '/setting/wps',
-      //   name: 'wps',
-      //   text: 'trans1168',
-      //   config
-      // }
     ]
   };
   const game = {
@@ -168,17 +156,6 @@ export default function getMenu(role, mode = RouterMode.router) {
         config: strategyA
       },
       {
-        url: '/advance/mode',
-        name: 'advance.mode',
-        text: 'trans0539',
-        config,
-        customers: {
-          [Customers.qiyou]: {
-            show: false
-          }
-        }
-      },
-      {
         url: '/advance/diagnosis',
         name: 'advance.diagnosis',
         text: 'trans0419',
@@ -213,16 +190,6 @@ export default function getMenu(role, mode = RouterMode.router) {
           [Customers.mercku]: {
             show: true
           }
-        }
-      },
-      {
-        url: '/advance/telnet',
-        name: 'advance.telnet',
-        text: 'trans0497',
-        config: {
-          show: false,
-          auth: [Role.super],
-          mode: [RouterMode.router]
         }
       }
     ]
