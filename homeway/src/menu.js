@@ -13,8 +13,8 @@ export default function getMenu(role, mode = RouterMode.bridge) {
   // homeway菜单默认配置
   const config = {
     show: true,
-    auth: [Role.admin, Role.super]
-    // modelId: [Models.homeway_230v, Models.homeway_POE1, Models.homeway_POE2]
+    auth: [Role.admin, Role.super],
+    mode: [RouterMode.bridge, RouterMode.wirelessBridge]
   };
 
   const wifi = {
@@ -73,7 +73,11 @@ export default function getMenu(role, mode = RouterMode.bridge) {
         text: 'trans0639',
         name: 'region',
         url: '/setting/region',
-        config
+        config: {
+          show: true,
+          auth: [Role.admin, Role.super],
+          mode: [RouterMode.bridge]
+        }
       },
       {
         text: 'trans0538',
@@ -105,12 +109,6 @@ export default function getMenu(role, mode = RouterMode.bridge) {
         url: '/setting/wps',
         config
       }
-      // {
-      //   text: 'trans0620',
-      //   name: 'ipv6',
-      //   url: '/setting/ipv6',
-      //   config
-      // }
     ]
   };
   const advance = {
@@ -165,12 +163,8 @@ export default function getMenu(role, mode = RouterMode.bridge) {
     // 根据编译客户生成菜单
     item.children.forEach(menu => {
       menu.config = menu.config || config;
-      // const hiddenModelObj = menu.hiddenModelObj || {};
-      // const hiddenConfig = hiddenModelObj[modelId] || {};
-      // menu.config = Object.assign({}, menu.config, hiddenConfig);
       menu.config = Object.assign({}, menu.config);
     });
-
     // 过滤不显示的菜单
     item.children = item.children.filter(menu => {
       let { show } = menu.config;
@@ -180,6 +174,22 @@ export default function getMenu(role, mode = RouterMode.bridge) {
       }
       return show;
     });
+    // 根据模式选择对应的菜单项
+    item.children.forEach(menu => {
+      menu.disabled = false;
+      if (!menu.config.mode.includes(mode)) {
+        menu.disabled = true;
+      }
+    });
+    // 根据最后生成的菜单，去设置父级菜单的url值指向哪一个子级菜单
+    item.children.length &&
+      item.children.some(menu => {
+        if (!menu.disabled) {
+          item.url = menu.url;
+          return true;
+        }
+        return false;
+      });
   });
 
   return [wifi, setting, advance, upgrade];
