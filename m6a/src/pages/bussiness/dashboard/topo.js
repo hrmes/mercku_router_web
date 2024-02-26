@@ -24,7 +24,7 @@ import picM6cOffline from '@/assets/images/topo/ic_m6c_offline.png';
 import { Color, M6aRouterSnModelVersion } from 'base/util/constant';
 
 // 大于-70均认为优秀
-const isGood = rssi => rssi >= -76;
+const isGood = rssi => rssi >= -60;
 
 // 补充关系，a-b,b-a
 function addConnection(source) {
