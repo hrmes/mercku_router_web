@@ -28,7 +28,9 @@
                   {{localDeviceInfo.name}}
                 </div>
                 <div class="other">
-                  <div class="band">{{bandMap[`${localDeviceInfo.online_info.band}`] }}</div>
+                  <div class="band"
+                       :class="{'wired':isWired}">
+                    {{bandMap[`${localDeviceInfo.online_info.band}`] }}</div>
                   <div v-if="!isWired"
                        class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
                   </div>
@@ -784,6 +786,9 @@ h6 {
             margin-right: 10px;
             border-radius: 3px;
             background-image: linear-gradient(294deg, #1ad692 20%, #03aa56);
+            &.wired {
+              background-image: linear-gradient(294deg, #3da8ff 20%, #0c70b8);
+            }
           }
           .uptime {
             color: var(--common_gery-color);
