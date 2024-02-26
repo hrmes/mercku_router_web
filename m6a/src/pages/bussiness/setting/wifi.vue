@@ -149,11 +149,11 @@
                         :options="channels.b5g"></m-select>
             </m-form-item>
             <!-- DFS -->
-            <m-form-item key="dfs">
+            <!-- <m-form-item key="dfs">
               <m-switch v-model="form.dfs"
                         :label="$t('trans1231')"
                         @change="onDFSChange" />
-            </m-form-item>
+            </m-form-item> -->
             <!-- AUTO Channel -->
             <m-form-item key="autochannel"
                          class="check-info">
@@ -226,7 +226,7 @@ export default {
       form: {
         smart_connect: true,
         compatibility_mode: false,
-        dfs: true,
+        // dfs: true,
         b24g: {
           ssid: '',
           password: '',
@@ -436,7 +436,7 @@ export default {
               smart_connect: this.form.smart_connect,
               compatibility_mode: this.form.compatibility_mode,
               tx_power: this.form.wifiTxPower,
-              dfs: this.form.dfs,
+              // dfs: this.form.dfs,
               bands: { [Bands.b24g]: b24g, [Bands.b5g]: b5g }
             };
             console.log(wifi);
@@ -507,7 +507,7 @@ export default {
           this.form.smart_connect = wifi.smart_connect;
           this.form.compatibility_mode = wifi.compatibility_mode;
           // DFS
-          this.form.dfs = wifi.dfs || true;
+          // this.form.dfs = wifi.dfs || true;
 
           // wifi Tx_power
           this.form.wifiTxPower = wifi.tx_power || 'high';
@@ -536,24 +536,24 @@ export default {
         text: number
       }));
     },
-    onDFSChange(val) {
-      if (!val) {
-        this.$dialog.confirm({
-          okText: this.$t('trans0024'),
-          cancelText: this.$t('trans0025'),
-          title: this.$t('trans1233'),
-          message: this.$t('trans1234'),
-          callback: {
-            ok: () => {
-              this.form.dfs = false;
-            },
-            cancel: () => {
-              this.form.dfs = true;
-            }
-          }
-        });
-      }
-    }
+    // onDFSChange(val) {
+    //   if (!val) {
+    //     this.$dialog.confirm({
+    //       okText: this.$t('trans0024'),
+    //       cancelText: this.$t('trans0025'),
+    //       title: this.$t('trans1233'),
+    //       message: this.$t('trans1234'),
+    //       callback: {
+    //         ok: () => {
+    //           this.form.dfs = false;
+    //         },
+    //         cancel: () => {
+    //           this.form.dfs = true;
+    //         }
+    //       }
+    //     });
+    //   }
+    // }
   }
 };
 </script>
