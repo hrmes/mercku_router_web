@@ -24,7 +24,7 @@
               </div>
               <p class="legend-title">
                 <span>{{$t('trans0302')}}</span>
-                <i class="iconfont icon-ic_connection_quality icon-quality"
+                <i class="iconfont ic_connection_quality"
                    @click.stop="showRssiModal"></i>
               </p>
               <div class="legend-tx_power">
@@ -38,7 +38,6 @@
                       class="value text">{{txPowerMap[tx_power]}}</span>
               </div>
             </div>
-
           </div>
           <div class="topo-wrap"
                id="toppo-wrap">
@@ -223,8 +222,7 @@
         <div class="connect-quality-modal-contnet">
           <div class="examples">
             <div class="example error">
-              <img src="@/assets/images/img_help_error.png"
-                   alt="">
+              <img :src="require('base/assets/images/common/img_help_error.png')" />
               <div class="description">
                 <span class="icon-circle">
                 </span>
@@ -232,8 +230,7 @@
               </div>
             </div>
             <div class="example right">
-              <img src="@/assets/images/img_help_right.png"
-                   alt="">
+              <img :src="require('base/assets/images/common/img_help_right.png')" />
               <div class="description">
                 <span class="icon-circle">
                 </span>
@@ -828,6 +825,7 @@ export default {
   }
 }
 .connect-quality-modal {
+  $img_folder: '../../../../../base/src/assets/images';
   .header {
     position: relative;
     display: flex;
@@ -836,7 +834,6 @@ export default {
       position: absolute;
       top: 0;
       right: -5px;
-      // transform: translateY(-50%);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -881,64 +878,24 @@ export default {
           display: flex;
           align-items: center;
           justify-content: center;
-          position: relative;
           .icon-circle {
-            width: 16px;
-            height: 16px;
-            border: 1px solid #ff4d64;
-            border-radius: 50%;
+            width: 18px;
+            height: 18px;
             margin-right: 5px;
-            position: relative;
           }
         }
         &.error {
           .icon-circle {
-            &::before {
-              content: '';
-              display: block;
-              width: 7px;
-              height: 1px;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%) rotate(45deg);
-              background: #ff4d64;
-              z-index: 999;
-              position: absolute;
-            }
-            &::after {
-              content: '';
-              display: block;
-              width: 7px;
-              height: 1px;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%) rotate(-45deg);
-              background: #ff4d64;
-              z-index: 999;
-              position: absolute;
-            }
+            background: url(#{$img_folder}/icon/ic_upgrade_failed.png)
+              center/contain no-repeat;
           }
         }
         &.right {
           .icon-circle {
-            border-color: #55c630;
-            &::after {
-              position: absolute;
-              content: '';
-              display: block;
-              width: 3px;
-              height: 6px;
-              border-right: 1px solid #55c630;
-              border-bottom: 1px solid #55c630;
-              border-left: 0;
-              border-top: 0;
-              transform: rotate(45deg);
-              top: 3px;
-              left: 5px;
-            }
+            background: url(#{$img_folder}/icon/ic_upgrade_successful.png)
+              center/contain no-repeat;
           }
         }
-
         img {
           width: 300px;
           @media screen and (max-width: 768px) {
@@ -955,6 +912,7 @@ export default {
 }
 .mesh-container {
   display: flex;
+  $img_folder: '../../../../../base/src/assets/images';
   .mesh-info {
     position: relative;
     display: flex;
@@ -1270,7 +1228,7 @@ export default {
                   height: 15px;
                   margin-right: 5px;
                   vertical-align: text-top;
-                  background: url(../../../assets/images/icon/ic_local-device.svg)
+                  background: url(#{$img_folder}/icon/ic_local-device.svg)
                     center no-repeat;
                   background-size: contain;
                 }
@@ -1316,8 +1274,8 @@ export default {
                   height: 20px;
                   aspect-ratio: 38/23;
                   margin-left: 15px;
-                  background: url(../../../assets/images/icon/ic_guest.svg)
-                    center no-repeat;
+                  background: url(#{$img_folder}/icon/ic_guest.svg) center
+                    no-repeat;
                   background-size: contain;
                   filter: var(--img-brightness);
                 }

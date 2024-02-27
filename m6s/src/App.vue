@@ -28,8 +28,8 @@
 <script>
 import 'base/style/common.scss';
 import '@/style/router-model.scss';
-import defaultLayout from './layouts/default.vue';
-import primaryLayout from './layouts/primary.vue';
+import defaultLayout from 'base/layouts/default.vue';
+import primaryLayout from 'base/layouts/primary.vue';
 import getMenu from './menu';
 
 export default {
@@ -199,7 +199,6 @@ export default {
 .scrollbar-wrap {
   height: 100%;
   overflow: auto;
-  font-family: 'PingFangSC', 'Microsoft Yahei', sans-serif;
   @media screen and (min-width: 768px) {
     &::-webkit-scrollbar,
     ::-webkit-scrollbar {

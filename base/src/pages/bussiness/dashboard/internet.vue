@@ -69,12 +69,12 @@
               </div>
               <div v-if="wanIsPPPoE"
                    class="pppoe__wrap">
-                <img src="../../../assets/images/img_pppoe.png"
-                     alt="">
+                <img :src="require('base/assets/images/common/img_pppoe.png')" />
                 <p>{{$t('trans1232')}}</p>
               </div>
               <div v-else
-                   class="speedtest__wrap">
+                   class="
+                     speedtest__wrap">
                 <div class="speedtest-dashboard"
                      id="animation-container">
                 </div>
@@ -85,7 +85,8 @@
                       <i class="speed__icon speed__icon--peakdown"></i>
                       <label class="speed__title">{{$t('trans0307')}}</label>
                       <span class="speed__value">
-                        <m-count-to :endVal='Number(speedDown.value)'
+                        <m-count-to :endVal='
+                     Number(speedDown.value)'
                                     :duration='3000'
                                     :decimals='1'></m-count-to>
                       </span>
@@ -115,8 +116,7 @@
             </div>
             <div v-else
                  class="section__body section__body--bridge">
-              <img src="@/assets/images/img-bridge.png"
-                   alt="">
+              <img :src="require('base/assets/images/common/img_bridge.png')">
               <p>{{$t('trans0984')}}</p>
             </div>
           </div>
@@ -145,7 +145,7 @@
               </div>
             </div>
             <img class="uptime__bg"
-                 src="@/assets/images/img_router_time.png">
+                 :src="require('base/assets/images/common/img_router_time.png')" />
           </div>
           <div class="section">
             <div class=" ipv4 section__inner"
@@ -334,8 +334,7 @@ export default {
     },
     isConnected() {
       return (
-        this.$store.state.isConnected ||
-        (this.getWanStatus() && this.getIsConnnected)
+        this.$store.state.isConnected || this.getWanStatus()
       );
     },
     bandwidth() {
@@ -596,15 +595,15 @@ export default {
           } = res;
           switch (wanStatus) {
             case WanNetStatus.connected:
-              this.getIsConnnected = true;
+              this.$store.state.isConnected = true;
               break;
             default:
-              this.getIsConnnected = false;
+              this.$store.state.isConnected = false;
               break;
           }
         })
         .catch(() => {
-          this.getIsConnnected = false;
+          this.$store.state.isConnected = false;
         });
       return true;
     },

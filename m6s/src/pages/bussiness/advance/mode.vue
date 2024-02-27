@@ -14,12 +14,13 @@
                                :options="modes"
                                direction="vertical"></m-radio-group>
                 <p class="note"
-                   v-show="mode === RouterMode.bridge">{{$t('trans1212')}}</p>
+                   v-show="isBridgeMode">{{$t('trans1212')}}</p>
                 <p class="note"
-                   v-show="mode === RouterMode.wirelessBridge">{{$t('trans1189')}}</p>
+                   v-show="isWirelessBridgeMode">{{$t('trans1189')}}</p>
                 <p class="note"
-                   v-show="mode === RouterMode.wirelessBridge">{{$t('trans1211')}}</p>
-                <p class="note">{{$t('trans0543')}}</p>
+                   v-show="isWirelessBridgeMode">{{$t('trans1211')}}</p>
+                <p class="note"
+                   v-show="!isRouterMode">{{$t('trans0543')}}</p>
               </m-form-item>
             </div>
           </div>
@@ -56,16 +57,16 @@
                         :rules="upperApFormRules">
                   <m-form-item prop="upperApForm.ssid"
                                :class="{last:pwdDisabled}">
-                    <m-loading-select label="SSID"
-                                      :placeholder="$t('trans1182')"
-                                      type='text'
-                                      @change="selectedChange"
-                                      @scanApclient="startApclientScan"
-                                      :popupTop='$store.state.isMobile'
-                                      :bssid="upperApForm.bssid"
-                                      :options="processedUpperApList"
-                                      :loading="selectIsLoading"
-                                      :loadingText="loadingText" />
+                    <m-scan-upper-select label="SSID"
+                                         :placeholder="$t('trans1182')"
+                                         type='text'
+                                         @change="selectedChange"
+                                         @scanApclient="startApclientScan"
+                                         :popupTop='$store.state.isMobile'
+                                         :bssid="upperApForm.bssid"
+                                         :options="processedUpperApList"
+                                         :loading="selectIsLoading"
+                                         :loadingText="loadingText" />
                   </m-form-item>
                   <m-form-item v-show="!pwdDisabled"
                                prop="upperApForm.password">

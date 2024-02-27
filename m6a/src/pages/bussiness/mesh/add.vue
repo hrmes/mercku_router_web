@@ -117,8 +117,7 @@
              v-if="isAddFail">
           <div class="text-center">
             <img class="result-container__img result-container__img--fail"
-                 src="~@/assets/images/img_default_empty.png"
-                 alt="" />
+                 :src="require('base/assets/images/common/img_default_empty.png')" />
           </div>
           <div class="result-container__tips">{{transDeviceId('trans0181')}}</div>
           <div class="text-center">
@@ -131,8 +130,7 @@
           </div>
           <div class="tips">
             <div class="tips__header">
-              <img src="~@/assets/images/icon/ic_note.svg"
-                   alt="" />
+              <img :src="require('base/assets/images/icon/ic_note.svg')" />
               Tips
             </div>
             <div class="tips__content">
@@ -432,7 +430,7 @@ export default {
             break;
           case M6aRouterSnModelVersion.M6a_Plus:
           case M6aRouterSnModelVersion.M6c:
-            img = require('@/assets/images/add/m6a_plus/img_add_01.svg');
+            img = require('@/assets/images/add/m6a-4_lan_prots/img_add_01.svg');
             break;
           default:
             break;
@@ -453,10 +451,10 @@ export default {
       if (step === Step.step3 && type && !this.isM6a) {
         switch (type) {
           case AddNodeType.wireless:
-            img = require('@/assets/images/add/m6a_plus/img_wireless_add_03.svg');
+            img = require('@/assets/images/add/m6a-4_lan_prots/img_wireless_add_03.svg');
             break;
           case AddNodeType.wired:
-            img = require('@/assets/images/add/m6a_plus/img_wired_add_03.svg');
+            img = require('@/assets/images/add/m6a-4_lan_prots/img_wired_add_03.svg');
             break;
           default:
             break;
@@ -472,7 +470,7 @@ export default {
           break;
         case M6aRouterSnModelVersion.M6a_Plus:
         case M6aRouterSnModelVersion.M6c:
-          img = require('@/assets/images/add/m6a_plus/img_networking.svg');
+          img = require('@/assets/images/add/m6a-4_lan_prots/img_networking.svg');
           break;
         default:
           break;
@@ -544,6 +542,7 @@ export default {
     opacity: 0;
   }
 }
+$img_folder: '../../../../../base/src/assets/images';
 .add-node {
   align-items: center;
   min-height: 600px;
@@ -668,14 +667,14 @@ export default {
       }
       &.wireless__wrap {
         .inner {
-          background: url(../../../assets/images/img_wireless.png) no-repeat
+          background: url(#{$img_folder}/common/img_wireless.png) no-repeat
             bottom;
           background-size: contain;
         }
       }
       &.wired__wrap {
         .inner {
-          background: url(../../../assets/images/img_wired.png) no-repeat bottom;
+          background: url(#{$img_folder}/common/img_wired.png) no-repeat bottom;
           background-size: contain;
         }
       }
@@ -721,7 +720,7 @@ export default {
 }
 .circle-animation {
   position: relative;
-  background: url(../../../assets/images/add_node_tip_bj.png) no-repeat center;
+  background: url(#{$img_folder}/common/add_node_tip_bj.png) no-repeat center;
   background-size: 100%;
   width: 400px;
   aspect-ratio: 10/9;

@@ -60,14 +60,12 @@
             !hasUpgradablityNodes &&
               requestResult.complete &&
               !requestResult.error">
-            <img src="@/assets/images/img_new_version.png"
-                 alt=""
+            <img :src="require('base/assets/images/common/img_new_version.png')"
                  width="220" />
             <p>{{ $t('trans0259') }}</p>
           </div>
           <div v-if="requestResult.error">
-            <img src="@/assets/images/img_error.png"
-                 alt=""
+            <img :src="require('base/assets/images/common/img_error.png')"
                  width="220" />
             <p>{{ requestResult.message }}</p>
           </div>

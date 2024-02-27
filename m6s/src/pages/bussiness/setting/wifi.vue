@@ -396,7 +396,6 @@ export default {
   },
   mounted() {
     this.getInitData();
-    console.log(JSON.stringify(this.form));
   },
   methods: {
     onEncryptChange(path, nv, ov) {
