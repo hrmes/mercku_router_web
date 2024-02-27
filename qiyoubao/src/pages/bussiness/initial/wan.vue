@@ -263,7 +263,9 @@ export default {
           },
           {
             rule: value => getStringByte(value) <= 120,
-            message: this.$t('trans1290')
+            message: this.$t('trans1252')
+              .replace('%d', 1)
+              .replace('%d', 120)
           },
         ],
         password: [
@@ -273,7 +275,9 @@ export default {
           },
           {
             rule: value => getStringByte(value) <= 120,
-            message: this.$t('trans1290')
+            message: this.$t('trans1252')
+              .replace('%d', 1)
+              .replace('%d', 120)
           },
         ]
       },

@@ -218,11 +218,10 @@ export default {
             message: this.$t('trans0451')
           },
           {
-            rule: value => {
-              console.log('ssid24g Bytes is', getStringByte(value.trim()));
-              return getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31;
-            },
-            message: this.$t('trans1255')
+            rule: value => getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31,
+            message: this.$t('trans1252')
+              .replace('%d', 3)
+              .replace('%d', 31)
           },
           {
             rule: value => value !== this.wifiForm.ssidGame,
@@ -262,7 +261,9 @@ export default {
           },
           {
             rule: value => getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31,
-            message: this.$t('trans1255')
+            message: this.$t('trans1252')
+              .replace('%d', 3)
+              .replace('%d', 31)
           },
           {
             rule: value => this.wifiForm.ssid24g !== value &&

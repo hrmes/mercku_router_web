@@ -311,7 +311,9 @@ export default {
           },
           {
             rule: value => getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31,
-            message: this.$t('trans1255')
+            message: this.$t('trans1252')
+              .replace('%d', 3)
+              .replace('%d', 31)
           },
         ],
         'b24g.password': [
@@ -329,7 +331,7 @@ export default {
           },
           {
             rule: value => isValidPassword(value, 8, 31),
-            message: this.$t('trans0125').replace('%d', 8).replace('%d', 31)
+            message: this.$t('trans0125')
           }
         ],
         'b5g.ssid': [
@@ -347,7 +349,9 @@ export default {
           },
           {
             rule: value => getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31,
-            message: this.$t('trans1255')
+            message: this.$t('trans1252')
+              .replace('%d', 3)
+              .replace('%d', 31)
           },
         ],
         'b5g.password': [
@@ -365,7 +369,7 @@ export default {
           },
           {
             rule: value => isValidPassword(value, 8, 31),
-            message: this.$t('trans0118')
+            message: this.$t('trans0125')
           }
         ],
         'bGame.ssid': [
@@ -383,7 +387,9 @@ export default {
           },
           {
             rule: value => getStringByte(value.trim()) >= 3 && getStringByte(value.trim()) <= 31,
-            message: this.$t('trans1255')
+            message: this.$t('trans1252')
+              .replace('%d', 3)
+              .replace('%d', 31)
           },
         ],
         'bGame.password': [
@@ -401,7 +407,7 @@ export default {
           },
           {
             rule: value => isValidPassword(value, 8, 31),
-            message: this.$t('trans0118')
+            message: this.$t('trans0125')
           }
         ]
       },

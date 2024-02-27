@@ -239,7 +239,6 @@ export default {
       speedInfo: {},
       netInfo: {},
       traffic: {},
-      getIsConnnected: false,
       ipv6NetInfo: {
         enabled: null,
         type: '-',
@@ -268,8 +267,8 @@ export default {
   },
   mounted() {
     this.createIntervalTask();
-    this.getIpv6NetInfo();
     this.getRouteMeta();
+    this.getIpv6NetInfo();
   },
   computed: {
     isMobile() {
@@ -330,8 +329,7 @@ export default {
     },
     isConnected() {
       return (
-        this.$store.state.isConnected ||
-        (this.getWanStatus() && this.getIsConnnected)
+        this.$store.state.isConnected || this.getWanStatus()
       );
     },
     bandwidth() {
@@ -594,15 +592,15 @@ export default {
           } = res;
           switch (wanStatus) {
             case WanNetStatus.connected:
-              this.getIsConnnected = true;
+              this.$store.state.isConnected = true;
               break;
             default:
-              this.getIsConnnected = false;
+              this.$store.state.isConnected = false;
               break;
           }
         })
         .catch(() => {
-          this.getIsConnnected = false;
+          this.$store.state.isConnected = false;
         });
       return true;
     },

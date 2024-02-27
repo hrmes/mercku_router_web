@@ -359,7 +359,9 @@ export default {
           },
           {
             rule: value => getStringByte(value) <= 120,
-            message: this.$t('trans1290')
+            message: this.$t('trans1252')
+              .replace('%d', 1)
+              .replace('%d', 120)
           },
         ],
         password: [
@@ -369,7 +371,9 @@ export default {
           },
           {
             rule: value => getStringByte(value) <= 120,
-            message: this.$t('trans1290')
+            message: this.$t('trans1252')
+              .replace('%d', 1)
+              .replace('%d', 120)
           },
         ]
       },
@@ -432,7 +436,6 @@ export default {
         failed: this.$t('trans1294'),
         checking: this.$t('trans0564')
       },
-      wanInfoTimer: null,
       wispRepeaterStatus: RepeaterStatus.checking,
       wispRepeaterStatsTimer: null,
       pageActive: true
@@ -599,7 +602,7 @@ export default {
               };
             }
             if (this.isWisp) {
-              this.createIntervalTask(firstFlag);
+              this.getMeshRepeaterStatus();
               this.upperApForm = this.netInfo.wisp.apclient;
               this.pwdDisabled =
                 this.netInfo.wisp.apclient.security.toLowerCase() === EncryptMethod.open;
@@ -710,18 +713,6 @@ export default {
         this.save(form);
       }
     },
-    createIntervalTask(firstFlag = false) {
-      if (firstFlag) {
-        this.getMeshRepeaterStatus();
-      }
-      clearTimeout(this.wanInfoTimer);
-      this.wanInfoTimer = null;
-      if (this.pageActive) {
-        this.wanInfoTimer = setTimeout(() => {
-          this.getWanNetInfo();
-        }, 10000);
-      }
-    },
     getMeshRepeaterStatus() {
       clearTimeout(this.wispRepeaterStatsTimer);
       this.wispRepeaterStatsTimer = null;
@@ -750,8 +741,6 @@ export default {
         });
     },
     clearIntervalTask() {
-      clearTimeout(this.wanInfoTimer);
-      this.wanInfoTimer = null;
       clearTimeout(this.wispRepeaterStatsTimer);
       this.wispRepeaterStatsTimer = null;
     }

@@ -42,7 +42,9 @@ export default {
           },
           {
             rule: value => getStringByte(value) <= 32,
-            message: this.$t('trans0261')
+            message: this.$t('trans1252')
+              .replace('%d', 1)
+              .replace('%d', 32)
           }
         ],
         password: [
@@ -58,6 +60,8 @@ export default {
             rule: value =>
               getStringByte(value) >= 8 && getStringByte(value) <= 128,
             message: this.$t('trans1252')
+              .replace('%d', 8)
+              .replace('%d', 128)
           }
         ]
       },
@@ -132,6 +136,8 @@ export default {
               {
                 rule: value => isValidPassword(value, 8, 128),
                 message: this.$t('trans1252')
+                  .replace('%d', 8)
+                  .replace('%d', 128)
               }
             ]
           };
