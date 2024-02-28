@@ -23,8 +23,7 @@
                 <div class="device-name"
                      :title="localDeviceInfo.name">
                   <img class="current-device-icon"
-                       src="@/assets/images/icon/ic_local-device.svg"
-                       alt="">
+                       :src="require('base/assets/images/icon/ic_local-device.svg')" />
                   {{localDeviceInfo.name}}
                 </div>
                 <div class="other">
@@ -57,7 +56,7 @@
             <div v-if="(!isTesting && !isConnected)"
                  class="icon-unconnected-container"
                  @click.stop="showTips()">
-              <img src="@/assets/images/icon/ic_unconnect.png">
+              <img :src="require('base/assets/images/icon/ic_default_error.png')" />
             </div>
           </div>
         </div>
@@ -94,8 +93,7 @@
             <div class="speed">
               <div class="speed-info upload">
                 <div class="speed-icon-wrap">
-                  <img src="@/assets/images/icon/ic_upload.png"
-                       alt="">
+                  <img :src="require('base/assets/images/icon/ic_upload.png')" />
                 </div>
                 <div class="speed-wrap">
                   <div>
@@ -107,8 +105,7 @@
               </div>
               <div class="speed-info download">
                 <div class="speed-icon-wrap">
-                  <img src="@/assets/images/icon/ic_download.png"
-                       alt="">
+                  <img :src="require('base/assets/images/icon/ic_download.png')" />
                 </div>
                 <div class="speed-wrap">
                   <div>
@@ -609,6 +606,7 @@ h6 {
     clip-path: circle(125%);
   }
 }
+$img_folder: '../../../../../base/src/assets/images';
 
 [transition-style='out:circle:center'] {
   animation: 2.5s cubic-bezier(0.25, 1, 0.3, 1) 0.5s circle-out-center both;
@@ -1131,12 +1129,12 @@ h6 {
               border: 2px solid var(--logout_btn-bgc);
               overflow: hidden;
               &.connected {
-                background: url(../../../assets/images/icon/ic_mobile_connected.svg)
+                background: url(#{$img_folder}/icon/ic_mobile_connected.svg)
                   center no-repeat;
                 background-size: contain;
               }
               &.unconnected {
-                background: url(../../../assets/images/icon/ic_mobile_unconnect.svg)
+                background: url(#{$img_folder}/icon/ic_mobile_unconnect.svg)
                   center no-repeat;
                 background-size: contain;
               }

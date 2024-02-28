@@ -172,8 +172,8 @@
   </div>
 </template>
 <script>
+import { InitialImg } from '@/assets/images/base64-img/img.js';
 import { Bands } from 'base/util/constant';
-import { InitialImg } from '@/assets/images/v3/base64-img/img.js';
 import {
   getStringByte,
   isValidPassword,

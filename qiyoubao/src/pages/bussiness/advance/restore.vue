@@ -3,7 +3,7 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="restore">
-          <img src="@/assets/images/img_factory_reset.png">
+          <img :src="require('base/assets/images/common/img_factory_reset.png')">
           <button class="btn"
                   @click.stop="factoryReset">{{$t('trans0205')}}</button>
         </div>

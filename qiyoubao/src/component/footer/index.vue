@@ -51,48 +51,22 @@
           <span class="company-logo"
                 @click.stop="showOffcialPage"></span>
         </div>
-        <!-- <img class="power-by"
-             v-if="isShowPowerBy"
-             src="../../assets/images/img-power-by.png" /> -->
       </div>
 
       <div class="footer__right__QR-container"
            v-if="!isMobile">
-        <img src="@/assets/images/v3/icon/ic_qr_small.png"
-             alt="">
+        <img :src="require('base/assets/images/icon/ic_qr_small.png')" />
         <div class="jump-app-info">
           <div class="icon mercku">
-            <img src="@/assets/images/customer/qiyou/ic_launcher.png"
-                 alt="">
+            <img src="@/assets/images/customer/qiyou/ic_launcher.png" />
           </div>
           <div class="text-container">{{$t('trans1118')}}</div>
           <div class="icon qr">
-            <img src="@/assets/images/customer/qiyou/qr.png"
-                 alt="">
+            <img src="@/assets/images/customer/qiyou/qr.png" />
           </div>
         </div>
       </div>
     </div>
-
-    <!-- <m-modal :visible.sync="policyVisiable">
-      <m-modal-header>
-        <div class="dialog-title">{{ $t('trans0139') }}</div>
-      </m-modal-header>
-      <m-modal-body>
-        <div class="dialog-content">
-          <div style="height:100%;padding:20px 0;font-size:0;"
-               v-html="policy"></div>
-        </div>
-      </m-modal-body>
-      <m-modal-footer>
-        <div class="button-container">
-          <button class="btn btn-dialog-confirm"
-                  @click="closePolicyDialog()">
-            {{ $t('trans0024') }}
-          </button>
-        </div>
-      </m-modal-footer>
-    </m-modal> -->
   </div>
 </template>
 <script>
@@ -115,9 +89,6 @@ export default {
       default: false
     },
   },
-  data() {
-    return { policyVisiable: false };
-  },
   methods: {
     showAgreement() {
       if (process.env.CUSTOMER_CONFIG.agreement) {
@@ -131,9 +102,6 @@ export default {
     },
     showOffcialPage() {
       window.open(process.env.CUSTOMER_CONFIG.website.url, '_blank');
-    },
-    closePolicyDialog() {
-      this.policyVisiable = false;
     },
     exit() {
       this.$dialog.confirm({
@@ -152,9 +120,6 @@ export default {
     },
   },
   computed: {
-    // policy() {
-    //   return require('./policy-en.html');
-    // },
     copyright() {
       const copyright = this.$t('trans0276');
       const now = new Date();
@@ -170,9 +135,6 @@ export default {
     isMobile() {
       return this.$store.state.isMobile;
     },
-    // isShowPowerBy() {
-    //   return process.env.CUSTOMER_CONFIG.id !== MerckuCustomerId;
-    // }
   }
 };
 </script>
@@ -206,6 +168,7 @@ export default {
   width: 100%;
   color: var(--common_gery-color);
   padding: 0 30px;
+  $img_folder: '../../../../base/src/assets/images';
   &.is-position-nav {
     position: absolute;
     bottom: 20px;
@@ -305,8 +268,7 @@ export default {
         }
       }
       > span {
-        background: url(../../assets/images/v3/icon/ic_lang.png) center
-          no-repeat;
+        background: url(#{$img_folder}/icon/ic_lang.png) center no-repeat;
         background-size: contain;
       }
       &:hover {
@@ -319,8 +281,7 @@ export default {
       position: relative;
       margin-right: 15px;
       > span {
-        background: url(../../assets/images/v3/icon/ic_logout.png) center
-          no-repeat;
+        background: url(#{$img_folder}/icon/ic_logout.png) center no-repeat;
         background-size: contain;
       }
       &:hover {
@@ -359,12 +320,6 @@ export default {
       display: inline-block;
       cursor: pointer;
     }
-    // .power-by {
-    //   width: 150px;
-    //   height: 15px;
-    //   vertical-align: sub;
-    //   margin-left: 10px;
-    // }
   }
   .footer__right__QR-container {
     position: relative;
@@ -461,9 +416,6 @@ export default {
           }
         }
       }
-      // .power-by {
-      //   margin-left: 5px;
-      // }
     }
   }
 }

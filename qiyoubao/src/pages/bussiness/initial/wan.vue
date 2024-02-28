@@ -195,7 +195,7 @@
   </div>
 </template>
 <script>
-import { InitialImg } from '@/assets/images/v3/base64-img/img.js';
+import { InitialImg } from '@/assets/images/base64-img/img.js';
 import { WanNetStatus, WanType, EncryptMethod } from 'base/util/constant';
 import {
   ipRule,

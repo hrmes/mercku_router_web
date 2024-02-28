@@ -131,7 +131,7 @@
               </div>
             </div>
             <img class="uptime__bg"
-                 src="@/assets/images/img_router_time.png">
+                 :src="require('base/assets/images/common/img_router_time.png')" />
           </div>
           <div class="section">
             <div class=" ipv4 section__inner"
@@ -643,6 +643,7 @@ export default {
   position: relative;
   display: flex;
   flex-direction: column;
+  $img_folder: '../../../../../base/src/assets/images';
   .internet-wrapper {
     min-height: 100%;
   }
@@ -818,34 +819,28 @@ export default {
       position: relative;
       margin-bottom: 13px;
       &.speed__icon--up {
-        background: url('../../../assets/images/icon/ic_upload.png') no-repeat
-          center;
-        background-size: contain;
+        background: url(#{$img_folder}/icon/ic_upload.png) center/contain
+          no-repeat;
       }
       &.speed__icon--down {
-        background: url('../../../assets/images/icon/ic_download.png') no-repeat
-          center;
-        background-size: contain;
+        background: url(#{$img_folder}/icon/ic_download.png) center/contain
+          no-repeat;
       }
       &.speed__icon--trafficup {
-        background: url('../../../assets/images/icon/ic_trafficup.png')
-          no-repeat center;
-        background-size: contain;
+        background: url(#{$img_folder}/icon/ic_trafficup.png) center/contain
+          no-repeat;
       }
       &.speed__icon--trafficdown {
-        background: url('../../../assets/images/icon/ic_trafficdown.png')
-          no-repeat center;
-        background-size: contain;
+        background: url(#{$img_folder}/icon/ic_trafficdown.png) center/contain
+          no-repeat;
       }
       &.speed__icon--peakup {
-        background: url('../../../assets/images/icon/ic_peak_upload.png')
-          no-repeat center;
-        background-size: contain;
+        background: url(#{$img_folder}/icon/ic_peak_upload.png) center/contain
+          no-repeat;
       }
       &.speed__icon--peakdown {
-        background: url('../../../assets/images/icon/ic_peak_download.png')
-          no-repeat center;
-        background-size: contain;
+        background: url(#{$img_folder}/icon/ic_peak_download.png) center/contain
+          no-repeat;
       }
     }
     .speed__item__wrap {

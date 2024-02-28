@@ -224,6 +224,7 @@ export default {
 .qiyou-select-container {
   position: relative;
   width: 270px;
+  $img_folder: '../../../../base/src/assets/images';
   .select {
     height: 48px;
     width: 100%;
@@ -366,28 +367,24 @@ export default {
           width: 14px;
           height: 14px;
           &.bad {
-            background: url(../../assets/images/icon/ic_wifi_bad.png) no-repeat
-              center;
-            background-size: 100%;
+            background: url(#{$img_folder}/icon/ic_wifi_bad.png) center/100%
+              no-repeat;
           }
           &.normal {
-            background: url(../../assets/images/icon/ic_wifi_normal.png)
-              no-repeat center;
-            background-size: 100%;
+            background: url(#{$img_folder}/icon/ic_wifi_normal.png) center/100%
+              no-repeat;
           }
           &.good {
-            background: url(../../assets/images/icon/ic_wifi_good.png) no-repeat
-              center;
-            background-size: 100%;
+            background: url(#{$img_folder}/icon/ic_wifi_good.png) center/100%
+              no-repeat;
           }
         }
         .encrypt {
           width: 10px;
           height: 14px;
           margin-right: 10px;
-          background: url(../../assets/images/icon/ic_wifi_lock.svg) no-repeat
-            center;
-          background-size: 100%;
+          background: url(#{$img_folder}/icon/ic_wifi_lock.svg) center/100%
+            no-repeat;
           filter: var(--img-brightness);
         }
       }
@@ -436,9 +433,8 @@ export default {
       width: 12px;
       height: 6px;
       display: inline-block;
-      background: url(../../assets/images/icon/ic_input_box_pull_down.png)
-        no-repeat center;
-      background-size: 100%;
+      background: url(#{$img_folder}/icon/ic_input_box_pull_down.png)
+        center/100% no-repeat;
       transition: transform 0.2s linear;
       &.open {
         transform: rotate(180deg);
@@ -495,9 +491,6 @@ export default {
       .select-popup__item {
         padding: 17px 10px 17px 20px;
       }
-      // .select-popup__item--loading {
-      //   height: 150px;
-      // }
     }
   }
 }

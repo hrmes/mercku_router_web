@@ -50,8 +50,7 @@
             </div>
             <div class="empty"
                  v-if="blacklist.length===0">
-              <img src="../../../assets/images/img_default_empty.png"
-                   alt="" />
+              <img :src="require('base/assets/images/common/img_default_empty.png')" />
               <p>{{ $t('trans0278') }}</p>
             </div>
           </div>
@@ -99,8 +98,7 @@
             </div>
             <div class="empty"
                  v-if="devices.length===0">
-              <img src="../../../assets/images/img_default_empty.png"
-                   alt="" />
+              <img :src="require('base/assets/images/common/img_default_empty.png')" />
               <p>{{ $t('trans0278') }}</p>
             </div>
           </div>

@@ -152,7 +152,7 @@
             <div class="uptime__bottom"
                  :class="{'padding-top':uptimeArr[1]&&uptimeArr[1].length>0}">{{uptimeArr[0]}}</div>
             <img class="uptime__bg"
-                 src="../../../assets/images/img_router_time.png">
+                 src="../../../assets/images/common/img_router_time.png">
           </div>
         </div>
       </div>

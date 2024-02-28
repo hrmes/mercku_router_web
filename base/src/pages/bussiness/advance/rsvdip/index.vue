@@ -81,8 +81,7 @@
             </div>
             <div class="empty"
                  v-if="empty!==null && empty">
-              <img src="../../../../assets/images/img_default_empty.png"
-                   alt="">
+              <img :src="require('base/assets/images/common/img_default_empty.png')" />
               <p>{{$t('trans0278')}}</p>
             </div>
           </div>

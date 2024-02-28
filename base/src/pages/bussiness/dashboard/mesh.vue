@@ -277,8 +277,7 @@
         </div>
         <div class="table__empty"
              v-else>
-          <img src="../../../assets/images/img_default_empty.png"
-               alt="">
+          <img :src="require('base/assets/images/common/img_default_empty.png')" />
           <span>
             {{$t('trans0278')}}
           </span>

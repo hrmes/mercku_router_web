@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { LoginImg } from '@/assets/images/v3/base64-img/img.js';
+import { LoginImg } from '@/assets/images/base64-img/img.js';
 import { setCookie, getCookie, clearCookie } from '../../util/cookie';
 
 export default {

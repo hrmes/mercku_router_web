@@ -221,8 +221,7 @@
         <div class="connect-quality-modal-contnet">
           <div class="examples">
             <div class="example error">
-              <img src="@/assets/images/img_help_error.png"
-                   alt="">
+              <img :src="require('base/assets/images/common/img_help_error.png')" />
               <div class="description">
                 <span class="icon-circle">
                 </span>
@@ -230,8 +229,7 @@
               </div>
             </div>
             <div class="example right">
-              <img src="@/assets/images/img_help_right.png"
-                   alt="">
+              <img :src="require('base/assets/images/common/img_help_right.png')" />
               <div class="description">
                 <span class="icon-circle">
                 </span>
@@ -1012,6 +1010,7 @@ export default {
 }
 .mesh-container {
   display: flex;
+  $img_folder: '../../../../../base/src/assets/images';
   .mesh-info {
     position: relative;
     display: flex;
@@ -1315,15 +1314,16 @@ export default {
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 text-align: left;
+                > :last-child {
+                  vertical-align: text-bottom;
+                }
                 .local-device {
                   display: inline-block;
                   width: 15px;
                   height: 15px;
                   margin-right: 10px;
-                  vertical-align: text-top;
-                  background: url(../../../assets/images/icon/ic_local-device.svg)
-                    center no-repeat;
-                  background-size: contain;
+                  background: url(#{$img_folder}/icon/ic_local-device.svg)
+                    center/contain no-repeat;
                 }
               }
               .col-2 {
@@ -1343,7 +1343,6 @@ export default {
                 display: flex;
                 justify-content: flex-start;
                 align-items: center;
-                // align-items: center;
                 .band {
                   min-width: 50px;
                   padding: 1px 10px;
@@ -1367,9 +1366,8 @@ export default {
                   height: 20px;
                   aspect-ratio: 38/23;
                   margin-left: 15px;
-                  background: url(../../../assets/images/icon/ic_guest.svg)
-                    center no-repeat;
-                  background-size: contain;
+                  background: url(#{$img_folder}/icon/ic_guest.svg)
+                    center/contain no-repeat;
                   filter: var(--img-brightness);
                 }
               }

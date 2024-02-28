@@ -9,15 +9,13 @@
           <img v-if="upgradeCompleted"
                class="mk-upgrade-header__close"
                @click="close"
-               src="@/assets/images/icon/ic_close_gray@2x.png"
-               alt="" />
+               :src="require('base/assets/images/icon/ic_close.png')" />
         </div>
         <div class="mk-upgrade-content">
           <div class="mk-upgrade-content__title">{{ title }}</div>
           <div v-if="upgradeDescriptionVisible"
                class="mk-upgrade-content__description">
-            <img src="@/assets/images/icon/ic_warning2@2x.png"
-                 alt="" />
+            <img :src="require('base/assets/images/icon/ic_default_error.png')" />
             <span>{{ translate('trans0213') }}</span>
           </div>
 
@@ -57,14 +55,11 @@
                   status === Statuses.download_fail ||
                     status === Statuses.install_fail
                 "
-                   src="@/assets/images/icon/ic_default_error.png"
-                   alt="" />
+                   :src="require('base/assets/images/icon/ic_upgrade_failed.png')" />
               <img v-if="status === Statuses.install_success"
-                   src="@/assets/images/icon/ic_default_success.png"
-                   alt="" />
+                   :src="require('base/assets/images/icon/ic_upgrade_successful.png')" />
               <img v-if="status === Statuses.install_timeout"
-                   src="@/assets/images/icon/ic_hint.png"
-                   alt="" />
+                   :src="require('base/assets/images/icon/ic_upgrade_hint.png')" />
             </div>
             <div class="mk-upgrade-result__status">{{ translate(status) }}</div>
           </div>

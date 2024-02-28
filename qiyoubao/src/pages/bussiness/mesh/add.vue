@@ -115,8 +115,7 @@
              v-if="isAddFail">
           <div class="text-center">
             <img class="result-container__img result-container__img--fail"
-                 src="~@/assets/images/img_default_empty.png"
-                 alt="" />
+                 :src="require('base/assets/images/common/img_default_empty.png')" />
           </div>
           <div class="result-container__tips">{{transDeviceId('trans0181')}}</div>
           <div class="text-center">
@@ -129,8 +128,7 @@
           </div>
           <div class="tips">
             <div class="tips__header">
-              <img src="~@/assets/images/icon/ic_note.svg"
-                   alt="" />
+              <img :src="require('base/assets/images/icon/ic_note.svg')" />
               Tips
             </div>
             <div class="tips__content">
@@ -221,7 +219,7 @@
              :visible.sync='showWirelessMeshTipsDialog'>
       <m-modal-body class="wireless-mesh-tips-modal-body">
         <div class="img-container">
-          <img src="@/assets/images/add/img_together.png"
+          <img src="~@/assets/images/add/img_together.png"
                alt="">
         </div>
         <p class="tips">{{$t('trans1100')}}</p>
@@ -457,6 +455,8 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
+$img_folder: '../../../../../base/src/assets/images';
+
 @keyframes ripple {
   0% {
     transform: scale(0);
@@ -595,15 +595,14 @@ export default {
       }
       &.wireless__wrap {
         .inner {
-          background: url(../../../assets/images/img_wireless.png) no-repeat
-            bottom;
-          background-size: contain;
+          background: url(#{$img_folder}/common/img_wireless.png) bottom/contain
+            no-repeat;
         }
       }
       &.wired__wrap {
         .inner {
-          background: url(../../../assets/images/img_wired.png) no-repeat bottom;
-          background-size: contain;
+          background: url(#{$img_folder}/common/img_wired.png) bottom/contain
+            no-repeat;
         }
       }
     }
@@ -643,8 +642,8 @@ export default {
 }
 .circle-animation {
   position: relative;
-  background: url(../../../assets/images/add_node_tip_bj.png) no-repeat center;
-  background-size: 100%;
+  background: url(#{$img_folder}/common/add_node_tip_bj.png) center/100%
+    no-repeat;
   width: 400px;
   aspect-ratio: 10/9;
   margin: 0 auto;

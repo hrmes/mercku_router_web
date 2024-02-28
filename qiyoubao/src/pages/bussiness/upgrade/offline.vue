@@ -93,8 +93,7 @@
               uploadStatus === UploadStatus.success && !hasUpgradablityNodes
             ">
             <p>
-              <img src="../../../assets/images/icon/ic_hint.png"
-                   alt="" />
+              <img :src="require('base/assets/images/icon/ic_hint.png')" />
               {{ $t('trans0336') }}
             </p>
             <p>{{ $t('trans0337') }}</p>

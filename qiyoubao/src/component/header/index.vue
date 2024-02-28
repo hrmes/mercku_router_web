@@ -14,8 +14,7 @@
          class="offical"
          target="_blank"
          :href="website.url">
-        <img src="@/assets/images/icon/ic_web_home.png"
-             alt="">
+        <img :src="require('base/assets/images/icon/ic_web_home.png')" />
         <span>{{website.text}}</span>
       </a>
       <div v-else
@@ -155,8 +154,7 @@
                         class="checkbox static"
                         :rect="false"
                         v-model="themeOptions.light.ischecked"></m-checkbox>
-            <img src="@/assets/images/img_theme_light.png"
-                 alt="">
+            <img :src="require('base/assets/images/common/img_theme_light.png')" />
             <span class="label">{{$t('trans1122')}}</span>
             <m-checkbox v-if="!isMobile"
                         class="checkbox"
@@ -169,8 +167,7 @@
                         class="checkbox static"
                         :rect="false"
                         v-model="themeOptions.dark.ischecked"></m-checkbox>
-            <img src="@/assets/images/img_theme_dark.png"
-                 alt="">
+            <img :src="require('base/assets/images/common/img_theme_dark.png')" />
             <span class="label">{{$t('trans1123')}}</span>
             <m-checkbox v-if="!isMobile"
                         class="checkbox"
@@ -183,8 +180,7 @@
                         class="checkbox static"
                         :rect="false"
                         v-model="themeOptions.auto.ischecked"></m-checkbox>
-            <img src="@/assets/images/img_theme_auto.png"
-                 alt="">
+            <img :src="require('base/assets/images/common/img_theme_auto.png')" />
             <span class="label">{{$t('trans1121')}}</span>
             <m-checkbox v-if="!isMobile"
                         class="checkbox"

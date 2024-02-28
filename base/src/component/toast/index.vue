@@ -76,7 +76,7 @@ export default {
     //   display: block;
     //   width: 14px;
     //   height: 14px;
-    //   background: url(../../assets/images/v3/icon/ic_default_error.svg) center
+    //   background: url(../../assets/images/icon/ic_default_error.png) center
     //     no-repeat;
     //   background-size: 100%;
     // }
@@ -91,7 +91,7 @@ export default {
     //   display: block;
     //   width: 15px;
     //   height: 15px;
-    //   background: url(../../assets/images/v3/icon/ic_default_success.svg) center
+    //   background: url(../../assets/images/icon/ic_default_success.png) center
     //     no-repeat;
     //   background-size: contain;
     // }
