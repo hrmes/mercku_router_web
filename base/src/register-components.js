@@ -14,7 +14,6 @@ import mRadioCardGroup from './component/radioCardGroup/index.vue';
 import mSwitch from './component/switch/index.vue';
 import mPopover from './component/popover/index.vue';
 import mEditableSelect from './component/editableSelect/index.vue';
-import mInputtableSelect from './component/inputtableSelect/index.vue';
 import mTimePicker from './component/timePicker/index.vue';
 import mSpinner from './component/spinner/index.vue';
 import mTabs from './component/tabs/tabs.vue';
@@ -50,7 +49,6 @@ const registerComponents = _Vue => {
   _Vue.component('m-switch', mSwitch);
   _Vue.component('m-popover', mPopover);
   _Vue.component('m-editable-select', mEditableSelect);
-  _Vue.component('m-inputtable-select', mInputtableSelect);
   _Vue.component('m-time-picker', mTimePicker);
   _Vue.component('m-spinner', mSpinner);
   _Vue.component('m-tabs', mTabs);
