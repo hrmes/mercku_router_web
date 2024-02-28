@@ -53,8 +53,10 @@
              v-if="!isMobile">
           <div class="line"
                :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
-            <div class="icon-unconnected-container"
+            <div v-if="(!isTesting && !isConnected)"
+                 class="icon-unconnected-container"
                  @click.stop="showTips()">
+              <img :src="require('base/assets/images/icon/ic_default_error.png')" />
             </div>
           </div>
         </div>
@@ -900,35 +902,15 @@ $img_folder: '../../../../../base/src/assets/images';
               flex-direction: column;
               justify-content: center;
               align-items: center;
-              width: 20px;
-              height: 20px;
+              width: 30px;
+              height: 30px;
               background: var(--dashboard_unconnect_icon-bgc);
               z-index: 999;
               border-radius: 50%;
               cursor: pointer;
-              &::before {
-                content: '';
-                display: block;
-                height: 2px;
-                border-radius: 2px;
-                width: 10px;
-                background: var(--text_default-color);
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) rotate(45deg);
-              }
-              &::after {
-                content: '';
-                display: block;
-                height: 2px;
-                border-radius: 2px;
-                width: 10px;
-                background: var(--text_default-color);
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) rotate(-45deg);
+              & > img {
+                width: 60%;
+                height: 60%;
               }
             }
           }

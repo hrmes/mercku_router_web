@@ -1273,8 +1273,10 @@ export default {
                   margin-right: 10px;
                   vertical-align: text-top;
                   background: url(#{$img_folder}/icon/ic_local-device.svg)
-                    center no-repeat;
-                  background-size: contain;
+                    center/contain no-repeat;
+                }
+                > :last-child {
+                  vertical-align: text-bottom;
                 }
               }
               .col-2 {
