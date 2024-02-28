@@ -9,14 +9,14 @@
           <m-form-item class="device-choose-wrap"
                        prop='name'
                        ref="name">
-            <m-inputtable-select :label="$t('trans0108')"
-                                 :placeholder="$t('trans1213')"
-                                 :options="devicesFiltered"
-                                 :identifier="'mac'"
-                                 :selectedObj="form"
-                                 v-model="form.name"
-                                 @autofill="autofill">
-            </m-inputtable-select>
+            <m-rsvdip-select :label="$t('trans0108')"
+                             :placeholder="$t('trans1213')"
+                             :options="devicesFiltered"
+                             :identifier="'mac'"
+                             :selectedObj="form"
+                             v-model="form.name"
+                             @autofill="autofill">
+            </m-rsvdip-select>
           </m-form-item>
           <m-form-item prop='mac'
                        ref="mac">
@@ -53,8 +53,12 @@
 </template>
 <script>
 import { ipReg, getStringByte, isMac, formatMac } from 'base/util/util';
+import rsvdipSelect from './component/rsvdipSelect/index';
 
 export default {
+  components: {
+    'm-rsvdip-select': rsvdipSelect
+  },
   props: {
     isEdit: {
       type: Boolean,

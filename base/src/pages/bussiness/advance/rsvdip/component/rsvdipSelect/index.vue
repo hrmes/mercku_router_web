@@ -45,8 +45,8 @@
 </template>
 
 <script>
-import scrollTo from '../utils/scroll-to';
-import { formatMac } from '../../util/util';
+import scrollTo from 'base/component/utils/scroll-to';
+import { formatMac } from 'base/util/util';
 
 export default {
   props: {
@@ -165,6 +165,7 @@ export default {
   cursor: pointer;
   position: relative;
   z-index: 9999;
+  $img_folder: '../../../../../../assets/images';
   @media screen and (min-width: 768px) {
     ::-webkit-scrollbar {
       width: 6px;
@@ -172,7 +173,7 @@ export default {
     }
     ::-webkit-scrollbar-track {
       background-color: var(--scrollbar_wrap_track-color);
-      // border-radius: 100px;
+      border-radius: 100px;
     }
     ::-webkit-scrollbar-thumb {
       background-color: var(--scrollbar_wrap_thumb-color);
@@ -325,9 +326,8 @@ export default {
       height: 6px;
       margin-top: 21px;
       display: inline-block;
-      background: url(../../assets/images/icon/ic_input_box_pull_down.png)
-        no-repeat center;
-      background-size: 100%;
+      background: url(#{$img_folder}/icon/ic_input_box_pull_down.png)
+        center/100% no-repeat;
       transition: transform 0.2s linear;
       &.open {
         transform: rotate(180deg);

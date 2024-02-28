@@ -134,23 +134,6 @@ export default {
 .select-container {
   width: 340px;
   cursor: pointer;
-  @media screen and (min-width: 768px) {
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background-color: var(--scrollbar_wrap_track-color);
-      // border-radius: 100px;
-    }
-    ::-webkit-scrollbar-thumb {
-      background-color: var(--scrollbar_wrap_thumb-color);
-      border-radius: 100px;
-      &:hover {
-        opacity: 0.5;
-      }
-    }
-  }
   .select {
     height: 48px;
     width: 100%;
@@ -222,6 +205,20 @@ export default {
     box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.12);
     border: 1px solid var(--select_popup_border-color);
     overflow: auto;
+    @media screen and (min-width: 768px) {
+      &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      &::-webkit-scrollbar-track {
+        background-color: var(--scrollbar_wrap_track-color);
+        border-radius: 100px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: var(--scrollbar_wrap_thumb-color);
+        border-radius: 100px;
+      }
+    }
     li {
       list-style: none;
       padding: 17px 10px;
