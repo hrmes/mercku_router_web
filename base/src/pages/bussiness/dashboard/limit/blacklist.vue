@@ -1,23 +1,18 @@
 <template>
-
   <div class="urllimit">
-    <div class="handle">
-      <label for="">{{$t('trans0462')}}</label>
-      <m-switch @change="changehandle"
-                v-model="mode" />
-    </div>
-    <div class='table'
+    <!--  -->
+    <div class='url-table'
          :class="{'table--empty':!sortList.length}">
-      <div class="tools">
-        <button class="btn btn-small"
-                @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
-
-      </div>
       <div class="table-head">
-        <div class="column-address">{{$t('trans0076')}}
-          <span>{{$t('trans0101')}}</span>
+        <div class="handle">
+          <m-switch :label="$t('trans0462')"
+                    @change="changehandle"
+                    v-model="mode" />
         </div>
-        <div class="column-handle">{{$t('trans0370')}}</div>
+        <div class="tools">
+          <button class="btn btn-small"
+                  @click.stop="modalOpen()">{{$t('trans0035')}}</button>
+        </div>
       </div>
       <div class="table-body">
         <div class="table-row"
@@ -25,13 +20,16 @@
              :key='index'>
           <div class="column-address">{{row}}</div>
           <div class="column-handle">
-            <a class="btn-text text-primary"
-               @click="delRow(row)">{{$t('trans0033')}}</a>
+            <span class="limit-icon"
+                  @click="delRow(row)">
+              <i class="delete iconfont ic_trash"></i>
+              <span class="hover-popover"> {{$t('trans0033')}}</span>
+            </span>
           </div>
         </div>
         <div class="empty"
              v-if="isEmpty">
-          <img src="../../../../assets/images/img_default_empty.png"
+          <img src="@/assets/images/img_default_empty.png"
                alt="">
           <p class="empty-text">{{$t('trans0278')}}</p>
         </div>
@@ -39,6 +37,7 @@
     </div>
 
     <m-modal class="modal"
+             :type="'confirm'"
              :visible.sync="modalShow">
       <div class="modal-content">
         <div class="modal-form">
@@ -59,12 +58,8 @@
         <div class="btn-info">
           <button class="btn btn-default"
                   @click="closeModal">{{$t('trans0025')}}</button>
-          <button v-if="modalStatus==='add'"
-                  class="btn"
+          <button class="btn"
                   @click="submit">{{$t('trans0035')}}</button>
-          <button v-if="modalStatus==='edit'"
-                  class="btn"
-                  @click="updateSubmit">{{$t('trans0081')}}</button>
         </div>
       </div>
     </m-modal>
@@ -78,7 +73,6 @@ export default {
   data() {
     return {
       BlacklistMode,
-      modalStatus: 'add',
       selectedRow: {},
       disabled: true,
       modalShow: false,
@@ -103,25 +97,34 @@ export default {
           {
             rule: value => getStringByte(value) <= 30,
             message: this.$t('trans0226')
+          },
+          {
+            rule: value => !this.parentControlLimitList.includes(value),
+            message: `${this.$t('trans0020')} ${this.$t('trans0082')}`
           }
         ]
       }
     };
   },
   computed: {
+    isMobile() {
+      return this.$store.state.isMobile;
+    },
     sortList() {
       const list = this.parentControlLimitList;
       return list.sort();
     },
     isEmpty() {
       return !this.sortList.length;
+    },
+    blacklistLimit() {
+      return this.$store.state.modules.limits[this.form.mac];
     }
   },
   mounted() {
     this.form.mac = this.$route.params.mac;
-    const limit = this.$store.modules.limits[this.form.mac];
-    if (limit && limit.parent_control) {
-      const parentControl = limit.parent_control;
+    if (this.blacklistLimit && this.blacklistLimit.parent_control) {
+      const parentControl = this.blacklistLimit.parent_control;
       this.form.mode = parentControl.mode;
       this.mode = parentControl.mode === BlacklistMode.blacklist;
       this.parentControlLimitList = parentControl.blacklist || [];
@@ -140,27 +143,22 @@ export default {
       };
       this.host = '';
     },
-    modalOpen(type, row) {
+    modalOpen(row) {
       if (this.parentControlLimitList.length === 15) {
         this.$toast(this.$t('trans0060'));
         return;
       }
       this.host = '';
       this.form.hosts = [];
-      this.modalStatus = type;
       this.selectedRow = row;
-      if (type === 'edit') {
-        this.form.hosts = [row];
-        this.host = row;
-      }
       this.modalShow = true;
     },
     getList() {
       this.$http.parentControlLimitGet({ mac: this.form.mac }).then(res => {
         if (res.data.result) {
           this.parentControlLimitList = res.data.result.blacklist || [];
-          this.mode = res.data.result.mode === BlacklistMode.blacklist;
           this.form.mode = res.data.result.mode;
+          this.mode = this.form.mode === BlacklistMode.blacklist;
         }
       });
     },
@@ -174,6 +172,9 @@ export default {
         })
         .then(() => {
           this.form.mode = changeMode;
+          if (this.blacklistLimit && this.blacklistLimit.parent_control) {
+            this.blacklistLimit.parent_control.mode = this.form.mode;
+          }
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 2000, 'success');
         })
@@ -193,8 +194,12 @@ export default {
           this.parentControlLimitList = this.parentControlLimitList.filter(
             v => v !== row
           );
+          if (this.blacklistLimit && this.blacklistLimit.parent_control) {
+            this.blacklistLimit.parent_control.blacklist =
+              this.parentControlLimitList;
+          }
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 2000, 'success');
+          this.$toast(this.$t('trans0040'), 3000, 'success');
         })
         .catch(() => {
           this.$loading.close();
@@ -206,13 +211,16 @@ export default {
         this.$http
           .parentControlLimitAdd({
             mac: this.form.mac,
-            hosts: [this.host]
+            hosts: [this.host],
+            mode: this.mode ? BlacklistMode.blacklist : BlacklistMode.free
           })
           .then(() => {
             this.parentControlLimitList.push(this.host);
             this.$loading.close();
             this.modalShow = false;
             this.$toast(this.$t('trans0040'), 2000, 'success');
+            this.blacklistLimit.parent_control.blacklist =
+              this.parentControlLimitList;
           })
           .catch(() => {
             this.$loading.close();
@@ -234,21 +242,22 @@ export default {
   justify-content: center;
   align-items: center;
   .btn-info {
-    display: flex;
-    margin-top: 50px;
-    justify-content: center;
-    .btn {
-      width: 120px;
-      height: 42px;
-      &:last-child {
-        margin-left: 30px;
-      }
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+    .btn-default {
+      background-image: linear-gradient(
+          to right,
+          var(--modal_content-bgc),
+          var(--modal_content-bgc)
+        ),
+        var(--common_btn_default-bgimg) !important;
     }
   }
   .modal-content {
-    width: 330px;
     border-radius: 5px;
-    background-color: #ffffff;
+    background-color: var(--modal_content-bgc);
     .item {
       display: flex;
       align-items: center;
@@ -280,64 +289,44 @@ export default {
 }
 .urllimit {
   width: 100%;
+  min-height: 400px;
   position: relative;
-  .handle {
-    display: flex;
-    align-items: center;
-    position: absolute;
-    top: 3px;
-    right: 0;
-    label {
-      padding: 0 30px 0 10px;
-    }
-  }
-  .table {
+  .url-table {
     width: 100%;
-
-    .tools {
-      margin-bottom: 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .column-handle {
-      width: 250px;
-    }
-    .column-address {
-      span {
-        padding-left: 20px;
-        font-size: 12px;
-        color: #999999;
-      }
-    }
     .table-head {
       height: 50px;
-      background-color: #f1f1f1;
-      display: flex;
-      padding: 0 30px;
-      justify-content: space-between;
-      div {
+      background-color: var(--common_sub_card-bgc);
+      display: grid;
+      grid-template-rows: 100%;
+      grid-template-columns: repeat(2, 1fr);
+      padding: 0 10px;
+      border-radius: 10px;
+      margin-bottom: 5px;
+      > div {
         display: flex;
-        height: 50px;
         align-items: center;
+      }
+      .handle {
+        justify-content: flex-start;
+        color: var(--common_gery-color);
+      }
+      .tools {
+        justify-content: flex-end;
+        .btn {
+          margin: 0;
+        }
       }
     }
     .table-body {
       .table-row {
         display: flex;
-        padding: 15px 30px;
-        border-bottom: 1px solid #f1f1f1;
         justify-content: space-between;
-        &:nth-child(2n) {
-          background: #f7f7f7;
-          @media screen and(max-width:768px) {
-            background: #fff;
-          }
-        }
-        .column-handle {
-          display: flex;
-          align-items: center;
-        }
+        align-items: center;
+        height: 60px;
+        padding: 0 10px;
+        border-radius: 10px;
+        margin-bottom: 5px;
+        background: var(--common_sub_card-bgc);
       }
     }
   }
@@ -350,82 +339,7 @@ export default {
     }
   }
   .urllimit {
-    .tools {
-      .btn {
-        min-width: 120px;
-        height: 38px;
-      }
-    }
-    .handle {
-      display: flex;
-      align-items: center;
-      right: initial;
-      left: 0;
-      top: 11px;
-      label {
-        padding: 0 30px 0 0px;
-      }
-    }
-    .table {
-      &.table--empty {
-        .tools {
-          position: static;
-          justify-content: center;
-          border: 0;
-          margin: 0;
-          margin-top: 10px;
-          .btn {
-            min-width: 120px;
-            height: 38px;
-          }
-        }
-      }
-      .tools {
-        position: absolute;
-        right: 0;
-        margin: 0;
-        top: 0;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        .btn {
-          margin: 0;
-        }
-      }
-      .table-body {
-        margin-top: 68px;
-        .table-row {
-          flex-direction: row;
-          border-top: 1px solid #f1f1f1;
-          border-bottom: 0;
-          padding: 20px 0;
-          position: relative;
-        }
-      }
-      .column-address {
-        width: 200px;
-        overflow: height;
-      }
-      .column-handle {
-        width: 100%;
-        justify-content: flex-end;
-        // margin-top: 20px;
-        a {
-          margin-right: 0 !important;
-          &:first-child {
-            margin-right: 20px !important;
-          }
-        }
-        .check-wrap {
-          position: absolute;
-          right: 0;
-          top: 20px;
-        }
-      }
-      .table-head {
-        display: none;
-      }
-    }
+    min-height: unset;
   }
 }
 </style>

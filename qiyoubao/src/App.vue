@@ -26,9 +26,10 @@
   </div>
 </template>
 <script>
-import './style/common.scss';
-import defaultLayout from './layouts/default.vue';
-import primaryLayout from './layouts/primary.vue';
+import 'base/style/common.scss';
+import './style/router-model.scss';
+import defaultLayout from 'base/layouts/default.vue';
+import primaryLayout from 'base/layouts/primary.vue';
 import qiyouHeader from './component/header/index';
 import qiyouFooter from './component/footer/index';
 import getMenu from './menu';
@@ -163,11 +164,6 @@ export default {
 </script>
 
 <style lang="scss">
-@font-face {
-  font-family: 'DINAlternate';
-  src: url('./style/iconfont/DIN.ttf');
-  font-display: swap;
-}
 [data-title]:hover:after {
   opacity: 1;
   visibility: visible;
