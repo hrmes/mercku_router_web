@@ -51,12 +51,12 @@
                 <span class="gateway-label info-label"
                       v-if="isGateway">{{$t('trans0153')}}</span>
                 <span class="gateway-label info-label"
-                      v-if="!isGateway">{{$t('trans1210')}}</span>
+                      v-else>{{$t('trans1210')}}</span>
                 <span v-if="!isGateway"
                       class="connect-quality info-label"
-                      :class="{'fair':connectQuality(selectedNodeInfo.color)===ConnectionQualityMap.fair,
-                               'offline':connectQuality(selectedNodeInfo.color)===ConnectionQualityMap.offline
-                              }">{{connectQuality(selectedNodeInfo.color)}}</span>
+                      :class="{selectedNodeColor}">
+                  {{connectQuality(selectedNodeInfo.color)}}
+                </span>
                 <span class="close btn-icon"
                       @click.stop="()=>showTable=false">
                   <i class="iconfont ic_close"></i>
@@ -134,7 +134,7 @@
                      v-if="!isMobile">{{$t('trans0375')}}</div>
               </div>
               <ul class="card-bottom__main reset-ul"
-                  v-if="selectedNodeInfo.stations.length>0">
+                  v-if="selectedNodeInfo.stations.length">
                 <li v-for="sta in listOrdered"
                     :key="sta.ip">
                   <div class="col-1">
@@ -156,7 +156,9 @@
                   </div>
                   <div class="col-3">
                     <span class="band"
-                          :class="{'wired':isWired(sta.connected_network.band)}">{{bandMap[sta.connected_network.band]}}</span>
+                          :class="{'wired':isWired(sta.connected_network.band)}">
+                      {{bandMap[sta.connected_network.band]}}
+                    </span>
                     <span class="guest"
                           v-if="isGuest(sta.connected_network.type)"></span>
                   </div>
@@ -193,7 +195,8 @@
                     :key="index"
                     class="limit-icon">
                   <div class="color"
-                       :class="{selected:selectedColorName===color.name,'light-color':color.name===RouterColor.white}"
+                       :class="{selected:selectedColorName===color.name,
+                                'light-color':color.name===RouterColor.white}"
                        :style="{backgroundImage:color.value}"
                        @click="changeDeviceColor(color)">
                   </div>
@@ -364,6 +367,23 @@ export default {
     },
     selectedNodeIp() {
       return this.selectedNodeInfo?.lan?.ip ?? this.selectedNodeInfo?.ip ?? '-';
+    },
+    selectedNodeColor() {
+      let color;
+      switch (this.selectedNodeInfo.color) {
+        case Color.good:
+          color = 'good';
+          break;
+        case Color.bad:
+          color = 'bad';
+          break;
+        case Color.offline:
+          color = 'offline';
+          break;
+        default:
+          break;
+      }
+      return color;
     }
   },
   watch: {
@@ -824,6 +844,7 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
+$img_folder: '../../../../../base/src/assets/images';
 .edit-name-modal {
   .content {
     display: flex;
@@ -894,7 +915,6 @@ export default {
       @media screen and (max-width: 768px) {
         flex-direction: column;
       }
-
       .example {
         .description {
           text-align: center;
@@ -903,59 +923,21 @@ export default {
           justify-content: center;
           position: relative;
           .icon-circle {
-            width: 16px;
-            height: 16px;
-            border: 1px solid #ff4d64;
-            border-radius: 50%;
+            width: 18px;
+            height: 18px;
             margin-right: 5px;
-            position: relative;
           }
         }
         &.error {
           .icon-circle {
-            &::before {
-              content: '';
-              display: block;
-              width: 7px;
-              height: 1px;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%) rotate(45deg);
-              background: #ff4d64;
-              z-index: 999;
-              position: absolute;
-            }
-            &::after {
-              content: '';
-              display: block;
-              width: 7px;
-              height: 1px;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%) rotate(-45deg);
-              background: #ff4d64;
-              z-index: 999;
-              position: absolute;
-            }
+            background: url(#{$img_folder}/icon/ic_upgrade_failed.png)
+              center/contain no-repeat;
           }
         }
         &.right {
           .icon-circle {
-            border-color: #55c630;
-            &::after {
-              position: absolute;
-              content: '';
-              display: block;
-              width: 3px;
-              height: 6px;
-              border-right: 1px solid #55c630;
-              border-bottom: 1px solid #55c630;
-              border-left: 0;
-              border-top: 0;
-              transform: rotate(45deg);
-              top: 3px;
-              left: 5px;
-            }
+            background: url(#{$img_folder}/icon/ic_upgrade_successful.png)
+              center/contain no-repeat;
           }
         }
 
@@ -1010,7 +992,6 @@ export default {
 }
 .mesh-container {
   display: flex;
-  $img_folder: '../../../../../base/src/assets/images';
   .mesh-info {
     position: relative;
     display: flex;
@@ -1175,13 +1156,17 @@ export default {
             padding: 4px 10px;
             border-radius: 5px;
             color: #fff;
-            font-weight: 600;
+            font-weight: 500;
             margin-right: 5px;
-            background-image: linear-gradient(97deg, #50cc83 6%, #3cc146 90%);
             &.model-name {
               background-image: linear-gradient(117deg, #97006a, #f45199 100%);
             }
-            &.fair {
+            &.gateway-label,
+            &.good {
+              background-image: linear-gradient(97deg, #50cc83 6%, #3cc146 90%);
+            }
+
+            &.bad {
               background-image: linear-gradient(97deg, #ebb351 6%, #e16825 90%);
             }
             &.offline {
