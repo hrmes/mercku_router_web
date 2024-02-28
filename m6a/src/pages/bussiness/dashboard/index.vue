@@ -23,14 +23,13 @@
                 <div class="device-name"
                      :title="localDeviceInfo.name">
                   <img class="current-device-icon"
-                       src="@/assets/images/icon/ic_local-device.svg"
-                       alt="">
+                       :src="require('base/assets/images/icon/ic_local-device.svg')" />
                   {{localDeviceInfo.name}}
                 </div>
                 <div class="other">
                   <div class="band"
                        :class="{'wired':isWired}">
-                    {{bandMap[`${localDeviceInfo.online_info.band}`]}}</div>
+                    {{bandMap[`${localDeviceInfo.online_info.band}`] }}</div>
                   <div v-if="!isWired"
                        class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
                   </div>
@@ -55,8 +54,10 @@
              v-if="!isMobile">
           <div class="line"
                :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
-            <div class="icon-unconnected-container"
+            <div v-if="(!isTesting && !isConnected)"
+                 class="icon-unconnected-container"
                  @click.stop="showTips()">
+              <img :src="require('base/assets/images/icon/ic_default_error.png')" />
             </div>
           </div>
         </div>
@@ -94,8 +95,7 @@
                  class="speed">
               <div class="speed-info upload">
                 <div class="speed-icon-wrap">
-                  <img src="@/assets/images/icon/ic_upload.png"
-                       alt="">
+                  <img :src="require('base/assets/images/icon/ic_upload.png')" />
                 </div>
                 <div class="speed-wrap">
                   <div>
@@ -107,8 +107,7 @@
               </div>
               <div class="speed-info download">
                 <div class="speed-icon-wrap">
-                  <img src="@/assets/images/icon/ic_download.png"
-                       alt="">
+                  <img :src="require('base/assets/images/icon/ic_download.png')" />
                 </div>
                 <div class="speed-wrap">
                   <div>
@@ -122,7 +121,7 @@
             <div v-else
                  class="bridge-mode-tip">
               <img v-if="!isMobile"
-                   src="../../../assets/images/img-bridge.png">
+                   :src="require('base/assets/images/common/img_bridge.png')" />
               <span>{{$t('trans0984')}}</span>
             </div>
           </div>
@@ -241,7 +240,6 @@ export default {
       netStatus: WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       pageActive: true,
       deviceLoading: true,
-      meshLoading: true,
       ssid: '',
       deviceCount: '-',
       deviceCountTimer: null,
@@ -424,7 +422,6 @@ export default {
     },
     async getMeshInfo() {
       try {
-        this.meshLoading = true;
         const res1 = await this.$http.getMeshNode();
         const meshNodeList = res1.data.result;
 
@@ -435,8 +432,6 @@ export default {
         }
       } catch (error) {
         console.error('Error fetching mesh info:', error);
-      } finally {
-        this.meshLoading = false;
       }
     },
     async getDeviceCount() {
@@ -617,6 +612,7 @@ h6 {
     clip-path: circle(125%);
   }
 }
+$img_folder: '../../../../../base/src/assets/images';
 
 [transition-style='out:circle:center'] {
   animation: 2.5s cubic-bezier(0.25, 1, 0.3, 1) 0.5s circle-out-center both;
@@ -907,35 +903,15 @@ h6 {
               flex-direction: column;
               justify-content: center;
               align-items: center;
-              width: 20px;
-              height: 20px;
+              width: 30px;
+              height: 30px;
               background: var(--dashboard_unconnect_icon-bgc);
               z-index: 999;
               border-radius: 50%;
               cursor: pointer;
-              &::before {
-                content: '';
-                display: block;
-                height: 2px;
-                border-radius: 2px;
-                width: 10px;
-                background: var(--text_default-color);
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) rotate(45deg);
-              }
-              &::after {
-                content: '';
-                display: block;
-                height: 2px;
-                border-radius: 2px;
-                width: 10px;
-                background: var(--text_default-color);
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) rotate(-45deg);
+              & > img {
+                width: 60%;
+                height: 60%;
               }
             }
           }
@@ -1148,8 +1124,6 @@ h6 {
             &:last-child {
               margin-bottom: 0;
             }
-            &.connected {
-            }
             .sub {
               position: absolute;
               bottom: 0;
@@ -1162,12 +1136,12 @@ h6 {
               border: 2px solid var(--logout_btn-bgc);
               overflow: hidden;
               &.connected {
-                background: url(../../../assets/images/icon/ic_mobile_connected.svg)
+                background: url(#{$img_folder}/icon/ic_default_success.png)
                   center no-repeat;
                 background-size: contain;
               }
               &.unconnected {
-                background: url(../../../assets/images/icon/ic_mobile_unconnect.svg)
+                background: url(#{$img_folder}/icon/ic_default_error.png) center
                   center no-repeat;
                 background-size: contain;
               }

@@ -1,116 +1,121 @@
 <template>
   <div class="page">
-    <div v-if="$store.state.isMobile"
+    <div v-if="isMobile"
          class="page-header">
       {{$t('trans0402')}}
     </div>
     <div class="page-content">
-      <div class="list">
-        <div class="vpn-list">
-          <div class="vpn-list-header">
-            <div class="column-name">
-              <div class="column-check">
-                <m-checkbox v-model="checkAll"
+      <div class="page-content__main"
+           v-if="isShowList">
+        <div class="table">
+          <div class="table-header">
+            <div class="wrapper">
+              <div class="checkbox">
+                <m-checkbox :disabled="connecting"
+                            v-model="checkAll"
                             @change="change"></m-checkbox>
               </div>
-              {{$t('trans0108')}}
-            </div>
-            <div v-if="!$store.state.isMobile"
-                 class="column-protocol">{{$t('trans0408')}}</div>
-            <div v-if="!$store.state.isMobile"
-                 class="column-status">{{$t('trans0190')}}</div>
-            <div class="column-handle">
-              <div class="btn-wrap">
-                <button class="btn btn-small"
-                        @click="mulDel"
-                        :disabled="!hasChecked">{{$t('trans0033')}}</button>
-
-                <button class="btn btn-small"
-                        @click="add"
-                        :disabled="connecting">{{$t('trans0035')}}</button>
+              <div class="status"
+                   v-if="!isMobile">{{$t('trans0190')}}</div>
+              <div class="name">
+                {{$t('trans0108')}}
               </div>
             </div>
+            <div class="protocol"
+                 v-if="!isMobile">{{$t('trans0408')}}</div>
+            <div class="operator">
+              <button class="btn btn-small"
+                      @click="mulDel"
+                      :disabled="!hasChecked">{{$t('trans0033')}}</button>
+              <button class="btn btn-small"
+                      @click="add"
+                      :disabled="connecting">{{$t('trans0035')}}</button>
+            </div>
           </div>
-          <div class="vpn"
-               :class="{'open':vpn.open}"
-               v-for="vpn in vpns"
-               :key="vpn.id">
-            <div class="column-name"
-                 @click.stop="vpn.open=!vpn.open">
-              <div class="column-check">
-                <m-checkbox :disabled="connecting || vpn.enabled"
-                            :stopPropagation="true"
-                            v-model='vpn.checked'
-                            @click.stop=''></m-checkbox>
+          <div class="table-body">
+            <div class="table-row vpn"
+                 :class="{'close':!vpn.open}"
+                 v-for="vpn in vpns"
+                 :key="vpn.id">
+              <div class="wrapper">
+                <div class="checkbox">
+                  <m-checkbox :disabled="connecting || vpn.enabled"
+                              :stopPropagation="true"
+                              v-model='vpn.checked'
+                              @click.stop=''></m-checkbox>
+                </div>
+                <div class="status">
+                  <m-loading :size="24"
+                             class="spinner"
+                             :color="getColor(vpn)"
+                             v-if="isConnectingOrDisconnecting(vpn)"></m-loading>
+                  <m-switch v-show="!isConnectingOrDisconnecting(vpn)"
+                            :disabled="connecting"
+                            v-model="vpn.enabled"
+                            class="vpn-switch"
+                            @change="(v)=>start(v,vpn)"></m-switch>
+                </div>
+                <div class="name"
+                     @click.stop="vpn.open=!vpn.open">
+                  <span class="name">{{vpn.name}}</span>
+                </div>
               </div>
-              <span>{{vpn.name}}</span>
+              <div class="protocol">
+                <label class="m-title with-colon"
+                       v-if="isMobile">{{$t('trans0408')}}:</label>
+                {{vpn.protocol}}
+              </div>
+              <div class="operator">
+                <span class="limit-icon"
+                      :class="{'disabled':connecting || vpn.enabled}"
+                      @click="edit(vpn)">
+                  <i class=" iconfont ic_settings"></i>
+                  <span class="hover-popover"> {{$t('trans0034')}}</span>
+                </span>
+                <span class="limit-icon"
+                      :class="{'disabled':connecting || vpn.enabled}"
+                      @click="del(vpn)">
+                  <i class=" iconfont ic_trash"></i>
+                  <span class="hover-popover"> {{$t('trans0033')}}</span>
+                </span>
+              </div>
             </div>
-            <div class="column-protocol">
-              <label class="m-title with-colon">{{$t('trans0408')}}:</label>
-              {{vpn.protocol}}
+            <div class="empty"
+                 v-if="hasVpns&&isEmpty">
+              <img :src="require('base/assets/images/common/img_default_empty.png')">
+              <p class="empty-text">{{$t('trans0278')}}</p>
             </div>
-            <div class="column-status">
-              <m-loading :size="24"
-                         class="spinner"
-                         :color="getColor(vpn)"
-                         v-if="isConnectingOrDisconnecting(vpn)"></m-loading>
-              <m-switch v-show="!isConnectingOrDisconnecting(vpn)"
-                        :disabled="connecting"
-                        v-model="vpn.enabled"
-                        class="vpn-switch"
-                        @change="(v)=>start(v,vpn)"></m-switch>
-            </div>
-            <div class="column-handle">
-              <span class="btn-icon"
-                    :class="{'disabled':connecting || vpn.enabled}"
-                    @click="edit(vpn)">
-                <i class=" iconfont icon-ic_settings_normal"></i>
-                <span class="icon-hover-popover"> {{$t('trans0034')}}</span>
-              </span>
-              <span v-if="$store.state.isMobile"
-                    class="label"
-                    :class="{'disabled':connecting || vpn.enabled}"
-                    @click="edit(vpn)">
-                {{$t('trans0034')}}
-              </span>
-              <span class="btn-icon"
-                    :class="{'disabled':connecting || vpn.enabled}"
-                    @click="del(vpn)">
-                <i class=" iconfont icon-ic_trash_normal"></i>
-                <span class="icon-hover-popover"> {{$t('trans0033')}}</span>
-              </span>
-              <span v-if="$store.state.isMobile"
-                    class="label"
-                    :class="{'disabled':connecting || vpn.enabled}"
-                    @click="del(vpn)">
-                {{$t('trans0033')}}
-              </span>
-            </div>
-          </div>
-          <div class="vpn-empty"
-               v-if="hasVpns&&isEmpty">
-            <img src="../../../../assets/images/img_default_empty.png"
-                 alt="">
-            <p class="empty-text">{{$t('trans0278')}}</p>
           </div>
         </div>
       </div>
-
+      <transition name="fade"
+                  :css="!isMobile">
+        <vpnForm v-if="isShowForm"
+                 :isEdit="isEdit"
+                 @closeForm="closeForm"
+                 @refreshList="getVPNList"></vpnForm>
+      </transition>
     </div>
   </div>
 </template>
-
 <script>
-import { VPNAction, VPNStatus } from 'base/util/constant';
+import { VPNType, VPNStatus, VPNAction } from 'base/util/constant';
+import vpnForm from './form.vue';
 
 export default {
+  components: {
+    vpnForm
+  },
   data() {
     return {
+      ScrollPage: document.querySelector('.scrollbar-wrap'),
       vpns: [],
       VPNStatus,
       timer: null,
       connecting: false,
-      checkAll: false
+      checkAll: false,
+      isShowForm: false,
+      isEdit: false
     };
   },
   mounted() {
@@ -142,13 +147,17 @@ export default {
             status: VPNAction.connect
           })
           .then(() => {
-            this.createIntervalTask(
-              vpn,
-              false,
-              VPNStatus.ready,
-              VPNStatus.connecting,
-              VPNStatus.connected
-            );
+            if (vpn.protocol.toLowerCase() === VPNType.wireguard) {
+              this.wireguardSwitchHandler(v, vpn);
+            } else {
+              this.createIntervalTask(
+                vpn,
+                false,
+                VPNStatus.ready,
+                VPNStatus.connecting,
+                VPNStatus.connected
+              );
+            }
           })
           .catch(() => {
             vpn.enabled = false;
@@ -164,13 +173,17 @@ export default {
             status: VPNAction.disconnect
           })
           .then(() => {
-            this.createIntervalTask(
-              vpn,
-              true,
-              VPNStatus.connected,
-              VPNStatus.disconnecting,
-              VPNStatus.disconnected
-            );
+            if (vpn.protocol.toLowerCase() === VPNType.wireguard) {
+              this.wireguardSwitchHandler(v, vpn);
+            } else {
+              this.createIntervalTask(
+                vpn,
+                true,
+                VPNStatus.connected,
+                VPNStatus.disconnecting,
+                VPNStatus.disconnected
+              );
+            }
           })
           .catch(() => {
             vpn.enabled = true;
@@ -223,7 +236,11 @@ export default {
     edit(vpn) {
       if (!this.connecting && !vpn.enabled) {
         this.$store.state.modules.vpn = vpn;
-        this.$router.push(`/advance/vpn/form/${vpn.id}`);
+        this.isEdit = true;
+        if (this.isMobile) {
+          this.ScrollPage.scrollTop = 0;
+        }
+        this.isShowForm = true;
       }
     },
     add() {
@@ -231,7 +248,11 @@ export default {
         this.$toast(this.$t('trans0060'));
         return;
       }
-      this.$router.push({ path: '/advance/vpn/form' });
+      this.isEdit = false;
+      if (this.isMobile) {
+        this.ScrollPage.scrollTop = 0;
+      }
+      this.isShowForm = true;
     },
     mulDel() {
       const deleteVpnArr = [];
@@ -287,42 +308,61 @@ export default {
       Promise.all([this.$http.getVPNInfo(), this.$http.getVPNlist()])
         .then(result => {
           const info = result[0].data.result;
-          const vpns = result[1].data.result;
-          this.vpns = vpns.map(v => {
-            this.$set(v, 'enabled', false);
-            this.$set(v, 'status', VPNStatus.disconnected);
+          const vpns = result[1].data.result.sort((a, b) => a.id - b.id);
+          this.vpns = vpns.map((v) => {
+            if (v.protocol === VPNType.wireguard) {
+              this.$set(v, 'enabled', false);
+              if (v.id === info.default_vpn) {
+                v.enabled = info.enabled;
+              }
+            } else {
+              this.$set(v, 'enabled', false);
+              this.$set(v, 'status', VPNStatus.disconnected);
+            }
 
-            if (v.id === info.default_vpn) {
+            if (v.protocol !== VPNType.wireguard && v.id === info.default_vpn) {
               v.status = info.status;
               if (info.status === VPNStatus.connected) {
                 v.enabled = true;
+              } else {
+                v.status = VPNStatus.ready;
               }
-              if (info.status === VPNStatus.connecting) {
-                this.createIntervalTask(
-                  v,
-                  false,
-                  VPNStatus.ready,
-                  VPNStatus.connecting,
-                  VPNStatus.connected
-                );
-              }
-
-              if (info.status === VPNStatus.disconnecting) {
-                v.enabled = true;
-                this.createIntervalTask(
-                  v,
-                  true,
-                  VPNStatus.connected,
-                  VPNStatus.disconnecting,
-                  VPNStatus.disconnected
-                );
-              }
+              // if (info.status === VPNStatus.connecting) {
+              //   this.createIntervalTask(
+              //     v,
+              //     false,
+              //     VPNStatus.ready,
+              //     VPNStatus.connecting,
+              //     VPNStatus.connected
+              //   );
+              // }
+              // if (info.status === VPNStatus.disconnecting) {
+              //   v.enabled = true;
+              // this.createIntervalTask(
+              //   v,
+              //   true,
+              //   VPNStatus.connected,
+              //   VPNStatus.disconnecting,
+              //   VPNStatus.disconnected
+              // );
+              // }
+            }
+            // 处理vpn protocol文本显示
+            switch (v.protocol) {
+              case VPNType.wireguard:
+                v.protocol = this.$t('trans1172');
+                break;
+              case VPNType.openvpn:
+                v.protocol = this.$t('trans0676');
+                break;
+              default:
+                v.protocol = v.protocol?.toUpperCase();
+                break;
             }
 
             return { ...v, checked: false, open: false };
           });
           this.$loading.close();
-          console.log('###', this.vpns);
         })
         .catch(() => {
           this.$loading.close();
@@ -337,9 +377,38 @@ export default {
           item.checked = false;
         }
       });
+    },
+    wireguardSwitchHandler(status, vpn) {
+      this.$reconnect({
+        onsuccess: () => {
+          if (status) {
+            this.vpns.forEach(vv => {
+              vv.enabled = false;
+            });
+            vpn.status = VPNStatus.connected;
+            vpn.enabled = true;
+          } else {
+            vpn.status = VPNStatus.disconnected;
+            vpn.enabled = false;
+            this.connecting = false;
+          }
+          this.connecting = false;
+        },
+        ontimeout: () => {
+          this.$router.push({ path: '/unconnect' });
+        },
+        timeout: 30,
+        showLoading: false
+      });
+    },
+    closeForm() {
+      this.isShowForm = false;
     }
   },
   computed: {
+    isMobile() {
+      return this.$store.state.isMobile;
+    },
     hasVpns() {
       return this.vpns !== null;
     },
@@ -348,6 +417,12 @@ export default {
     },
     hasChecked() {
       return this.vpns.some(i => i.checked);
+    },
+    isShowList() {
+      if (!this.isMobile) {
+        return true;
+      }
+      return !this.isShowForm;
     }
   },
   watch: {
@@ -371,187 +446,160 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.list {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  .btn {
-    // margin-top: 30px;
-    align-self: flex-start;
+.table {
+  .table-header {
+    grid-template-columns: 2fr 1fr 1fr;
+    .wrapper {
+      grid-template-columns: 30px 80px 1fr;
+    }
   }
-  .vpn-list {
-    width: 100%;
-    .vpn-list-header {
-      display: flex;
-      justify-content: space-between;
-      padding: 0 20px;
-      margin-bottom: 5px;
-      height: 50px;
-      border-radius: 10px;
-      color: var(--text_gery-color);
-      background: var(--table_row-bgc);
-      > div {
-        display: flex;
-        align-items: center;
-      }
+  .table-body {
+    .table-row {
+      grid-template-columns: 2fr 1fr 1fr;
     }
-    .vpn {
-      height: 56px;
-      display: flex;
-      justify-content: space-between;
-      border-radius: 10px;
-      color: var(--text_default-color);
-      background: var(--table_row-bgc);
-      padding: 0px 20px;
-      margin-bottom: 5px;
-      align-items: center;
-      > div {
-        display: flex;
-      }
-    }
-    .column-check {
-      display: flex;
-      align-items: center;
-      margin-right: 10px;
-    }
-    .column-name {
-      width: 130px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-    .column-protocol {
-      width: 70px;
-      .m-title {
-        display: none;
-      }
-    }
-    .column-status {
-      width: 40px;
-    }
-    .column-handle {
-      width: 200px;
-      justify-content: flex-end;
-      .btn-wrap {
-        display: flex;
-        .btn {
-          &:first-child {
-            margin-right: 10px;
-          }
-        }
+  }
+  .wrapper {
+    grid-template-columns: 30px 80px 1fr;
+  }
+  .checkbox {
+    display: flex;
+    align-items: center;
+  }
+  .name {
+    max-width: 380px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .operator {
+    display: flex;
+    justify-content: flex-end;
+    button {
+      margin-left: 20px;
+      &:first-child {
+        margin: 0;
       }
     }
   }
 }
-
-.vpn-empty {
+.empty {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  img {
-    width: 180px;
-  }
   .btn-middle {
     width: 340px;
     height: 48px;
     margin-top: 50px;
   }
 }
-@media screen and (max-width: 768px) {
-  .page-content {
-    padding-top: 10px;
+@media screen and (min-width: 770px) {
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity 0.3s ease;
   }
-  .list {
-    width: 100%;
-    .btn {
-      margin-top: 0;
-    }
-    .vpn-list {
-      width: 100%;
-      .vpn-list-header {
-        .btn-wrap {
-          .btn {
-            min-width: 60px;
+
+  .fade-enter,
+  .fade-leave-to {
+    opacity: 0;
+  }
+}
+@media screen and (max-width: 768px) {
+  .table {
+    .table-header {
+      grid-template-columns: 1fr 2fr;
+      .wrapper {
+        grid-template-columns: 30px 1fr;
+        gap: 0;
+      }
+      .operator {
+        .btn {
+          width: auto;
+          min-width: auto;
+          margin: 0 0 0 15px;
+          &:first-child {
+            margin: 0;
           }
         }
       }
-      .vpn {
-        position: relative;
-        width: 100%;
-        height: auto;
-        flex-direction: column;
-        padding: 10px 20px;
-        align-items: flex-start;
-        .column-name {
-          position: relative;
-          width: 100%;
+    }
+    .table-body {
+      .table-row {
+        grid-template-rows: repeat(3, 50px);
+        grid-template-columns: 100%;
+        font-weight: 400;
+        font-size: 13px;
+        color: var(--common_gery-color);
+        > div {
           height: 50px;
-          border-bottom: 1px solid transparent;
-          span {
-            display: flex;
-            align-items: center;
+          border-bottom: 1px solid var(--hr-color);
+          &:last-child {
+            border: none;
+            padding: 0;
           }
+        }
+        &.close {
+          grid-template-rows: 100%;
+          .wrapper {
+            padding-bottom: 0;
+            border-color: transparent;
+            .status {
+              &::after {
+                transform: translateY(-50%) rotate(0deg);
+              }
+            }
+          }
+          .protocol,
+          .operator {
+            display: none;
+          }
+        }
+      }
+      .wrapper {
+        grid-template-columns: 30px 2fr 0.7fr;
+        grid-template-areas: 'checkbox name status';
+        gap: 0;
+        .checkbox {
+          grid-area: checkbox;
+        }
+        .name {
+          grid-area: name;
+          color: var(--text_default-color);
+          height: 100%;
+          > span {
+            line-height: 50px;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+        .status {
+          grid-area: status;
+          position: relative;
+          display: flex;
+          align-items: center;
           &::after {
-            content: '\e65b';
+            content: '\e6c2';
+            font-family: 'iconfont';
             position: absolute;
             top: 50%;
             right: 0;
-            transform: translateY(-50%) rotate(-90deg);
-            font-family: 'iconfont';
-          }
-        }
-        .column-protocol {
-          width: 100%;
-          height: 50px;
-          display: none;
-          justify-content: space-between;
-          align-items: center;
-          border-bottom: 1px solid var(--table_body_hr-color);
-          .m-title {
-            display: block;
-          }
-        }
-        .column-status {
-          position: absolute;
-          top: 22px;
-          right: 50px;
-        }
-        .column-handle {
-          display: none;
-          height: 50px;
-          justify-content: flex-start;
-          align-items: center;
-          .label {
-            &.disabled {
-              color: var(--button_icon_disabled-color);
-            }
-          }
-        }
-        &.open {
-          .column-handle,
-          .column-protocol {
-            display: flex;
-          }
-          .column-handle {
-            width: fit-content;
-          }
-          .column-name {
-            border-bottom-color: var(--table_body_hr-color);
-            &::after {
-              transform: translateY(-50%) rotate(0deg);
-            }
+            transform: translateY(-50%) rotate(90deg);
+            font-size: 12px;
+            transition: transform 0.3s;
+            color: var(--text_default-color);
           }
         }
       }
-    }
-  }
-  .vpn-empty {
-    .btn {
-      width: auto;
-      height: 38px;
-      margin-top: 10px;
+      .protocol {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .operator {
+        align-items: center;
+      }
     }
   }
 }

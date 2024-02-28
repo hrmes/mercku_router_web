@@ -8,7 +8,7 @@ import mFormItem from './component/formItem/index.vue';
 import mUpload from './component/upload/index.vue';
 import mProgress from './component/progress/index.vue';
 import mSelect from './component/select/index.vue';
-import mLoadingSelect from './component/modeChangeSelect/index.vue';
+import mScanUpperSelect from './component/scanUpperSelect/index.vue';
 import mRadioGroup from './component/radioGroup/index.vue';
 import mRadioCardGroup from './component/radioCardGroup/index.vue';
 import mSwitch from './component/switch/index.vue';
@@ -44,7 +44,7 @@ const registerComponents = _Vue => {
   _Vue.component('m-upload', mUpload);
   _Vue.component('m-progress', mProgress);
   _Vue.component('m-select', mSelect);
-  _Vue.component('m-loading-select', mLoadingSelect);
+  _Vue.component('m-scan-upper-select', mScanUpperSelect);
   _Vue.component('m-radio-group', mRadioGroup);
   _Vue.component('m-radio-card-group', mRadioCardGroup);
   _Vue.component('m-switch', mSwitch);

@@ -1,73 +1,86 @@
 <template>
   <div class="page">
-    <div class="page-header">
+    <div v-if="$store.state.isMobile"
+         class="page-header">
       {{$t('trans0499')}}
     </div>
     <div class="page-content">
-      <div class="title">{{$t('trans0491')}}</div>
-      <m-form ref="remote"
-              class="form"
-              :model="remote"
-              :rules="remoteRules">
-        <m-form-item prop="url">
-          <m-input :label="`${$t('trans0498')}`"
-                   v-model="remote.url"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
-        <m-form-item prop="username">
-          <m-input :label="`${$t('trans0410')} ${$t('trans0411')}`"
-                   v-model="remote.username"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
-        <m-form-item prop="password">
-          <m-input :label="`${$t('trans0003')} ${$t('trans0411')}`"
-                   type="password"
-                   v-model="remote.password"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
-        <m-form-item prop="interval">
-          <m-input :label="$t('trans0490')"
-                   v-model="remote.interval"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
-      </m-form>
-      <div class="title">{{$t('trans0493')}}</div>
-      <m-form ref="local"
-              class="form"
-              :model="local"
-              :rules="localRules">
-
-        <m-form-item prop="path">
-          <m-input :label="$t('trans0494')"
-                   v-model="local.path"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
-        <m-form-item prop="port">
-          <m-input :label="$t('trans0495')"
-                   v-model="local.port"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
-        <m-form-item prop="username">
-          <m-input :label="`${$t('trans0410')} ${$t('trans0411')}`"
-                   v-model="local.username"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
-        <m-form-item prop="password">
-          <m-input :label="`${$t('trans0003')} ${$t('trans0411')}`"
-                   type="password"
-                   v-model="local.password"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
-        <div class="form-item">
-          <m-checkbox :text="$t('trans0462')"
-                      v-model="enabled"></m-checkbox>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card">
+            <div class="title">{{$t('trans0491')}}</div>
+            <m-form ref="remote"
+                    class="form"
+                    :model="remote"
+                    :rules="remoteRules">
+              <m-form-item prop="url">
+                <m-input :label="`${$t('trans0498')}`"
+                         v-model="remote.url"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+              <m-form-item prop="username">
+                <m-input :label="$t('trans0410')"
+                         v-model="remote.username"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+              <m-form-item prop="password">
+                <m-input :label="$t('trans0003')"
+                         type="password"
+                         v-model="remote.password"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+              <m-form-item class="last"
+                           prop="interval">
+                <m-input :label="$t('trans0490')"
+                         v-model="remote.interval"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+            </m-form>
+          </div>
+          <div class="card">
+            <div class="title">{{$t('trans0493')}}</div>
+            <m-form ref="local"
+                    class="form"
+                    :model="local"
+                    :rules="localRules">
+              <m-form-item prop="path">
+                <m-input :label="$t('trans0494')"
+                         v-model="local.path"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+              <m-form-item prop="port">
+                <m-input :label="$t('trans0495')"
+                         v-model="local.port"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+              <m-form-item prop="username">
+                <m-input :label="`${$t('trans0410')} ${$t('trans0411')}`"
+                         v-model="local.username"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+              <m-form-item prop="password">
+                <m-input :label="`${$t('trans0003')} ${$t('trans0411')}`"
+                         type="password"
+                         v-model="local.password"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+              <m-form-item class="last">
+                <m-checkbox :text="$t('trans0462')"
+                            :bold='true'
+                            :rect='false'
+                            v-model="enabled"></m-checkbox>
+              </m-form-item>
+            </m-form>
+          </div>
         </div>
-
-      </m-form>
-      <div class="form-button">
-        <button class="btn btn-primary"
-                @click="updateTr069">{{$t('trans0081')}}</button>
       </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn btn-primary"
+                  @click="updateTr069">{{$t('trans0081')}}</button>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -99,7 +112,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) < 64,
+            rule: value => getStringByte(value) <= 64,
             message: this.$t('trans0905')
           }
         ],
@@ -109,7 +122,7 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) < 32,
+            rule: value => getStringByte(value) <= 32,
             message: this.$t('trans0261')
           }
         ],
@@ -119,8 +132,8 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => isValidPassword(value, 1, 31),
-            message: this.$t('trans0125').format(1, 31)
+            rule: value => isValidPassword(value, 1, 32),
+            message: this.$t('trans0125').format(1, 32)
           }
         ],
         interval: [
@@ -164,13 +177,13 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) < 16,
+            rule: value => getStringByte(value) <= 32,
             message: this.$t('trans0906')
           }
         ],
         username: [
           {
-            rule: value => getStringByte(value) < 32,
+            rule: value => getStringByte(value) <= 32,
             message: this.$t('trans0261')
           }
         ],
@@ -180,9 +193,9 @@ export default {
               if (!value) {
                 return true;
               }
-              return isValidPassword(value, 1, 31);
+              return isValidPassword(value, 1, 32);
             },
-            message: this.$t('trans0125').format(1, 31)
+            message: this.$t('trans0125').format(1, 32)
           }
         ]
       }
@@ -262,17 +275,24 @@ export default {
   .page-content {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    // align-items: center;
     .title {
       width: 100%;
       font-size: 16px;
-      color: #333;
-      margin-bottom: 30px;
+      color: var(--text_default-color);
+      margin-bottom: 20px;
       font-weight: bold;
-      border-bottom: 1px solid #ebebeb;
-      padding-bottom: 17px;
     }
-    .form {
+    .hr-line {
+      width: 100%;
+      height: 0;
+      border-top: 1px solid var(--hr-color);
+      margin: 5px 0 30px;
+    }
+    .form-button {
+      margin-top: 0;
+      padding-top: 25px;
+      border-top: 1px solid var(--hr-color);
     }
   }
 }
@@ -281,10 +301,8 @@ export default {
   .page {
     .page-header {
       position: relative;
-      background: --header-bgc;
-      color: #fff;
+      background: var(--header-bgc);
       align-items: center;
-      border-top: 1px solid --header_navitem_border-color;
       .page-header-trigger {
         display: block;
         &::before {
@@ -319,16 +337,16 @@ export default {
           display: flex;
           flex-direction: column;
           padding: 0 30px;
-          background: --header-bgc;
+          background: var(--header-bgc);
           .tab {
             padding: 18px 0;
             color: #fff;
             font-size: 14px;
             margin: 0;
-            border-bottom: 1px solid --header_navitem_border-color;
+            border-bottom: 1px solid var(--header_navitem_border-color);
             &.selected {
-              border-bottom: 1px solid --header_navitem_border-color;
-              color: --primary-color;
+              border-bottom: 1px solid var(--header_navitem_border-color);
+              color: var(--primary-color);
               &::before {
                 display: none;
               }

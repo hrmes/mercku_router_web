@@ -43,15 +43,15 @@
             <div class="store">
               <div>
                 <img class="android-img"
-                     src="@/assets/images/icon/ic_android.png"
-                     alt="">
+                     :src="require('base/assets/images/icon/ic_android.png')" />
               </div>
               <span>Google Play</span>
             </div>
             <div class="store">
-              <div><img src="@/assets/images/icon/ic_apple.png"
-                     class="apple-img"
-                     alt=""></div>
+              <div>
+                <img class="apple-img"
+                     :src="require('base/assets/images/icon/ic_apple.png')" />
+              </div>
               <span>App Store</span>
             </div>
           </div>
@@ -82,8 +82,8 @@
 </template>
 
 <script>
-import { LoginImg } from '@/assets/images/v3/base64-img/img.js';
-import { setCookie, getCookie, clearCookie } from '../../util/cookie';
+import { LoginImg } from '@/assets/images/base64-img/img.js';
+import { setCookie, getCookie, clearCookie } from 'base/util/cookie';
 
 export default {
   data() {

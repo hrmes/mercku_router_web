@@ -699,7 +699,7 @@ export default {
                 cloneDeep(IptvVlanDefault);
             }
             if (this.isDhcp) {
-              if (this.netInfo.dhcp && this.netInfo.dhcp.dns) {
+              if (this.netInfo.dhcp && this.netInfo.dhcp?.dns && this.netInfo.dhcp?.dns.length) {
                 this.autodns.dhcp = false;
                 [this.dhcpForm.dns1] = this.netInfo.dhcp.dns;
                 this.dhcpForm.dns2 = this.netInfo.dhcp.dns[1] || '';
