@@ -649,7 +649,7 @@ export default {
       return local;
     },
     dnsText() {
-      return this.localNetInfo.netinfo.dns.length > 0
+      return this.localNetInfo.netinfo.dns?.length
         ? this.localNetInfo.netinfo.dns.join('/')
         : '-';
     }
