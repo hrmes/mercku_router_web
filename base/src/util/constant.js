@@ -33,7 +33,8 @@ export const Role = {
 };
 export const RouterStatus = {
   online: 'online',
-  offline: 'offline'
+  offline: 'offline',
+  installing: 'installing'
 };
 export const RouterMode = {
   router: 'router',

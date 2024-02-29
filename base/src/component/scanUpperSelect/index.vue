@@ -49,7 +49,7 @@
               <span class="encrypt"
                     v-if="option.security!==EncryptMethod.OPEN && option.security!==EncryptMethod.open"></span>
               <span class="rssi"
-                    :class="[option.rssi>GoodRssiValue?RssiStatus.good:RssiStatus.normal]"></span>
+                    :class="getRssiIcon(option.rssi)"></span>
             </div>
           </li>
         </template>
@@ -86,7 +86,11 @@ const LoadingStatus = {
   success: 3,
   default: 4
 };
-const GoodRssiValue = -66;
+const SignalStrength = {
+  good: 'good',
+  normal: 'normal',
+  bad: 'bad'
+};
 
 export default {
   props: {
@@ -127,7 +131,6 @@ export default {
       RefreshSVGPath,
       EncryptMethod,
       RssiStatus,
-      GoodRssiValue,
       LoadingStatus,
       selected: this.getOptionByBssid(this.bssid),
       opened: false
@@ -203,6 +206,17 @@ export default {
         this.rescanApclient();
         this.opened = true;
       }
+    },
+    getRssiIcon(rssi) {
+      let className = SignalStrength.bad;
+      const GoodRssiVal = -60;
+      const normalRssiVal = -75;
+      if (rssi > GoodRssiVal) {
+        className = SignalStrength.good;
+      } else if (rssi > normalRssiVal) {
+        className = SignalStrength.normal;
+      }
+      return className;
     }
   }
 };
