@@ -51,12 +51,12 @@
                 <span class="gateway-label info-label"
                       v-if="isGateway">{{$t('trans0153')}}</span>
                 <span class="gateway-label info-label"
-                      v-if="!isGateway">{{$t('trans1210')}}</span>
+                      v-else>{{$t('trans1210')}}</span>
                 <span v-if="!isGateway"
                       class="connect-quality info-label"
-                      :class="{'fair':connectQuality(selectedNodeInfo.color)===ConnectionQualityMap.fair,
-                               'offline':connectQuality(selectedNodeInfo.color)===ConnectionQualityMap.offline
-                              }">{{connectQuality(selectedNodeInfo.color)}}</span>
+                      :class="selectedNodeColor">
+                  {{connectQuality(selectedNodeInfo.color)}}
+                </span>
                 <span class="close btn-icon"
                       @click.stop="()=>showTable=false">
                   <i class="iconfont ic_close"></i>
@@ -134,7 +134,7 @@
                      v-if="!isMobile">{{$t('trans0375')}}</div>
               </div>
               <ul class="card-bottom__main reset-ul"
-                  v-if="selectedNodeInfo.stations.length>0">
+                  v-if="selectedNodeInfo.stations.length">
                 <li v-for="sta in listOrdered"
                     :key="sta.ip">
                   <div class="col-1">
@@ -362,6 +362,23 @@ export default {
     },
     selectedNodeIp() {
       return this.selectedNodeInfo?.lan?.ip ?? this.selectedNodeInfo?.ip ?? '-';
+    },
+    selectedNodeColor() {
+      let color;
+      switch (this.selectedNodeInfo.color) {
+        case Color.good:
+          color = 'good';
+          break;
+        case Color.bad:
+          color = 'bad';
+          break;
+        case Color.offline:
+          color = 'offline';
+          break;
+        default:
+          break;
+      }
+      return color;
     }
   },
   watch: {
@@ -764,22 +781,21 @@ export default {
       if (stationsCount > 9) nameStyle = 'nameStyle2';
       if (stationsCount > 99) nameStyle = 'nameStyle3';
       if (isGateway) {
-        result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}`;
+        result = `{stationCount|${stationsCount}}
+        \n{${nameStyle}|${name}}`;
         return result;
       }
       switch (color) {
         case Color.good:
-          result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}} \n{good|${this.$t(
-            'trans0193'
-          )}} `;
+          result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}\n{good|${this.$t('trans0193')}} `;
           break;
         case Color.bad:
-          result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}} \n{bad|${this.$t(
-            'trans0196'
-          )}} `;
+          result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}\n{bad|${this.$t('trans0196')}} `;
           break;
         case Color.offline:
-          result = stationsCount > 0 ? `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}\n{offline|${this.$t('trans0214')}}` : `{name|${name}}\n{offline|${this.$t('trans0214')}}`;
+          result = stationsCount > 0
+            ? `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}\n{offline|${this.$t('trans0214')}}`
+            : `{name|${name}}\n{offline|${this.$t('trans0214')}}`;
           break;
         default:
           break;
@@ -820,6 +836,8 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
+$img_folder: '../../../../../base/src/assets/images';
+
 .edit-name-modal {
   .content {
     display: flex;
@@ -844,7 +862,6 @@ export default {
   }
 }
 .connect-quality-modal {
-  $img_folder: '../../../../../base/src/assets/images';
   .header {
     position: relative;
     display: flex;
@@ -965,7 +982,6 @@ export default {
 }
 .mesh-container {
   display: flex;
-  $img_folder: '../../../../../base/src/assets/images';
   .mesh-info {
     position: relative;
     display: flex;
@@ -1129,11 +1145,14 @@ export default {
             color: #fff;
             font-weight: 500;
             margin-right: 5px;
-            background-image: linear-gradient(97deg, #50cc83 6%, #3cc146 90%);
             &.model-name {
               background-image: linear-gradient(117deg, #97006a, #f45199 100%);
             }
-            &.fair {
+            &.gateway-label,
+            &.good {
+              background-image: linear-gradient(97deg, #50cc83 6%, #3cc146 90%);
+            }
+            &.bad {
               background-image: linear-gradient(97deg, #ebb351 6%, #e16825 90%);
             }
             &.offline {
