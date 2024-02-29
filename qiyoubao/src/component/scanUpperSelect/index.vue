@@ -53,7 +53,7 @@
                 <span class="encrypt"
                       v-if="option.security!==EncryptMethod.OPEN && option.security!==EncryptMethod.open"></span>
                 <span class="rssi"
-                      :class="[getRssiIcon(option.rssi)]"></span>
+                      :class="getRssiIcon(option.rssi)"></span>
               </div>
             </div>
           </div>

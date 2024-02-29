@@ -189,7 +189,7 @@ function genLines(gateway, green, red, nodes, fullLine) {
   }
 
   const lines = [];
-  if (gateway && gateway.neighbors) {
+  if (gateway && gateway.neighbors.length) {
     gateway.neighbors.forEach(n => {
       const node = nodes.find(s => s.sn === n.sn);
       if (!exist(node, gateway)) {
@@ -237,7 +237,11 @@ function genLines(gateway, green, red, nodes, fullLine) {
 // 找出离线节点
 function findOfflineNode(array, offline) {
   array = array.filter(a => {
-    if (a.status === CONSTANTS.RouterStatus.offline && !a.is_gw) {
+    if (
+      (a.status === CONSTANTS.RouterStatus.offline ||
+        a.status === CONSTANTS.RouterStatus.installing) &&
+      !a.is_gw
+    ) {
       offline.push(a);
       return false;
     }
@@ -250,6 +254,7 @@ function findOfflineNode(array, offline) {
 function genData(array, fullLine = false) {
   if (!array[0].is_gw) {
     // 将网关放在数组第一个，始终保证网关是绘图的起始 node
+    // eslint-disable-next-line no-nested-ternary
     array.sort((a, b) => (a.is_gw ? -1 : b.is_gw ? 1 : 0));
   }
 

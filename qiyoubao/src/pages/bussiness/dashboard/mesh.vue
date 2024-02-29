@@ -33,7 +33,6 @@
                       class="value text">{{txPowerMap[tx_power]}}</span>
               </div>
             </div>
-
           </div>
           <div class="topo-wrap"
                id="toppo-wrap">
@@ -54,7 +53,7 @@
                       v-else>{{$t('trans1210')}}</span>
                 <span v-if="!isGateway"
                       class="connect-quality info-label"
-                      :class="{selectedNodeColor}">
+                      :class="selectedNodeColor">
                   {{connectQuality(selectedNodeInfo.color)}}
                 </span>
                 <span class="close btn-icon"
@@ -597,6 +596,7 @@ export default {
         });
       });
 
+
       // eslint-disable-next-line prefer-destructuring
       this.selectedNodeInfo = this.routers.filter(
         node => node.sn === this.selectedSN
@@ -724,6 +724,7 @@ export default {
         .then(res => {
           const { result } = res.data;
           console.log(result);
+
           if (!this.chart) {
             this.initChart();
           }
@@ -793,17 +794,15 @@ export default {
       }
       switch (color) {
         case Color.good:
-          result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}} \n{good|${this.$t(
-            'trans0193'
-          )}} `;
+          result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}\n{good|${this.$t('trans0193')}} `;
           break;
         case Color.bad:
-          result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}} \n{bad|${this.$t(
-            'trans0196'
-          )}} `;
+          result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}\n{bad|${this.$t('trans0196')}} `;
           break;
         case Color.offline:
-          result = stationsCount > 0 ? `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}\n{offline|${this.$t('trans0214')}}` : `{name|${name}}\n{offline|${this.$t('trans0214')}}`;
+          result = stationsCount > 0
+            ? `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}\n{offline|${this.$t('trans0214')}}`
+            : `{name|${name}}\n{offline|${this.$t('trans0214')}}`;
           break;
         default:
           break;
