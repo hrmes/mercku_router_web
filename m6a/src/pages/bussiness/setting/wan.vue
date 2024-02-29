@@ -11,7 +11,7 @@
             <div>
               <label class="with-colon">{{$t('trans0317')}}:</label>
               <span>
-                {{ networkArr[localNetInfo.wan_type] }}
+                {{ networkArr[localNetInfo.type] }}
               </span>
             </div>
             <div>
@@ -631,7 +631,7 @@ export default {
     },
     localNetInfo() {
       const local = {
-        wan_type: '-',
+        type: '-',
         netinfo: {
           ip: '-',
           mask: '-',
@@ -640,7 +640,7 @@ export default {
         }
       };
       if (this.netInfo && this.netInfo.netinfo) {
-        local.wan_type = this.netInfo.wan_type || '-';
+        local.type = this.netInfo.type || '-';
         local.netinfo.ip = this.netInfo.netinfo.ip || '-';
         local.netinfo.mask = this.netInfo.netinfo.mask || '-';
         local.netinfo.gateway = this.netInfo.netinfo.gateway || '-';
@@ -684,7 +684,7 @@ export default {
         .then(res => {
           if (res.data.result) {
             this.netInfo = res.data.result;
-            this.netType = this.netInfo.wan_type;
+            this.netType = this.netInfo.type;
             if (this.netInfo?.vlan?.length) {
               this.vlan =
                 this.netInfo.vlan.find(
@@ -773,7 +773,7 @@ export default {
           return;
         }
       }
-      const form = { wan_type: this.netType, vlan: [] };
+      const form = { type: this.netType, vlan: [] };
       if (this.vlan.enabled) {
         form.vlan.push({
           ...this.vlan,
