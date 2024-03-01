@@ -383,11 +383,14 @@ export default {
           if (!isExit) this.channels.b5g.push({ text: 165, value: 165 });
         } else {
           this.channels.b5g = this.channels.b5g.filter(c => c.value !== 165);
-          if (this.form.channel.b5gChannel.number === 165) this.form.channel.b5gChannel.number = 161;
+          if (this.form.channel.b5gChannel.number === 165) {
+            this.form.channel.b5gChannel.number =
+              this.channels.b5g[this.channels.b5g.length - 1].value;
+          }
         }
       },
       immediate: true
-    }
+    },
   },
   computed: {
     isWirelessBridge() {
