@@ -113,7 +113,7 @@ function genNodes(gateway, green, red, offline) {
       originName: node.name, // 用于节点的label显示
       sn: node.sn,
       isGateway: node.is_gw,
-      stationsCount: node?.stations?.length ?? 0,
+      stationsCount: node?.stations?.length || 0,
       itemStyle: {
         color
       },
@@ -209,9 +209,9 @@ function genLines(gateway, green, red, nodes, fullLine) {
       const node = nodes.find(s => s.sn === n.sn);
       if (!exist(node, r)) {
         if (isGood(n.rssi)) {
-          lines.push(genLine(r, node, Color.good, n.rssi));
+          lines.push(genLine(r, node, Color.good, n));
         } else {
-          lines.push(genLine(r, node, Color.bad, n.rssi));
+          lines.push(genLine(r, node, Color.bad, n));
         }
       }
     });
@@ -222,11 +222,11 @@ function genLines(gateway, green, red, nodes, fullLine) {
       const node = nodes.find(s => s.sn === n.sn);
       if (!exist(node, r)) {
         if (isGood(n.rssi)) {
-          lines.push(genLine(r, node, Color.good, n.rssi));
+          lines.push(genLine(r, node, Color.good, n));
         } else if (!green.includes(node)) {
-          lines.push(genLine(r, node, Color.bad, n.rssi));
+          lines.push(genLine(r, node, Color.bad, n));
         } else if (fullLine) {
-          lines.push(genLine(r, node, Color.bad, n.rssi));
+          lines.push(genLine(r, node, Color.bad, n));
         }
       }
     });
