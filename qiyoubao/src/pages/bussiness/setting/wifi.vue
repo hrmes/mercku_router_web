@@ -331,7 +331,7 @@ export default {
           },
           {
             rule: value => isValidPassword(value, 8, 31),
-            message: this.$t('trans0125')
+            message: this.$t('trans0125').replace('%d', 8).replace('%d', 31)
           }
         ],
         'b5g.ssid': [
@@ -369,7 +369,7 @@ export default {
           },
           {
             rule: value => isValidPassword(value, 8, 31),
-            message: this.$t('trans0125')
+            message: this.$t('trans0125').replace('%d', 8).replace('%d', 31)
           }
         ],
         'bGame.ssid': [
@@ -407,7 +407,7 @@ export default {
           },
           {
             rule: value => isValidPassword(value, 8, 31),
-            message: this.$t('trans0125')
+            message: this.$t('trans0125').replace('%d', 8).replace('%d', 31)
           }
         ]
       },
