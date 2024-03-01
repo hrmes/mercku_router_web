@@ -77,7 +77,8 @@ export const Bands = {
   '2.4G': '2.4G',
   '5G': '5G',
   b24g: '2.4G',
-  b5g: '5G'
+  b5g: '5G',
+  wired: 'wired'
 };
 export const channelMode = {
   auto: 'auto',
