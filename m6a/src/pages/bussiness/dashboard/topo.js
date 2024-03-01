@@ -21,7 +21,7 @@ import picM6cGood from '@/assets/images/topo/ic_m6c_normal.png';
 import picM6cBad from '@/assets/images/topo/ic_m6c_bad.png';
 import picM6cOffline from '@/assets/images/topo/ic_m6c_offline.png';
 
-import { Color, M6aRouterSnModelVersion } from 'base/util/constant';
+import { Color, Bands, M6aRouterSnModelVersion } from 'base/util/constant';
 
 // 大于-70均认为优秀
 const isGood = rssi => rssi >= -60;
@@ -173,7 +173,7 @@ function genNodes(gateway, green, red, offline) {
       originName: node.name, // 用于节点的label显示
       sn: node.sn,
       isGateway: node.is_gw,
-      stationsCount: node?.stations?.length ?? 0,
+      stationsCount: node?.stations?.length || 0,
       itemStyle: {
         color
       },
@@ -212,13 +212,13 @@ function genNodes(gateway, green, red, offline) {
 
 // 生成绘图需要的线条信息
 function genLines(gateway, green, red, nodes, fullLine) {
-  function genLine(source, target, color, value = 0) {
+  function genLine(source, target, color, neighbor) {
     // 有线实线显示，无线虚线显示
-    if (value === 5555) {
+    if (neighbor.rssi === 5555 || neighbor?.backhaul_type === Bands.wired) {
       return {
         source: `${source.sn}${source.name}`,
         target: `${target.sn}${target.name}`,
-        rssi: value,
+        rssi: neighbor.rssi,
         lineStyle: {
           color,
           type: 'solid'
@@ -228,7 +228,7 @@ function genLines(gateway, green, red, nodes, fullLine) {
     return {
       source: `${source.sn}${source.name}`,
       target: `${target.sn}${target.name}`,
-      rssi: value,
+      rssi: neighbor.rssi,
       lineStyle: {
         color,
         type: 'dotted'
@@ -253,11 +253,11 @@ function genLines(gateway, green, red, nodes, fullLine) {
     const node = nodes.find(s => s.sn === n.sn);
     if (!exist(node, gateway)) {
       if (isGood(n.rssi)) {
-        lines.push(genLine(gateway, node, Color.good, n.rssi));
+        lines.push(genLine(gateway, node, Color.good, n));
       } else if (red.includes(node)) {
-        lines.push(genLine(gateway, node, Color.bad, n.rssi));
+        lines.push(genLine(gateway, node, Color.bad, n));
       } else if (fullLine) {
-        lines.push(genLine(gateway, node, Color.bad, n.rssi));
+        lines.push(genLine(gateway, node, Color.bad, n));
       }
     }
   });
@@ -267,9 +267,9 @@ function genLines(gateway, green, red, nodes, fullLine) {
       const node = nodes.find(s => s.sn === n.sn);
       if (!exist(node, r)) {
         if (isGood(n.rssi)) {
-          lines.push(genLine(r, node, Color.good, n.rssi));
+          lines.push(genLine(r, node, Color.good, n));
         } else {
-          lines.push(genLine(r, node, Color.bad, n.rssi));
+          lines.push(genLine(r, node, Color.bad, n));
         }
       }
     });
@@ -280,11 +280,11 @@ function genLines(gateway, green, red, nodes, fullLine) {
       const node = nodes.find(s => s.sn === n.sn);
       if (!exist(node, r)) {
         if (isGood(n.rssi)) {
-          lines.push(genLine(r, node, Color.good, n.rssi));
+          lines.push(genLine(r, node, Color.good, n));
         } else if (!green.includes(node)) {
-          lines.push(genLine(r, node, Color.bad, n.rssi));
+          lines.push(genLine(r, node, Color.bad, n));
         } else if (fullLine) {
-          lines.push(genLine(r, node, Color.bad, n.rssi));
+          lines.push(genLine(r, node, Color.bad, n));
         }
       }
     });
