@@ -45,22 +45,19 @@
         </span>
         <img class="power-by"
              v-if="isShowPowerBy"
-             src="../../assets/images/img-power-by.png" />
+             :src="require('base/assets/images/common/img-power-by.png')" />
       </div>
 
       <div class="footer__right__QR-container"
            v-if="!isLoginPage && !isMobile">
-        <img src="../../assets/images/v3/icon/ic_qr_small.png"
-             alt="">
+        <img src="../../assets/images/icon/ic_qr_small.png" />
         <div class="jump-app-info">
           <div class="icon mercku">
-            <img src="@/assets/images/customer/mercku/ic_launcher.png"
-                 alt="">
+            <img src="@/assets/images/customer/mercku/ic_launcher.png" />
           </div>
           <div class="text-container">{{$t('trans1118')}}</div>
           <div class="icon qr">
-            <img src="@/assets/images/customer/mercku/qr.png"
-                 alt="">
+            <img src="@/assets/images/customer/mercku/qr.png" />
           </div>
         </div>
       </div>
@@ -291,8 +288,7 @@ export default {
         }
       }
       > span {
-        background: url(../../assets/images/v3/icon/ic_lang.png) center
-          no-repeat;
+        background: url(../../assets/images/icon/ic_lang.png) center no-repeat;
         background-size: contain;
       }
       &:hover {
@@ -305,8 +301,7 @@ export default {
       position: relative;
       margin-right: 15px;
       > span {
-        background: url(../../assets/images/v3/icon/ic_logout.png) center
-          no-repeat;
+        background: url(../../assets/images/icon/ic_logout.png) center no-repeat;
         background-size: contain;
       }
       &:hover {

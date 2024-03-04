@@ -246,30 +246,38 @@ export default {
       rules: {
         'b24g.ssid': [
           {
-            rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0237')
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
           },
           {
-            rule: value => getStringByte(value.trim()) <= 20,
-            message: this.$t('trans0261')
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
           },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
           {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
+            rule: value => getStringByte(value.trim()) <= 20,
+            message: this.$t('trans0261')
+          },
+          {
+            rule: () => this.validateSsid5G(),
+            message: this.$t('trans0660')
           }
         ],
         'b24g.password': [
           {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
-          },
-          {
             rule: value => isFieldHasSpaces(value),
             message: this.$t('trans1020')
+          },
+          {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
           },
           {
             rule: value => isValidPassword(value),
@@ -278,30 +286,38 @@ export default {
         ],
         'b5g.ssid': [
           {
-            rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0237')
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
           },
           {
-            rule: value => getStringByte(value.trim()) <= 20,
-            message: this.$t('trans0261')
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
           },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
           {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
+            rule: value => getStringByte(value) <= 20,
+            message: this.$t('trans0261')
+          },
+          {
+            rule: () => this.validateSsid5G(),
+            message: this.$t('trans0660')
           }
         ],
         'b5g.password': [
           {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
-          },
-          {
             rule: value => isFieldHasSpaces(value),
             message: this.$t('trans1020')
+          },
+          {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
           },
           {
             rule: value => isValidPassword(value),
@@ -356,7 +372,7 @@ export default {
           text: this.$t('trans0554')
         }
       ],
-      isAutoChannel: false
+      isAutoChannel: false,
     };
   },
   watch: {
@@ -367,11 +383,14 @@ export default {
           if (!isExit) this.channels.b5g.push({ text: 165, value: 165 });
         } else {
           this.channels.b5g = this.channels.b5g.filter(c => c.value !== 165);
-          if (this.form.channel.b5gChannel.number === 165) this.form.channel.b5gChannel.number = 161;
+          if (this.form.channel.b5gChannel.number === 165) {
+            this.form.channel.b5gChannel.number =
+              this.channels.b5g[this.channels.b5g.length - 1].value;
+          }
         }
       },
       immediate: true
-    }
+    },
   },
   computed: {
     isWirelessBridge() {
@@ -397,6 +416,12 @@ export default {
         });
       }
     },
+    validateSsid5G() {
+      if (!this.form.smart_connect && this.form.b24g.ssid) {
+        return this.form.b24g.ssid !== this.form.b5g.ssid;
+      }
+      return true;
+    },
     changeSmartConnect() {
       const { form } = this;
       form.b5g.hidden = form.b24g.hidden;
@@ -410,21 +435,21 @@ export default {
       return this.form[band].encrypt === EncryptMethod.open;
     },
     submit() {
-      const validResult1 = this.$refs.b24gForm.validate();
-      if (!validResult1) {
-        return;
-      }
+      let validResult1 = true;
+      let validResult2 = true;
 
+      validResult1 = this.$refs.b24gForm.validate();
       if (!this.form.smart_connect) {
-        const validResult2 = this.$refs.b5gForm.validate();
-        if (!validResult2) {
-          return;
-        }
-
+        // 表单验证通过且ssid不一致
+        validResult2 = this.$refs.b5gForm.validate();
         if (this.form.b24g.ssid === this.form.b5g.ssid) {
           this.$toast(this.$t('trans0660'), 2000, 'error');
           return;
         }
+      }
+
+      if (!validResult1 || !validResult2) {
+        return;
       }
 
       this.$dialog.confirm({

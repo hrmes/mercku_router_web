@@ -237,7 +237,11 @@ function genLines(gateway, green, red, nodes, fullLine) {
 // 找出离线节点
 function findOfflineNode(array, offline) {
   array = array.filter(a => {
-    if (a.status === CONSTANTS.RouterStatus.offline && !a.is_gw) {
+    if (
+      (a.status === CONSTANTS.RouterStatus.offline ||
+        a.status === CONSTANTS.RouterStatus.installing) &&
+      !a.is_gw
+    ) {
       offline.push(a);
       return false;
     }

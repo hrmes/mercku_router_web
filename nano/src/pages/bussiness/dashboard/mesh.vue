@@ -17,14 +17,9 @@
               <i class=" iconfont ic_center"></i>
             </span>
             <div class="info">
-              <!-- <div class="legend">
-                <div class="legend-item">{{$t('trans0193')}}</div>
-                <div class="legend-item">{{$t('trans0196')}}</div>
-                <div class="legend-item">{{$t('trans0214')}}</div>
-              </div> -->
               <p class="legend-title">
                 <span>{{$t('trans0302')}}</span>
-                <i class="iconfont ic_connection_quality icon-quality"
+                <i class="iconfont ic_connection_quality"
                    @click.stop="showRssiModal"></i>
               </p>
               <div class="legend-tx_power">
@@ -38,7 +33,6 @@
                       class="value text">{{txPowerMap[tx_power]}}</span>
               </div>
             </div>
-
           </div>
           <div class="topo-wrap"
                id="toppo-wrap">
@@ -56,12 +50,12 @@
                 <span class="gateway-label info-label"
                       v-if="isGateway">{{$t('trans0153')}}</span>
                 <span class="gateway-label info-label"
-                      v-if="!isGateway">{{$t('trans1210')}}</span>
+                      v-else>{{$t('trans1210')}}</span>
                 <span v-if="!isGateway"
                       class="connect-quality info-label"
-                      :class="{'fair':connectQuality(selectedNodeInfo.color)===ConnectionQualityMap.fair,
-                               'offline':connectQuality(selectedNodeInfo.color)===ConnectionQualityMap.offline
-                              }">{{connectQuality(selectedNodeInfo.color)}}</span>
+                      :class="selectedNodeColor">
+                  {{connectQuality(selectedNodeInfo.color)}}
+                </span>
                 <span class="close btn-icon"
                       @click.stop="()=>showTable=false">
                   <i class="iconfont ic_close"></i>
@@ -161,7 +155,9 @@
                   </div>
                   <div class="col-3">
                     <span class="band"
-                          :class="{'wired':isWired(sta.connected_network.band)}">{{bandMap[sta.connected_network.band]}}</span>
+                          :class="{'wired':isWired(sta.connected_network.band)}">
+                      {{bandMap[sta.connected_network.band]}}
+                    </span>
                     <span class="guest"
                           v-if="isGuest(sta.connected_network.type)"></span>
                   </div>
@@ -198,7 +194,9 @@
                     :key="index"
                     class="limit-icon">
                   <div class="color"
-                       :class="{selected:selectedColorName===color.name,'light-color':color.name===RouterColor.white}"
+                       :class="{selected:selectedColorName===color.name,
+                                'light-color':color.name===RouterColor.white
+                              }"
                        :style="{backgroundImage:color.value}"
                        @click="changeDeviceColor(color)">
                   </div>
@@ -226,8 +224,7 @@
         <div class="connect-quality-modal-contnet">
           <div class="examples">
             <div class="example error">
-              <img src="@/assets/images/img_help_error.png"
-                   alt="">
+              <img :src="require('base/assets/images/common/img_help_error.png')" />
               <div class="description">
                 <span class="icon-circle">
                 </span>
@@ -235,8 +232,7 @@
               </div>
             </div>
             <div class="example right">
-              <img src="@/assets/images/img_help_right.png"
-                   alt="">
+              <img :src="require('base/assets/images/common/img_help_right.png')" />
               <div class="description">
                 <span class="icon-circle">
                 </span>
@@ -369,6 +365,23 @@ export default {
     },
     selectedNodeIp() {
       return this.selectedNodeInfo?.lan?.ip ?? this.selectedNodeInfo?.ip ?? '-';
+    },
+    selectedNodeColor() {
+      let color;
+      switch (this.selectedNodeInfo.color) {
+        case Color.good:
+          color = 'good';
+          break;
+        case Color.bad:
+          color = 'bad';
+          break;
+        case Color.offline:
+          color = 'offline';
+          break;
+        default:
+          break;
+      }
+      return color;
     }
   },
   watch: {
@@ -776,17 +789,15 @@ export default {
       }
       switch (color) {
         case Color.good:
-          result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}} \n{good|${this.$t(
-            'trans0193'
-          )}} `;
+          result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}\n{good|${this.$t('trans0193')}} `;
           break;
         case Color.bad:
-          result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}} \n{bad|${this.$t(
-            'trans0196'
-          )}} `;
+          result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}\n{bad|${this.$t('trans0196')}} `;
           break;
         case Color.offline:
-          result = stationsCount > 0 ? `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}\n{offline|${this.$t('trans0214')}}` : `{name|${name}}\n{offline|${this.$t('trans0214')}}`;
+          result = stationsCount > 0
+            ? `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}\n{offline|${this.$t('trans0214')}}`
+            : `{name|${name}}\n{offline|${this.$t('trans0214')}}`;
           break;
         default:
           break;
@@ -851,6 +862,7 @@ export default {
   }
 }
 .connect-quality-modal {
+  $img_folder: '../../../../../base/src/assets/images';
   .header {
     position: relative;
     display: flex;
@@ -859,7 +871,6 @@ export default {
       position: absolute;
       top: 0;
       right: -5px;
-      // transform: translateY(-50%);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -904,64 +915,24 @@ export default {
           display: flex;
           align-items: center;
           justify-content: center;
-          position: relative;
           .icon-circle {
-            width: 16px;
-            height: 16px;
-            border: 1px solid #ff4d64;
-            border-radius: 50%;
+            width: 18px;
+            height: 18px;
             margin-right: 5px;
-            position: relative;
           }
         }
         &.error {
           .icon-circle {
-            &::before {
-              content: '';
-              display: block;
-              width: 7px;
-              height: 1px;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%) rotate(45deg);
-              background: #ff4d64;
-              z-index: 999;
-              position: absolute;
-            }
-            &::after {
-              content: '';
-              display: block;
-              width: 7px;
-              height: 1px;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%) rotate(-45deg);
-              background: #ff4d64;
-              z-index: 999;
-              position: absolute;
-            }
+            background: url(#{$img_folder}/icon/ic_upgrade_failed.png)
+              center/contain no-repeat;
           }
         }
         &.right {
           .icon-circle {
-            border-color: #55c630;
-            &::after {
-              position: absolute;
-              content: '';
-              display: block;
-              width: 3px;
-              height: 6px;
-              border-right: 1px solid #55c630;
-              border-bottom: 1px solid #55c630;
-              border-left: 0;
-              border-top: 0;
-              transform: rotate(45deg);
-              top: 3px;
-              left: 5px;
-            }
+            background: url(#{$img_folder}/icon/ic_upgrade_successful.png)
+              center/contain no-repeat;
           }
         }
-
         img {
           width: 300px;
           @media screen and (max-width: 768px) {
@@ -1013,6 +984,7 @@ export default {
 }
 .mesh-container {
   display: flex;
+  $img_folder: '../../../../../base/src/assets/images';
   .mesh-info {
     position: relative;
     display: flex;
@@ -1175,11 +1147,14 @@ export default {
             border-radius: 5px;
             color: #fff;
             margin-right: 5px;
-            background-image: linear-gradient(97deg, #50cc83 6%, #3cc146 90%);
             &.model-name {
               background-image: linear-gradient(117deg, #97006a, #f45199 100%);
             }
-            &.fair {
+            &.gateway-label,
+            &.good {
+              background-image: linear-gradient(97deg, #50cc83 6%, #3cc146 90%);
+            }
+            &.bad {
               background-image: linear-gradient(97deg, #ebb351 6%, #e16825 90%);
             }
             &.offline {
@@ -1318,9 +1293,11 @@ export default {
                   height: 15px;
                   margin-right: 10px;
                   vertical-align: text-top;
-                  background: url(../../../assets/images/icon/ic_local-device.svg)
-                    center no-repeat;
-                  background-size: contain;
+                  background: url(#{$img_folder}/icon/ic_local-device.svg)
+                    center/contain no-repeat;
+                }
+                > :last-child {
+                  vertical-align: text-bottom;
                 }
               }
               .col-2 {
@@ -1364,8 +1341,8 @@ export default {
                   height: 20px;
                   aspect-ratio: 38/23;
                   margin-left: 15px;
-                  background: url(../../../assets/images/icon/ic_guest.svg)
-                    center no-repeat;
+                  background: url(#{$img_folder}/icon/ic_guest.svg) center
+                    no-repeat;
                   background-size: contain;
                   filter: var(--img-brightness);
                 }

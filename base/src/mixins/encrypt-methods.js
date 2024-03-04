@@ -25,7 +25,6 @@ export default {
         ];
         break;
       case Models.m6:
-      case Models.m6c:
         encryptMethods = [
           {
             value: EncryptMethod.wpa2wpa3,

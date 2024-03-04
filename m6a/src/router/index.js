@@ -1,51 +1,58 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+// common page
 import login from 'pages/login/index.vue';
-import dashboard from 'pages/bussiness/dashboard/index.vue';
-import device from 'pages/bussiness/dashboard/device.vue';
-import mesh from 'pages/bussiness/dashboard/mesh.vue';
-import internet from 'pages/bussiness/dashboard/internet.vue';
-import wan from 'pages/bussiness/setting/wan.vue';
 import wlan from 'pages/bussiness/wlan/index.vue';
-import wifi from 'pages/bussiness/setting/wifi.vue';
-import guest from 'pages/bussiness/setting/guest.vue';
-import unconnect from 'pages/error/unconnect/index.vue';
-import online from 'pages/bussiness/upgrade/online.vue';
-import meshAdd from 'pages/bussiness/mesh/add.vue';
-import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
-import superConfig from 'pages/bussiness/setting/super.vue';
-import telnet from 'pages/bussiness/advance/telnet.vue';
-import tr069 from 'pages/bussiness/advance/tr069.vue';
-import limit from 'pages/bussiness/dashboard/limit/index.vue';
-import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
-import urlLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
-import vpn from 'pages/bussiness/advance/vpn/index.vue';
-import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
-import frozenConfig from 'pages/bussiness/advance/frozen-config/index.vue';
+import unconnect from 'base/pages/error/unconnect/index.vue';
 
-import auto from 'base/pages/bussiness/upgrade/auto.vue';
-import offline from 'base/pages/bussiness/upgrade/offline.vue';
+// dashboard page
+import dashboard from 'pages/bussiness/dashboard/index.vue';
+import device from 'base/pages/bussiness/dashboard/device.vue';
+import mesh from 'pages/bussiness/dashboard/mesh.vue';
+import internet from 'base/pages/bussiness/dashboard/internet.vue';
+import limit from 'base/pages/bussiness/dashboard/limit/index.vue';
+import timeLimit from 'base/pages/bussiness/dashboard/limit/time.vue';
+import urlLimit from 'base/pages/bussiness/dashboard/limit/blacklist.vue';
+import meshAdd from 'pages/bussiness/mesh/add.vue';
+
+// setting page
+import wifi from 'pages/bussiness/setting/wifi.vue';
+import wan from 'pages/bussiness/setting/wan.vue';
 import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
-import ddns from 'base/pages/bussiness/advance/ddns.vue';
-import timezone from 'base/pages/bussiness/setting/timezone.vue';
-import blacklist from 'base/pages/bussiness/setting/blacklist.vue';
+
 import safe from 'base/pages/bussiness/setting/safe.vue';
-import upnp from 'base/pages/bussiness/setting/upnp.vue';
-import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
-import dmz from 'base/pages/bussiness/advance/dmz.vue';
-import firewall from 'base/pages/bussiness/advance/firewall.vue';
-import log from 'base/pages/bussiness/advance/log.vue';
-import mode from 'base/pages/bussiness/advance/mode.vue';
+import superConfig from 'base/pages/bussiness/setting/super.vue';
+import blacklist from 'base/pages/bussiness/setting/blacklist.vue';
+import timezone from 'base/pages/bussiness/setting/timezone.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
-import dhcp from 'base/pages/bussiness/advance/dhcp.vue';
-import mac from 'base/pages/bussiness/advance/mac.vue';
-import wwa from 'base/pages/bussiness/advance/wwa.vue';
-import rsvdip from 'base/pages/bussiness/advance/rsvdip/index.vue';
-import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
+import guest from 'base/pages/bussiness/setting/guest.vue';
+import upnp from 'base/pages/bussiness/setting/upnp.vue';
 import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
 import led from 'base/pages/bussiness/setting/led.vue';
+
+// advance page
+import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
+import dmz from 'base/pages/bussiness/advance/dmz.vue';
+import dhcp from 'base/pages/bussiness/advance/dhcp.vue';
+import rsvdip from 'base/pages/bussiness/advance/rsvdip/index.vue';
+import mac from 'base/pages/bussiness/advance/mac.vue';
+import ddns from 'base/pages/bussiness/advance/ddns.vue';
+import vpn from 'pages/bussiness/advance/vpn/index.vue';
+import mode from 'base/pages/bussiness/advance/mode.vue';
+import diagnosis from 'base/pages/bussiness/advance/diagnosis.vue';
+import log from 'base/pages/bussiness/advance/log.vue';
+import frozenConfig from 'pages/bussiness/advance/frozen-config/index.vue';
+import firewall from 'base/pages/bussiness/advance/firewall.vue';
+import wwa from 'base/pages/bussiness/advance/wwa.vue';
+import tr069 from 'base/pages/bussiness/advance/tr069.vue';
+import telnet from 'base/pages/bussiness/advance/telnet.vue';
 import backup from 'base/pages/bussiness/advance/backup.vue';
+
+// upgrade page
+import online from 'base/pages/bussiness/upgrade/online.vue';
+import offline from 'base/pages/bussiness/upgrade/offline.vue';
+import auto from 'base/pages/bussiness/upgrade/auto.vue';
 
 import store from '../store';
 
@@ -291,15 +298,6 @@ const routes = {
       }
     },
     {
-      path: '/advance/rsvdip/form/:id?',
-      name: 'advance-rsvdip-form',
-      component: rsvdipForm,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
-    {
       path: '/advance/dhcp',
       name: 'advance-dhcp',
       component: dhcp,
@@ -375,15 +373,6 @@ const routes = {
       path: '/advance/vpn',
       name: 'advance-vpn',
       component: vpn,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
-    {
-      path: '/advance/vpn/form/:id?',
-      name: 'advance-vpn-form',
-      component: vpnForm,
       meta: {
         layout: 'primary',
         hasAside: true

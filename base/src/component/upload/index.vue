@@ -99,8 +99,8 @@
 import { toLocaleNumber } from 'base/util/util';
 import { UploadStatus } from 'base/util/constant';
 import UploadDragger from './upload-dragger.vue';
-import folderIcon from '../../assets/images/icon/ic_folder.webp';
-import folderIconError from '../../assets/images/icon/ic_file_error.svg';
+import folderIcon from '../../assets/images/icon/ic_folder.svg';
+import folderIconError from '../../assets/images/icon/ic_folder_error.svg';
 
 export default {
   components: {

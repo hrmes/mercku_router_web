@@ -14,34 +14,31 @@ export default {
       let image = '';
       switch (id) {
         case RouterSnModel.M2:
-          image = require('../assets/images/img_m2.png');
+          image = require('../assets/images/model/img_m2.png');
           break;
         case RouterSnModel.Bee:
-          image = require('../assets/images/img_bee.png');
+          image = require('../assets/images/model/img_bee.png');
           break;
         case RouterSnModel.M6:
-          image = require('../assets/images/img_m6.png');
-          break;
-        case RouterSnModel.M6c:
-          image = require('../assets/images/img_m6.png');
+          image = require('../assets/images/model/img_m6.png');
           break;
         case RouterSnModel.M6a:
           if (modelVersion === M6aRouterSnModelVersion.M6a) {
-            image = require('../assets/images/img_m6a.png');
+            image = require('../assets/images/model/img_m6a.png');
           } else if (modelVersion === M6aRouterSnModelVersion.M6a_Plus) {
-            image = require('../assets/images/img_m6a_plus.png');
+            image = require('../assets/images/model/img_m6a_plus.png');
           } else if (modelVersion === M6aRouterSnModelVersion.M6c) {
-            image = require('../assets/images/img_m6c.png');
+            image = require('../assets/images/model/img_m6c.png');
           }
           break;
         case RouterSnModel.Homeway:
-          image = require('../assets/images/img_homeway.png');
+          image = require('../assets/images/model/img_homeway.png');
           break;
         case RouterSnModel.M6s:
-          image = require('../assets/images/img_m6s.svg');
+          image = require('../assets/images/model/img_m6s.svg');
           break;
         case RouterSnModel.M6s_Nano:
-          image = require('../assets/images/img_nano.svg');
+          image = require('../assets/images/model/img_nano.svg');
           break;
         default:
           break;
@@ -73,7 +70,6 @@ export default {
         [RouterSnModel.M2]: process.env.CUSTOMER_CONFIG.routers.M2,
         [RouterSnModel.Bee]: process.env.CUSTOMER_CONFIG.routers.Bee,
         [RouterSnModel.M6]: process.env.CUSTOMER_CONFIG.routers.M6,
-        [RouterSnModel.M6c]: process.env.CUSTOMER_CONFIG.routers.M6c,
         [RouterSnModel.Homeway]: process.env.CUSTOMER_CONFIG.routers.Homeway,
         [RouterSnModel.M6a]: getM6aProductsInfo(),
         [RouterSnModel.M6s]: process.env.CUSTOMER_CONFIG.routers.M6s,

@@ -1,212 +1,249 @@
 <template>
   <div class="page">
-    <div class="page-header">
+    <div v-if="$store.state.isMobile"
+         class="page-header">
       {{ $t('trans0142') }}
     </div>
     <div class="page-content">
-      <div class="wan-info">
-        <div class="seccess-info">
-          <div>
-            <label class="with-colon">{{ $t('trans0317') }}:</label>
-            <span>
-              {{ networkArr[localNetInfo.type] }}
-            </span>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="seccess-info card">
+            <div>
+              <label class="with-colon">{{$t('trans0317')}}:</label>
+              <span>
+                {{ networkArr[localNetInfo.type] }}
+              </span>
+            </div>
+            <div>
+              <label class="with-colon">{{ $t('trans0151') }}:</label>
+              <span>{{ localNetInfo.netinfo.ip }}</span>
+            </div>
+            <div>
+              <label class="with-colon">{{ $t('trans0152') }}:</label>
+              <span> {{ localNetInfo.netinfo.mask }}</span>
+            </div>
+            <div>
+              <label class="with-colon">{{ $t('trans0153') }}:</label>
+              <span>
+                {{ localNetInfo.netinfo.gateway }}
+              </span>
+            </div>
+            <div>
+              <label class="with-colon">{{ $t('trans0236') }}:</label>
+              <span>
+                {{ dnsText }}
+              </span>
+            </div>
           </div>
-          <div>
-            <label class="with-colon">{{ $t('trans0151') }}:</label>
-            <span>{{ localNetInfo.netinfo.ip }}</span>
+        </div>
+        <div class="row-2">
+          <div class="net-type card">
+            <m-form-item>
+              <m-select :label="$t('trans0317')"
+                        v-model="netType"
+                        :options="options"></m-select>
+              <div class="des-tips">{{ netNote[netType] }}</div>
+            </m-form-item>
+            <m-form key="dhcp-form"
+                    v-if="isDhcp"
+                    ref="dhcpForm"
+                    :model="dhcpForm"
+                    :rules="dhcpRules">
+              <m-form-item :class="{last:autodns.dhcp}">
+                <m-select :label="$t('trans0401')"
+                          v-model="autodns.dhcp"
+                          :options="dnsOptions"></m-select>
+              </m-form-item>
+              <div class="form__dns"
+                   v-if="!autodns.dhcp">
+                <m-form-item prop="dns1"
+                             ref="dns">
+                  <m-input :label="$t('trans0236')"
+                           type="text"
+                           placeholder="0.0.0.0"
+                           v-model="dhcpForm.dns1" />
+                </m-form-item>
+                <m-form-item class="last"
+                             prop="dns2"
+                             ref="backupdns">
+                  <m-input :label="$t('trans0320')"
+                           type="text"
+                           placeholder="0.0.0.0"
+                           v-model="dhcpForm.dns2" />
+                </m-form-item>
+              </div>
+            </m-form>
+            <m-form key="pppoe-form"
+                    v-else-if="isPppoe"
+                    ref="pppoeForm"
+                    :model="pppoeForm"
+                    :rules="pppoeRules">
+              <m-form-item prop="account">
+                <m-input :label="$t('trans0155')"
+                         type="text"
+                         :placeholder="`${$t('trans0321')}`"
+                         v-model="pppoeForm.account"></m-input>
+              </m-form-item>
+              <m-form-item prop="password">
+                <m-input :label="$t('trans0156')"
+                         type="password"
+                         :placeholder="`${$t('trans0321')}`"
+                         v-model="pppoeForm.password" />
+              </m-form-item>
+              <m-form-item :class="{'last':autodns.pppoe}">
+                <m-select :label="$t('trans0401')"
+                          v-model="autodns.pppoe"
+                          :options="dnsOptions"></m-select>
+              </m-form-item>
+              <div class="form__dns"
+                   v-if="!autodns.pppoe">
+                <m-form-item prop="dns1"
+                             ref="dns">
+                  <m-input :label="$t('trans0236')"
+                           type="text"
+                           placeholder="0.0.0.0"
+                           v-model="pppoeForm.dns1" />
+                </m-form-item>
+                <m-form-item prop="dns2"
+                             ref="backupdns"
+                             class="last">
+                  <m-input :label="$t('trans0320')"
+                           type="text"
+                           placeholder="0.0.0.0"
+                           v-model="pppoeForm.dns2" />
+                </m-form-item>
+              </div>
+            </m-form>
+            <m-form key="static-form"
+                    v-else-if="isStatic"
+                    ref="staticForm"
+                    :model="staticForm"
+                    :rules="staticRules">
+              <m-form-item prop="ip"
+                           ref="ip">
+                <m-input :label="$t('trans0151')"
+                         type="text"
+                         placeholder="0.0.0.0"
+                         v-model="staticForm.ip"
+                         :onBlur="ipChange" />
+              </m-form-item>
+              <m-form-item prop="mask"
+                           ref="mask">
+                <m-input :label="$t('trans0152')"
+                         type="text"
+                         placeholder="0.0.0.0"
+                         v-model="staticForm.mask"
+                         :onBlur="maskChange" />
+              </m-form-item>
+              <m-form-item prop="gateway"
+                           ref="gateway">
+                <m-input :label="$t('trans0153')"
+                         type="text"
+                         placeholder="0.0.0.0"
+                         v-model="staticForm.gateway" />
+              </m-form-item>
+              <m-form-item prop="dns1"
+                           ref="dns">
+                <m-input :label="$t('trans0236')"
+                         type="text"
+                         placeholder="0.0.0.0"
+                         v-model="staticForm.dns1" />
+              </m-form-item>
+              <m-form-item class="last"
+                           prop="dns2"
+                           ref="backupdns">
+                <m-input :label="$t('trans0320')"
+                         type="text"
+                         placeholder="0.0.0.0"
+                         v-model="staticForm.dns2" />
+              </m-form-item>
+            </m-form>
           </div>
-          <div>
-            <label class="with-colon">{{ $t('trans0152') }}:</label>
-            <span> {{ localNetInfo.netinfo.mask }}</span>
-          </div>
-          <div>
-            <label class="with-colon">{{ $t('trans0153') }}:</label>
-            <span>
-              {{ localNetInfo.netinfo.gateway }}
-            </span>
-          </div>
-          <div>
-            <label class="with-colon">{{ $t('trans0236') }}:</label>
-            <span>
-              {{ dnsText }}
-            </span>
+          <div class="form__vlan card">
+            <m-form-item :class="{last:!vlan.enabled}">
+              <m-switch :label="$t('trans0683')"
+                        v-model="vlan.enabled"></m-switch>
+              <div class="des-tips">{{$t('trans0682')}}</div>
+            </m-form-item>
+            <!-- Internet VLAN ID -->
+            <m-form v-if="vlan.enabled"
+                    :model="vlan"
+                    ref="vlanForm">
+              <m-form-item prop="id"
+                           :rules="vlanIdRules"
+                           ref="vlanId">
+                <m-input :label="$t('trans0684')"
+                         type="text"
+                         placeholder="2-4094"
+                         v-model="vlan.id"></m-input>
+              </m-form-item>
+              <m-form-item>
+                <m-select :label="$t('trans0686')"
+                          v-model="vlan.priority"
+                          :options="priorities"></m-select>
+              </m-form-item>
+              <m-form-item>
+                <m-checkbox :text="$t('trans0685')"
+                            :rect='false'
+                            style="margin-right:10px"
+                            v-model="vlan.ports[0].tagged"></m-checkbox>
+              </m-form-item>
+            </m-form>
+            <template v-if="vlan.enabled">
+              <!-- IP-Phone VLAN ID -->
+              <m-form :model="ipPhoneVlan"
+                      ref="ipPhoneVlanForm">
+                <m-form-item>
+                  <m-switch v-model="ipPhoneVlan.enabled"
+                            label="IP-Phone VLAN ID"></m-switch>
+                </m-form-item>
+                <template v-if="ipPhoneVlan.enabled">
+                  <m-form-item prop="id"
+                               :rules="ipPhoneVlanIdRules"
+                               ref="ipPhoneVlanId">
+                    <m-input type="text"
+                             placeholder="2-4094"
+                             v-model="ipPhoneVlan.id">
+                    </m-input>
+                  </m-form-item>
+                  <m-form-item class="form__item">
+                    <m-select :label="$t('trans0686')"
+                              v-model="ipPhoneVlan.priority"
+                              :popupTop="!iptvVlan.enabled"
+                              :options="priorities"></m-select>
+                  </m-form-item>
+                </template>
+              </m-form>
+              <!-- IPTV VLAN ID -->
+              <m-form :model="iptvVlan"
+                      ref="iptvVlanForm">
+                <m-form-item :class="{'last':!iptvVlan.enabled}">
+                  <m-switch v-model="iptvVlan.enabled"
+                            label="IPTV VLAN ID"></m-switch>
+                </m-form-item>
+                <template v-if="iptvVlan.enabled">
+                  <m-form-item prop="id"
+                               :rules="iptvVlanIdRules"
+                               ref="iptvVlanId">
+                    <m-input type="text"
+                             placeholder="2-4094"
+                             v-model="iptvVlan.id">
+                    </m-input>
+                  </m-form-item>
+                  <m-form-item class="last">
+                    <m-select :label="$t('trans0686')"
+                              v-model="iptvVlan.priority"
+                              :popupTop="true"
+                              :options="priorities"></m-select>
+                  </m-form-item>
+                </template>
+              </m-form>
+            </template>
           </div>
         </div>
       </div>
-      <div class="form">
-        <div class="item net-type">
-          <m-select :label="$t('trans0317')"
-                    v-model="netType"
-                    :options="options"></m-select>
-          <p class="form__label">{{ netNote[netType] }}</p>
-        </div>
-        <m-form key="dhcp-form"
-                v-if="isDhcp"
-                ref="dhcpForm"
-                :model="dhcpForm"
-                :rules="dhcpRules">
-          <m-form-item class="item">
-            <m-radio-group class="radio-group"
-                           direction="vertical"
-                           v-model="autodns.dhcp"
-                           :options="dnsOptions"></m-radio-group>
-          </m-form-item>
-          <div class="form__dns"
-               v-if="!autodns.dhcp">
-            <m-form-item class="item"
-                         prop="dns1"
-                         ref="dns">
-              <m-input :label="$t('trans0236')"
-                       type="text"
-                       placeholder="0.0.0.0"
-                       v-model="dhcpForm.dns1" />
-            </m-form-item>
-            <m-form-item class="item"
-                         prop="dns2"
-                         ref="backupdns">
-              <m-input :label="$t('trans0320')"
-                       type="text"
-                       placeholder="0.0.0.0"
-                       v-model="dhcpForm.dns2" />
-            </m-form-item>
-          </div>
-        </m-form>
-        <m-form key="pppoe-form"
-                v-else-if="isPppoe"
-                ref="pppoeForm"
-                :model="pppoeForm"
-                :rules="pppoeRules">
-          <m-form-item class="item"
-                       prop="account">
-            <m-input :label="$t('trans0155')"
-                     type="text"
-                     :placeholder="`${$t('trans0321')}`"
-                     v-model="pppoeForm.account"></m-input>
-          </m-form-item>
-          <m-form-item class="item"
-                       prop="password">
-            <m-input :label="$t('trans0156')"
-                     type="password"
-                     :placeholder="`${$t('trans0321')}`"
-                     v-model="pppoeForm.password" />
-          </m-form-item>
-          <m-form-item class="item">
-            <m-radio-group class="radio-group"
-                           direction="vertical"
-                           v-model="autodns.pppoe"
-                           :options="dnsOptions"></m-radio-group>
-          </m-form-item>
-          <div class="form__dns"
-               v-if="!autodns.pppoe">
-            <m-form-item class="item"
-                         prop="dns1"
-                         ref="dns">
-              <m-input :label="$t('trans0236')"
-                       type="text"
-                       placeholder="0.0.0.0"
-                       v-model="pppoeForm.dns1" />
-            </m-form-item>
-            <m-form-item class="item"
-                         prop="dns2"
-                         ref="backupdns">
-              <m-input :label="$t('trans0320')"
-                       type="text"
-                       placeholder="0.0.0.0"
-                       v-model="pppoeForm.dns2" />
-            </m-form-item>
-          </div>
-        </m-form>
-        <m-form key="static-form"
-                v-else-if="isStatic"
-                ref="staticForm"
-                :model="staticForm"
-                :rules="staticRules">
-          <div class="form__dns">
-            <m-form-item class="item"
-                         prop="ip"
-                         ref="ip">
-              <m-input :label="$t('trans0151')"
-                       type="text"
-                       placeholder="0.0.0.0"
-                       v-model="staticForm.ip"
-                       :onBlur="ipChange" />
-            </m-form-item>
-            <m-form-item class="item"
-                         prop="mask"
-                         ref="mask">
-              <m-input :label="$t('trans0152')"
-                       type="text"
-                       placeholder="0.0.0.0"
-                       v-model="staticForm.mask"
-                       :onBlur="maskChange" />
-            </m-form-item>
-            <m-form-item class="item"
-                         prop="gateway"
-                         ref="gateway">
-              <m-input :label="$t('trans0153')"
-                       type="text"
-                       placeholder="0.0.0.0"
-                       v-model="staticForm.gateway" />
-            </m-form-item>
-            <m-form-item class="item"
-                         prop="dns1"
-                         ref="dns">
-              <m-input :label="$t('trans0236')"
-                       type="text"
-                       placeholder="0.0.0.0"
-                       v-model="staticForm.dns1" />
-            </m-form-item>
-            <m-form-item class="item"
-                         prop="dns2"
-                         ref="backupdns">
-              <m-input :label="$t('trans0320')"
-                       type="text"
-                       placeholder="0.0.0.0"
-                       v-model="staticForm.dns2" />
-            </m-form-item>
-          </div>
-        </m-form>
-        <div class="form__vlan">
-          <div class="form__label">
-            <m-checkbox :rect="false"
-                        :text="$t('trans0683')"
-                        v-model="vlan.enabled"></m-checkbox>
-            <div class="tool"
-                 style="width:14px;">
-              <m-popover position="bottom left"
-                         style="top:-7px;left:2px;"
-                         :title="this.$t('trans0683')"
-                         :content="this.$t('trans0682')">
-                <img width="14"
-                     src="../../../assets/images/icon/ic_question.png" />
-              </m-popover>
-            </div>
-          </div>
-          <m-form v-if="vlan.enabled"
-                  class="form__inner"
-                  :model="vlan"
-                  ref="vlanForm">
-            <m-form-item class="form__item"
-                         prop="id"
-                         :rules="vlanIdRules">
-              <m-input :label="$t('trans0684')"
-                       type="text"
-                       placeholder="1-4094"
-                       v-model.number="vlan.id"></m-input>
-            </m-form-item>
-            <m-form-item class="form__item">
-              <m-select :label="$t('trans0686')"
-                        v-model="vlan.priority"
-                        :options="priorities"></m-select>
-            </m-form-item>
-            <m-form-item class="form__item">
-              <m-switch :label="$t('trans0685')"
-                        v-model="vlan.ports[0].tagged"></m-switch>
-            </m-form-item>
-          </m-form>
-        </div>
-        <div class="form__submit">
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
           <button class="btn"
                   v-defaultbutton
                   @click="submit()">
@@ -214,6 +251,7 @@
           </button>
         </div>
       </div>
+
     </div>
   </div>
 </template>
@@ -227,14 +265,134 @@ import {
   isValidInteger
 } from 'base/util/util';
 import * as CONSTANTS from 'base/util/constant';
+import cloneDeep from 'lodash/cloneDeep';
+import store from '@/store/index';
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
 }
+function checkPortNums(modelID) {
+  let ports = null;
+  switch (modelID) {
+    case CONSTANTS.M6aRouterSnModelVersion.M6a:
+      ports = [
+        {
+          port: {
+            id: 4,
+            name: 'wan',
+            type: 'wan'
+          },
+          tagged: true
+        },
+        {
+          port: {
+            id: 0,
+            name: 'lan1',
+            type: 'lan'
+          },
+          tagged: true
+        },
+        {
+          port: {
+            id: 1,
+            name: 'lan2',
+            type: 'lan'
+          },
+          tagged: true
+        }
+      ];
+      break;
+    case CONSTANTS.M6aRouterSnModelVersion.M6a_Plus:
+    case CONSTANTS.M6aRouterSnModelVersion.M6c:
+      ports = [
+        {
+          port: {
+            id: 4,
+            name: 'wan',
+            type: 'wan'
+          },
+          tagged: true
+        },
+        {
+          port: {
+            id: 0,
+            name: 'lan1',
+            type: 'lan'
+          },
+          tagged: true
+        },
+        {
+          port: {
+            id: 1,
+            name: 'lan2',
+            type: 'lan'
+          },
+          tagged: true
+        },
+        {
+          port: {
+            id: 2,
+            name: 'lan3',
+            type: 'lan'
+          },
+          tagged: true
+        },
+        {
+          port: {
+            id: 3,
+            name: 'lan4',
+            type: 'lan'
+          },
+          tagged: true
+        }
+      ];
+      break;
+    default:
+      break;
+  }
+  return ports;
+}
+const VlanName = {
+  internet: 'internet',
+  ipPhone: 'ip-phone',
+  iptv: 'iptv'
+};
+const VlanDefault = {
+  enabled: false,
+  id: 2,
+  ports: [
+    {
+      port: {
+        id: 4,
+        name: 'wan',
+        type: 'wan'
+      },
+      tagged: false
+    }
+  ],
+  priority: 0,
+  is_bridged: false,
+  name: VlanName.internet
+};
+const IpPhoneVlanDefault = {
+  enabled: false,
+  id: '',
+  ports: checkPortNums(store.state.modelID),
+  priority: 0,
+  is_bridged: false,
+  name: VlanName.ipPhone
+};
+const IptvVlanDefault = {
+  enabled: false,
+  id: '',
+  ports: checkPortNums(store.state.modelID),
+  priority: 0,
+  is_bridged: false,
+  name: VlanName.iptv
+};
 export default {
   data() {
     return {
-      IPv6NetType: '',
       CONSTANTS,
       netNote: {
         dhcp: this.$t('trans0147'),
@@ -257,19 +415,9 @@ export default {
       ],
       netType: CONSTANTS.WanType.dhcp,
       netInfo: {},
-      vlan: {
-        enabled: false,
-        id: '',
-        ports: [
-          {
-            port: {
-              id: 0
-            },
-            tagged: true
-          }
-        ],
-        priority: 0
-      },
+      vlan: cloneDeep(VlanDefault),
+      ipPhoneVlan: cloneDeep(IpPhoneVlanDefault),
+      iptvVlan: cloneDeep(IptvVlanDefault),
       staticForm: {
         ip: '',
         mask: '',
@@ -378,8 +526,38 @@ export default {
           message: this.$t('trans0232')
         },
         {
-          rule: value => isValidInteger(value, 1, 4094),
-          message: this.$t('trans0687')
+          rule: value => isValidInteger(value, 2, 4094),
+          message: this.$t('trans0687').format('%d', 2, 4094)
+        }
+      ],
+      ipPhoneVlanIdRules: [
+        {
+          rule: value => {
+            if (!this.ipPhoneVlan.enabled) {
+              return false;
+            }
+            return !/^\s*$/g.test(value);
+          },
+          message: this.$t('trans0232')
+        },
+        {
+          rule: value => isValidInteger(value, 2, 4094),
+          message: this.$t('trans0687').format('%d', 2, 4094)
+        }
+      ],
+      iptvVlanIdRules: [
+        {
+          rule: value => {
+            if (!this.iptvVlan.enabled) {
+              return false;
+            }
+            return !/^\s*$/g.test(value);
+          },
+          message: this.$t('trans0232')
+        },
+        {
+          rule: value => isValidInteger(value, 2, 4094),
+          message: this.$t('trans0687').format('%d', 2, 4094)
         }
       ]
     };
@@ -440,7 +618,6 @@ export default {
   },
   mounted() {
     this.getWanNetInfo();
-    // this.getIPv6WanNetInfo();
   },
   computed: {
     isPppoe() {
@@ -463,7 +640,11 @@ export default {
         }
       };
       if (this.netInfo && this.netInfo.netinfo) {
-        return { ...local, ...this.netInfo };
+        local.type = this.netInfo.type || '-';
+        local.netinfo.ip = this.netInfo.netinfo.ip || '-';
+        local.netinfo.mask = this.netInfo.netinfo.mask || '-';
+        local.netinfo.gateway = this.netInfo.netinfo.gateway || '-';
+        local.netinfo.dns = this.netInfo.netinfo.dns;
       }
       return local;
     },
@@ -471,9 +652,6 @@ export default {
       return this.localNetInfo.netinfo.dns.length > 0
         ? this.localNetInfo.netinfo.dns.join('/')
         : '-';
-    },
-    vlanFormDisabled() {
-      return this.vlan.enabled && !this.$refs.vlanForm.validate();
     }
   },
   methods: {
@@ -499,56 +677,60 @@ export default {
         this.staticForm.mask
       );
     },
-    getIPv6WanNetInfo() {
-      this.$http.getMeshInfoWanNetIpv6().then(res => {
-        const { result } = res.data;
-        const pppoeData = result.pppoe;
-        this.IPv6NetType = result.type;
-        if (this.IPv6NetType === CONSTANTS.WanType.pppoe) {
-          this.pppoeForm.account = pppoeData.account;
-          this.pppoeForm.password = pppoeData.password;
-        }
-      });
-    },
     getWanNetInfo() {
-      this.$http.getWanNetInfo().then(res => {
-        if (res.data.result) {
-          this.netInfo = res.data.result;
-          this.netType = this.netInfo.type;
-          if (this.isDhcp) {
-            if (this.netInfo.dhcp && this.netInfo.dhcp.dns) {
-              this.autodns.dhcp = false;
-              [this.dhcpForm.dns1] = this.netInfo.dhcp.dns;
-              this.dhcpForm.dns2 = this.netInfo.dhcp.dns[1] || '';
+      this.$loading.open();
+      this.$http
+        .getWanNetInfo()
+        .then(res => {
+          if (res.data.result) {
+            this.netInfo = res.data.result;
+            this.netType = this.netInfo.type;
+            if (this.netInfo?.vlan?.length) {
+              this.vlan =
+                this.netInfo.vlan.find(
+                  item => item.name === VlanName.internet
+                ) || cloneDeep(VlanDefault);
+              this.ipPhoneVlan =
+                this.netInfo.vlan.find(
+                  item => item.name === VlanName.ipPhone
+                ) || cloneDeep(IpPhoneVlanDefault);
+              this.iptvVlan =
+                this.netInfo.vlan.find(item => item.name === VlanName.iptv) ||
+                cloneDeep(IptvVlanDefault);
+            }
+            if (this.isDhcp) {
+              if (this.netInfo.dhcp && this.netInfo.dhcp.dns && this.netInfo.dhcp.dns.length > 0) {
+                this.autodns.dhcp = false;
+                [this.dhcpForm.dns1] = this.netInfo.dhcp.dns;
+                this.dhcpForm.dns2 = this.netInfo.dhcp.dns[1] || '';
+              }
+            }
+            if (this.isPppoe) {
+              this.pppoeForm.account = this.netInfo.pppoe.account;
+              this.pppoeForm.password = this.netInfo.pppoe.password;
+              if (this.netInfo.pppoe.dns) {
+                this.autodns.pppoe = false;
+                [this.pppoeForm.dns1] = this.netInfo.pppoe.dns;
+                this.pppoeForm.dns2 = this.netInfo.pppoe.dns[1] || '';
+              }
+            }
+            if (this.isStatic) {
+              this.staticForm = {
+                ip: this.netInfo.static.netinfo.ip,
+                mask: this.netInfo.static.netinfo.mask,
+                gateway: this.netInfo.static.netinfo.gateway,
+                dns1: this.netInfo.static.netinfo.dns[0],
+                dns2: this.netInfo.static.netinfo.dns[1] || ''
+              };
             }
           }
-          if (this.isPppoe) {
-            this.pppoeForm.account = this.netInfo.pppoe.account;
-            this.pppoeForm.password = this.netInfo.pppoe.password;
-            this.pppoeForm.vlan = this.netInfo.pppoe.vlan?.[0] ?? this.pppoeForm.vlan;
-
-            if (this.netInfo.pppoe.dns) {
-              this.autodns.pppoe = false;
-              [this.pppoeForm.dns1] = this.netInfo.pppoe.dns;
-              this.pppoeForm.dns2 = this.netInfo.pppoe.dns[1] || '';
-            }
-          }
-          if (this.isStatic) {
-            this.staticForm = {
-              ip: this.netInfo.static.netinfo.ip,
-              mask: this.netInfo.static.netinfo.mask,
-              gateway: this.netInfo.static.netinfo.gateway,
-              dns1: this.netInfo.static.netinfo.dns[0],
-              dns2: this.netInfo.static.netinfo.dns[1] || ''
-            };
-          }
-          if (this.netInfo.vlan?.length) {
-            [this.vlan] = this.netInfo.vlan;
-          }
-        }
-      });
+        })
+        .finally(() => {
+          this.$loading.close();
+        });
     },
     save(params) {
+      console.log(params);
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),
@@ -571,14 +753,44 @@ export default {
       });
     },
     submit() {
-      if (this.vlanFormDisabled) {
-        return;
+      if (this.vlan.enabled) {
+        if (
+          !this.$refs.vlanForm.validate() ||
+          !this.$refs.ipPhoneVlanForm.validate() ||
+          !this.$refs.iptvVlanForm.validate()
+        ) {
+          return;
+        }
+        // 经过上面的判断，到这里已经可以确定如果有值的话必定是数字，所以可以用部分等于
+        if (
+          (this.ipPhoneVlan.id == this.vlan.id && this.ipPhoneVlan.enabled) ||
+          (this.iptvVlan.id == this.vlan.id && this.iptvVlan.enabled) ||
+          (this.ipPhoneVlan.id == this.iptvVlan.id &&
+            this.ipPhoneVlan.enabled &&
+            this.iptvVlan.enabled)
+        ) {
+          this.$toast(this.$t('trans1051'), 2000, 'error');
+          return;
+        }
       }
-      const form = { type: this.netType };
-      if (this.vlan.id) {
-        form.vlan = [this.vlan];
-      } else {
-        form.vlan = [];
+      const form = { type: this.netType, vlan: [] };
+      if (this.vlan.enabled) {
+        form.vlan.push({
+          ...this.vlan,
+          id: Number(this.vlan.id)
+        });
+        if (this.ipPhoneVlan.enabled) {
+          form.vlan.push({
+            ...this.ipPhoneVlan,
+            id: Number(this.ipPhoneVlan.id)
+          });
+        }
+        if (this.iptvVlan.enabled) {
+          form.vlan.push({
+            ...this.iptvVlan,
+            id: Number(this.iptvVlan.id)
+          });
+        }
       }
       switch (this.netType) {
         case CONSTANTS.WanType.dhcp:
@@ -634,88 +846,33 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.form {
-  padding: 20px 0;
-  @media screen and (min-width: 769px) {
-    width: 340px;
-  }
-  .net-type {
-    margin-bottom: 30px;
-  }
-  .note {
-    font-size: 12px;
-    color: #999999;
-    padding-top: 10px;
-  }
-  .form__inner {
-    margin-top: 30px;
-  }
-  .form__vlan {
-    padding-top: 20px;
-    border-top: 1px solid #e8e8e8;
-  }
-  .form__label {
-    display: flex;
-  }
-  .form__item {
-    margin-bottom: 30px;
-  }
-  .form__submit {
-    margin-top: 50px !important;
-    margin-bottom: 90px;
-  }
-}
-.wan-info {
+.seccess-info {
   display: flex;
-  width: 340px;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  font-size: 16px;
-  color: #333333;
-  text-align: center;
-  padding-bottom: 30px;
-  img {
-    width: 150px;
-  }
-  p {
-    margin: 0;
-    padding: 0;
-    font-size: 14px;
-    text-align: left;
-  }
-  .seccess-info {
-    width: 100%;
-    text-align: left;
+  width: 360px;
+  text-align: left;
+  padding: 15px;
+  div {
     display: flex;
-    flex-direction: column;
-    div {
-      margin-top: 10px;
-      display: flex;
-    }
-    label {
-      display: inline-block;
-      font-size: 14px;
-      color: #333;
-      font-weight: bold;
-      text-align: left;
-      width: 150px;
-    }
-    span {
-      color: #333333;
-      font-size: 14px;
-      flex: 1;
-    }
+    align-items: center;
+    padding: 5px 0;
+    font-size: 14px;
+  }
+  label {
+    font-weight: bold;
+    text-align: left;
+    flex: 1;
+  }
+  span {
+    display: inline-block;
+    width: 160px;
   }
 }
 @media screen and(max-width:768px) {
-  .wan-info {
-    flex-direction: column;
+  .seccess-info {
     width: 100%;
-    .seccess-info {
-      border: 0;
-      padding-left: 0;
-    }
+    padding: 0;
+    padding-bottom: 30px;
   }
 }
 </style>

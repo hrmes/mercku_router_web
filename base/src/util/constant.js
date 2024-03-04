@@ -1,7 +1,6 @@
 export const IPv6DefaultPlaceholder = '----:----:----:----:----:----:----:----';
 
 export const Customers = {
-  internal: '0000',
   mercku: '0001',
   cik: '0002',
   startca: '0003',
@@ -34,7 +33,8 @@ export const Role = {
 };
 export const RouterStatus = {
   online: 'online',
-  offline: 'offline'
+  offline: 'offline',
+  installing: 'installing'
 };
 export const RouterMode = {
   router: 'router',

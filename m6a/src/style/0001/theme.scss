@@ -1,2 +1,490 @@
-// import theme after variables are defined
-@import '../theme-base.scss';
+/*
+  此文件是主题样式基础文件，客户的主题文件应该默认导入此主题，
+  每个客户均需要有一个对应的文件样式目录，目录名为客户的CUSTOMER_ID
+  目录下面应该存在2个文件
+  1. theme.scss 用来描述主题色彩搭配
+  2. custom.scss 用来描述一些自定义的布局或其他样式
+  上述两个文件必须存在，因为在入口处默认被引入，因此即使没有自定义主题的需求，也应该复制默认的样式进行覆盖
+*/
+
+//浅色主题，颜色定义
+@mixin light-theme {
+  color-scheme: light;
+
+  --fotter_qr_img-filter: brightness(0.5);
+  --footer_popup_shadow-color: rgba(0, 0, 0, 0.12);
+  --footer_menu_text-color: #333;
+
+  --scrollbar_wrap-bgc__isNotLogin: linear-gradient(to bottom, #f7f7f7 58%, #e8e8e8 89%);
+  --scrollbar_wrap-bgc__isLogin: linear-gradient(316deg, #e4e4e4, #fafafa 47%);
+  --scrollbar_wrap_track-color: #f1f1f1;
+  --scrollbar_wrap_thumb-color: #c1c1c1;
+
+  --login_left_rotate-bgcolor: #dfe7f0;
+  --login_right_form-bgcolor: rgba(255, 255, 255, 0.9);
+  --login_right_form_download-bgcolor: #f8f8f8;
+
+  --wlan_hr-color: #e5e5e5;
+  --wlan_tips-color: #333;
+
+  --device_connect_type-bgc: #e2e1e2;
+  --device_limit_icon-hover-bgc: #d9d9d9;
+  --device_limit_icon-color: #848384;
+
+  --internet_section-boxshadow: 0 20px 20px -5px rgba(0, 0, 0, 0.1);
+  --internet_hr-color: #d8d8d8;
+
+  --mesh_table_header-bgc: #f7f7f7;
+  --mesh_table_offline_tips-bgc: #ffe0e0;
+
+  --mobile_menu_selected-color: var(--primary-color);
+  --back_wrapper_btn-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+
+  --common_card-boxshadow: 0 50px 40px -20px rgba(0, 0, 0, 0.1);
+  --common_card_hover-boxshadow: 0 50px 40px -20px rgba(214, 0, 28, 0.1);
+  --common_card-bgc: #fff;
+  --common_sub_card-bgc: #fafafa;
+  --common_gery-color: #808080;
+  --common_hr-color: #eaeaea;
+  --common_btn_default-bgimg: linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
+
+  --primary-color: #d6001c;
+  --warning-color: #f12b2b;
+  --primary-bgc: #fff;
+  --text_default-color: #333;
+  --text_gery-color: #737373;
+  --img-brightness: brightness(0);
+  --grey-bgc: #f7f7f7;
+  --flexwarp_hasmenu-bgc: #f7f7f7;
+  --hr-color: #ebebeb;
+  --darker_hr-color: #e5e5e5;
+  // button
+  --button_text-color: #fff;
+  --button-bgc: linear-gradient(95deg, #d6001c, #ee1d4f 45%, #ff6734);
+  --button-boxshadow: 0 10px 20px -5px rgba(234, 24, 70, 0.2);
+  --button_active-opcity: 1.2;
+  --button_hover-opcity: 0.7;
+  --button_disabled-opcity: 0.4;
+  --button_default_text-color: var(--primary-color);
+  --button_text_text-color: #333;
+  --button_text_hover-color: #999;
+  --button_text_primary_text-color: var(--primary-color);
+  --button_text_primary_hover-color: #e6586a;
+  --button_text_primary_disabled_hover-color: #999;
+  --button_text_stange-bgc: var(--primary-color);
+  --button_text_stange_text-color: #fff;
+  --button_icon_hover-color: #f12b2b;
+  --button_icon_disabled-bgc: #f0f0f0;
+  --button_icon_disabled-color: #cdcdcd;
+  --button_close-bgc: #f1f1f1;
+  // checkbox
+  --checkbox_border-color: #999;
+  --checkbox-bgc: transparent;
+  --checkbox_checked-bgc: linear-gradient(315deg, #ff6734, #ee1d4f 55%, #d6001c);
+  --checkbox_disabled-bgc: #e6e6e6;
+  // dialog
+  --dialog_shadow-bgc: rgba(0, 0, 0, 0.3);
+  --dialog_shadow-color: rgba(0, 0, 0, 0.1);
+  --dialog_title-color: #333;
+  --dialog_content-color: #333;
+  --dialog_content-bgc: #fff;
+  // select and editableSelect
+  --select_label-color: rgba(255, 255, 255, 0.6);
+  --select_input_border-color: #b3b3b3;
+  --select_popup-bgc: #fff;
+  --select_popup_border-color: #eaeaea;
+  --select_popup-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.12);
+  --select_item_active-bgc: #f1f1f1;
+  --select_item_active-color: #333;
+  --select_item_hover-bgc: #f1f1f1;
+  --select_item_hover-color: #333;
+  --select_item_selected-color: var(--primary-color);
+  --select_disabled-bgc: #f1f1f1;
+  --select_disabled-opacity: 0.8;
+  // header
+  --header_selected-bgc: linear-gradient(225deg,
+      #ff6734 30%,
+      #ee1d4f 55%,
+      #d6001c);
+  --header-bgc: #f7f7f7;
+  --header-color: #fff;
+  --header_nav_iconfont-color: #979797;
+  --header_nav_hover-bgc: rgba(0, 0, 0, 0.05);
+  --header_official-color: #333;
+  --header_official_hover-color: #999;
+  --header_navitem_hover-color: #999;
+  --header_navitem_border-color: #666;
+  --header_popup-bgc: #fff;
+  --header_popup_item_disabled-color: #999;
+  --header_popup_item_disabled-bgc: #333;
+  --header_mobile_navitem-color: var(--text_default-color);
+  --mobile_header_popup-bgc: #fff;
+  // input
+  --input_label-color: #595959;
+  --input_border-color: #d9d9d9;
+  --input_focus_border-color: #000000;
+  --input_error_border-color: #ff0000;
+  --input_error_text-color: var(--input_error_border-color);
+  --input_disabled-bgc: #f1f1f1;
+  --input_disabled-opacity: 0.8;
+  --input_placeholder-color: #bdbdbd;
+  // modal
+  --modal_mask-bgc: rgba(0, 0, 0, 0.7);
+  --modal_header-bgc: #ebebeb;
+  --modal_content-bgc: #fff;
+  --modal_content_hr-color: #f1f1f1;
+  --modal_shadow-color: rgba(0, 0, 0, 0.1);
+  // popover
+  --popover-bgc: #333;
+  // progress
+  --progress_shadow-bgc: #000;
+  --progress_shadow-opacity: 0.8;
+  --progress-bgc: #fff;
+  --progress_bar-color: #fff;
+  --progress_bar-bgc: #00d061;
+  // radio
+  --radio_item-color: #b6b6b6;
+  --radio_card_item_selected-color: #333;
+  // step
+  --step_line-color: #f1f1f1;
+  --step_item_border-color: #f1f1f1;
+  --step_item-color: #999999;
+  --step_item_text-color: var(--text_default-color);
+  --step_item_current-color: #e25668;
+  // switch
+  --switch-bgc: #b8b7b8;
+  --switch_off_icon-color: #bdbdbd;
+  --switch_on_icon-color: #ee1d4f;
+  --switch_checked-color: linear-gradient(95deg, #d6001c, #ee1d4f 45%, #ff6734);
+  // tab
+  --tab_hover-bgc: #f5f5f5;
+  --tab_selected-color: var(--primary-color);
+  --tab_selected_text-color: var(--primary-color);
+  // timepicker
+  --time_picker_li-color: #000;
+  --time_picker_pannel_border-color: #d9d9d9;
+  --time_picker_combox-bgc: #fff;
+  --time_picker_combox-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.12);
+  ;
+  --time_picker_button_border-color: #ebebeb;
+  --time_picker_button-bgc: #fff;
+  --time_picker_button_cancel-color: #333;
+  --time_picker_button_confirm-color: var(--primary-color);
+  --time_picker_popup_border-color: #ebebeb;
+  --time_picker_popup_item_hover-bgc: #f1f1f1;
+  --time_picker_input-bgc: transparent;
+  // toast
+  --toast_error-bgc: #ffc7c7;
+  --toast_error-shadow: 0 10px 10px -5px rgba(255, 59, 59, 0.15);
+  ;
+  --toast_success-bgc: #c0e9d3;
+  --toast_success-shadow: 0 10px 10px -5px rgba(41, 185, 108, 0.12);
+  // upgrade
+  --upgrade-bgc: rgba(0, 0, 0, 0.8);
+  --upgrade_text-color: #fff;
+  // upload
+  --upload_button_disabled-color: rgba(214, 0, 28, 0.3);
+  --upload_file_text-color: #999;
+  --upload_file_des-color: #333;
+  --upload-bgc: #f1f1f1;
+  --upload_icon-bgc: #fff;
+  --upload_fileinfo_productdot-color: #00d061;
+  --upload_fileinfo_versiondot-color: #ff6f00;
+  --upload_error_text-color: #ff0000;
+  --upload_progress_completed-color: #333;
+  --upload_progress-color: #e3e3e3;
+  --upload_delete_icon-bgc: #fff;
+  // tag
+  --tag-bgc: #ffd2d8;
+  --tag_text-color: #d6001c;
+  --tag_green-bgc: #bcf8d8;
+  --tag_green_text-color: #0b7e40;
+  --tag_node_border-color: #dbdbdb;
+  //Appdownload
+  --download_tag-bgc: #fff;
+  --download_tag_before-color: #e4e4e4;
+  --download_ios_img-brightness: var(--img-brightness);
+  --download_android_img-brightness: brightness(1);
+  //logout
+  --logout_btn-bgc: #fff;
+  --logout_btn-boxshadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+  //dashboard
+  --dashboard_unlinked-color: rgba(51, 51, 51, 0.3);
+  --dashboard_icon-bgc: #fff;
+  --dashboard_unconnect_icon-bgc: #fff;
+  --dashboard_band-bgc: #b3b3b3;
+  --dashboard_gery-color: #808080;
+  --dashboard_gery_text-color: #808080;
+  --dashboard_wifi-bgc: #f7f7f7;
+  --dashboard_dividing_line-color: #dfdfdf;
+  --dashboard_app-bgc: #fff;
+  //table
+  --table_header-bgc: #eaeaea;
+  --table_row-bgc: #fafafa;
+  --table_header_text-color: #808080;
+  --table_body_connect_icon-bgc: #ebebeb;
+  --table_local_device_icon-bgc: #fff;
+  --table_limit_icon-color: #808080;
+  --table_action_icon-color: #979797;
+  --table_action_icon-bgc: #fff;
+  --table_action_popover-bgc: #333;
+  --table_header_hr-color: #f7f7f7;
+  --table_body_hr-color: #ebebeb;
+  //aside
+  --aside_selected_text-color: #fff;
+  --asdie_selected-bgc: linear-gradient(-50deg, #f92e53 30%, #d31414 80%);
+  --aside_hover-bgc: rgba(0, 0, 0, 0.05);
+  --aside_disabled-color: #cccccc;
+  --aside_after-bgc: #f92e53;
+  // drawer
+  --drawer-bgc: #ffffff;
+  //bridge
+  --bridge_tips-color: #df2039;
+  //internet color theme
+  --internet-bgc: #f7f7f7;
+  --internet_section-bgc: #fff;
+  --internet_section_hr-color: #dbdbdb;
+  //offline
+  --offline-boxshadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
+}
+
+//深色主题，颜色定义
+@mixin dark-theme {
+  color-scheme: dark;
+
+  // login Page color variable
+  --fotter_qr_img-filter: brightness(2);
+  --footer_popup_shadow-color: rgba(0, 0, 0, 0.2);
+  --footer_menu_text-color: rgba(255, 255, 255, 0.8);
+
+  --scrollbar_wrap-bgc__isNotLogin: #262626;
+  --scrollbar_wrap-bgc__isLogin: #262626;
+  --scrollbar_wrap_track-color: #424242;
+  --scrollbar_wrap_thumb-color: #686868;
+
+  --login_left_rotate-bgcolor: #293c51;
+  --login_right_form-bgcolor: #333;
+  --login_right_form_download-bgcolor: #262626;
+
+  --wlan_hr-color: #5b5b5b;
+  --wlan_tips-color: rgba(255, 255, 255, 0.6);
+
+  --device_connect_type-bgc: #565656;
+  --device_limit_icon-hover-bgc: #808080;
+  --device_limit_icon-color: #fff;
+
+  --internet_section-boxshadow: 0 20px 20px -5px rgba(0, 0, 0, 0.4);
+  --internet_hr-color: #808080;
+
+  --mesh_table_header-bgc: #4d4d4d;
+  --mesh_table_offline_tips-bgc: #8c4040;
+
+  --mobile_menu_selected-color: #ff677b;
+  --back_wrapper_btn-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.5);
+
+  --common_card-boxshadow: 0 50px 40px -20px rgba(0, 0, 0, 0.4);
+  --common_card_hover-boxshadow: 0 50px 40px -20px rgba(226, 54, 77, 0.2);
+  --common_card-bgc: #333;
+  --common_sub_card-bgc: #262626;
+  --common_gery-color: rgba(255, 255, 255, 0.6);
+  --common_hr-color: #464646;
+  --common_btn_default-bgimg: linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
+
+  --primary-color: #ff334e;
+  --warning-color: #ff4d64;
+  --primary-bgc: #333;
+  --text_default-color: #fff;
+  --text_gery-color: rgba(255, 255, 255, 0.6);
+  --img-brightness: brightness(100);
+  --grey-bgc: #404040;
+  --flexwarp_hasmenu-bgc: #1a1a1a;
+  --hr-color: rgba(255, 255, 255, 0.2);
+  --darker_hr-color: rgba(255, 255, 255, 0.2);
+  // button
+  --button_text-color: #fff;
+  --button-bgc: linear-gradient(95deg, #e62342, #ec4f5b 45%, #fb6d53);
+  --button-boxshadow: 0 10px 10px -5px rgba(234, 24, 70, 0.3);
+  --button_active-opcity: 1.2;
+  --button_hover-opcity: 0.8;
+  --button_disabled-opcity: 0.5;
+  --button_default_text-color: #ff677b;
+  --button_text_text-color: #fff;
+  --button_text_hover-color: rgba(255, 255, 255, 0.6);
+  --button_text_primary_text-color: var(--primary-color);
+  --button_text_primary_hover-color: #e6586a;
+  --button_text_primary_disabled_hover-color: #999;
+  --button_text_stange-bgc: var(--primary-color);
+  --button_text_stange_text-color: #fff;
+  --button_icon_hover-color: #ff4d64;
+  --button_icon_disabled-bgc: #404040;
+  --button_icon_disabled-color: #666;
+  --button_close-bgc: #949494;
+  // checkbox
+  --checkbox_border-color: #fff;
+  --checkbox-bgc: transparent;
+  --checkbox_checked-bgc: linear-gradient(315deg, #ff7242, #ee1d4f 55%, #f0112e);
+  --checkbox_disabled-bgc: #666;
+  // dialog
+  --dialog_shadow-bgc: rgba(0, 0, 0, 0.3);
+  --dialog_shadow-color: rgba(0, 0, 0, 0.1);
+  --dialog_title-color: #fff;
+  --dialog_content-color: rgba(255, 255, 255, 0.8);
+  --dialog_content-bgc: #4d4d4d;
+  // select and editableSelect
+  --select_label-color: rgba(255, 255, 255, 0.6);
+  --select_input_border-color: #b3b3b3;
+  --select_popup-bgc: #404040;
+  --select_popup_border-color: #4d4d4d;
+  --select_popup-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.2);
+  --select_item_active-bgc: rgba(255, 255, 255, 0.15);
+  --select_item_active-color: #fff;
+  --select_item_hover-bgc: rgba(255, 255, 255, 0.15);
+  --select_item_hover-color: #fff;
+  --select_item_selected-color: var(--primary-color);
+  --select_disabled-bgc: rgba(255, 255, 255, 0.2);
+  --select_disabled-opacity: 0.8;
+  // header
+  --header_selected-bgc: linear-gradient(225deg,
+      #fb6d53 30%,
+      #ec4f5b 55%,
+      #e62342);
+  --header-bgc: #262626;
+  --header-color: #fff;
+  --header_nav_iconfont-color: #ffffff;
+  --header_nav_hover-bgc: rgba(255, 255, 255, 0.2);
+  --header_official-color: #fff;
+  --header_official_hover-color: rgba(255, 255, 255, 0.6);
+  --header_navitem_hover-color: #999;
+  --header_navitem_border-color: #666;
+  --header_popup-bgc: #333;
+  --header_popup_item_disabled-color: #999;
+  --header_popup_item_disabled-bgc: #333;
+  --header_mobile_navitem-color: var(--text_default-color);
+  --mobile_header_popup-bgc: #333;
+  // input
+  --input_label-color: rgba(255, 255, 255, 0.6);
+  --input_border-color: #b3b3b3;
+  --input_focus_border-color: #ffffff;
+  --input_error_border-color: #ff4d64;
+  --input_error_text-color: var(--input_error_border-color);
+  --input_disabled-bgc: rgba(255, 255, 255, 0.2);
+  --input_disabled-opacity: 0.8;
+  --input_placeholder-color: rgba(255, 255, 255, 0.6);
+  // modal
+  --modal_mask-bgc: rgba(0, 0, 0, 0.8);
+  --modal_header-bgc: #383838;
+  --modal_content-bgc: #404040;
+  --modal_content_hr-color: rgba(255, 255, 255, 0.2);
+  --modal_shadow-color: rgba(0, 0, 0, 0.1);
+  // popover
+  --popover-bgc: #656565;
+  // progress
+  --progress_shadow-bgc: #000;
+  --progress_shadow-opacity: 0.8;
+  --progress-bgc: #4d4d4d;
+  --progress_bar-color: #fff;
+  --progress_bar-bgc: #00d061;
+  // radio
+  --radio_item-color: #b6b6b6;
+  --radio_card_item_selected-color: #333;
+  // step
+  --step_line-color: #5a5a5a;
+  --step_item_border-color: #808080;
+  --step_item-color: #999999;
+  --step_item_text-color: var(--text_default-color);
+  --step_item_current-color: #ff677b;
+  // switch
+  --switch-bgc: #7e7e7e;
+  --switch_off_icon-color: #7e7e7e;
+  --switch_on_icon-color: #ec4f5b;
+  --switch_checked-color: linear-gradient(95deg, #e62342, #ec4f5b 45%, #fb6d53);
+  // tab
+  --tab_hover-bgc: rgba(255, 255, 255, 0.2);
+  --tab_selected-color: #ff334e;
+  --tab_selected_text-color: var(--primary-color);
+  // timepicker
+  --time_picker_li-color: #fff;
+  --time_picker_pannel_border-color: #b3b3b3;
+  --time_picker_combox-bgc: #4d4d4d;
+  --time_picker_combox-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.2);
+  ;
+  --time_picker_button_border-color: rgba(255, 255, 255, 0.2);
+  --time_picker_button-bgc: #4d4d4d;
+  --time_picker_button_cancel-color: var(--text_default-color);
+  --time_picker_button_confirm-color: var(--primary-color);
+  --time_picker_popup_border-color: rgba(255, 255, 255, 0.2);
+  --time_picker_popup_item_hover-bgc: rgba(255, 255, 255, 0.15);
+  --time_picker_input-bgc: transparent;
+  // toast
+  --toast_error-bgc: #a14949;
+  --toast_error-shadow: 0 10px 10px -5px rgba(255, 59, 59, 0.15);
+  --toast_success-bgc: #2f694a;
+  --toast_success-shadow: 0 10px 10px -5px rgba(41, 185, 108, 0.2);
+  // upgrade
+  --upgrade-bgc: rgba(0, 0, 0, 0.8);
+  --upgrade_text-color: #fff;
+  // upload
+  --upload_button_disabled-color: rgba(223, 32, 57, 0.3);
+  --upload_file_text-color: rgba(255, 255, 255, 0.6);
+  --upload_file_des-color: #fff;
+  --upload-bgc: #1a1a1a;
+  --upload_icon-bgc: #4d4d4d;
+  --upload_fileinfo_productdot-color: #00d061;
+  --upload_fileinfo_versiondot-color: #ff6f00;
+  --upload_error_text-color: #ff0000;
+  --upload_progress_completed-color: #333;
+  --upload_progress-color: #e3e3e3;
+  --upload_delete_icon-bgc: #717071;
+  // tag
+  --tag-bgc: rgba(255, 93, 114, 0.4);
+  --tag_text-color: #ff93a2;
+  --tag_green-bgc: rgba(64, 206, 130, 0.5);
+  --tag_green_text-color: #6df5ac;
+  --tag_node_border-color: rgba(255, 255, 255, 0.5);
+  //Appdownload
+  --download_tag-bgc: #333;
+  --download_tag_before-color: #b3b3b3;
+  --download_ios_img-brightness: var(--img-brightness);
+  --download_android_img-brightness: brightness(1.2);
+  //logout
+  --logout_btn-bgc: #666;
+  --logout_btn-boxshadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+  //dashboard
+  --dashboard_unlinked-color: #ffffff;
+  --dashboard_icon-bgc: #2e2e2e;
+  --dashboard_unconnect_icon-bgc: #6a6a6a;
+  --dashboard_band-bgc: rgba(192, 192, 192, 0.4);
+  --dashboard_gery-color: rgba(255, 255, 255, 0.6);
+  --dashboard_gery_text-color: #fff;
+  --dashboard_wifi-bgc: #1a1a1a;
+  --dashboard_dividing_line-color: rgba(255, 255, 255, 0.2);
+  --dashboard_app-bgc: #404040;
+  //table
+  --table_header-bgc: #4d4d4d;
+  --table_row-bgc: #1a1a1a;
+  --table_header_text-color: rgba(255, 255, 255, 0.6);
+  --table_body_connect_icon-bgc: #3b3c3e;
+  --table_local_device_icon-bgc: #696969;
+  --table_limit_icon-color: #bababa;
+  --table_action_icon-color: #fff;
+  --table_action_icon-bgc: #595959;
+  --table_action_popover-bgc: #4d4d4d;
+  --table_header_hr-color: #2c2c2c;
+  --table_body_hr-color: #2a2a2a;
+  //aside
+  --aside_selected_text-color: #fff;
+  --asdie_selected-bgc: linear-gradient(-50deg, #fb6d53 10%, #ec4f5b 45%, #e62342 100%);
+  --aside_hover-bgc: rgba(255, 255, 255, 0.2);
+  --aside_disabled-color: rgba(255, 255, 255, 0.3);
+  --aside_after-bgc: #fb6d53;
+  // drawer
+  --drawer-bgc: #4d4d4d;
+  //bridge
+  --bridge_tips-color: #ff4d64;
+  //internet color theme
+  --internet-bgc: #1a1a1a;
+  --internet_section-bgc: #2e2e2e;
+  --internet_section_hr-color: rgba(255, 255, 255, 0.2);
+  //offline
+  --offline-boxshadow: 0 8px 10px 0 rgba(0, 0, 0, 0.3);
+}

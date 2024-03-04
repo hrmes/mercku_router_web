@@ -644,12 +644,12 @@ export default {
         local.netinfo.ip = this.netInfo.netinfo.ip || '-';
         local.netinfo.mask = this.netInfo.netinfo.mask || '-';
         local.netinfo.gateway = this.netInfo.netinfo.gateway || '-';
-        local.netinfo.dns = this.netInfo.netinfo.dns;
+        local.netinfo.dns = this.netInfo.netinfo.dns || [];
       }
       return local;
     },
     dnsText() {
-      return this.localNetInfo.netinfo?.dns?.length
+      return this.localNetInfo.netinfo.dns.length
         ? this.localNetInfo.netinfo.dns.join('/')
         : '-';
     }
@@ -699,7 +699,7 @@ export default {
                 cloneDeep(IptvVlanDefault);
             }
             if (this.isDhcp) {
-              if (this.netInfo.dhcp && this.netInfo.dhcp.dns) {
+              if (this.netInfo.dhcp && this.netInfo.dhcp?.dns && this.netInfo.dhcp?.dns.length) {
                 this.autodns.dhcp = false;
                 [this.dhcpForm.dns1] = this.netInfo.dhcp.dns;
                 this.dhcpForm.dns2 = this.netInfo.dhcp.dns[1] || '';

@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /**
  *
  *
@@ -155,7 +156,7 @@ function genNodes(gateway, green, red, offline) {
 function genLines(gateway, green, red, nodes, fullLine) {
   function genLine(source, target, color, neighbor) {
     // 有线实线显示，无线虚线显示
-    if (neighbor.rssi === 5555 || neighbor.backhaul_type === Bands.wired) {
+    if (neighbor.rssi === 5555 || neighbor?.backhaul_type === Bands.wired) {
       return {
         source: `${source.sn}${source.name}`,
         target: `${target.sn}${target.name}`,
@@ -238,7 +239,11 @@ function genLines(gateway, green, red, nodes, fullLine) {
 // 找出离线节点
 function findOfflineNode(array, offline) {
   array = array.filter(a => {
-    if (a.status === CONSTANTS.RouterStatus.offline && !a.is_gw) {
+    if (
+      (a.status === CONSTANTS.RouterStatus.offline ||
+        a.status === CONSTANTS.RouterStatus.installing) &&
+      !a.is_gw
+    ) {
       offline.push(a);
       return false;
     }
