@@ -1,7 +1,7 @@
 <template>
   <div class="unconnect">
     <div class="inner">
-      <img :src="require('base/assets/images/common/img_no_network_access.png')" />
+      <img :src="require('base/assets/images/common/img_no_network.png')" />
       <div class="text">{{tips}}</div>
       <button @click="tohome"
               class="btn">{{$t('trans0063')}}</button>

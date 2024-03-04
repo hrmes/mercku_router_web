@@ -209,12 +209,14 @@
             </div>
             <m-form-item key="b24gbandwidth">
               <m-select :label="$t('trans0783')"
+                        :disabled="isWisp"
                         v-model="form.channel.b24gChannel.bandwidth"
                         :options="bandwidths.b24g"></m-select>
             </m-form-item>
             <m-form-item key="b5gbandwidth-1"
                          class="last">
               <m-select :label="$t('trans0784')"
+                        :disabled="isWisp"
                         v-model="form.channel.b5gChannel.bandwidth"
                         :options="bandwidths.b5g"></m-select>
             </m-form-item>
@@ -469,11 +471,14 @@ export default {
           if (!isExit) this.channels.b5g.push({ text: 165, value: 165 });
         } else {
           this.channels.b5g = this.channels.b5g.filter(c => c.value !== 165);
-          if (this.form.channel.b5gChannel.number === 165) this.form.channel.b5gChannel.number = 161;
+          if (this.form.channel.b5gChannel.number === 165) {
+            this.form.channel.b5gChannel.number =
+              this.channels.b5g[this.channels.b5g.length - 1].value;
+          }
         }
       },
       immediate: true
-    }
+    },
   },
   computed: {
     isWisp() {

@@ -88,7 +88,7 @@ export default {
   align-items: center;
   background-color: transparent;
   .content {
-    width: 600px;
+    width: 43%;
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: repeat(3, auto);
@@ -201,6 +201,7 @@ export default {
     }
     .row-3 {
       .flex-left {
+        flex: 1;
         display: flex;
         flex-direction: column;
         width: 280px;
@@ -208,6 +209,7 @@ export default {
       }
       .flex-right {
         flex: 1;
+        max-width: 350px;
         display: flex;
         justify-content: center;
         align-items: center;
