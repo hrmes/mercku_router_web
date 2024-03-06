@@ -56,6 +56,7 @@ export default {
   .tab {
     color: var(--text_default-color);
     background: var(--logout_btn-bgc);
+    padding: 12px 20px;
     border-radius: 5px;
     box-shadow: unset;
     &.selected {
@@ -69,7 +70,8 @@ export default {
   .tabs {
     margin-bottom: 0;
     .tab {
-      height: fit-content;
+      padding: 10px;
+      height: 100%;
     }
   }
 }

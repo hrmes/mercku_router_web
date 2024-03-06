@@ -1003,9 +1003,6 @@ $img_folder: '../../../../../base/src/assets/images';
       top: 0;
       left: 0;
       z-index: 5;
-      .btn-container {
-        background-color: var(--common_card-bgc);
-      }
     }
     .content {
       width: 100%;
