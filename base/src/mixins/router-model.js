@@ -78,7 +78,8 @@ export default {
         [RouterSnModel.Homeway]: process.env.CUSTOMER_CONFIG.routers.Homeway,
         [RouterSnModel.M6a]: getM6aProductsInfo(),
         [RouterSnModel.M6s]: process.env.CUSTOMER_CONFIG.routers.M6s,
-        [RouterSnModel.M6s_Nano]: process.env.CUSTOMER_CONFIG.routers.M6s_Nano
+        [RouterSnModel.M6s_Nano]: process.env.CUSTOMER_CONFIG.routers.M6s_Nano,
+        [RouterSnModel.X1_Pro]: process.env.CUSTOMER_CONFIG.routers.X1_Pro
       }
     };
   }

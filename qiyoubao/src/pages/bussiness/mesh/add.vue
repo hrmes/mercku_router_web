@@ -68,7 +68,7 @@
                v-show="isStep(2)">
             <div class="main-content">
               <div class="img-container">
-                <img :src="getM6sSeriesProductAddNodeImg(this.addNodeType)"
+                <img :src="getSeriesProductAddNodeImg(this.addNodeType)"
                      alt="">
               </div>
               <div v-if="addNodeType===AddNodeType.wired">
@@ -390,7 +390,7 @@ export default {
       this.stepsOption.steps[index].success = status;
       this.isMobile && this.scrollbarToTop();
     },
-    getM6sSeriesProductAddNodeImg(type) {
+    getSeriesProductAddNodeImg(type) {
       let img;
       switch (type) {
         case AddNodeType.wireless:

@@ -75,7 +75,6 @@
            v-if="!$store.state.isMobile && hasUpgradablityNodes">
         <div class="form-button__wrapper">
           <button class="btn"
-                  :disabled="!nodeChecked"
                   @click="submit()">
             {{ $t('trans0225') }}
           </button>
@@ -143,9 +142,6 @@ export default {
         return 0;
       });
     },
-    nodeChecked() {
-      return this.nodes.filter(n => n.checked).length;
-    }
   },
   mixins: [RouterModel],
   methods: {
@@ -153,7 +149,6 @@ export default {
       if (success) {
         // 升级成功
         const nodes = this.nodeChecked.filter(node => node.isGW);
-        console.log(this.nodeChecked);
         if (nodes.length) {
           // 包含网关，强制刷新网页清空缓存
           window.location.reload(true);

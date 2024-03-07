@@ -183,7 +183,7 @@ import { Models } from 'base/util/constant';
 
 const defaultPrefixLength = 64;
 const { IPv6 } = CONSTANTS.IP;
-const NoPPPoeList = [Models.m6s, Models.m6s_nano];
+const NoPPPoeList = [Models.m6s, Models.m6s_nano, Models.x1_pro];
 export default {
   data() {
     return {

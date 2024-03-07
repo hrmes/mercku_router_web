@@ -17,10 +17,10 @@ const methods = {
   getMeshRepeaterStatus: createMethod('mesh.repeater.status.get')
 };
 
-class M6sHttp extends Http {}
+class X1ProHttp extends Http {}
 
 Object.keys(methods).forEach(methodName => {
-  M6sHttp.prototype[methodName] = function name(params, httpConf) {
+  X1ProHttp.prototype[methodName] = function name(params, httpConf) {
     return this.request(methods[methodName], params, httpConf);
   };
 });
@@ -45,4 +45,4 @@ axios.interceptors.response.use(
   }
 );
 
-export default M6sHttp;
+export default X1ProHttp;
