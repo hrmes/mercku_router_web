@@ -1,21 +1,27 @@
 <template>
   <div class="page">
-    <div v-if="$store.state.isMobile"
-         class="page-header">
-      <!-- {{ $t('trans0202') }} -->
-      <div v-if="nodes.length"
-           class="btn-info">
-        <button class="btn btn-small"
-                @click="submit()">
-          {{ $t('trans0225') }}
-        </button>
-      </div>
-    </div>
     <div class="page-content">
       <div class="page-content__main">
-        <div class="nodes-wrapper"
-             v-if="hasUpgradablityNodes">
-          <div class="nodes-info">
+        <div v-if="hasUpgradablityNodes"
+             class="nodes-wrapper"
+             ref="renodes">
+          <div v-if="$store.state.isMobile"
+               class="retitle"
+               :class="{
+                 'retitle--fixed': isRetitleFixed
+               }"
+               ref="retitle">
+            <div class="retitle__btn-wrap">
+              <button @click="submit()"
+                      class="btn btn-small retitle__btn">
+                {{ $t('trans0225') }}
+              </button>
+            </div>
+          </div>
+          <div class="nodes-info"
+               :style="{
+            'margin-top': isRetitleFixed ? `${nodesInfoMarginTop}px` : 0
+          }">
             <div v-for="node in nodesOrdered"
                  :key="node.sn"
                  class="node">
@@ -108,9 +114,12 @@
 import marked from 'marked';
 import { compareVersion } from 'base/util/util';
 import RouterModel from 'base/mixins/router-model';
+import upgradeMixin from 'base/mixins/upgrade';
 import upgradeProcessDialog from './components/progress.vue';
 
+
 export default {
+  mixins: [RouterModel, upgradeMixin],
   data() {
     return {
       nodes: [],
@@ -121,11 +130,8 @@ export default {
       },
       processDialogVisible: false,
       showChangelogModal: false,
-      changelog: ''
+      changelog: '',
     };
-  },
-  mounted() {
-    this.firmwareList();
   },
   components: {
     upgradeProcessDialog
@@ -143,7 +149,9 @@ export default {
       });
     },
   },
-  mixins: [RouterModel],
+  mounted() {
+    this.firmwareList();
+  },
   methods: {
     afterCloseProgress(success) {
       if (success) {
@@ -264,7 +272,7 @@ export default {
           }
         }
       });
-    }
+    },
   }
 };
 </script>
@@ -275,6 +283,17 @@ export default {
   justify-content: space-between;
   flex-direction: column;
   width: 100%;
+  .retitle {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0 0 20px;
+    border-radius: 0;
+    word-break: keep-all;
+    .retitle__btn-wrap {
+      margin-top: 20px;
+    }
+  }
   .nodes-info {
     display: flex;
     width: 100%;
@@ -448,10 +467,39 @@ export default {
   .page {
     width: 100vw;
     .page-header {
+      width: 100%;
       height: fit-content;
-      justify-content: flex-end;
       background: var(--common_card-bgc);
       padding-bottom: 0;
+      &.fixed {
+        position: fixed;
+        top: 65px;
+      }
+    }
+    .retitle {
+      &.retitle--fixed {
+        display: block;
+        position: fixed;
+        top: 65px;
+        left: 0;
+        right: 0;
+        background: var(--dashboard_icon-bgc);
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        box-shadow: var(--offline-boxshadow);
+        z-index: 999;
+        padding: 20px;
+        margin-top: 0;
+        .retitle__btn-wrap {
+          margin-top: 0;
+        }
+        .retitle__btn {
+          margin-left: 0;
+        }
+      }
+    }
+    .page-content__main {
+      padding-top: 0;
     }
   }
   .nodes-wrapper {

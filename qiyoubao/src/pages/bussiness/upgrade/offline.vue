@@ -41,7 +41,7 @@
                  'retitle--fixed': isRetitleFixed
                }"
                  ref="retitle">
-              {{ $t('trans0333') }}
+              <span>{{ $t('trans0333') }}</span>
               <div v-if="$store.state.isMobile"
                    class="retitle__btn-wrap">
                 <button @click="upgrade()"
@@ -121,10 +121,10 @@
 import { UploadStatus, Models } from 'base/util/constant';
 import { getFileExtendName } from 'base/util/util';
 import RouterModel from 'base/mixins/router-model';
+import upgradeMixin from 'base/mixins/upgrade';
 
-const mobileWidth = 768;
 export default {
-  mixins: [RouterModel],
+  mixins: [RouterModel, upgradeMixin],
   data() {
     return {
       files: [],
@@ -136,8 +136,6 @@ export default {
       packageInfo: {},
       fwInfo: {},
       upgraded: false,
-      isRetitleFixed: false,
-      nodesInfoMarginTop: 114
     };
   },
   beforeRouteLeave(to, from, next) {
@@ -203,45 +201,12 @@ export default {
       });
     }
   },
-  watch: {
-    isRetitleFixed(val) {
-      if (!val && this.$refs.retitle) {
-        const { height } = this.$refs.retitle.getBoundingClientRect();
-        this.nodesInfoMarginTop = height;
-      }
-    }
-  },
-  mounted() {
-    window.addEventListener('scroll', this.scrollHandler, true);
-    window.addEventListener('resize', this.resizeHandler);
-  },
-  destroyed() {
-    window.removeEventListener('scroll', this.scrollHandler, true);
-    window.removeEventListener('resize', this.resizeHandler);
-  },
   methods: {
     transWebsite(text) {
       return this.$t(text).replace(
         '%s',
         process.env.CUSTOMER_CONFIG.website.url
       );
-    },
-    resizeHandler() {
-      if (document.body.clientWidth > mobileWidth) {
-        this.isRetitleFixed = false;
-      } else {
-        this.scrollHandler();
-      }
-    },
-    scrollHandler() {
-      let flag = false;
-      if (this.$refs.renodes && document.body.clientWidth <= mobileWidth) {
-        const { top } = this.$refs.renodes.getBoundingClientRect();
-        flag = top <= 65;
-      }
-      this.$nextTick(() => {
-        this.isRetitleFixed = flag;
-      });
     },
     check(node) {
       node.checked = !node.checked;
@@ -401,37 +366,22 @@ export default {
   }
 }
 .nodes-wrapper {
-  .retitle {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    padding: 0 0 20px;
-    border-radius: 0;
-    word-break: keep-all;
-    &.retitle--fixed {
-      display: block;
-      position: fixed;
-      top: 65px;
-      left: 0;
-      right: 0;
-      background: var(--dashboard_icon-bgc);
-      border-bottom-left-radius: 20px;
-      border-bottom-right-radius: 20px;
-      box-shadow: var(--offline-boxshadow);
-      z-index: 999;
-      padding: 20px;
-      .retitle__btn-wrap {
-        margin-top: 15px;
-      }
-      .retitle__btn {
-        margin-left: 0;
-      }
-    }
-  }
   text-align: center;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  .retitle {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 20px 0;
+    border-radius: 0;
+    word-break: keep-all;
+    .retitle__btn-wrap {
+      margin-top: 20px;
+    }
+  }
+
   .nodes-info {
     display: flex;
     width: 100%;
@@ -556,8 +506,22 @@ export default {
     .retitle {
       flex-direction: column;
       text-align: left;
-      .retitle__btn-wrap {
-        margin-top: 15px;
+      &.retitle--fixed {
+        display: block;
+        position: fixed;
+        top: 65px;
+        left: 0;
+        right: 0;
+        background: var(--dashboard_icon-bgc);
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        box-shadow: var(--offline-boxshadow);
+        z-index: 999;
+        padding: 20px;
+        margin-top: 0;
+        .retitle__btn {
+          margin-left: 0;
+        }
       }
     }
     .nodes-info {
