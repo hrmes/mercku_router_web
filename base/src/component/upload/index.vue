@@ -310,7 +310,7 @@ export default {
   }
   .upload__files {
     width: 100%;
-    margin: 20px 0;
+    margin: 20px 0 0;
   }
   .file {
     & + .file {
