@@ -3,19 +3,36 @@
     <div v-if="$store.state.isMobile"
          class="page-header">
       {{ $t('trans0202') }}
-      <div class="btn-info"
+      <!-- <div class="btn-info"
            v-if="nodes.length">
         <button class="btn btn-small"
                 @click="submit()">
           {{ $t('trans0225') }}
         </button>
-      </div>
+      </div> -->
     </div>
     <div class="page-content">
       <div class="page-content__main">
-        <div class="nodes-wrapper"
-             v-if="hasUpgradablityNodes">
-          <div class="nodes-info">
+        <div v-if="hasUpgradablityNodes"
+             class="nodes-wrapper"
+             ref="renodes">
+          <div class="retitle"
+               :class="{
+                 'retitle--fixed': isRetitleFixed
+               }"
+               ref="retitle">
+            <div v-if="$store.state.isMobile"
+                 class="retitle__btn-wrap">
+              <button @click="submit()"
+                      class="btn btn-small retitle__btn">
+                {{ $t('trans0225') }}
+              </button>
+            </div>
+          </div>
+          <div class="nodes-info"
+               :style="{
+            'margin-top': isRetitleFixed ? `${nodesInfoMarginTop}px` : 0
+          }">
             <div v-for="node in nodes"
                  :key="node.sn"
                  class="node">
@@ -109,9 +126,12 @@ import marked from 'marked';
 import { compareVersion } from 'base/util/util';
 import { RouterSnModel } from 'base/util/constant';
 import RouterModel from 'base/mixins/router-model';
+import upgradeMixin from 'base/mixins/upgrade';
+
 import upgradeProcessDialog from './components/progress.vue';
 
 export default {
+  mixins: [RouterModel, upgradeMixin],
   data() {
     return {
       nodes: [],
@@ -137,7 +157,6 @@ export default {
       return this.nodes.length > 0;
     }
   },
-  mixins: [RouterModel],
   methods: {
     afterCloseProgress(success) {
       if (success) {
@@ -447,7 +466,38 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .page-content {
+    .page-content__main {
+      padding-top: 0;
+    }
+  }
   .nodes-wrapper {
+    .retitle {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 20px 0;
+      border-radius: 0;
+      word-break: keep-all;
+      flex-direction: column;
+      text-align: left;
+      &.retitle--fixed {
+        display: block;
+        position: fixed;
+        top: 65px;
+        left: 0;
+        right: 0;
+        background: var(--dashboard_icon-bgc);
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        box-shadow: var(--offline-boxshadow);
+        z-index: 999;
+        padding: 20px;
+        .retitle__btn {
+          margin: 0;
+        }
+      }
+    }
     .nodes-info {
       .node {
         margin-left: auto;
