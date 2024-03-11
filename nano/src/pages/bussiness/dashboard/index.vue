@@ -603,6 +603,22 @@ h6 {
     clip-path: circle(125%);
   }
 }
+@mixin aspect($width: 1, $height: 1) {
+  aspect-ratio: $width / $height;
+
+  @supports not (aspect-ratio: $width / $height) {
+    &::before {
+      content: '';
+      float: left;
+      padding-top: calc((#{$height} / #{$width}) * 100%);
+    }
+    &::after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+  }
+}
 $img_folder: '../../../../../base/src/assets/images';
 
 [transition-style='out:circle:center'] {
@@ -804,7 +820,7 @@ $img_folder: '../../../../../base/src/assets/images';
         background-color: transparent;
         box-shadow: none;
         .router__img {
-          aspect-ratio: 1;
+          @include aspect(1, 1);
           width: 100%;
           min-width: 350px;
           max-width: 440px;
@@ -815,7 +831,7 @@ $img_folder: '../../../../../base/src/assets/images';
           width: 100%;
           min-width: 350px;
           max-width: 440px;
-          aspect-ratio: 1;
+          @include aspect(1, 1);
           position: relative;
           z-index: 2;
         }
