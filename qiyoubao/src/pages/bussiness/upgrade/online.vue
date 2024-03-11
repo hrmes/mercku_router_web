@@ -283,17 +283,6 @@ export default {
   justify-content: space-between;
   flex-direction: column;
   width: 100%;
-  .retitle {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    padding: 0 0 20px;
-    border-radius: 0;
-    word-break: keep-all;
-    .retitle__btn-wrap {
-      margin-top: 20px;
-    }
-  }
   .nodes-info {
     display: flex;
     width: 100%;
@@ -466,17 +455,14 @@ export default {
 @media screen and (max-width: 768px) {
   .page {
     width: 100vw;
-    .page-header {
-      width: 100%;
-      height: fit-content;
-      background: var(--common_card-bgc);
-      padding-bottom: 0;
-      &.fixed {
-        position: fixed;
-        top: 65px;
-      }
-    }
     .retitle {
+      width: 100%;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 20px 0;
+      border-radius: 0;
+      word-break: keep-all;
       &.retitle--fixed {
         display: block;
         position: fixed;
@@ -487,12 +473,8 @@ export default {
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
         box-shadow: var(--offline-boxshadow);
-        z-index: 999;
         padding: 20px;
-        margin-top: 0;
-        .retitle__btn-wrap {
-          margin-top: 0;
-        }
+        z-index: 999;
         .retitle__btn {
           margin-left: 0;
         }

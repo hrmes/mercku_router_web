@@ -377,9 +377,6 @@ export default {
     padding: 20px 0;
     border-radius: 0;
     word-break: keep-all;
-    .retitle__btn-wrap {
-      margin-top: 20px;
-    }
   }
 
   .nodes-info {
@@ -506,6 +503,9 @@ export default {
     .retitle {
       flex-direction: column;
       text-align: left;
+      .retitle__btn-wrap {
+        margin-top: 20px;
+      }
       &.retitle--fixed {
         display: block;
         position: fixed;

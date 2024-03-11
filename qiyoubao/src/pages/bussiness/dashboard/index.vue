@@ -807,6 +807,7 @@ $img_folder: '../../../../../base/src/assets/images';
         .router__img {
           aspect-ratio: 1;
           width: 100%;
+          height: 100%;
           min-width: 350px;
           max-width: 440px;
           position: relative;
@@ -814,6 +815,7 @@ $img_folder: '../../../../../base/src/assets/images';
         }
         img {
           width: 100%;
+          height: 100%;
           min-width: 350px;
           max-width: 440px;
           aspect-ratio: 1;
@@ -1086,13 +1088,15 @@ $img_folder: '../../../../../base/src/assets/images';
             min-width: auto;
             min-height: auto;
             width: 195px;
+            height: 195px;
           }
           img {
             max-width: auto;
             max-height: auto;
             min-width: auto;
             min-height: auto;
-            width: 195px;
+            width: 100%;
+            height: 100%;
           }
         }
         .background-shadow {

@@ -511,7 +511,7 @@ export default {
       const { form } = this;
       form.b5g.ssid = form.smart_connect
         ? form.b24g.ssid
-        : `${form.b24g.ssid}_5G`;
+        : `${form.b24g.ssid}-5G`;
       form.b5g.password = form.b24g.password;
       form.b5g.encrypt = form.b24g.encrypt;
       form.b5g.hidden = form.b24g.hidden;
