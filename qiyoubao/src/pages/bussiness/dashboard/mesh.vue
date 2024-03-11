@@ -843,6 +843,23 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
+@mixin aspect($width: 16, $height: 9) {
+  aspect-ratio: $width / $height;
+
+  @supports not (aspect-ratio: $width / $height) {
+    &::before {
+      content: '';
+      float: left;
+      padding-top: calc((#{$height} / #{$width}) * 100%);
+    }
+
+    &::after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+  }
+}
 $img_folder: '../../../../../base/src/assets/images';
 .edit-name-modal {
   .content {
@@ -1179,7 +1196,7 @@ $img_folder: '../../../../../base/src/assets/images';
           .router__img {
             width: 150px;
             height: 150px;
-            aspect-ratio: 1/1;
+            @include aspect(1, 1);
           }
           .mesh-router__info {
             display: grid;
@@ -1199,7 +1216,7 @@ $img_folder: '../../../../../base/src/assets/images';
                 width: 40px;
                 height: 40px;
                 margin-right: 5px;
-                aspect-ratio: 1/1;
+                @include aspect(1, 1);
                 background: url(../../../assets/images/icon/ic_homepage.svg)
                   center no-repeat;
                 background-size: contain;
@@ -1345,7 +1362,7 @@ $img_folder: '../../../../../base/src/assets/images';
                 .guest {
                   display: inline-block;
                   height: 20px;
-                  aspect-ratio: 38/23;
+                  @include aspect(38, 23);
                   margin-left: 15px;
                   background: url(#{$img_folder}/icon/ic_guest.svg)
                     center/contain no-repeat;

@@ -751,10 +751,10 @@ export default {
       if (!this.devicesMap[this.id]) this.devicesMap[this.id] = [];
 
       const curId = this.id;
-      const devicesInfo = await this.$http.getDeviceList(params);
+      const res = await this.$http.getDeviceList(params);
       if (curId === this.id) {
-        const res = devicesInfo.data.result;
-        const result = res.map(v => ({
+        const { devices } = res.data.result;
+        const result = devices.map(v => ({
           ...v,
           expand: false,
           checked: false
