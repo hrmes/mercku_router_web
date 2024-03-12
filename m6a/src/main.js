@@ -18,9 +18,11 @@ import Http from './http';
 import i18nInstance from './i18n';
 import router from './router';
 
+require('base/style/common.scss');
+require('base/style/theme-mode.scss');
+require('@/style/router-model.scss');
 // 不同客户特别的样式表
 require(`./style/${process.env.CUSTOMER_CONFIG.id}/custom.scss`);
-require('base/style/theme-mode.scss');
 
 const launch = () => {
   const http = new Http();

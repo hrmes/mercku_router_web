@@ -836,22 +836,8 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-@mixin aspect($width: 1, $height: 1) {
-  aspect-ratio: $width / $height;
+@import '../../../../../base/src/style/mixin.scss';
 
-  @supports not (aspect-ratio: $width / $height) {
-    &::before {
-      content: '';
-      float: left;
-      padding-top: calc((#{$height} / #{$width}) * 100%);
-    }
-    &::after {
-      content: '';
-      display: block;
-      clear: both;
-    }
-  }
-}
 $img_folder: '../../../../../base/src/assets/images';
 
 .edit-name-modal {

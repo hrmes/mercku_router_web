@@ -26,8 +26,6 @@
   </div>
 </template>
 <script>
-import 'base/style/common.scss';
-import '@/style/router-model.scss';
 import defaultLayout from 'base/layouts/default.vue';
 import primaryLayout from 'base/layouts/primary.vue';
 import getMenu from './menu';

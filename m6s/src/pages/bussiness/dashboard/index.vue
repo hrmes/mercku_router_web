@@ -577,6 +577,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 h2,
 h4,
@@ -604,22 +605,8 @@ h6 {
     clip-path: circle(125%);
   }
 }
-@mixin aspect($width: 1, $height: 1) {
-  aspect-ratio: $width / $height;
+@import '../../../../../base/src/style/mixin.scss';
 
-  @supports not (aspect-ratio: $width / $height) {
-    &::before {
-      content: '';
-      float: left;
-      padding-top: calc((#{$height} / #{$width}) * 100%);
-    }
-    &::after {
-      content: '';
-      display: block;
-      clear: both;
-    }
-  }
-}
 $img_folder: '../../../../../base/src/assets/images';
 
 [transition-style='out:circle:center'] {
