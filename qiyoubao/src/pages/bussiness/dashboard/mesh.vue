@@ -134,7 +134,7 @@
               </div>
               <ul class="card-bottom__main reset-ul"
                   v-if="selectedNodeInfo.stations.length">
-                <li v-for="sta in listOrdered"
+                <li v-for="sta in sortedStationsList"
                     :key="sta.ip">
                   <div class="col-1">
                     <span class="local-device"
@@ -273,7 +273,7 @@
 <script>
 import marked from 'marked';
 import { formatMac } from 'base/util/util';
-import { RouterStatus, Color } from 'base/util/constant';
+import { RouterStatus, Color, Bands } from 'base/util/constant';
 import meshEditMixin from 'base/mixins/mesh-edit.js';
 import genData from './topo';
 
@@ -356,12 +356,42 @@ export default {
     modelName() {
       return process.env.CUSTOMER_CONFIG.routers.X1_Pro.shortName;
     },
-    listOrdered() {
+    sortedStationsList() {
       return this.selectedNodeInfo.stations.sort((a, b) => {
-        if (this.isThisMachine(a.ip)) {
-          return -1;
+        if (this.isThisMachine(a.ip) || this.isThisMachine(b.ip)) {
+          if (this.isThisMachine(a.ip)) {
+            return -1;
+          }
+          if (this.isThisMachine(b.ip)) {
+            return 1;
+          }
+          return 0;
         }
-        return 0;
+        if (this.isWired(a.connected_network.band) || this.isWired(b.connected_network.band)) {
+          if (
+            this.isWired(a.connected_network.band) &&
+            this.isWired(b.connected_network.band)
+          ) {
+            const isLetterOrNumberReg = /[0-9A-Za-z]+/i;
+            if (isLetterOrNumberReg.test(a.name) && !isLetterOrNumberReg.test(b.name)) {
+              return -1;
+            }
+            if (!isLetterOrNumberReg.test(a.name) && isLetterOrNumberReg.test(b.name)) {
+              return 1;
+            }
+            return a.name.localeCompare(b.name);
+          }
+          if (this.isWired(a.connected_network.band)) {
+            return 1;
+          }
+          if (this.isWired(b.connected_network.band)) {
+            return -1;
+          }
+          return 0;
+        }
+        return (
+          a.online_info.online_duration - b.online_info.online_duration
+        );
       });
     },
     selectedNodeIp() {
@@ -417,7 +447,7 @@ export default {
       return type === GUEST;
     },
     isWired(band) {
-      return band === 'wired' || band === 'game_wired';
+      return band === Bands.wired || band === Bands.game_wired;
     },
     connectQuality(color) {
       let result = '';
@@ -584,6 +614,7 @@ export default {
     },
     drawTopo(routers) {
       // const oldRouters = this.routers;
+
       const data = genData(routers);
 
       data.nodes.forEach(n => {
@@ -843,23 +874,8 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-@mixin aspect($width: 16, $height: 9) {
-  aspect-ratio: $width / $height;
+@import '../../../../../base/src/style/mixin.scss';
 
-  @supports not (aspect-ratio: $width / $height) {
-    &::before {
-      content: '';
-      float: left;
-      padding-top: calc((#{$height} / #{$width}) * 100%);
-    }
-
-    &::after {
-      content: '';
-      display: block;
-      clear: both;
-    }
-  }
-}
 $img_folder: '../../../../../base/src/assets/images';
 .edit-name-modal {
   .content {

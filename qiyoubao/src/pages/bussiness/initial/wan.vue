@@ -403,7 +403,7 @@ export default {
               this.$router.replace({ path: '/initial/wifi' });
               break;
             default:
-              this.$toast(this.$t('trans1240'));
+              this.$toast(this.$t('trans1240'), 5000, 'success');
               this.isChecking = false;
               break;
           }

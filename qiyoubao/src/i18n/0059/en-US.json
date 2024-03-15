@@ -1232,7 +1232,7 @@
   "trans1237": "Start Configuration",
   "trans1238": "Scan the code and download the app to get free acceleration hours",
   "trans1239": "Checking for Internet connection， please wait…",
-  "trans1240": "Connection failed, please choose the Internet settings manually.",
+  "trans1240": "No access to the Internet, please choose the Internet setting manually or skip it.",
   "trans1241": "Internet Settings:",
   "trans1242": "WISP",
   "trans1243": "Please enter the PPPoE username",

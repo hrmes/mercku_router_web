@@ -85,12 +85,17 @@ export const SpeedTestStatus = {
   failed: 'failed'
 };
 export const Bands = {
+  '2.4g': '2.4g',
+  '5g': '5g',
   '2.4G': '2.4G',
   '5G': '5G',
   Game: 'Game',
   b24g: '2.4G',
   b5g: '5G',
-  bGame: 'Game'
+  bGame: 'Game',
+  wired: 'wired',
+  game_wired: 'game_wired',
+  game_wifi: 'game_wifi'
 };
 export const channelMode = {
   auto: 'auto',

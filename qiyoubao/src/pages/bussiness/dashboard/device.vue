@@ -176,8 +176,7 @@
                     <span v-if='row.local'
                           class="local-device-wrapper">
                       <img class="localDevice"
-                           :src="require('base/assets/images/icon/ic_local-device.svg')"
-                           title="LocalDevice">
+                           :src="require('base/assets/images/icon/ic_local-device.svg')">
                     </span>
                   </div>
                   <div class="name-wrap"
@@ -187,8 +186,7 @@
                         <span v-if='isMobile && row.local'
                               class="local-device-wrapper">
                           <img class="localDevice"
-                               :src="require('base/assets/images/icon/ic_local-device.svg')"
-                               title="LocalDevice" />
+                               :src="require('base/assets/images/icon/ic_local-device.svg')" />
                         </span>
                         <span :title='row.name'
                               class="overflow-hidden">{{row.name}}</span>
@@ -417,7 +415,7 @@ import {
   formatDate,
   formatDuration
 } from 'base/util/util';
-import { BlacklistMode, RouterMode } from 'base/util/constant';
+import { BlacklistMode, RouterMode, Bands } from 'base/util/constant';
 import speedLimit from 'base/component/limit/speed/index';
 
 export default {
@@ -513,15 +511,24 @@ export default {
       return this.$route.path.includes('/dashboard/device');
     },
   },
+  watch: {
+    devicesMap: {
+      handler: function temp(v) {
+        if (v[this.id].length > 0) {
+          if (v[this.id].map(item => item.checked).some(n => !n)) {
+            this.checkAll = false;
+          } else {
+            this.checkAll = true;
+          }
+        }
+      },
+      deep: true
+    }
+  },
   async mounted() {
     const selfInfo = await this.$http.getLocalDevice();
     this.localDeviceIP = selfInfo.data.result.ip;
     this.getDeviceList(true);
-  },
-  beforeDestroy() {
-    this.pageActive = false;
-    clearTimeout(this.timer);
-    this.timer = null;
   },
   methods: {
     onBack(target) {
@@ -535,7 +542,7 @@ export default {
       return row?.access_node?.name ?? '-';
     },
     isWired(row) {
-      return row.online_info.band === 'wired' || row.online_info.band === 'game_wired';
+      return row.online_info.band === Bands.wired || row.online_info.band === Bands.game_wired;
     },
     isCurrentTab(tab) {
       return tab.id === this.id;
@@ -593,11 +600,10 @@ export default {
               }
               return 0;
             }
-            const wired = 'wired';
-            if (a.online_info.band === wired || b.online_info.band === wired) {
+            if (this.isWired(a) || this.isWired(b)) {
               if (
-                a.online_info.band === wired &&
-                b.online_info.band === wired
+                this.isWired(a) &&
+                this.isWired(b)
               ) {
                 const isLetterOrNumberReg = /[0-9A-Za-z]+/i;
                 if (isLetterOrNumberReg.test(a.name) && !isLetterOrNumberReg.test(b.name)) {
@@ -608,10 +614,10 @@ export default {
                 }
                 return a.name.localeCompare(b.name);
               }
-              if (a.online_info.band === wired) {
+              if (this.isWired(a)) {
                 return 1;
               }
-              if (b.online_info.band === wired) {
+              if (this.isWired(b)) {
                 return -1;
               }
               return 0;
@@ -1038,20 +1044,11 @@ export default {
       return icon;
     }
   },
-  watch: {
-    devicesMap: {
-      handler: function temp(v) {
-        if (v[this.id].length > 0) {
-          if (v[this.id].map(item => item.checked).some(n => !n)) {
-            this.checkAll = false;
-          } else {
-            this.checkAll = true;
-          }
-        }
-      },
-      deep: true
-    }
-  }
+  beforeDestroy() {
+    this.pageActive = false;
+    clearTimeout(this.timer);
+    this.timer = null;
+  },
 };
 </script>
 <style lang="scss" scoped>

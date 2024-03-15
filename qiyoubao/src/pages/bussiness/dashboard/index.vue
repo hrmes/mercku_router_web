@@ -604,21 +604,7 @@ h6 {
     clip-path: circle(125%);
   }
 }
-@mixin aspect($width: 1, $height: 1) {
-  aspect-ratio: $width / $height;
-  @supports not (aspect-ratio: $width / $height) {
-    &::before {
-      content: '';
-      float: left;
-      padding-top: calc((#{$height} / #{$width}) * 100%);
-    }
-    &::after {
-      content: '';
-      display: block;
-      clear: both;
-    }
-  }
-}
+@import '../../../../../base/src/style/mixin.scss';
 $img_folder: '../../../../../base/src/assets/images';
 
 [transition-style='out:circle:center'] {
