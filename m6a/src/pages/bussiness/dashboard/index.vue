@@ -129,7 +129,8 @@
       </div>
       <div class="functional">
         <div class="row-1">
-          <div class="mesh-name">
+          <div class="mesh-name"
+               :title="meshGatewayInfo.name">
             {{meshGatewayInfo.name?meshGatewayInfo.name:'-'}}
           </div>
           <span class="btn-icon"

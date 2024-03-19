@@ -126,7 +126,7 @@
             <div class="card-bottom">
               <div class="card-bottom__offline-tips"
                    v-if="isRouterOffline(selectedNodeInfo)">
-                The device is offline
+                {{$t('trans0219')}}
                 <span>{{$t('trans0128')}}</span>
               </div>
               <div class="card-bottom__header">
@@ -141,7 +141,7 @@
               </div>
               <ul class="card-bottom__main reset-ul"
                   v-if="selectedNodeInfo.stations.length>0">
-                <li v-for="sta in listOrdered"
+                <li v-for="sta in sortedStationsList"
                     :key="sta.ip">
                   <div class="col-1">
                     <span class="local-device"
@@ -264,7 +264,8 @@ import { formatMac } from 'base/util/util';
 import {
   RouterStatus,
   Color,
-  M6aRouterSnModelVersion
+  M6aRouterSnModelVersion,
+  Bands
 } from 'base/util/constant';
 import meshEditMixin from 'base/mixins/mesh-edit.js';
 import genData from './topo';
@@ -364,12 +365,34 @@ export default {
       const name = routerConfig[model].shortName;
       return name;
     },
-    listOrdered() {
+    sortedStationsList() {
       return this.selectedNodeInfo.stations.sort((a, b) => {
-        if (this.isThisMachine(a.ip)) {
+        if (this.isThisMachine(a.ip) || this.isThisMachine(b.ip)) {
+          if (this.isThisMachine(a.ip)) {
+            return -1;
+          }
+          if (this.isThisMachine(b.ip)) {
+            return 1;
+          }
+          return 0;
+        }
+        if (this.isWired(a.connected_network.band) || this.isWired(b.connected_network.band)) {
+          if (this.isWired(a.connected_network.band)) {
+            return 1;
+          }
+          if (this.isWired(b.connected_network.band)) {
+            return -1;
+          }
+          return 0;
+        }
+        const isLetterOrNumberReg = /[0-9A-Za-z]+/i;
+        if (isLetterOrNumberReg.test(a.name) && !isLetterOrNumberReg.test(b.name)) {
           return -1;
         }
-        return 0;
+        if (!isLetterOrNumberReg.test(a.name) && isLetterOrNumberReg.test(b.name)) {
+          return 1;
+        }
+        return a.name.localeCompare(b.name);
       });
     },
     selectedNodeIp() {
@@ -425,7 +448,7 @@ export default {
       return type === GUEST;
     },
     isWired(band) {
-      return band === 'wired';
+      return band === Bands.wired;
     },
     connectQuality(color) {
       let result = '';
@@ -552,7 +575,6 @@ export default {
           ...this.routers.filter(route => route.sn === sn)[0],
           color
         };
-        console.log(this.selectedNodeInfo);
         this.showTable = true;
 
         // 立即重新绘制图表，并在下一个更新周期前调整大小
@@ -715,7 +737,6 @@ export default {
         .getMeshNode()
         .then(res => {
           const { result } = res.data;
-          console.log(result);
           if (!this.chart) {
             this.initChart();
           }

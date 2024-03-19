@@ -379,7 +379,7 @@ import {
   formatDate,
   formatDuration
 } from 'base/util/util';
-import { BlacklistMode, RouterMode } from 'base/util/constant';
+import { BlacklistMode, RouterMode, Bands } from 'base/util/constant';
 import speedLimit from 'base/component/limit/speed/index';
 
 export default {
@@ -495,7 +495,7 @@ export default {
       return row?.access_node?.name ?? '-';
     },
     isWired(row) {
-      return row.online_info.band === 'wired';
+      return row.online_info.band === Bands.wired;
     },
     isCurrentTab(tab) {
       return tab.id === this.id;
@@ -559,11 +559,10 @@ export default {
               }
               return 0;
             }
-            const wired = 'wired';
-            if (a.online_info.band === wired || b.online_info.band === wired) {
+            if (a.online_info.band === Bands.wired || b.online_info.band === Bands.wired) {
               if (
-                a.online_info.band === wired &&
-                b.online_info.band === wired
+                a.online_info.band === Bands.wired &&
+                b.online_info.band === Bands.wired
               ) {
                 const isLetterOrNumberReg = /[0-9A-Za-z]+/i;
                 if (isLetterOrNumberReg.test(a.name) && !isLetterOrNumberReg.test(b.name)) {
@@ -574,10 +573,10 @@ export default {
                 }
                 return a.name.localeCompare(b.name);
               }
-              if (a.online_info.band === wired) {
+              if (a.online_info.band === Bands.wired) {
                 return 1;
               }
-              if (b.online_info.band === wired) {
+              if (b.online_info.band === Bands.wired) {
                 return -1;
               }
               return 0;

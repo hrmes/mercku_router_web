@@ -28,15 +28,21 @@ const isGood = rssi => rssi >= -60;
 
 function filterValidNeighbors(neighbors) {
   const isValidNeighbor = n => {
-    if (
-      !Object.prototype.hasOwnProperty.call(n, 'sn') ||
-      !Object.prototype.hasOwnProperty.call(n, 'rssi') ||
-      !Object.prototype.hasOwnProperty.call(n, 'backhaul_type')
-    ) {
+    if (!Object.prototype.hasOwnProperty.call(n, 'sn')) {
+      console.log(`neighbors: ${n.sn} sn缺失`);
+      return false;
+    }
+    if (!Object.prototype.hasOwnProperty.call(n, 'rssi')) {
+      console.log(`neighbors: ${n.sn} rssi缺失`);
+      return false;
+    }
+    if (!Object.prototype.hasOwnProperty.call(n, 'backhaul_type')) {
+      console.log(`neighbors: ${n.sn} backhaul_type缺失`);
       return false;
     }
     // 检查是否存在 sn 且值为字符串，长度为15，且只包含数字
     if (typeof n.sn !== 'string' || n.sn.length !== 15 || !/^\d+$/.test(n.sn)) {
+      console.log(`neighbors: ${n.sn} sn有误`);
       return false;
     }
     // 检查 backhaul_type 是否为合法值
@@ -47,6 +53,7 @@ function filterValidNeighbors(neighbors) {
       'unknown'
     ];
     if (!validBackhaulTypes.includes(n.backhaul_type)) {
+      console.log(`neighbors: ${n.sn} backhaul_type值有误`);
       return false;
     }
     // 如果所有条件都满足，说明对象结构是合法的
@@ -249,6 +256,10 @@ function genLines(gateway, green, red, nodes, fullLine) {
   }
 
   const lines = [];
+  console.log('1', gateway);
+  console.log('2', green);
+  console.log('3', red);
+
   gateway.neighbors.forEach(n => {
     const node = nodes.find(s => s.sn === n.sn);
     if (!exist(node, gateway)) {

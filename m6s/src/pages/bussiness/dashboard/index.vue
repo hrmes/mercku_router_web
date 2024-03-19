@@ -128,12 +128,12 @@
       </div>
       <div class="functional">
         <div class="row-1">
-          <div :title="meshGatewayInfo.name"
-               class="mesh-name">
+          <div class="mesh-name"
+               :title="meshGatewayInfo.name">
             {{meshGatewayInfo.name?meshGatewayInfo.name:'-'}}
           </div>
           <span class="btn-icon"
-                :class="{disabled:!meshGatewayInfo.name}"
+                :class="{disabled:!meshGatewayInfo.name, close:!meshGatewayInfo.name}"
                 v-if="!isMobile"
                 @click.stop="editMesh(meshGatewayInfo)">
             <i class="iconfont ic_edit"></i>
