@@ -433,7 +433,8 @@ export default {
   flex-direction: column;
   position: relative;
   .changelog {
-    word-wrap: break-word;
+    word-wrap: normal;
+    white-space: pre-line;
     p:first-child {
       margin-top: 0;
     }

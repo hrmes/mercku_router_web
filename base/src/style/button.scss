@@ -70,7 +70,6 @@
       min-width: initial;
     }
   }
-
 }
 
 .btn-default {
@@ -79,7 +78,11 @@
   border: 2px solid transparent;
   background-clip: padding-box, border-box;
   background-origin: padding-box, border-box;
-  background-image: linear-gradient(to right, var(--dashboard_icon-bgc), var(--dashboard_icon-bgc)),
+  background-image: linear-gradient(
+      to right,
+      var(--dashboard_icon-bgc),
+      var(--dashboard_icon-bgc)
+    ),
     var(--common_btn_default-bgimg);
   transition: all 0.1s ease-in-out;
 }
@@ -168,7 +171,7 @@
   .icon-hover-popover {
     display: none;
     position: absolute;
-    padding: 5px 8px;
+    padding: 3px 8px 5px;
     font-size: 14px;
     background: var(--table_action_popover-bgc);
     color: #fff;
@@ -225,7 +228,6 @@
     .icon-hover-popover {
       display: block;
     }
-
   }
 
   &.disabled {

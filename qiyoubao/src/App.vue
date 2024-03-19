@@ -17,7 +17,7 @@
                        :hasBackWrap='hasBackWrap'
                        :asideInfo='asideInfo'></component>
           </transition>
-          <qiyou-footer :isLoginPage="isLoginPage "
+          <qiyou-footer :isLoginPage="isLoginPage"
                         :isInitialPage="isInitialPage"
                         :navVisible="navVisible" />
         </div>
@@ -169,12 +169,13 @@ export default {
 [data-title]:after {
   content: attr(data-title);
   position: absolute;
-  bottom: -95%;
+  bottom: -75%;
   right: 0;
   width: fit-content;
   height: fit-content;
+  line-height: 1;
   font-size: 14px;
-  padding: 5px 15px 5px;
+  padding: 8px 15px;
   color: #ffffff;
   background: var(--table_action_popover-bgc);
   border-radius: 5px;
@@ -182,8 +183,8 @@ export default {
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
   cursor: default;
   opacity: 0;
-  z-index: 999;
   visibility: hidden;
+  z-index: 999;
   transition: all 0.2s ease-in-out;
 }
 [data-title] {

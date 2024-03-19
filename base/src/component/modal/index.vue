@@ -71,6 +71,26 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (min-width: 768px) {
+    &::-webkit-scrollbar,
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    &::-webkit-scrollbar-track,
+    ::-webkit-scrollbar-track {
+      background-color: var(--scrollbar_wrap_track-color);
+      border-radius: 100px;
+    }
+    &::-webkit-scrollbar-thumb,
+    ::-webkit-scrollbar-thumb {
+      background-color: var(--scrollbar_wrap_thumb-color);
+      border-radius: 100px;
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
   &.modal-enter-active {
     transition: all 0.3s ease-in;
   }
