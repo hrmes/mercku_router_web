@@ -496,7 +496,7 @@ recursive(routes.routes);
 Array.prototype.push.apply(routes.routes, [
   {
     path: '*',
-    redirect: `${prefix}/wlan`
+    redirect: `${prefix}/login`
   },
   {
     path: '/',

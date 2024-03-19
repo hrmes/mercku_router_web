@@ -5,7 +5,7 @@
     </div>
     <div class="step-content">
       <div class="step-item step-item1"
-           v-show="stepOption.current===0">
+           v-if="stepOption.current===0">
         <m-form ref="wifiForm"
                 :model="wifiForm"
                 :rules="wifiFormRules">
@@ -61,12 +61,17 @@
           </template>
           <div class="button-container">
             <button @click="step1()"
-                    class="btn">{{$t('trans0055')}}</button>
+                    class="btn ">{{$t('trans0055')}}</button>
+            <button v-if="showSkip"
+                    @click="skipInitial"
+                    class="btn btn-default">
+              {{$t('trans0163')}}
+            </button>
           </div>
         </m-form>
       </div>
       <div class="step-item step-item2"
-           v-show="stepOption.current===1">
+           v-if="stepOption.current===1">
         <m-loading :color="loadingColor"
                    :size="36"></m-loading>
         <p class="cutdown">{{$t('trans0294')}}{{countdown}}s</p>
@@ -110,7 +115,7 @@
 </template>
 <script>
 import { Bands } from 'base/util/constant';
-import { getStringByte, isValidPassword, isFieldHasComma, isFieldHasSpaces } from 'base/util/util';
+import { getStringByte, isValidPassword, isFieldHasComma } from 'base/util/util';
 
 export default {
   data() {
@@ -190,6 +195,9 @@ export default {
   computed: {
     tipsText() {
       return this.wifiForm.smart_connect ? this.$t('trans0922') : this.$t('trans0921');
+    },
+    showSkip() {
+      return this.stepOption.current !== 1;
     }
   },
   mounted() {
@@ -286,7 +294,10 @@ export default {
             });
           });
       }
-    }
+    },
+    skipInitial() {
+      this.$router.replace({ path: '/dashboard' });
+    },
   }
 };
 </script>

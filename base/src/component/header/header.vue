@@ -199,6 +199,7 @@
 </template>
 <script>
 import Velocity from 'velocity-animate';
+import store from '@/store';
 
 const Languages = [
   {
@@ -492,10 +493,12 @@ export default {
         message: this.$t('trans0323'),
         callback: {
           ok: () => {
+            store.commit('clearToken'); // 取消所有请求，立即执行登出接口
             this.$http.loginout().then(() => {
-              this.mobileNavVisible = false;
-              this.$router.replace({ path: '/login' });
+              document.cookie = 'session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
             });
+            this.mobileNavVisible = false;
+            this.$router.replace({ path: '/login' });
           }
         }
       });
