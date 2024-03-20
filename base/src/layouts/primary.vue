@@ -111,6 +111,7 @@ export default {
           cursor: pointer;
           transition: background 0.3s ease-out;
           border-radius: 5px;
+          user-select: none;
           .triangle-svg {
             display: none;
             position: absolute;

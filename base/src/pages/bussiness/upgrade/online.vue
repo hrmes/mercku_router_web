@@ -42,7 +42,7 @@
                 <m-checkbox :readonly="true"
                             v-model="node.checked" />
                 <div class="img-container">
-                  <img :src="getNodeImage(node)"
+                  <img :src="getRouterImage(node.sn)"
                        alt="" />
                 </div>
                 <div class="info-container">
@@ -192,6 +192,7 @@ export default {
       this.showChangelogModal = true;
       if (node.changelog) {
         this.changelog = marked(node.changelog, { sanitize: true });
+        console.log(this.changelog);
       } else {
         this.changelog = '';
       }

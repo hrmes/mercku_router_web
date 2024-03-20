@@ -73,8 +73,8 @@
                   <div class="row-1">
                     <div class="line-icon"
                          :class="{
-                          'm6a_plus':(selectedNodeInfo.sn.charAt(9)===M6aRouterSnModelVersion.M6a_Plus),
-                          'm6c':(selectedNodeInfo.sn.charAt(9)===M6aRouterSnModelVersion.M6c)}">
+                          'm6a_plus':(selectedNodeInfo.sn.charAt(9)===M6aSeriesModelIDs.M6a_Plus),
+                          'm6c':(selectedNodeInfo.sn.charAt(9)===M6aSeriesModelIDs.M6c)}">
                     </div>
                     <div class="text">{{selectedNodeInfo.name}}</div>
                   </div>
@@ -264,10 +264,11 @@ import { formatMac } from 'base/util/util';
 import {
   RouterStatus,
   Color,
-  M6aRouterSnModelVersion,
+  M6aSeriesModelIDs,
   Bands
 } from 'base/util/constant';
 import meshEditMixin from 'base/mixins/mesh-edit.js';
+import routerModelMixin from 'bass/mixins/router-model.js';
 import genData from './topo';
 
 const echarts = require('echarts/lib/echarts');
@@ -275,13 +276,13 @@ require('echarts/lib/chart/graph');
 
 const GUEST = 'guest'; // 是否是访客
 export default {
-  mixins: [meshEditMixin],
+  mixins: [meshEditMixin, routerModelMixin],
   data() {
     return {
       rssiModalVisible: false,
       RouterStatus,
       formatMac,
-      M6aRouterSnModelVersion,
+      M6aSeriesModelIDs,
       pageActive: true,
       meshNodeTimer: null,
       chart: null,
@@ -348,22 +349,14 @@ export default {
       return this.$store.state.modelID || localStorage.getItem('modelID');
     },
     modelName() {
+      const id = this.selectedNodeInfo.sn.slice(0, 2);
       const modelID = this.selectedNodeInfo.sn.charAt(9);
-      const routerConfig = process.env.CUSTOMER_CONFIG.routers;
-      let model;
-      switch (modelID) {
-        case M6aRouterSnModelVersion.M6a_Plus:
-          model = 'M6a_Plus';
-          break;
-        case M6aRouterSnModelVersion.M6c:
-          model = 'M6c';
-          break;
-        default:
-          model = 'M6a';
-          break;
+
+      const productInfo = this.productsInfo(id, modelID);
+      if (productInfo) {
+        return productInfo.shortName;
       }
-      const name = routerConfig[model].shortName;
-      return name;
+      return '';
     },
     sortedStationsList() {
       return this.selectedNodeInfo.stations.sort((a, b) => {

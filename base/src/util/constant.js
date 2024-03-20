@@ -61,13 +61,35 @@ export const RouterSnModel = {
   M6a: '08',
   Homeway: '09',
   M6s: '11',
-  M6s_Nano: '13'
+  M6s_Nano: '13',
+  'M6s_PoE++': '16'
 };
-export const M6aRouterSnModelVersion = {
+export const Models = {
+  M2: 'M2R2',
+  M6: 'M6R0',
+  M6a: 'M8',
+  M6s: 'M11R1',
+  M6s_Nano: 'M13R0',
+  'M6s_PoE++': 'M16R0'
+};
+export const ModelsMap = Object.entries(Models).reduce(
+  (model, [key, value]) => {
+    model[value] = key;
+    return model;
+  },
+  {}
+);
+export const M6aSeriesModelIDs = {
   M6a: '0',
   M6a_Plus: '1',
   M6c: '2'
 };
+export const M6aSeriesModelIDMap2Model = Object.entries(
+  M6aSeriesModelIDs
+).reduce((model, [key, value]) => {
+  model[value] = key;
+  return model;
+}, {});
 export const SpeedTestStatus = {
   testing: 'testing',
   done: 'done',
@@ -137,16 +159,7 @@ export const Weeks = {
   sat: 'Sat',
   sun: 'Sun'
 };
-export const Models = {
-  m2: 'M2R2',
-  m6: 'M6R0',
-  m6a: 'M8',
-  homeway_230v: 'M9R0',
-  homeway_POE1: 'M9R1',
-  homeway_POE2: 'M9R2',
-  m6s: 'M11R1',
-  m6s_nano: 'M13R0'
-};
+
 export const HomewayFanModel = {
   game: 'game',
   standard: 'standard',
@@ -173,4 +186,8 @@ export const RouterColor = {
   white: 'white',
   grey: 'grey',
   red: 'red'
+};
+export const RouterPowerSupplyMode = {
+  active: 'active', // 主动模式
+  passive: 'passive' // 被动模式
 };

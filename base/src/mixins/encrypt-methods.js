@@ -4,7 +4,7 @@ export default {
   data() {
     let encryptMethods = [];
     switch (process.env.MODEL_CONFIG.id) {
-      case Models.m2:
+      case Models.M2:
         encryptMethods = [
           {
             value: EncryptMethod.wpawpa2,
@@ -24,7 +24,7 @@ export default {
           }
         ];
         break;
-      case Models.m6:
+      case Models.M6:
         encryptMethods = [
           {
             value: EncryptMethod.wpa2wpa3,
@@ -48,10 +48,7 @@ export default {
           }
         ];
         break;
-      case Models.m6a:
-      case Models.homeway_230v:
-      case Models.homeway_POE1:
-      case Models.homeway_POE2:
+      case Models.M6a:
         encryptMethods = [
           {
             value: EncryptMethod.open,
@@ -67,8 +64,9 @@ export default {
           }
         ];
         break;
-      case Models.m6s:
-      case Models.m6s_nano:
+      case Models.M6s:
+      case Models.M6s_Nano:
+      case Models['M6s_PoE++']:
         encryptMethods = [
           {
             value: EncryptMethod.wpawpa2,

@@ -232,7 +232,7 @@
 <script>
 import RouterModel from 'base/mixins/router-model';
 import debounce from 'lodash/debounce';
-import { AddNodeType } from 'base/util/constant';
+import { AddNodeType, ModelsMap } from 'base/util/constant';
 
 const PageStatus = {
   scanning: 'scanning',
@@ -299,7 +299,7 @@ export default {
       let resultText = '';
       resultText = this.$t(text).replaceAll(
         '%s',
-        process.env.CUSTOMER_CONFIG.routers.M6s_Nano.shortName
+        process.env.CUSTOMER_CONFIG.routers[`${ModelsMap[process.env.MODEL_CONFIG.id]}`].shortName
       );
       return resultText;
     },

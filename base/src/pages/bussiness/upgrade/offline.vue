@@ -64,7 +64,7 @@
                   <m-checkbox :readonly="true"
                               v-model="node.checked" />
                   <div class="img-container">
-                    <img :src="getNodeImage(node)"
+                    <img :src="getRouterImage(node.sn)"
                          alt="">
                   </div>
                   <div class="info-container">
@@ -170,14 +170,14 @@ export default {
       return this.localNodes.length > 0;
     },
     productName() {
-      const product = this.Products[this.fwInfo.model.id];
+      const product = this.productsInfo(this.fwInfo.model.id, this.fwInfo.model.version.id);
       if (product) {
         return product.name;
       }
       return '';
     },
     modelName() {
-      const product = this.Products[this.fwInfo.model.id];
+      const product = this.productsInfo(this.fwInfo.model.id, this.fwInfo.model.version.id);
       if (product) {
         return product.shortName;
       }
@@ -186,9 +186,9 @@ export default {
     isHomewayProduct() {
       let result = false;
       switch (process.env.MODEL_CONFIG.id) {
-        case Models.homeway_230v:
-        case Models.homeway_POE1:
-        case Models.homeway_POE2:
+        case Models.Homeway_230v:
+        case Models.Homeway_POE1:
+        case Models.Homeway_POE2:
           result = true;
           break;
         default:
@@ -281,6 +281,7 @@ export default {
               version: this.fwInfo.version,
               model: this.modelName
             };
+            console.log(this.packageInfo);
             uploader.status = UploadStatus.success;
             this.uploadStatus = UploadStatus.success;
           });

@@ -3,12 +3,15 @@
        :class="`${direction}`">
     <div class="option"
          @click="check(option)"
-         :class="{'selected':selected===option.value}"
+         :class="{'selected':selected===option.value,'need_padding_bgc':needPaddingBgc}"
          v-for="option in options"
          :key="option.value">
-      <div class="radio"></div>
-      <div class="text"
-           :class="{bold}">{{option.text}}</div>
+      <div class="option__wrapper">
+        <div class="radio"></div>
+        <div class="text"
+             :class="{bold}">{{option.text}}</div>
+      </div>
+      <div class="des">{{option.description}}</div>
     </div>
   </div>
 </template>
@@ -21,6 +24,10 @@ export default {
       default: 'horizontal'
     },
     bold: {
+      type: Boolean,
+      default: false
+    },
+    needPaddingBgc: {
       type: Boolean,
       default: false
     },
@@ -64,8 +71,15 @@ export default {
   }
   .option {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
     cursor: pointer;
+    &.need_padding_bgc {
+      padding: 15px;
+      border-radius: 10px;
+      background-color: var(--common_card-bgc);
+    }
     &.selected {
       .radio {
         position: relative;
@@ -82,6 +96,10 @@ export default {
         }
       }
     }
+    .option__wrapper {
+      display: flex;
+      align-items: center;
+    }
     .radio {
       display: flex;
       justify-content: center;
@@ -97,6 +115,11 @@ export default {
       &.bold {
         font-weight: 600;
       }
+    }
+    .des {
+      font-size: 12px;
+      color: var(--text_gery-color);
+      margin: 5px 0 0 28px;
     }
   }
 }

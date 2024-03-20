@@ -264,7 +264,10 @@ import {
   ipReg,
   isValidInteger
 } from 'base/util/util';
-import * as CONSTANTS from 'base/util/constant';
+import {
+  WanType,
+  M6aSeriesModelIDs,
+} from 'base/util/constant';
 import cloneDeep from 'lodash/cloneDeep';
 import store from '@/store/index';
 
@@ -274,7 +277,7 @@ function checkDNS(value) {
 function checkPortNums(modelID) {
   let ports = null;
   switch (modelID) {
-    case CONSTANTS.M6aRouterSnModelVersion.M6a:
+    case M6aSeriesModelIDs.M6a:
       ports = [
         {
           port: {
@@ -302,8 +305,8 @@ function checkPortNums(modelID) {
         }
       ];
       break;
-    case CONSTANTS.M6aRouterSnModelVersion.M6a_Plus:
-    case CONSTANTS.M6aRouterSnModelVersion.M6c:
+    case M6aSeriesModelIDs.M6a_Plus:
+    case M6aSeriesModelIDs.M6c:
       ports = [
         {
           port: {
@@ -393,7 +396,7 @@ const IptvVlanDefault = {
 export default {
   data() {
     return {
-      CONSTANTS,
+      M6aSeriesModelIDs,
       netNote: {
         dhcp: this.$t('trans0147'),
         static: this.$t('trans0150'),
@@ -413,7 +416,7 @@ export default {
         { value: true, text: this.$t('trans0399') },
         { value: false, text: this.$t('trans0400') }
       ],
-      netType: CONSTANTS.WanType.dhcp,
+      netType: WanType.dhcp,
       netInfo: {},
       vlan: cloneDeep(VlanDefault),
       ipPhoneVlan: cloneDeep(IpPhoneVlanDefault),
@@ -621,13 +624,13 @@ export default {
   },
   computed: {
     isPppoe() {
-      return this.netType === CONSTANTS.WanType.pppoe;
+      return this.netType === WanType.pppoe;
     },
     isStatic() {
-      return this.netType === CONSTANTS.WanType.static;
+      return this.netType === WanType.static;
     },
     isDhcp() {
-      return this.netType === CONSTANTS.WanType.dhcp;
+      return this.netType === WanType.dhcp;
     },
     localNetInfo() {
       const local = {
@@ -644,12 +647,12 @@ export default {
         local.netinfo.ip = this.netInfo.netinfo.ip || '-';
         local.netinfo.mask = this.netInfo.netinfo.mask || '-';
         local.netinfo.gateway = this.netInfo.netinfo.gateway || '-';
-        local.netinfo.dns = this.netInfo.netinfo.dns || [];
+        local.netinfo.dns = this.netInfo.netinfo.dns;
       }
       return local;
     },
     dnsText() {
-      return this.localNetInfo.netinfo.dns.length
+      return this.localNetInfo.netinfo.dns.length > 0
         ? this.localNetInfo.netinfo.dns.join('/')
         : '-';
     }
@@ -699,7 +702,7 @@ export default {
                 cloneDeep(IptvVlanDefault);
             }
             if (this.isDhcp) {
-              if (this.netInfo.dhcp && this.netInfo.dhcp?.dns && this.netInfo.dhcp?.dns.length) {
+              if (this.netInfo.dhcp && this.netInfo.dhcp.dns && this.netInfo.dhcp.dns.length > 0) {
                 this.autodns.dhcp = false;
                 [this.dhcpForm.dns1] = this.netInfo.dhcp.dns;
                 this.dhcpForm.dns2 = this.netInfo.dhcp.dns[1] || '';
@@ -763,9 +766,9 @@ export default {
         }
         // 经过上面的判断，到这里已经可以确定如果有值的话必定是数字，所以可以用部分等于
         if (
-          (this.ipPhoneVlan.id == this.vlan.id && this.ipPhoneVlan.enabled) ||
-          (this.iptvVlan.id == this.vlan.id && this.iptvVlan.enabled) ||
-          (this.ipPhoneVlan.id == this.iptvVlan.id &&
+          (this.ipPhoneVlan.id === this.vlan.id && this.ipPhoneVlan.enabled) ||
+          (this.iptvVlan.id === this.vlan.id && this.iptvVlan.enabled) ||
+          (this.ipPhoneVlan.id === this.iptvVlan.id &&
             this.ipPhoneVlan.enabled &&
             this.iptvVlan.enabled)
         ) {
@@ -793,7 +796,7 @@ export default {
         }
       }
       switch (this.netType) {
-        case CONSTANTS.WanType.dhcp:
+        case WanType.dhcp:
           if (!this.$refs.dhcpForm.validate()) {
             return;
           }
@@ -805,7 +808,7 @@ export default {
           }
           this.save(form);
           break;
-        case CONSTANTS.WanType.pppoe:
+        case WanType.pppoe:
           if (!this.$refs.pppoeForm.validate()) {
             return;
           }
@@ -821,7 +824,7 @@ export default {
           }
           this.save(form);
           break;
-        case CONSTANTS.WanType.static:
+        case WanType.static:
           if (!this.$refs.staticForm.validate()) {
             return;
           }

@@ -276,6 +276,7 @@ import marked from 'marked';
 import { formatMac } from 'base/util/util';
 import { RouterStatus, Color, Bands } from 'base/util/constant';
 import meshEditMixin from 'base/mixins/mesh-edit.js';
+import routerModelMixin from 'base/mixins/router-model.js';
 import genData from './topo';
 
 const echarts = require('echarts/lib/echarts');
@@ -283,7 +284,7 @@ require('echarts/lib/chart/graph');
 
 const GUEST = 'guest'; // 是否是访客
 export default {
-  mixins: [meshEditMixin],
+  mixins: [meshEditMixin, routerModelMixin],
   data() {
     return {
       helpModalVisible: false,
@@ -353,7 +354,9 @@ export default {
       return this.$store.state.theme;
     },
     modelName() {
-      return process.env.CUSTOMER_CONFIG.routers.M6s_Nano.shortName;
+      const id = this.selectedNodeInfo.sn.slice(0, 2);
+      const modelID = this.selectedNodeInfo.sn.charAt(9);
+      return this.productsInfo(id, modelID).shortName;
     },
     sortedStationsList() {
       return this.selectedNodeInfo.stations.sort((a, b) => {

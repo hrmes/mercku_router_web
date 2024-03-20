@@ -21,7 +21,7 @@ import picM6cGood from '@/assets/images/topo/ic_m6c_normal.png';
 import picM6cBad from '@/assets/images/topo/ic_m6c_bad.png';
 import picM6cOffline from '@/assets/images/topo/ic_m6c_offline.png';
 
-import { Color, Bands, M6aRouterSnModelVersion } from 'base/util/constant';
+import { Color, Bands, M6aSeriesModelIDs } from 'base/util/constant';
 
 // 大于-70均认为优秀
 const isGood = rssi => rssi >= -60;
@@ -133,17 +133,17 @@ function findRedNode(green, nodes) {
 function genNodes(gateway, green, red, offline) {
   const picModelColorMap = {
     [CONSTANTS.RouterSnModel.M6a]: {
-      [M6aRouterSnModelVersion.M6a]: {
+      [M6aSeriesModelIDs.M6a]: {
         [Color.good]: picM6aWifi6Good,
         [Color.bad]: picM6aWifi6Bad,
         [Color.offline]: picM6aWifi6Offline
       },
-      [M6aRouterSnModelVersion.M6a_Plus]: {
+      [M6aSeriesModelIDs.M6a_Plus]: {
         [Color.good]: picM6aPlusGood,
         [Color.bad]: picM6aPlusBad,
         [Color.offline]: picM6aPlusOffline
       },
-      [M6aRouterSnModelVersion.M6c]: {
+      [M6aSeriesModelIDs.M6c]: {
         [Color.good]: picM6cGood,
         [Color.bad]: picM6cBad,
         [Color.offline]: picM6cOffline
@@ -153,14 +153,14 @@ function genNodes(gateway, green, red, offline) {
 
   function genNode(node, color, symbolSize = 70) {
     let symbol = 'image://';
-    const modelVersion = node.sn.charAt(9);
+    const modelID = node.sn.charAt(9);
 
     if (node.is_gw) {
-      switch (modelVersion) {
-        case M6aRouterSnModelVersion.M6a_Plus:
+      switch (modelID) {
+        case M6aSeriesModelIDs.M6a_Plus:
           symbol = `${symbol}${picM6aPlusGateway}`;
           break;
-        case M6aRouterSnModelVersion.M6c:
+        case M6aSeriesModelIDs.M6c:
           symbol = `${symbol}${picM6cGateway}`;
           break;
         default:
@@ -170,7 +170,7 @@ function genNodes(gateway, green, red, offline) {
     } else {
       const id = (node.model && node.model.id) || node.sn.slice(0, 2);
       const modelConfig =
-        picModelColorMap[id]?.[modelVersion] ?? picModelColorMap[id];
+        picModelColorMap[id]?.[modelID] ?? picModelColorMap[id];
       if (modelConfig) {
         symbol = `${symbol}${modelConfig[color]}`;
       }

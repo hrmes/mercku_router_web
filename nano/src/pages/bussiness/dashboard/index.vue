@@ -224,7 +224,7 @@
 </template>
 <script>
 import marked from 'marked';
-import { WanNetStatus, RouterMode } from 'base/util/constant';
+import { WanNetStatus, RouterMode, ModelsMap } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
 import editMeshMixin from 'base/mixins/mesh-edit.js';
 
@@ -274,7 +274,7 @@ export default {
   },
   computed: {
     ModelName() {
-      return process.env.CUSTOMER_CONFIG.routers.M6s_Nano.shortName;
+      return process.env.CUSTOMER_CONFIG.routers[`${ModelsMap[process.env.MODEL_CONFIG.id]}`].shortName;
     },
     isMobile() {
       return this.$store.state.isMobile;
