@@ -9,7 +9,7 @@
         <div class="row-1">
           <div class="card">
             <m-form-item class="last">
-              <h4> {{$t('trans1239')}}</h4>
+              <h4 v-if="!$store.state.isMobile"> {{$t('trans1239')}}</h4>
               <p class="des-tips">{{$t('trans1240')}}</p>
             </m-form-item>
           </div>
@@ -42,7 +42,6 @@
   </div>
 </template>
 <script>
-import { debounce } from 'base/util/util';
 import { RouterPowerSupplyMode } from 'base/util/constant';
 
 export default {
@@ -54,6 +53,11 @@ export default {
         { value: RouterPowerSupplyMode.passive, text: this.$t('trans1241'), description: this.$t('trans1242') }
       ]
     };
+  },
+  computed: {
+    isPassivePoe() {
+      return this.mode === RouterPowerSupplyMode.passive;
+    }
   },
   mounted() {
     this.getMeshPowerSupplyMode();
@@ -70,8 +74,27 @@ export default {
           this.$loading.close();
         });
     },
-    submit: debounce(function updateMeshPowerSupplyMode() {
-      console.log(this.mode);
+    submit() {
+      if (this.isPassivePoe) {
+        this.$dialog.confirm({
+          title: this.$t('trans0212'),
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0025'),
+          message: this.$t('trans1245'),
+          callback: {
+            ok: () => {
+              this.updateMeshPowerSupplyMode();
+            },
+            cancel: () => {
+              this.mode = RouterPowerSupplyMode.active;
+            }
+          }
+        });
+      } else {
+        this.updateMeshPowerSupplyMode();
+      }
+    },
+    updateMeshPowerSupplyMode() {
       this.$loading.open();
       this.$http.updateMeshPowerSupplyMode({ mode: this.mode })
         .then(() => {
@@ -80,7 +103,7 @@ export default {
         .finally(() => {
           this.$loading.close();
         });
-    }, 500)
+    }
   }
 
 

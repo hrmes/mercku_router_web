@@ -128,10 +128,16 @@ export default {
   .radio-group-container {
     display: flex;
     flex-direction: column;
+    .option {
+      &.need_padding_bgc {
+        background-color: var(--common_sub_card-bgc);
+      }
+    }
     &.horizontal {
       .option {
         margin-top: 20px;
         margin-left: 0;
+
         &:first-child {
           margin-top: 0;
         }

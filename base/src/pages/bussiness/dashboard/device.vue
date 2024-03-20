@@ -32,8 +32,7 @@
       <div class="table-inner">
         <div class="off-more-message"
              v-if="isOfflineDevices&&devicesMap[id]&&devicesMap[id].length>60">
-          <img :src="require('base/assets/images/icon/ic_hint.png')"
-               alt="">
+          <img :src="require('base/assets/images/icon/ic_hint.png')" />
           {{$t('trans0517')}}
         </div>
         <div class="table-head"
