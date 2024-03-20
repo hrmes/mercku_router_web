@@ -1222,5 +1222,20 @@
   "trans1227": "Le mot de passe ne peut pas être uniquement des espaces",
   "trans1228": "Le mode pont sans fil est activé",
   "trans1229": "Le mode pont filaire est activé",
-  "trans1230": "3.Après avoir restauré le fichier en mode Mesh, vous devez réajouter les nœuds."
+  "trans1230": "3.Après avoir restauré le fichier en mode Mesh, vous devez réajouter les nœuds.",
+  "trans1231": "DFS",
+  "trans1232": "Le test de vitesse n'est pas actuellement pris en charge avec la méthode d'accès Internet PPPoE",
+  "trans1233": "Veuillez noter:",
+  "trans1234": "La désactivation de la fonction DFS peut violer les réglementations locales en matière de radio et peut entraîner des problèmes juridiques. Veuillez procéder avec prudence",
+  "trans1235": "Statut du CM",
+  "trans1236": "Statut MTA",
+  "trans1237": "Routeurs de la série %s",
+  "trans1238": "En mode d'accès Internet PPPoE, le service de mesure de la vitesse du réseau est temporairement indisponible",
+  "trans1239": "Mode d'alimentation électrique",
+  "trans1240": "Veuillez consulter les spécifications de l'appareil ou consulter le fabricant pour déterminer si votre PD (périphérique d'alimentation) est PoE passif ou PoE actif.",
+  "trans1241": "PoE passif",
+  "trans1242": "Prend uniquement en charge les appareils alimentés en 48V, non compatibles avec les appareils alimentés en 24V.",
+  "trans1243": "PoE actif",
+  "trans1244": "Veuillez vous assurer que votre appareil PD est conforme aux normes IEEE 802.3af, 802.3at ou 802.3bt.",
+  "trans1245": "Veuillez vous assurer que votre appareil alimenté prend en charge 48V, sinon cela pourrait endommager l'appareil. Êtes-vous sûr de vouloir passer en mode d'alimentation électrique passif PoE ?"
 }

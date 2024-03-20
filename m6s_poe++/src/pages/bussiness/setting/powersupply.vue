@@ -2,16 +2,15 @@
   <div class="page">
     <div v-if="$store.state.isMobile"
          class='page-header'>
-      Power supply mode
+      {{$t('trans1239')}}
     </div>
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
           <div class="card">
             <m-form-item class="last">
-              <h4>Power supply mode</h4>
-              <p class="des-tips">Please check the device specifications or consult the manufacturer
-                to determine whether your PD (power device) is passive PoE or active PoE.</p>
+              <h4> {{$t('trans1239')}}</h4>
+              <p class="des-tips">{{$t('trans1240')}}</p>
             </m-form-item>
           </div>
         </div>
@@ -51,8 +50,8 @@ export default {
     return {
       mode: RouterPowerSupplyMode.active,
       modesList: [
-        { value: RouterPowerSupplyMode.active, text: 'Active PoE', description: 'Only supports 48V power receiving devices, not 24V power receiving devices.' },
-        { value: RouterPowerSupplyMode.passive, text: 'Passive PoE', description: 'Please ensure that your PD device complies with the IEEE802.3af or 802.3at or 802.3bt standard' }
+        { value: RouterPowerSupplyMode.active, text: this.$t('trans1243'), description: this.$t('trans1244') },
+        { value: RouterPowerSupplyMode.passive, text: this.$t('trans1241'), description: this.$t('trans1242') }
       ]
     };
   },
