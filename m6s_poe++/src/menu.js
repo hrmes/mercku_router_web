@@ -120,7 +120,7 @@ export default function getMenu(role, mode = RouterMode.router) {
       {
         url: '/setting/powersupply',
         name: 'powersupply',
-        text: 'Power supply mode',
+        text: 'trans1239',
         config
       }
     ]
