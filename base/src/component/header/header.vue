@@ -276,6 +276,11 @@ const Languages = [
     value: 'it-IT',
     show: false
   },
+  {
+    text: 'Hrvatski jezik',
+    value: 'hr-HR',
+    show: false
+  },
 ];
 const supportLanguage = process.env.CUSTOMER_CONFIG.languages;
 if (!supportLanguage) {
