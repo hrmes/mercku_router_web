@@ -127,7 +127,7 @@ function findRedNode(green, nodes) {
 // 生成绘图需要的节点数据
 function genNodes(gateway, green, red, offline) {
   const picModelColorMap = {
-    [CONSTANTS.RouterSnModel.M6s]: {
+    [CONSTANTS.RouterSnModel['M6s_PoE++']]: {
       [Color.good]: picM6sPoENodeGood,
       [Color.bad]: picM6sPoENodeBad,
       [Color.offline]: picM6sPoENodeOffline
