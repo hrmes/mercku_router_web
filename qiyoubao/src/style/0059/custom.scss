@@ -9,37 +9,49 @@
     .logo-wrap {
       &.light {
         .logo-wrap__logo {
-          background: url(../../assets/images/customer/qiyou/logo.png) center/contain no-repeat;
+          background: url(../../assets/images/customer/qiyou/logo.png)
+            center/contain no-repeat;
         }
 
         @media screen and (max-width: 768px) {
           .logo-wrap__logo {
-            background: url(../../assets/images/customer/qiyou/logo.png) center/contain no-repeat;
+            background: url(../../assets/images/customer/qiyou/logo.png)
+              center/contain no-repeat;
           }
         }
       }
 
       &.dark {
         .logo-wrap__logo {
-          background: url(../../assets/images/customer/qiyou/logo.png) center/contain no-repeat;
+          background: url(../../assets/images/customer/qiyou/logo.png)
+            center/contain no-repeat;
         }
 
         @media screen and (max-width: 768px) {
           .logo-wrap__logo {
-            background: url(../../assets/images/customer/qiyou/logo.png) center/contain no-repeat;
+            background: url(../../assets/images/customer/qiyou/logo.png)
+              center/contain no-repeat;
           }
+        }
+      }
+      @media not all and (prefers-color-scheme: dark) and (prefers-color-scheme: light) {
+        .logo-wrap__logo {
+          background: url(../../assets/images/customer/qiyou/logo.png)
+            center/contain no-repeat;
         }
       }
 
       @media (prefers-color-scheme: light) {
         .logo-wrap__logo {
-          background: url(../../assets/images/customer/qiyou/logo.png) center/contain no-repeat;
+          background: url(../../assets/images/customer/qiyou/logo.png)
+            center/contain no-repeat;
         }
       }
 
       @media (prefers-color-scheme: dark) {
         .logo-wrap__logo {
-          background: url(../../assets/images/customer/qiyou/logo.png) center/contain no-repeat;
+          background: url(../../assets/images/customer/qiyou/logo.png)
+            center/contain no-repeat;
         }
       }
     }
@@ -50,47 +62,60 @@
       width: 50px;
       height: 22px;
       margin-left: 15px;
-      background: url(../../assets/images/customer/qiyou/ic_qiyou.png) center/contain no-repeat;
+      background: url(../../assets/images/customer/qiyou/ic_qiyou.png)
+        center/contain no-repeat;
     }
   }
 
   /************************* 登陆页面*********************/
   &.login {
-
     // background-color: var(--header-nav-hide-bgc);
     .center-form {
       &.light {
         .logo {
-          background: url(../../assets/images/customer/qiyou/logo.png) center/contain no-repeat;
+          background: url(../../assets/images/customer/qiyou/logo.png)
+            center/contain no-repeat;
         }
       }
 
       &.dark {
         .logo {
-          background: url(../../assets/images/customer/qiyou/logo.png) center/contain no-repeat;
+          background: url(../../assets/images/customer/qiyou/logo.png)
+            center/contain no-repeat;
+        }
+      }
+
+      @media not all and (prefers-color-scheme: dark) and (prefers-color-scheme: light) {
+        .logo {
+          background: url(../../assets/images/customer/qiyou/logo.png)
+            center/contain no-repeat;
         }
       }
 
       @media (prefers-color-scheme: light) {
         .logo {
-          background: url(../../assets/images/customer/qiyou/logo.png) center/contain no-repeat;
+          background: url(../../assets/images/customer/qiyou/logo.png)
+            center/contain no-repeat;
         }
       }
 
       @media (prefers-color-scheme: dark) {
         .logo {
-          background: url(../../assets/images/customer/qiyou/logo.png) center/contain no-repeat;
+          background: url(../../assets/images/customer/qiyou/logo.png)
+            center/contain no-repeat;
         }
       }
     }
 
     .app-logo {
-      background: url(../../assets/images/customer/qiyou/ic_launcher.png) center/100% no-repeat;
+      background: url(../../assets/images/customer/qiyou/ic_launcher.png)
+        center/100% no-repeat;
     }
 
     .download {
       .qr {
-        background: url(../../assets/images/customer/qiyou/qr.png) center/100% no-repeat;
+        background: url(../../assets/images/customer/qiyou/qr.png) center/100%
+          no-repeat;
       }
     }
   }

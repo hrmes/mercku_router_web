@@ -175,7 +175,8 @@
                     <img :src="getConnectTypeIcon(row)" />
                     <span v-if='row.local'
                           class="local-device-wrapper">
-                      <img class="localDevice"
+                      <img :title="$t('trans1297')"
+                           class="local-device"
                            :src="require('base/assets/images/icon/ic_local-device.svg')">
                     </span>
                   </div>
@@ -185,7 +186,7 @@
                       <a style="cursor:text">
                         <span v-if='isMobile && row.local'
                               class="local-device-wrapper">
-                          <img class="localDevice"
+                          <img class="local-device"
                                :src="require('base/assets/images/icon/ic_local-device.svg')" />
                         </span>
                         <span :title='row.name'

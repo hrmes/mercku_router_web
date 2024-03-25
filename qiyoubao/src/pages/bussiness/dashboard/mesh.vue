@@ -137,7 +137,8 @@
                 <li v-for="sta in sortedStationsList"
                     :key="sta.ip">
                   <div class="col-1">
-                    <span class="local-device"
+                    <span :title="$t('trans1297')"
+                          class="local-device"
                           v-if="isThisMachine(sta.ip)"></span>
                     <span style="display:inline-block; width: 25px"
                           v-if="!isMobile && !isThisMachine(sta.ip)"></span>
@@ -519,7 +520,7 @@ export default {
               .then(() => {
                 if (router.is_gw) {
                   this.$reconnect({
-                    timeout: 120,
+                    timeout: 60,
                     onsuccess: () => {
                       this.$router.push({ path: '/login' });
                     },

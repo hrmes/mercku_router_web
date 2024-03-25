@@ -130,7 +130,7 @@
   "trans0129": "Welcome to %s",
   "trans0130": "The mobile number has been registered",
   "trans0131": "Connect to Wi-Fi",
-  "trans0132": "Please connect to %s",
+  "trans0132": "Please connect to the %s network",
   "trans0133": "Plug in the router into a power source using the provided power adapter, and plug the ethernet cable into the WAN port of the %s system.",
   "trans0134": "Go to connect",
   "trans0135": "Read and agree",
@@ -1288,5 +1288,6 @@
   "trans1293": "Relay success",
   "trans1294": "Relay failure",
   "trans1295": "Connecting",
-  "trans1296": "Game Wi-Fi name"
+  "trans1296": "Game Wi-Fi name",
+  "trans1297": "Local device"
 }

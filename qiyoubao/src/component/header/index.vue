@@ -174,19 +174,6 @@
                         :rect="false"
                         v-model="themeOptions.dark.ischecked"></m-checkbox>
           </div>
-          <div class="theme-option"
-               @click="clickHandler('auto')">
-            <m-checkbox v-if="isMobile"
-                        class="checkbox static"
-                        :rect="false"
-                        v-model="themeOptions.auto.ischecked"></m-checkbox>
-            <img :src="require('base/assets/images/common/img_theme_auto.png')" />
-            <span class="label">{{$t('trans1121')}}</span>
-            <m-checkbox v-if="!isMobile"
-                        class="checkbox"
-                        :rect="false"
-                        v-model="themeOptions.auto.ischecked"></m-checkbox>
-          </div>
         </div>
       </m-modal-body>
       <m-modal-footer class="theme-change-footer">
@@ -482,6 +469,7 @@ export default {
   }
   .theme-change-body {
     display: flex;
+    justify-content: space-evenly;
     .theme-option {
       position: relative;
       width: 120px;

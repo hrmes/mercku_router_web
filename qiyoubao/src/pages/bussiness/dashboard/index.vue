@@ -17,14 +17,14 @@
                          :id="'deviceLoading'"
                          :color="'#29b96c'"
                          :size='20'
-                         class="deviceLoading"></m-loading>
+                         class="device-loading"></m-loading>
               <div v-else
                    class="info">
-                <div class="device-name"
-                     :title="localDeviceInfo.name">
-                  <img class="current-device-icon"
+                <div class="device-name">
+                  <img :title="$t('trans1297')"
+                       class="current-device-icon"
                        :src="require('base/assets/images/icon/ic_local-device.svg')" />
-                  {{localDeviceInfo.name}}
+                  <span :title="localDeviceInfo.name">{{localDeviceInfo.name}}</span>
                 </div>
                 <div class="other">
                   <div class="band"
@@ -1201,7 +1201,7 @@ $img_folder: '../../../../../base/src/assets/images';
         }
         .row-3 {
           grid-area: deviceInfo;
-          .deviceLoading {
+          .device-loading {
             position: absolute;
             top: 40%;
             left: 40%;
