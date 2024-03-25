@@ -476,7 +476,7 @@
   "trans0475": "Status usmjerivača",
   "trans0476": "Promjene u IP rasponu mogu utjecati na Static DHCP Lease, port forwarding i normalnu upotrebu DMZ hostova.",
   "trans0477": "%s",
-  "trans0478": "1 - 65535 (prikaz, stručni).",
+  "trans0478": "1 - 65535",
   "trans0479": "Sekundarni DNS",
   "trans0480": "Mrežne postavke",
   "trans0481": "Osvježiti",

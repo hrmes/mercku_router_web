@@ -277,7 +277,7 @@ const Languages = [
     show: false
   },
   {
-    text: 'Hrvatski jezik',
+    text: 'Hrvatski',
     value: 'hr-HR',
     show: false
   },
