@@ -12,7 +12,7 @@
   "routers": {
     "M6s_PoE++": {
       "name": "M6s PoE++ Wi-Fi6 Router",
-      "shortName": "M6s PoE++"
+      "shortName": "M6s PoE"
     }
   },
   "deviceColors": ["black", "white"],

@@ -379,8 +379,8 @@ export default {
     'form.channel.b5gChannel.bandwidth': {
       handler(nv) {
         if (nv === 20) {
-          const isExit = this.channels.b5g.find(c => c.value === 165);
-          if (!isExit) this.channels.b5g.push({ text: 165, value: 165 });
+          const hasChannel165 = this.channels.b5g.find(c => c.value === 165);
+          if (!hasChannel165) this.channels.b5g.push({ text: 165, value: 165 });
         } else {
           this.channels.b5g = this.channels.b5g.filter(c => c.value !== 165);
           if (this.form.channel.b5gChannel.number === 165) {

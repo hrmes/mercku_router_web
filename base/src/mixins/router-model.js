@@ -29,11 +29,13 @@ export default {
           image = require('../assets/images/model/img_homeway.png');
           break;
         case RouterSnModel.M6s:
-        case RouterSnModel['M6s_PoE++']:
           image = require('../assets/images/model/img_m6s.svg');
           break;
         case RouterSnModel.M6s_Nano:
           image = require('../assets/images/model/img_nano.svg');
+          break;
+        case RouterSnModel['M6s_PoE++']:
+          image = require('../assets/images/model/img_m6s_poe.svg');
           break;
         default:
           break;

@@ -7,9 +7,7 @@
             'i18n-open':mobileI18nVisible
           }">
     <div class="logo-wrap"
-         :class="{'light':currentTheme!=='auto'&&!isDarkMode,
-                  'dark':currentTheme!=='auto'&&isDarkMode
-                  }">
+         :class="currentTheme">
       <a v-if="website && isLoginPage"
          class="offical"
          target="_blank"
@@ -427,6 +425,7 @@ export default {
         });
         this.themeOptions[theme].ischecked = true;
       }
+      console.log('11', localStorage.getItem('theme'));
       document
         .querySelector('html')
         .setAttribute('class', localStorage.getItem('theme'));
@@ -436,7 +435,9 @@ export default {
       this.$store.state.theme = this.selectedTheme;
       document
         .querySelector('html')
-        .setAttribute('class', localStorage.getItem('theme'));
+        .setAttribute('class', this.selectedTheme);
+      console.log('22', this.selectedTheme);
+
       this.ThemechangeVisiable = false;
       if (this.mobileNavVisible) {
         this.mobileNavVisible = false;

@@ -9,7 +9,7 @@
     </div>
     <div class="login__right">
       <div class="center-form"
-           :class="{'light':isLightClass,'dark':isDrakClass}">
+           :class="currentTheme">
         <div class="form">
           <div class="logo">
           </div>
@@ -128,12 +128,6 @@ export default {
     currentTheme() {
       return this.$store.state.theme;
     },
-    isLightClass() {
-      return this.currentTheme !== 'auto' && !this.isDarkMode;
-    },
-    isDrakClass() {
-      return this.currentTheme !== 'auto' && this.isDarkMode;
-    }
   },
   watch: {
     currentTheme: {
