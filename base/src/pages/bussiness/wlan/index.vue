@@ -62,13 +62,17 @@
                        v-model="wifiForm.password5g" />
             </m-form-item>
           </template>
-          <div class="button-container">
+          <div>
             <m-loading v-if="btnLoading"
                        :color="loadingColor"
                        :size="36"></m-loading>
-            <button v-else
-                    @click="step1()"
-                    class="btn">{{$t('trans0055')}}</button>
+            <div v-else
+                 class="button-container">
+              <button @click="step1()"
+                      class="btn">{{$t('trans0055')}}</button>
+              <button @click="skip()"
+                      class="btn btn-default">{{$t('trans0163')}}</button>
+            </div>
 
           </div>
         </m-form>
@@ -245,6 +249,7 @@ export default {
           this.wifiForm.password5g = this.wifiForm.password24g;
         }
         this.btnLoading = true;
+
         // 提交表单
         this.$http
           .updateMeshConfig({
@@ -291,6 +296,9 @@ export default {
             this.btnLoading = false;
           });
       }
+    },
+    skip() {
+      this.$router.replace({ path: '/dashboard' });
     }
   }
 };

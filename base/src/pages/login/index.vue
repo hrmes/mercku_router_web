@@ -77,27 +77,6 @@ export default {
       password: ''
     };
   },
-  mounted() {
-    // this.loading = true;
-    // this.$http
-    //   .isinitial()
-    //   .then(res => {
-    //     if (res.data.result.status) {
-    //       this.$http.login({ password: '' }).then(() => {
-    //         this.initial = true;
-    //         this.loading = false;
-    //         this.towlan();
-    //       });
-    //     } else {
-    //       this.initial = false;
-    //       this.loading = false;
-    //     }
-    //   })
-    //   .catch(() => {
-    //     this.initial = false;
-    //     this.loading = false;
-    //   });
-  },
   computed: {
     appDownloadUrl() {
       return process.env.CUSTOMER_CONFIG.appDownloadUrl;
@@ -107,27 +86,6 @@ export default {
     towlan() {
       this.$router.push({ path: '/wlan' });
     },
-    // login() {
-    //  this.$loading.open();
-    //  this.$http
-    //    .login({ password: this.password })
-    //    .then(res => {
-    //      const { role } = res.data.result;
-    //      this.$store.role = role;
-    //      localStorage.setItem('role', role);
-    //      this.$http.getMeshMode().then(res1 => {
-    //        this.$loading.close();
-    //        const { mode } = res1.data.result;
-    //        this.$store.mode = mode;
-    //        localStorage.setItem('mode', mode);
-    //        this.$router.push({ path: '/dashboard' });
-    //      });
-    //    })
-    //    .catch(err => {
-    //      this.$loading.close();
-    //      this.$toast(this.$t(err.error.code));
-    //    });
-    // },
     async login() {
       try {
         this.$loading.open();
