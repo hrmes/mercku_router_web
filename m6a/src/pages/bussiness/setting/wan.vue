@@ -274,9 +274,10 @@ import store from '@/store/index';
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
 }
-function checkPortNums(modelID) {
-  let ports = null;
-  switch (modelID) {
+function checkPortNums(meshId) {
+  const modelId = meshId.charAt(9);
+  let ports;
+  switch (modelId) {
     case M6aSeriesModelIDs.M6a:
       ports = [
         {
@@ -380,7 +381,7 @@ const VlanDefault = {
 const IpPhoneVlanDefault = {
   enabled: false,
   id: '',
-  ports: checkPortNums(store.state.modelID),
+  ports: checkPortNums(store.state.meshId),
   priority: 0,
   is_bridged: false,
   name: VlanName.ipPhone
@@ -388,7 +389,7 @@ const IpPhoneVlanDefault = {
 const IptvVlanDefault = {
   enabled: false,
   id: '',
-  ports: checkPortNums(store.state.modelID),
+  ports: checkPortNums(store.state.meshId),
   priority: 0,
   is_bridged: false,
   name: VlanName.iptv

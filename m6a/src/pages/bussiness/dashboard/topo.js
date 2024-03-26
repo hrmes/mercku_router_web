@@ -256,9 +256,6 @@ function genLines(gateway, green, red, nodes, fullLine) {
   }
 
   const lines = [];
-  console.log('1', gateway);
-  console.log('2', green);
-  console.log('3', red);
 
   gateway.neighbors.forEach(n => {
     const node = nodes.find(s => s.sn === n.sn);

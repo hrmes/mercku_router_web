@@ -351,9 +351,13 @@ export default {
       return this.$store.state.theme;
     },
     modelName() {
-      const id = this.selectedNodeInfo.sn.slice(0, 2);
-      const modelID = this.selectedNodeInfo.sn.charAt(9);
-      return this.productsInfo(id, modelID).shortName;
+      const modelId = this.selectedNodeInfo.sn.slice(0, 2);
+      const modelVersion = this.selectedNodeInfo.sn.charAt(9);
+      const productInfo = this.productsInfo(modelId, modelVersion);
+      if (productInfo) {
+        return productInfo.shortName;
+      }
+      return '';
     },
     sortedStationsList() {
       return this.selectedNodeInfo.stations.sort((a, b) => {

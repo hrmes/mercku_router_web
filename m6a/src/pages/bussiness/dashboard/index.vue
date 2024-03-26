@@ -64,7 +64,7 @@
         <div class="mobile-icon-wrapper"
              v-if="isMobile">
           <span class="btn-icon"
-                :class="{disabled:!meshGatewayInfo.name}"
+                :class="{disabled:!meshGatewayInfo.name, close:!meshGatewayInfo.name}"
                 @click.stop="editMesh(meshGatewayInfo)">
             <i class="iconfont ic_edit"></i>
           </span>
@@ -142,7 +142,7 @@
           </span>
         </div>
         <div class="row-2">
-          <div class="model">{{ModelName}}</div>
+          <div class="model">{{modelName}}</div>
           <div class="gateway">{{$t('trans0153')}}</div>
         </div>
         <div class="row-3">
@@ -189,7 +189,7 @@
                     class="limit-icon">
                   <div class="color"
                        :class="{selected:selectedColorName===color.name,
-                              'light-color':color.name===RouterColor.white}"
+                                'light-color':color.name===RouterColor.white}"
                        :style="{backgroundImage:color.value}"
                        @click="changeDeviceColor(color)">
                   </div>
@@ -226,16 +226,14 @@
 </template>
 <script>
 import marked from 'marked';
-import {
-  WanNetStatus,
-  M6aSeriesModelIDs,
-  RouterMode
-} from 'base/util/constant';
+import { WanNetStatus, RouterMode } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
 import meshEditMixin from 'base/mixins/mesh-edit.js';
+import routerModelMixin from 'base/mixins/router-model.js';
+
 
 export default {
-  mixins: [meshEditMixin],
+  mixins: [meshEditMixin, routerModelMixin],
   data() {
     return {
       netStatus: WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
@@ -278,20 +276,14 @@ export default {
     };
   },
   computed: {
-    ModelName() {
-      let modelName = '';
-      switch (this.$store.state.modelID) {
-        case M6aSeriesModelIDs.M6a_Plus:
-          modelName = 'M6a Plus';
-          break;
-        case M6aSeriesModelIDs.M6c:
-          modelName = 'M6c';
-          break;
-        default:
-          modelName = 'M6a';
-          break;
+    modelName() {
+      const modelId = this.$store.state.meshId.slice(0, 2);
+      const modelVersion = this.$store.state.meshId.charAt(9);
+      const productInfo = this.productsInfo(modelId, modelVersion);
+      if (productInfo) {
+        return productInfo.shortName;
       }
-      return modelName;
+      return '';
     },
     isMobile() {
       return this.$store.state.isMobile;
@@ -327,11 +319,11 @@ export default {
     }
   },
   mounted() {
-    this.getMeshInfo();
     this.getWanNetInfo();
     this.createIntercvalTask();
     this.getWanStatus();
     this.getLocalDeviceInfo();
+    this.getMeshInfo();
   },
   watch: {
     '$store.mode': function watcher() {
@@ -363,6 +355,7 @@ export default {
         const res = await this.$http.firmwareList(undefined, {
           hideToast: true
         });
+
         const nodes = res.data.result;
         const nodesToUpdate = nodes.filter(node => {
           const { current, latest } = node.version;
@@ -484,18 +477,15 @@ export default {
 
         const res1 = await this.$http.getLocalDevice();
         const selfInfo = res1.data.result;
-        console.log('selfInfo', selfInfo);
         this.localDeviceIP = selfInfo.ip;
 
         const params = { filters: [{ type: 'primary', status: ['online'] }] };
         const res2 = await this.$http.getDeviceList(params);
         const deviceList = res2.data.result;
-        console.log(deviceList);
 
         const localDeviceInfoArr = deviceList.filter(
           item => item.ip === selfInfo.ip
         );
-        console.log(localDeviceInfoArr);
 
         if (localDeviceInfoArr.length > 0) {
           [this.localDeviceInfo] = localDeviceInfoArr;
@@ -586,8 +576,10 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 h2,
+h4,
 h6 {
   padding: 0;
   margin: 0;
@@ -678,7 +670,7 @@ $img_folder: '../../../../../base/src/assets/images';
         display: grid;
         position: relative;
         width: 90%;
-        aspect-ratio: 1;
+        aspect-ratio: 1/1;
         max-width: 390px;
         min-width: 300px;
         max-height: 390px;
@@ -816,6 +808,14 @@ $img_folder: '../../../../../base/src/assets/images';
         box-shadow: none;
         .router__img {
           width: 100%;
+          min-width: 350px;
+          max-width: 440px;
+          position: relative;
+          @include aspect(1, 1);
+          z-index: 2;
+        }
+        img {
+          width: inherit;
           min-width: 350px;
           max-width: 440px;
           @include aspect(1, 1);
@@ -1018,7 +1018,7 @@ $img_folder: '../../../../../base/src/assets/images';
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          font-size: 32px;
+          font-size: 28px;
           font-weight: 600;
           text-align: center;
         }
@@ -1092,7 +1092,7 @@ $img_folder: '../../../../../base/src/assets/images';
           min-width: auto;
           min-height: auto;
           margin-top: 0;
-          @include aspect(1, 1);
+          aspect-ratio: auto;
         }
       }
       .mesh {
@@ -1106,10 +1106,18 @@ $img_folder: '../../../../../base/src/assets/images';
             min-height: auto;
             width: 195px;
           }
+          img {
+            max-width: auto;
+            max-height: auto;
+            min-width: auto;
+            min-height: auto;
+            width: 195px;
+          }
         }
         .background-shadow {
           width: 375px;
           height: 135px;
+          transform: translate(-50%, -60%);
         }
         .mobile-icon-wrapper {
           position: absolute;
@@ -1243,7 +1251,7 @@ $img_folder: '../../../../../base/src/assets/images';
             align-items: flex-start;
           }
           .speed-num {
-            font-size: 30px;
+            font-size: 32px;
           }
           .speed-unit {
             font-size: 18px;

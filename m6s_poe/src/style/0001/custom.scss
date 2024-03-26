@@ -40,6 +40,13 @@
             center no-repeat;
           background-size: 100%;
         }
+        @media screen and (max-width: 768px) {
+          .logo-wrap__logo {
+            background: url(../../assets/images/customer/mercku/mercku_logo.png)
+              center no-repeat;
+            background-size: contain;
+          }
+        }
       }
       @media (prefers-color-scheme: light) {
         .logo-wrap__logo {

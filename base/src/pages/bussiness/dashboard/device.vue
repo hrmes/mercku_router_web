@@ -183,8 +183,7 @@
                     <span v-if='row.local'
                           class="local-device-wrapper">
                       <img class="localDevice"
-                           :src="require('base/assets/images/icon/ic_local-device.svg')"
-                           title="LocalDevice" />
+                           :src="require('base/assets/images/icon/ic_local-device.svg')" />
                     </span>
                   </div>
                   <div class="name-wrap"
@@ -194,8 +193,7 @@
                         <span v-if='isMobile && row.local'
                               class="local-device-wrapper">
                           <img class="localDevice"
-                               :src="require('base/assets/images/icon/ic_local-device.svg')"
-                               title="LocalDevice" />
+                               :src="require('base/assets/images/icon/ic_local-device.svg')" />
                         </span>
                         <span :title='row.name'
                               class="overflow-hidden">{{row.name}}</span>

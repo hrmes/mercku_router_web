@@ -42,9 +42,9 @@ export default {
       }
       return image;
     },
-    productsInfo(id, modelID) {
+    productsInfo(modelId, modelVersion) {
       let productInfo;
-      switch (id) {
+      switch (modelId) {
         case RouterSnModel.M2:
           productInfo = process.env.CUSTOMER_CONFIG.routers.M2;
           break;
@@ -55,7 +55,7 @@ export default {
           productInfo = process.env.CUSTOMER_CONFIG.routers.M6;
           break;
         case RouterSnModel.M6a:
-          this.getM6aProductsInfo(modelID);
+          productInfo = this.getM6aProductsInfo(modelVersion);
           break;
         case RouterSnModel.Homeway:
           productInfo = process.env.CUSTOMER_CONFIG.routers.Homeway;

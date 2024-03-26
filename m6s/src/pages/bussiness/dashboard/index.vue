@@ -30,7 +30,8 @@
                   <div class="band"
                        :class="{'wired':isWired}">
                     {{bandMap[`${localDeviceInfo.online_info.band}`] }}</div>
-                  <div class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
+                  <div v-if="!isWired"
+                       class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
                   </div>
                 </div>
               </div>
@@ -120,7 +121,7 @@
             <div v-else
                  class="bridge-mode-tip">
               <img v-if="!isMobile"
-                   :src="require('base/assets/images/common/img_bridge.png')">
+                   :src="require('base/assets/images/common/img_bridge.png')" />
               <span>{{$t('trans0984')}}</span>
             </div>
           </div>
@@ -141,7 +142,7 @@
           </span>
         </div>
         <div class="row-2">
-          <div class="model">{{ModelName}}</div>
+          <div class="model">{{modelName}}</div>
           <div class="gateway">{{$t('trans0153')}}</div>
         </div>
         <div class="row-3">
@@ -229,6 +230,7 @@ import { WanNetStatus, RouterMode, ModelsMap } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
 import editMeshMixin from 'base/mixins/mesh-edit.js';
 
+
 export default {
   mixins: [editMeshMixin],
   data() {
@@ -274,7 +276,7 @@ export default {
     };
   },
   computed: {
-    ModelName() {
+    modelName() {
       return process.env.CUSTOMER_CONFIG.routers[`${ModelsMap[process.env.MODEL_CONFIG.id]}`].shortName;
     },
     isMobile() {
@@ -384,8 +386,8 @@ export default {
     },
     showTips() {
       if (this.isConnected) {
-        this.$toast('Internet online', 1500, 'success');
-      } else {
+        this.$toast(this.$t('trans1190'), 1500, 'success');
+      } else if (!this.isTesting) {
         this.tipsModalVisible = true;
       }
     },

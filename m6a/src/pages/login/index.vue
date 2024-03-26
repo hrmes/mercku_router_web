@@ -159,11 +159,10 @@ export default {
             this.$store.state.mode = mode;
             localStorage.setItem('mode', mode);
 
-            const { sn } = res1.data.result;
-            const modelID = sn.charAt(9);
+            const { sn: meshId } = res1.data.result;
 
-            this.$store.state.modelID = modelID;
-            localStorage.setItem('modelID', modelID);
+            this.$store.state.meshId = meshId;
+            localStorage.setItem('meshId', meshId);
 
             this.$router.push({ path: '/dashboard' });
             this.$loading.close();

@@ -268,7 +268,7 @@ import {
   Bands
 } from 'base/util/constant';
 import meshEditMixin from 'base/mixins/mesh-edit.js';
-import routerModelMixin from 'bass/mixins/router-model.js';
+import routerModelMixin from 'base/mixins/router-model.js';
 import genData from './topo';
 
 const echarts = require('echarts/lib/echarts');
@@ -345,14 +345,10 @@ export default {
     currentTheme() {
       return this.$store.state.theme;
     },
-    modelID() {
-      return this.$store.state.modelID || localStorage.getItem('modelID');
-    },
     modelName() {
-      const id = this.selectedNodeInfo.sn.slice(0, 2);
-      const modelID = this.selectedNodeInfo.sn.charAt(9);
-
-      const productInfo = this.productsInfo(id, modelID);
+      const modelId = this.selectedNodeInfo.sn.slice(0, 2);
+      const modelVersion = this.selectedNodeInfo.sn.charAt(9);
+      const productInfo = this.productsInfo(modelId, modelVersion);
       if (productInfo) {
         return productInfo.shortName;
       }

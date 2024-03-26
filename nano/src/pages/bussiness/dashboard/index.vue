@@ -141,7 +141,7 @@
           </span>
         </div>
         <div class="row-2">
-          <div class="model">{{ModelName}}</div>
+          <div class="model">{{modelName}}</div>
           <div class="gateway">{{$t('trans0153')}}</div>
         </div>
         <div class="row-3">
@@ -226,10 +226,10 @@
 import marked from 'marked';
 import { WanNetStatus, RouterMode, ModelsMap } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
-import editMeshMixin from 'base/mixins/mesh-edit.js';
+import meshEditMixin from 'base/mixins/mesh-edit.js';
 
 export default {
-  mixins: [editMeshMixin],
+  mixins: [meshEditMixin],
   data() {
     return {
       netStatus: WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
@@ -273,7 +273,7 @@ export default {
     };
   },
   computed: {
-    ModelName() {
+    modelName() {
       return process.env.CUSTOMER_CONFIG.routers[`${ModelsMap[process.env.MODEL_CONFIG.id]}`].shortName;
     },
     isMobile() {
@@ -383,8 +383,8 @@ export default {
     },
     showTips() {
       if (this.isConnected) {
-        this.$toast('Internet online', 1500, 'success');
-      } else {
+        this.$toast(this.$t('trans1190'), 1500, 'success');
+      } else if (!this.isTesting) {
         this.tipsModalVisible = true;
       }
     },

@@ -294,7 +294,8 @@ export default {
       return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
     },
     modelID() {
-      return this.$store.state.modelID || localStorage.getItem('modelID');
+      const meshId = this.$store.state.meshId || localStorage.getItem('meshId');
+      return meshId.charAt(9);
     },
     isM6a() {
       return this.modelID === M6aSeriesModelIDs.M6a;
