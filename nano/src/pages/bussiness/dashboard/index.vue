@@ -30,7 +30,8 @@
                   <div class="band"
                        :class="{'wired':isWired}">
                     {{bandMap[`${localDeviceInfo.online_info.band}`] }}</div>
-                  <div class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
+                  <div v-if="!isWired"
+                       class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
                   </div>
                 </div>
               </div>
@@ -63,7 +64,7 @@
         <div class="mobile-icon-wrapper"
              v-if="isMobile">
           <span class="btn-icon"
-                :class="{disabled:!meshGatewayInfo.name}"
+                :class="{disabled:!meshGatewayInfo.name, close:!meshGatewayInfo.name}"
                 @click.stop="editMesh(meshGatewayInfo)">
             <i class="iconfont ic_edit"></i>
           </span>
@@ -187,7 +188,8 @@
                     :key="index"
                     class="limit-icon">
                   <div class="color"
-                       :class="{selected:selectedColorName===color.name,'light-color':color.name===RouterColor.white}"
+                       :class="{selected:selectedColorName===color.name,
+                                'light-color':color.name===RouterColor.white}"
                        :style="{backgroundImage:color.value}"
                        @click="changeDeviceColor(color)">
                   </div>
@@ -227,6 +229,7 @@ import marked from 'marked';
 import { WanNetStatus, RouterMode, ModelsMap } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
 import meshEditMixin from 'base/mixins/mesh-edit.js';
+
 
 export default {
   mixins: [meshEditMixin],
@@ -576,6 +579,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 h2,
 h4,
@@ -669,7 +673,7 @@ $img_folder: '../../../../../base/src/assets/images';
         display: grid;
         position: relative;
         width: 90%;
-        aspect-ratio: 1;
+        aspect-ratio: 1/1;
         max-width: 390px;
         min-width: 300px;
         max-height: 390px;
@@ -806,15 +810,15 @@ $img_folder: '../../../../../base/src/assets/images';
         background-color: transparent;
         box-shadow: none;
         .router__img {
-          @include aspect(1, 1);
           width: 100%;
           min-width: 350px;
           max-width: 440px;
           position: relative;
+          @include aspect(1, 1);
           z-index: 2;
         }
         img {
-          width: 100%;
+          width: inherit;
           min-width: 350px;
           max-width: 440px;
           @include aspect(1, 1);
@@ -827,7 +831,7 @@ $img_folder: '../../../../../base/src/assets/images';
         top: 50%;
         left: 50%;
         z-index: 0;
-        transform: translate(-50%, -60%);
+        transform: translate(-50%, -50%);
         z-index: 0;
         width: 150%;
         height: 40%;
@@ -1116,6 +1120,7 @@ $img_folder: '../../../../../base/src/assets/images';
         .background-shadow {
           width: 375px;
           height: 135px;
+          transform: translate(-50%, -60%);
         }
         .mobile-icon-wrapper {
           position: absolute;
@@ -1150,7 +1155,7 @@ $img_folder: '../../../../../base/src/assets/images';
               }
               &.unconnected {
                 background: url(#{$img_folder}/icon/ic_default_error.png) center
-                  no-repeat;
+                  center no-repeat;
                 background-size: contain;
               }
             }

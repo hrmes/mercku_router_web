@@ -660,7 +660,7 @@ export default {
                     fontWeight: 600,
                     fontSize: 12
                   },
-                  nameStyle1: {
+                  oneDigits: {
                     color: this.isDarkMode ? '#fff' : '#333',
                     padding: [0, 0, 8, 0],
                     align: 'center',
@@ -668,7 +668,7 @@ export default {
                     fontWeight: 600,
                     fontSize: 12
                   },
-                  nameStyle2: {
+                  twoDigits: {
                     color: this.isDarkMode ? '#fff' : '#333',
                     padding: [0, 0, 8, 0],
                     align: 'center',
@@ -676,7 +676,7 @@ export default {
                     fontWeight: 600,
                     fontSize: 12
                   },
-                  nameStyle3: {
+                  threeDigits: {
                     color: this.isDarkMode ? '#fff' : '#333',
                     padding: [0, 0, 8, 0],
                     align: 'center',
@@ -806,12 +806,11 @@ export default {
       if (name.length > 15) {
         name = `${name.substring(0, 15)}...`;
       }
-      let nameStyle = 'nameStyle1';
-      if (stationsCount > 9) nameStyle = 'nameStyle2';
-      if (stationsCount > 99) nameStyle = 'nameStyle3';
+      let nameStyle = 'oneDigits';
+      if (stationsCount > 9) nameStyle = 'twoDigits';
+      if (stationsCount > 99) nameStyle = 'threeDigits';
       if (isGateway) {
-        result = `{stationCount|${stationsCount}}
-        \n{${nameStyle}|${name}}`;
+        result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}`;
         return result;
       }
       switch (color) {

@@ -228,11 +228,11 @@
 import marked from 'marked';
 import { WanNetStatus, RouterMode, ModelsMap } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
-import editMeshMixin from 'base/mixins/mesh-edit.js';
+import meshEditMixin from 'base/mixins/mesh-edit.js';
 
 
 export default {
-  mixins: [editMeshMixin],
+  mixins: [meshEditMixin],
   data() {
     return {
       netStatus: WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接

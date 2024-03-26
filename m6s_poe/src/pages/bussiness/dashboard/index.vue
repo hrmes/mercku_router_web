@@ -30,7 +30,8 @@
                   <div class="band"
                        :class="{'wired':isWired}">
                     {{bandMap[`${localDeviceInfo.online_info.band}`] }}</div>
-                  <div class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
+                  <div v-if="!isWired"
+                       class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
                   </div>
                 </div>
               </div>
@@ -120,7 +121,7 @@
             <div v-else
                  class="bridge-mode-tip">
               <img v-if="!isMobile"
-                   :src="require('base/assets/images/common/img_bridge.png')">
+                   :src="require('base/assets/images/common/img_bridge.png')" />
               <span>{{$t('trans0984')}}</span>
             </div>
           </div>

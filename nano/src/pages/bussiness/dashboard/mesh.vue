@@ -33,6 +33,7 @@
                       class="value text">{{txPowerMap[tx_power]}}</span>
               </div>
             </div>
+
           </div>
           <div class="topo-wrap"
                id="toppo-wrap">
@@ -133,7 +134,7 @@
                      v-if="!isMobile">{{$t('trans0375')}}</div>
               </div>
               <ul class="card-bottom__main reset-ul"
-                  v-if="selectedNodeInfo.stations.length>0">
+                  v-if="selectedNodeInfo.stations.length">
                 <li v-for="sta in sortedStationsList"
                     :key="sta.ip">
                   <div class="col-1">
@@ -194,9 +195,7 @@
                     :key="index"
                     class="limit-icon">
                   <div class="color"
-                       :class="{selected:selectedColorName===color.name,
-                                'light-color':color.name===RouterColor.white
-                              }"
+                       :class="{selected:selectedColorName===color.name,'light-color':color.name===RouterColor.white}"
                        :style="{backgroundImage:color.value}"
                        @click="changeDeviceColor(color)">
                   </div>
@@ -663,7 +662,7 @@ export default {
                     fontWeight: 600,
                     fontSize: 12
                   },
-                  nameStyle1: {
+                  oneDigits: {
                     color: this.isDarkMode ? '#fff' : '#333',
                     padding: [0, 0, 8, 0],
                     align: 'center',
@@ -671,7 +670,7 @@ export default {
                     fontWeight: 600,
                     fontSize: 12
                   },
-                  nameStyle2: {
+                  twoDigits: {
                     color: this.isDarkMode ? '#fff' : '#333',
                     padding: [0, 0, 8, 0],
                     align: 'center',
@@ -679,7 +678,7 @@ export default {
                     fontWeight: 600,
                     fontSize: 12
                   },
-                  nameStyle3: {
+                  threeDigits: {
                     color: this.isDarkMode ? '#fff' : '#333',
                     padding: [0, 0, 8, 0],
                     align: 'center',
@@ -809,9 +808,9 @@ export default {
       if (name.length > 15) {
         name = `${name.substring(0, 15)}...`;
       }
-      let nameStyle = 'nameStyle1';
-      if (stationsCount > 9) nameStyle = 'nameStyle2';
-      if (stationsCount > 99) nameStyle = 'nameStyle3';
+      let nameStyle = 'oneDigits';
+      if (stationsCount > 9) nameStyle = 'twoDigits';
+      if (stationsCount > 99) nameStyle = 'threeDigits';
       if (isGateway) {
         result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}`;
         return result;
@@ -940,7 +939,6 @@ $img_folder: '../../../../../base/src/assets/images';
       @media screen and (max-width: 768px) {
         flex-direction: column;
       }
-
       .example {
         .description {
           text-align: center;
@@ -1177,6 +1175,7 @@ $img_folder: '../../../../../base/src/assets/images';
             padding: 4px 10px;
             border-radius: 5px;
             color: #fff;
+            font-weight: 500;
             margin-right: 5px;
             &.model-name {
               background-image: linear-gradient(117deg, #97006a, #f45199 100%);
@@ -1223,6 +1222,7 @@ $img_folder: '../../../../../base/src/assets/images';
                 height: 40px;
                 margin-right: 5px;
                 @include aspect(1, 1);
+
                 background: url(../../../assets/images/icon/ic_homepage.svg)
                   center no-repeat;
                 background-size: contain;
