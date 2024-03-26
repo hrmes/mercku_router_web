@@ -1371,6 +1371,7 @@ ul {
                     position: absolute;
                     bottom: -15px;
                     left: 10px;
+                    white-space: nowrap;
                     margin: 0;
                   }
                   .speed-num {
@@ -1491,6 +1492,9 @@ ul {
                   }
                 }
                 .speed-wrap {
+                  .speed-text-wrap {
+                    left: -15px;
+                  }
                   .speed-num {
                     margin-left: 0;
                     font-size: 18px;

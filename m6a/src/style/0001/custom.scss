@@ -34,11 +34,32 @@
           }
         }
       }
+      @media not all and (prefers-color-scheme: dark) and (prefers-color-scheme: light) {
+        .logo-wrap__logo {
+          background: url(../../assets/images/customer/mercku/mercku_logo_text.webp)
+            center no-repeat;
+          background-size: 100%;
+        }
+        @media screen and (max-width: 768px) {
+          .logo-wrap__logo {
+            background: url(../../assets/images/customer/mercku/mercku_logo.png)
+              center no-repeat;
+            background-size: contain;
+          }
+        }
+      }
       @media (prefers-color-scheme: light) {
         .logo-wrap__logo {
           background: url(../../assets/images/customer/mercku/mercku_logo_text.webp)
             center no-repeat;
           background-size: 100%;
+        }
+        @media screen and (max-width: 768px) {
+          .logo-wrap__logo {
+            background: url(../../assets/images/customer/mercku/mercku_logo.png)
+              center no-repeat;
+            background-size: contain;
+          }
         }
       }
       @media (prefers-color-scheme: dark) {
@@ -46,6 +67,13 @@
           background: url(../../assets/images/customer/mercku/mercku_logo_text_dark.png)
             center no-repeat;
           background-size: 100%;
+        }
+        @media screen and (max-width: 768px) {
+          .logo-wrap__logo {
+            background: url(../../assets/images/customer/mercku/mercku_logo.png)
+              center no-repeat;
+            background-size: contain;
+          }
         }
       }
     }
@@ -65,6 +93,13 @@
       &.dark {
         .logo {
           background: url(../../assets/images/customer/mercku/mercku_logo_text_dark.png)
+            no-repeat center;
+          background-size: 100%;
+        }
+      }
+      @media not all and (prefers-color-scheme: dark) and (prefers-color-scheme: light) {
+        .logo {
+          background: url(../../assets/images/customer/mercku/mercku_logo_text_light.png)
             no-repeat center;
           background-size: 100%;
         }
