@@ -425,7 +425,6 @@ export default {
         });
         this.themeOptions[theme].ischecked = true;
       }
-      console.log('11', localStorage.getItem('theme'));
       document
         .querySelector('html')
         .setAttribute('class', localStorage.getItem('theme'));
@@ -436,7 +435,6 @@ export default {
       document
         .querySelector('html')
         .setAttribute('class', this.selectedTheme);
-      console.log('22', this.selectedTheme);
 
       this.ThemechangeVisiable = false;
       if (this.mobileNavVisible) {

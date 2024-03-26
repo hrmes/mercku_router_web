@@ -403,12 +403,14 @@ export default {
           break;
       }
       return color;
-    }
+    },
   },
   watch: {
     currentTheme: {
       handler(nv) {
         if (nv === 'dark') {
+          this.isDarkMode = true;
+        } else if (nv === 'auto' && window.matchMedia('(prefers-color-scheme:dark)').matches) {
           this.isDarkMode = true;
         } else {
           this.isDarkMode = false;

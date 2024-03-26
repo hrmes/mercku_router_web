@@ -417,10 +417,12 @@ export default {
       handler(nv) {
         if (nv === 'dark') {
           this.isDarkMode = true;
+        } else if (nv === 'auto' && window.matchMedia('(prefers-color-scheme:dark)').matches) {
+          this.isDarkMode = true;
         } else {
           this.isDarkMode = false;
         }
-        if (this.routers.length !== 0) {
+        if (this.routers?.length !== 0) {
           this.drawTopo(this.routers);
         }
       },
