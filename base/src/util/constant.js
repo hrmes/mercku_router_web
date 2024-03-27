@@ -102,7 +102,7 @@ export const Bands = {
   b5g: '5G',
   wired: 'wired'
 };
-export const channelMode = {
+export const ChannelMode = {
   auto: 'auto',
   manual: 'manual'
 };
