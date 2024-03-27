@@ -218,12 +218,12 @@
 </template>
 <script>
 import marked from 'marked';
-import { WanNetStatus } from 'base/util/constant';
+import { WanNetStatus, Bands } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
-import editMeshMixin from 'base/mixins/mesh-edit.js';
+import meshEditMixin from 'base/mixins/mesh-edit.js';
 
 export default {
-  mixins: [editMeshMixin],
+  mixins: [meshEditMixin],
   data() {
     return {
       netStatus: WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
@@ -295,7 +295,8 @@ export default {
       return this.netStatus === WanNetStatus.connected;
     },
     isWired() {
-      return this.localDeviceInfo.online_info.band === 'wired' || this.localDeviceInfo.online_info.band === 'game_wired';
+      return this.localDeviceInfo.online_info.band === Bands.wired ||
+        this.localDeviceInfo.online_info.band === Bands.game_wired;
     },
     realtimeSpeedUp() {
       return this.formatSpeed(this.netInfo.realUp);
@@ -378,7 +379,7 @@ export default {
     showTips() {
       if (this.isConnected) {
         this.$toast(this.$t('trans1190'), 1500, 'success');
-      } else {
+      } else if (!this.isTesting) {
         this.tipsModalVisible = true;
       }
     },

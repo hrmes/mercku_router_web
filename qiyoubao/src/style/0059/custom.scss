@@ -7,33 +7,14 @@
     }
 
     .logo-wrap {
-      &.light {
-        .logo-wrap__logo {
-          background: url(../../assets/images/customer/qiyou/logo.png)
-            center/contain no-repeat;
-        }
-
-        @media screen and (max-width: 768px) {
-          .logo-wrap__logo {
-            background: url(../../assets/images/customer/qiyou/logo.png)
-              center/contain no-repeat;
-          }
-        }
-      }
-
+      &.light,
       &.dark {
         .logo-wrap__logo {
           background: url(../../assets/images/customer/qiyou/logo.png)
             center/contain no-repeat;
         }
-
-        @media screen and (max-width: 768px) {
-          .logo-wrap__logo {
-            background: url(../../assets/images/customer/qiyou/logo.png)
-              center/contain no-repeat;
-          }
-        }
       }
+
       @media not all and (prefers-color-scheme: dark) and (prefers-color-scheme: light) {
         .logo-wrap__logo {
           background: url(../../assets/images/customer/qiyou/logo.png)
