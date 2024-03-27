@@ -15,7 +15,7 @@
               </div>
             </div>
           </li>
-          <li class="wired__wrap">
+          <!-- <li class="wired__wrap">
             <div class="card"
                  @click="updateChooseTypeVisible(false,'wired')">
               <div class="inner">
@@ -24,7 +24,7 @@
               </div>
             </div>
             <p class="tips__text tips__subtext">{{$t('trans1097')}}</p>
-          </li>
+          </li> -->
         </ul>
       </div>
       <div class="steps-container"
@@ -1002,6 +1002,9 @@ $img_folder: '../../../../../base/src/assets/images';
   }
 }
 @media screen and (max-width: 768px) {
+  .add-node {
+    min-height: unset;
+  }
   .page-content {
     padding: 20px;
   }
@@ -1038,6 +1041,7 @@ $img_folder: '../../../../../base/src/assets/images';
   }
   .choose__add__type {
     .type__list {
+      width: 100%;
       flex-direction: column;
       > li {
         margin-right: 0;
