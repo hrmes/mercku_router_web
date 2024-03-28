@@ -177,12 +177,11 @@
 </template>
 
 <script>
-import * as CONSTANTS from 'base/util/constant';
 import { isValidInteger, isIP } from 'base/util/util';
-import { Models } from 'base/util/constant';
+import { Models, IP, IPv6DefaultPlaceholder, WanNetStatus, WanType } from 'base/util/constant';
 
 const defaultPrefixLength = 64;
-const { IPv6 } = CONSTANTS.IP;
+const { IPv6 } = IP;
 const NoPPPoeList = [Models.M6s, Models.M6s_Nano, Models['M6s_PoE++']];
 export default {
   data() {
@@ -190,9 +189,9 @@ export default {
       IPv4NetType: '', // IPv4的网络状态
       isSetup: false, // 是否已经设置了
       enabled: false, // 是否启用IPv6
-      IPv6DefaultPlaceholder: CONSTANTS.IPv6DefaultPlaceholder,
-      netType: CONSTANTS.WanType.auto,
-      netStatus: CONSTANTS.WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
+      IPv6DefaultPlaceholder,
+      netType: WanType.auto,
+      netStatus: WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       networkArr: {
         auto: this.$t('trans0696'),
         static: this.$t('trans0148'),
@@ -283,41 +282,41 @@ export default {
   },
   computed: {
     isAuto() {
-      return this.netType === CONSTANTS.WanType.auto;
+      return this.netType === WanType.auto;
     },
     isPppoe() {
-      return this.netType === CONSTANTS.WanType.pppoe;
+      return this.netType === WanType.pppoe;
     },
     isStatic() {
-      return this.netType === CONSTANTS.WanType.static;
+      return this.netType === WanType.static;
     },
     isShowWarn() {
-      return this.IPv4NetType === CONSTANTS.WanType.pppoe && !this.isPppoe;
+      return this.IPv4NetType === WanType.pppoe && !this.isPppoe;
     },
     wanTypeOptions() {
       if (NoPPPoeList.includes(process.env.MODEL_CONFIG.id)) {
         return [
           {
-            value: CONSTANTS.WanType.auto,
+            value: WanType.auto,
             text: this.$t('trans0696')
           },
           {
-            value: CONSTANTS.WanType.static,
+            value: WanType.static,
             text: this.$t('trans0148')
           }
         ];
       }
       return [
         {
-          value: CONSTANTS.WanType.auto,
+          value: WanType.auto,
           text: this.$t('trans0696')
         },
         {
-          value: CONSTANTS.WanType.pppoe,
+          value: WanType.pppoe,
           text: this.$t('trans0144')
         },
         {
-          value: CONSTANTS.WanType.static,
+          value: WanType.static,
           text: this.$t('trans0148')
         }
       ];
@@ -442,7 +441,7 @@ export default {
         .getWanNetInfo()
         .then(res => {
           const { type } = res.data.result;
-          if (type !== CONSTANTS.WanType.pppoe) {
+          if (type !== WanType.pppoe) {
             this.$dialog.info({
               okText: this.$t('trans0024'),
               cancelText: this.$t('trans0025'),
@@ -474,7 +473,7 @@ export default {
           const { result } = res.data;
           const pppoeData = result.pppoe;
           this.IPv4NetType = result.type;
-          if (this.IPv4NetType === CONSTANTS.WanType.pppoe) {
+          if (this.IPv4NetType === WanType.pppoe) {
             this.pppoeForm.account = pppoeData.account;
             this.pppoeForm.password = pppoeData.password;
           }

@@ -6,8 +6,6 @@
  *
  *
  */
-import * as CONSTANTS from 'base/util/constant';
-
 import picM6aGateway from '@/assets/images/topo/ic_m6a_gw.png';
 import picM6aWifi6Good from '@/assets/images/topo/ic_m6a_normal.png';
 import picM6aWifi6Bad from '@/assets/images/topo/ic_m6a_bad.png';
@@ -21,7 +19,13 @@ import picM6cGood from '@/assets/images/topo/ic_m6c_normal.png';
 import picM6cBad from '@/assets/images/topo/ic_m6c_bad.png';
 import picM6cOffline from '@/assets/images/topo/ic_m6c_offline.png';
 
-import { Color, Bands, M6aSeriesModelIDs } from 'base/util/constant';
+import {
+  Color,
+  Bands,
+  M6aSeriesModelIDs,
+  RouterSnModel,
+  RouterStatus
+} from 'base/util/constant';
 
 // 大于-70均认为优秀
 const isGood = rssi => rssi >= -60;
@@ -132,7 +136,7 @@ function findRedNode(green, nodes) {
 // 生成绘图需要的节点数据
 function genNodes(gateway, green, red, offline) {
   const picModelColorMap = {
-    [CONSTANTS.RouterSnModel.M6a]: {
+    [RouterSnModel.M6a]: {
       [M6aSeriesModelIDs.M6a]: {
         [Color.good]: picM6aWifi6Good,
         [Color.bad]: picM6aWifi6Bad,
@@ -304,8 +308,8 @@ function genLines(gateway, green, red, nodes, fullLine) {
 function findOfflineNode(array, offline) {
   array = array.filter(a => {
     if (
-      a.status === CONSTANTS.RouterStatus.offline ||
-      a.status === CONSTANTS.RouterStatus.installing
+      a.status === RouterStatus.offline ||
+      a.status === RouterStatus.installing
     ) {
       offline.push(a);
       return false;
