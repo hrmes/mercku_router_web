@@ -104,10 +104,11 @@ export default {
         this.$loading.open();
         const { role } = (await this.$http.login({ password: this.password }))
           .data.result;
+        const { mode, sn } = (await this.$http.getMeshMode()).data.result;
+
         this.$store.state.role = role;
         localStorage.setItem('role', role);
 
-        const { mode, sn } = (await this.$http.getMeshMode()).data.result;
         const modelID = sn?.charAt(9);
         this.$store.state.modelID = modelID;
         localStorage.setItem('modelID', modelID);
@@ -122,9 +123,8 @@ export default {
         }
 
         this.$router.push({ path: '/dashboard' });
-      } catch (err) {
+      } finally {
         this.$loading.close();
-        this.$toast(this.$t(err.error.code));
       }
     }
   }

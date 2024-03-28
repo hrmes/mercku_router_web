@@ -133,8 +133,13 @@ export default {
 
         const { role } = (await this.$http.login({ password: this.password }))
           .data.result;
+        const { mode } = (await this.$http.getMeshMode()).data.result;
+
         this.$store.state.role = role;
         localStorage.setItem('role', role);
+
+        this.$store.state.mode = mode;
+        localStorage.setItem('mode', mode);
 
         const { status } = (await this.$http.isinitial()).data.result;
         if (status) {
@@ -142,14 +147,7 @@ export default {
           return;
         }
 
-        const { mode } = (await this.$http.getMeshMode()).data.result;
-
-        this.$store.state.mode = mode;
-        localStorage.setItem('mode', mode);
-
         this.$router.push({ path: '/dashboard' });
-      } catch (err) {
-        this.$loading.close();
       } finally {
         this.$loading.close();
       }
