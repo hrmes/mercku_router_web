@@ -294,13 +294,13 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'online',
         text: 'trans0202',
         config
+      },
+      {
+        url: '/upgrade/auto',
+        name: 'auto',
+        text: 'trans0743',
+        config
       }
-      // {
-      //   url: '/upgrade/auto',
-      //   name: 'auto',
-      //   text: 'trans0743',
-      //   config
-      // }
     ]
   };
   const theme = {

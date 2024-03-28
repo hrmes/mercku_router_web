@@ -52,7 +52,7 @@ import telnet from 'base/pages/bussiness/advance/telnet.vue';
 // upgrade page
 import online from 'base/pages/bussiness/upgrade/online.vue';
 import offline from 'base/pages/bussiness/upgrade/offline.vue';
-// import auto from 'base/pages/bussiness/upgrade/auto.vue';
+import auto from 'base/pages/bussiness/upgrade/auto.vue';
 
 import store from '../store';
 
@@ -440,16 +440,16 @@ const routes = {
         layout: 'primary',
         hasAside: true
       }
+    },
+    {
+      path: '/upgrade/auto',
+      name: 'auto',
+      component: auto,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
     }
-    // {
-    //   path: '/upgrade/auto',
-    //   name: 'auto',
-    //   component: auto,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // }
   ]
 };
 
