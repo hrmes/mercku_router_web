@@ -146,9 +146,9 @@ export default {
           this.towlan();
           return;
         }
-
+        this.$loading.close();
         this.$router.push({ path: '/dashboard' });
-      } finally {
+      } catch {
         this.$loading.close();
       }
     }

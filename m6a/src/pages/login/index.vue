@@ -122,8 +122,9 @@ export default {
           return;
         }
 
+        this.$loading.close();
         this.$router.push({ path: '/dashboard' });
-      } finally {
+      } catch {
         this.$loading.close();
       }
     }

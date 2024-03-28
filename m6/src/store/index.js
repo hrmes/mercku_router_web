@@ -1,11 +1,12 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import { RouterMode } from 'base/util/constant';
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    mode: localStorage.getItem('mode'),
+    mode: localStorage.getItem('mode') || RouterMode.router,
     role: localStorage.getItem('role'),
     isMobile: false,
     isConnected: '',
