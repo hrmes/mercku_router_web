@@ -30,8 +30,7 @@
                   <div class="band"
                        :class="{'wired':isWired}">
                     {{bandMap[`${localDeviceInfo.online_info.band}`] }}</div>
-                  <div v-if="!isWired"
-                       class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
+                  <div class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
                   </div>
                 </div>
               </div>
