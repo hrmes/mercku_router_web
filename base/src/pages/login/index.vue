@@ -91,23 +91,22 @@ export default {
         this.$loading.open();
 
         const loginResponse = await this.$http.login({ password: this.password });
+        const meshModeResponse = await this.$http.getMeshMode();
         const { role } = loginResponse.data.result;
+        const { mode } = meshModeResponse.data.result;
 
         this.$store.role = role;
         localStorage.setItem('role', role);
 
+        this.$store.mode = mode;
+        localStorage.setItem('mode', mode);
+
         const initialResponse = await this.$http.isinitial();
         const { status } = initialResponse.data.result;
         if (status) {
-           this.towlan();
-           return;
+          this.towlan();
+          return;
         }
-
-        const meshModeResponse = await this.$http.getMeshMode();
-        const { mode } = meshModeResponse.data.result;
-
-        this.$store.mode = mode;
-        localStorage.setItem('mode', mode);
 
         this.$loading.close();
         this.$router.push({ path: '/dashboard' });
