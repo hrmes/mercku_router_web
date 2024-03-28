@@ -108,11 +108,9 @@ export default {
           return;
         }
 
-        this.$loading.close();
         this.$router.push({ path: '/dashboard' });
-      } catch (err) {
+      } finally {
         this.$loading.close();
-        this.$toast(this.$t(err.error.code));
       }
     }
   }
