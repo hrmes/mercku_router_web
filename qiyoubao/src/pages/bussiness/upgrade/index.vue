@@ -18,12 +18,12 @@ export default {
     return {
       tabs: [
         {
-          id: 'offline',
-          text: this.$t('trans0204'),
-        },
-        {
           id: 'online',
           text: this.$t('trans0202'),
+        },
+        {
+          id: 'offline',
+          text: this.$t('trans0204'),
         },
         {
           id: 'auto',

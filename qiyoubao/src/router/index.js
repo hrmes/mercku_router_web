@@ -371,7 +371,7 @@ const routes = {
       path: '/system/upgrade',
       name: 'upgrade',
       component: upgrade,
-      redirect: '/system/upgrade/offline',
+      redirect: '/system/upgrade/online',
       meta: {
         layout: 'primary',
         hasAside: true

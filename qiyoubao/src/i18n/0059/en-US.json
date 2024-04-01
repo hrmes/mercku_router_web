@@ -628,7 +628,7 @@
   "trans0633": "Notice",
   "trans0634": "Please power on a node and wait for another minute, press \"Next\" when it fully starts.",
   "trans0635": "Press \"Next\" when the indicator light is in solid red.",
-  "trans0636": "Please tap the Connect button.\nClick \"Next\" when the node indicator light turns purple.",
+  "trans0636": "Please tap the Connect button.\nClick \"Next\" when the node indicator light turns blink blue.",
   "trans0637": "Adding multiple nodes are currently not supported. Please try again after the indicator light turns red.",
   "trans0638": "If the Connect buttons on different nodes are pressed simultaneously, it will cause an operation failure.",
   "trans0639": "Country/Region",
@@ -1289,5 +1289,5 @@
   "trans1294": "Relay failure",
   "trans1295": "Connecting",
   "trans1296": "Game Wi-Fi name",
-  "trans1297": "Local device"
+  "trans1297": "My device"
 }
