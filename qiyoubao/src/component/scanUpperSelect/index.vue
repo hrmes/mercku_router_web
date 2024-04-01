@@ -47,11 +47,12 @@
               <span class="band">
                 {{option.band}}
               </span>
-              <div class="text__container"> {{ option.text }}
+              <div class="text__container">
+                {{ option.text }}
               </div>
               <div class="icon__container">
                 <span class="encrypt"
-                      v-if="option.security!==EncryptMethod.OPEN && option.security!==EncryptMethod.open"></span>
+                      v-if="option.security.toLowerCase()!==EncryptMethod.open"></span>
                 <span class="rssi"
                       :class="getRssiIcon(option.rssi)"></span>
               </div>

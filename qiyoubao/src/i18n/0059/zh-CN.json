@@ -1289,5 +1289,10 @@
   "trans1294": "中继失败",
   "trans1295": "连接中",
   "trans1296": "Game Wi-Fi名称",
-  "trans1297": "本机"
+  "trans1297": "本机",
+  "trans1298": "None",
+  "trans1299": "CCMP",
+  "trans1300": "TKIP",
+  "trans1301": "TKIP/CCMP",
+  "trans1302": "加密协议"
 }

@@ -193,3 +193,9 @@ export const RouterColor = {
   grey: 'grey',
   red: 'red'
 };
+export const EncryptProtocol = {
+  none: 'none',
+  ccmp: 'ccmp',
+  tkip: 'tkip',
+  tkipccmp: 'tkipccmp'
+};

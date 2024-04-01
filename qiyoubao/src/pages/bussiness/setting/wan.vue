@@ -244,6 +244,20 @@
                         :options="encryptMethods"
                         @change="(nv, ov) => onEncryptChange(nv, ov)" />
             </m-form-item>
+            <m-form-item v-if="upperEncryptIsOpen"
+                         prop="crypt">
+              <m-select :label="$t('trans1302')"
+                        :placeholder="$t('trans1182')"
+                        v-model="manualWispForm.crypt"
+                        :options="openEncryptProtocols" />
+            </m-form-item>
+            <m-form-item v-else
+                         prop="crypt">
+              <m-select :label="$t('trans1302')"
+                        :placeholder="$t('trans1182')"
+                        v-model="manualWispForm.crypt"
+                        :options="normalEncryptProtocols" />
+            </m-form-item>
             <m-form-item prop="band">
               <m-select :label="$t('trans0111')"
                         :placeholder="$t('trans1182')"
@@ -563,7 +577,7 @@ export default {
         this.staticForm.mask
       );
     },
-    getWanNetInfo(firstFlag = false) {
+    getWanNetInfo() {
       if (this.isFirstEntry) {
         this.$loading.open();
         this.isFirstEntry = false;

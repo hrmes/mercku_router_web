@@ -1,5 +1,5 @@
 import { isFieldHasSpaces, getStringByte } from 'base/util/util';
-import { EncryptMethod, WanType } from 'base/util/constant';
+import { EncryptMethod, WanType, EncryptProtocol } from 'base/util/constant';
 
 const LoadingStatus = {
   empty: 0,
@@ -16,6 +16,7 @@ const UpperApInitForm = {
   channel: '', // 必选
   band: '', // 必选
   security: '', // 必选
+  crypt: '', // 可选
   rssi: '' // 可选,上级无线信号的强度.获取APClient时必选,更新时可选
 };
 
@@ -27,7 +28,8 @@ export default {
         ssid: '',
         password: '',
         band: '2.4G',
-        security: EncryptMethod.wpa2
+        security: EncryptMethod.wpa2,
+        crypt: EncryptProtocol.ccmp
       },
       upperApFormRules: null,
       manualWispRules: {
@@ -86,6 +88,15 @@ export default {
           value: EncryptMethod.open,
           text: this.$t('trans0554')
         }
+      ],
+      openEncryptProtocols: [
+        { value: EncryptProtocol.none, text: this.$t('trans1298') }
+      ],
+      normalEncryptProtocols: [
+        { value: EncryptProtocol.none, text: this.$t('trans1298') },
+        { value: EncryptProtocol.ccmp, text: this.$t('trans1299') },
+        { value: EncryptProtocol.tkip, text: this.$t('trans1300') },
+        { value: EncryptProtocol.tkipccmp, text: this.$t('trans1301') }
       ],
       originalUpperList: [],
       processedUpperApList: [],
@@ -149,7 +160,7 @@ export default {
       return this.netType === WanType.wisp;
     },
     upperEncryptIsOpen() {
-      return this.manualWispForm.security === EncryptMethod.open;
+      return this.manualWispForm.security.toLowerCase() === EncryptMethod.open;
     }
   },
   methods: {
@@ -220,6 +231,7 @@ export default {
                 value: i.ssid,
                 text: `${i.ssid}`,
                 security: i.security,
+                crypt: i.crypt,
                 rssi: i.rssi,
                 band: i.band,
                 bssid: i.bssid
@@ -260,6 +272,7 @@ export default {
         channel,
         band,
         security,
+        crypt,
         rssi
       } = this.originalUpperList.find(i => i.bssid === option.bssid);
       this.upperApForm = {
@@ -269,26 +282,33 @@ export default {
         channel,
         band,
         security,
+        crypt,
         rssi
       };
       console.log('upperAp', this.upperApForm);
     },
     onEncryptChange(nv, ov) {
-      if (nv === EncryptMethod.wpa3) {
+      if (nv === EncryptMethod.open) {
+        this.$nextTick(() => {
+          this.manualWispForm.password = '';
+          this.manualWispForm.crypt = EncryptProtocol.none;
+        });
+      } else if (nv === EncryptMethod.wpa3) {
         this.$dialog.confirm({
           okText: this.$t('trans0024'),
           cancelText: this.$t('trans0025'),
           message: this.$t('trans0692'),
           callback: {
+            ok: () => {
+              this.manualWispForm.crypt = EncryptProtocol.ccmp;
+            },
             cancel: () => {
               this.manualWispForm.security = ov;
-              console.log('cancel', ov);
             }
           }
         });
-      }
-      if (nv === EncryptMethod.open) {
-        this.manualWispForm.password = '';
+      } else {
+        this.manualWispForm.crypt = EncryptProtocol.ccmp;
       }
     },
     hiddenModalShow() {
@@ -297,7 +317,8 @@ export default {
         ssid: '',
         password: '',
         band: '2.4G',
-        security: EncryptMethod.wpa2
+        security: EncryptMethod.wpa2,
+        crypt: EncryptProtocol.ccmp
       };
     }
   }
