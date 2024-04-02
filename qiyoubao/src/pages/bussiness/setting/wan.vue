@@ -372,10 +372,10 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) <= 120,
+            rule: value => getStringByte(value) <= 128,
             message: this.$t('trans1252')
               .replace('%d', 1)
-              .replace('%d', 120)
+              .replace('%d', 128)
           },
         ],
         password: [
@@ -384,10 +384,10 @@ export default {
             message: this.$t('trans0232')
           },
           {
-            rule: value => getStringByte(value) <= 120,
+            rule: value => getStringByte(value) <= 128,
             message: this.$t('trans1252')
               .replace('%d', 1)
-              .replace('%d', 120)
+              .replace('%d', 128)
           },
         ]
       },

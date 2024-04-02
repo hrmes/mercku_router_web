@@ -21,7 +21,6 @@
                 <span>{{$t('trans1096')}}</span>
               </div>
             </div>
-            <p class="tips__text tips__subtext">{{$t('trans1097')}}</p>
           </li>
         </ul>
       </div>
@@ -569,16 +568,9 @@ $img_folder: '../../../../../base/src/assets/images';
       width: 100%;
     }
   }
-  .tips__subtext {
-    color: var(--common_gery-color);
-    width: 100%;
-    font-size: 12px;
-    white-space: pre-line;
-  }
 }
 .tips {
-  .tips__text,
-  .tips__subtext {
+  .tips__text {
     text-align: center;
   }
 }
