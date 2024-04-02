@@ -47,9 +47,7 @@
               <span class="band">
                 {{option.band}}
               </span>
-              <div class="text__container">
-                {{ option.text }}
-              </div>
+              <div class="text__container">{{option.text}}</div>
               <div class="icon__container">
                 <span class="encrypt"
                       v-if="option.security.toLowerCase()!==EncryptMethod.open"></span>
@@ -358,7 +356,7 @@ export default {
         line-height: 18px;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap;
+        white-space: pre;
       }
       .icon__container {
         display: flex;
