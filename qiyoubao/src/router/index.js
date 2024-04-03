@@ -21,8 +21,6 @@ import wan from 'pages/bussiness/setting/wan.vue';
 import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
 import safe from 'base/pages/bussiness/setting/safe.vue';
 import blacklist from 'base/pages/bussiness/setting/blacklist.vue';
-import timezone from 'base/pages/bussiness/setting/timezone.vue';
-import region from 'base/pages/bussiness/setting/region.vue';
 import upnp from 'base/pages/bussiness/setting/upnp.vue';
 import ledSwitch from 'base/pages/bussiness/setting/led-switch.vue';
 
@@ -218,24 +216,6 @@ const routes = {
       path: '/setting/safe',
       name: 'safe',
       component: safe,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
-    {
-      path: '/setting/region',
-      name: 'region',
-      component: region,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
-    {
-      path: '/setting/timezone',
-      name: 'timezone',
-      component: timezone,
       meta: {
         layout: 'primary',
         hasAside: true

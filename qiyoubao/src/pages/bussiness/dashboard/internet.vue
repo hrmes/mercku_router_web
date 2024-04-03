@@ -11,7 +11,7 @@
       <div class="main-wrap">
         <div class="layout-left-wrap">
           <div class="speed__wrap">
-            <div class="section__body ">
+            <div class="section__body">
               <div class="waninfo__wrapper">
                 <div class="realtime__speed speed">
                   <div class="speed__item">
@@ -65,44 +65,6 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="speedtest__wrap">
-                <div class="speedtest-dashboard"
-                     id="animation-container">
-                </div>
-                <span class="speedtest-label">{{$t('trans0027')}}</span>
-                <div class="speedtest-result__wrapper speed">
-                  <div class="speed__item">
-                    <div class="speed__item__wrap">
-                      <i class="speed__icon speed__icon--peakdown"></i>
-                      <label class="speed__title">{{$t('trans0307')}}</label>
-                      <span class="speed__value">
-                        <m-count-to :endVal='Number(speedDown.value)'
-                                    :duration='3000'
-                                    :decimals='1'></m-count-to>
-                      </span>
-                      <span class="speed__unit">{{speedDown.unit}}</span>
-                    </div>
-                  </div>
-                  <div class="speed__item">
-                    <div class="speed__item__wrap">
-                      <i class="speed__icon speed__icon--peakup"></i>
-                      <label class="speed__title">{{$t('trans0306')}}</label>
-                      <span class="speed__value">
-                        <m-count-to :endVal='Number(speedUp.value)'
-                                    :duration='3000'
-                                    :decimals='1'></m-count-to>
-                      </span>
-                      <span class="speed__unit">{{speedUp.unit}}</span>
-                    </div>
-                  </div>
-                </div>
-                <button class="btn"
-                        :class="{'disabled':!isConnected}"
-                        :disabled="!isConnected"
-                        @click="startSpeedTest(true)">
-                  {{$t('trans0008')}}
-                </button>
               </div>
             </div>
           </div>
@@ -200,23 +162,14 @@
         </div>
       </div>
     </div>
-    <div class="speedtest"
-         v-if="isSpeedTesting">
-      <div class="test-info">
-        <m-lottie-loading :loadingType="'speedTest'"
-                          :size="160"></m-lottie-loading>
-      </div>
-      <p>{{$t('trans0045')}}...{{testSpeedNumber}}s</p>
-    </div>
+
   </div>
 </template>
 <script>
 import { SpeedTestStatus, WanNetStatus, WanType, RepeaterStatus } from 'base/util/constant';
 import { formatBandWidth } from 'base/util/util';
-import speedTestMixin from 'base/mixins/speed-test';
 
 export default {
-  mixins: [speedTestMixin],
   data() {
     return {
       routerMeta: {},
@@ -231,12 +184,9 @@ export default {
         wisp: this.$t('trans1242'),
         failObtain: this.$t('trans1058')
       },
-      testTimeout: 60,
-      testSpeedNumber: 60,
       speedStatus: SpeedTestStatus.done,
       TextBandwidth: '-',
       pageActive: true,
-      speedInfo: {},
       netInfo: {},
       traffic: {},
       ipv6NetInfo: {
@@ -333,16 +283,7 @@ export default {
       );
     },
     bandwidth() {
-      return this.formatBandWidth(this.localTraffic.bandwidth);
-    },
-    isSpeedDone() {
-      return this.speedStatus === SpeedTestStatus.done;
-    },
-    isSpeedTesting() {
-      return this.speedStatus === SpeedTestStatus.testing;
-    },
-    isSpeedFailed() {
-      return this.speedStatus === SpeedTestStatus.failed;
+      return formatBandWidth(this.localTraffic.bandwidth);
     },
     localTraffic() {
       const local = {
@@ -394,18 +335,6 @@ export default {
         ? this.localNetInfo.netinfo.dns.join('/')
         : '-';
     },
-    localSpeedInfo() {
-      const local = {
-        speed: {
-          up: 0,
-          down: 0
-        }
-      };
-      if (this.speedInfo && this.speedInfo.speed) {
-        return { ...local, ...this.speedInfo };
-      }
-      return local;
-    },
     realtimeSpeedDown() {
       return this.formatSpeed(this.localTraffic.speed.realtime.down);
     },
@@ -418,12 +347,7 @@ export default {
     trafficDl() {
       return this.formatNetworkData(this.localTraffic.traffic.dl);
     },
-    speedDown() {
-      return formatBandWidth(this.localSpeedInfo.speed.down);
-    },
-    speedUp() {
-      return formatBandWidth(this.localSpeedInfo.speed.up);
-    },
+
   },
   methods: {
     onBack(target) {
@@ -455,55 +379,6 @@ export default {
       this.wispRepeaterStatsTimer = null;
       clearInterval(this.uptimeTimer);
       this.uptimeTimer = null;
-    },
-    speedTest(force = false) {
-      this.$http
-        .testSpeed({ force })
-        .then(res => {
-          this.speedStatus = res.data.result.status;
-
-          if (res.data.result.status !== SpeedTestStatus.testing) {
-            clearInterval(this.speedTestTimer);
-            this.testSpeedNumber = this.testTimeout;
-          }
-
-          if (res.data.result.status === SpeedTestStatus.done) {
-            this.speedInfo = res.data.result;
-            const speedPeakValue = this.calculateSpeedPeakValue(this.speedInfo.speed.down);
-            const percent = this.calculateSpeedPercent(this.speedInfo.speed.down, speedPeakValue);
-            this.updateSpeedLottie(percent);
-          }
-        })
-        .catch(() => {
-          this.speedStatus = SpeedTestStatus.done;
-          clearInterval(this.speedTestTimer);
-          this.testSpeedNumber = this.testTimeout;
-        });
-    },
-    startSpeedTest(force) {
-      force = !!force;
-      this.speedStatus = SpeedTestStatus.testing;
-      this.speedInfo = {};// 让速度值归零，等待后续重跑
-
-      this.speedTestTimer = null;
-      clearInterval(this.speedTestTimer);
-      this.speedTest(force);
-      this.speedTestTimer = setInterval(() => {
-        if (this.testSpeedNumber <= 0) {
-          this.speedTestTimer = null;
-          clearInterval(this.speedTestTimer);
-          this.testSpeedNumber = this.testTimeout;
-          this.speedStatus = SpeedTestStatus.done;
-          return;
-        }
-        if (
-          this.testSpeedNumber % 5 === 0 &&
-          this.testSpeedNumber !== this.testTimeout
-        ) {
-          this.speedTest();
-        }
-        this.testSpeedNumber -= 1;
-      }, 1000);
     },
     getWanNetStats() {
       clearTimeout(this.wanNetStatsTimer);
@@ -772,45 +647,12 @@ export default {
   }
   .speed {
     display: flex;
+    flex-direction: column;
     width: 100%;
     .speed__item {
       position: relative;
       flex: 1;
       display: flex;
-      &::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        width: 4px;
-        height: 50px;
-        background: var(--internet_hr-color);
-        border-radius: 2px;
-      }
-      &.last {
-        &::after {
-          display: none;
-        }
-      }
-    }
-    &.speedtest-result__wrapper {
-      width: 500px;
-      margin-bottom: 40px;
-      .speed__item {
-        .speed__unit {
-          font-family: 'DINAlternate';
-          font-size: 24px;
-          line-height: 1.2;
-        }
-        .speed__value {
-          font-family: 'DINAlternate';
-          line-height: 1.2;
-          font-size: 60px;
-        }
-        &::after {
-          display: none;
-        }
-      }
     }
     .speed__icon {
       width: 30px;
@@ -869,19 +711,10 @@ export default {
     flex-direction: column;
     align-items: center;
     margin-top: 80px;
-    .speedtest-dashboard {
-      width: 400px;
-      aspect-ratio: 25/13;
-      margin-bottom: 5px;
-      overflow: hidden;
-    }
     .speed__title {
       text-align: center;
     }
-    .speedtest-label {
-      color: var(--common_gery-color);
-      margin-bottom: 15px;
-    }
+
     .btn {
       margin-bottom: 20px;
       .iconfont {
@@ -910,20 +743,6 @@ export default {
         padding-top: 10px;
       }
     }
-  }
-  .speedtest {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-    color: #fff;
-    background-color: rgba($color: #000000, $alpha: 0.8);
   }
 }
 @media screen and (max-width: 768px) {
@@ -957,23 +776,6 @@ export default {
     }
     .speedtest__wrap {
       margin-top: 0px;
-      .speedtest-dashboard {
-        width: 90%;
-      }
-      .speedtest-result__wrapper {
-        width: 100%;
-        .speed__item {
-          .speed__unit {
-            font-size: 24px;
-          }
-          .speed__value {
-            font-size: 48px;
-          }
-          &::after {
-            display: none;
-          }
-        }
-      }
       .btn {
         max-width: 340px;
         margin-bottom: 40px;
@@ -988,11 +790,6 @@ export default {
       background: var(--internet_section-bgc);
       box-shadow: var(--internet_section-boxshadow);
       margin-bottom: 20px;
-      .speed__item {
-        &::after {
-          display: none;
-        }
-      }
       .speed__item__wrap {
         align-items: flex-start;
         padding-left: 20px;

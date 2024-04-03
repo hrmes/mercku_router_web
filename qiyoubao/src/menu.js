@@ -65,18 +65,6 @@ export default function getMenu(role, mode = RouterMode.router) {
         config: strategyA
       },
       {
-        text: 'trans0272',
-        name: 'timezone',
-        url: '/setting/timezone',
-        config
-      },
-      {
-        text: 'trans0639',
-        name: 'region',
-        url: '/setting/region',
-        config
-      },
-      {
         url: '/setting/upnp',
         name: 'upnp',
         text: 'trans0644',
@@ -177,20 +165,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/tr069',
         name: 'advance.tr069',
         text: 'trans0499',
-        config: {
-          show: true,
-          auth: [Role.super],
-          mode: [
-            RouterMode.router,
-            RouterMode.bridge,
-            RouterMode.wirelessBridge
-          ]
-        },
-        customers: {
-          [Customers.mercku]: {
-            show: true
-          }
-        }
+        config
       }
     ]
   };
