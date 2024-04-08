@@ -48,8 +48,9 @@
                   <m-loading :size="24"
                              class="spinner"
                              :color="getColor(vpn)"
-                             v-if="isConnectingOrDisconnecting(vpn)"></m-loading>
-                  <m-switch v-show="!isConnectingOrDisconnecting(vpn)"
+                             v-if="isConnectingOrDisconnecting(vpn)">
+                  </m-loading>
+                  <m-switch v-else
                             :disabled="connecting"
                             v-model="vpn.enabled"
                             class="vpn-switch"
@@ -96,6 +97,8 @@
                  @refreshList="getVPNList"></vpnForm>
       </transition>
     </div>
+    <m-progress v-if="connecting"
+                :label="loadingLabel"></m-progress>
   </div>
 </template>
 <script>
@@ -115,8 +118,43 @@ export default {
       connecting: false,
       checkAll: false,
       isShowForm: false,
-      isEdit: false
+      isEdit: false,
+      loadingLabel: ''
     };
+  },
+  computed: {
+    isMobile() {
+      return this.$store.state.isMobile;
+    },
+    hasVpns() {
+      return this.vpns !== null;
+    },
+    isEmpty() {
+      return this.vpns !== null && !this.vpns.length;
+    },
+    hasChecked() {
+      return this.vpns.some(i => i.checked);
+    },
+    isShowList() {
+      if (!this.isMobile) {
+        return true;
+      }
+      return !this.isShowForm;
+    },
+  },
+  watch: {
+    vpns: {
+      handler(nv) {
+        if (nv.length) {
+          if (nv.every(v => v.checked)) {
+            this.checkAll = true;
+          } else {
+            this.checkAll = false;
+          }
+        }
+      },
+      deep: true
+    }
   },
   mounted() {
     this.getVPNList();
@@ -140,7 +178,6 @@ export default {
       if (v) {
         // 打开
         vpn.status = VPNStatus.connecting;
-        this.connecting = true;
         this.$http
           .updateVPNConfig({
             vpn_id: vpn.id,
@@ -166,7 +203,6 @@ export default {
       } else {
         // 关闭
         vpn.status = VPNStatus.disconnecting;
-        this.connecting = true;
         this.$http
           .updateVPNConfig({
             vpn_id: vpn.id,
@@ -193,33 +229,40 @@ export default {
     },
     createIntervalTask(vpn, pEnabled, pStatus, checkStatus, eStatus) {
       let timeout = 60;
+      this.loadingLabel = pEnabled ? this.$t('trans1304') : this.$t('trans1303');
       this.connecting = true;
       this.timer = setInterval(() => {
         if (timeout < 0) {
-          clearTimeout(this.timer);
-          this.connecting = false;
-          this.$toast(this.$t('trans0406'));
-          vpn.enabled = pEnabled;
-          vpn.status = pStatus;
+          clearInterval(this.timer);
+          this.timer = null;
           if (!pEnabled) {
             // 当前操作的拨通vpn,失败之前的VPN也被断开了
             this.vpns.forEach(vv => {
               vv.enabled = false;
             });
+            vpn.enabled = pEnabled;
+            vpn.status = pStatus;
+            this.connecting = false;
+            this.$toast(this.$t('trans0406'));
           }
-        } else if (timeout % 5 === 0) {
+        } else if (timeout % 10 === 0) {
           this.$http.getVPNInfo().then(res => {
-            vpn.status = res.data.result.status;
-            if (vpn.status !== checkStatus) {
-              clearTimeout(this.timer);
-              this.connecting = false;
+            this.$nextTick(() => {
+              vpn.status = res.data.result.status;
+              this.$forceUpdate(); // 强制组件重新渲染
+              console.log(vpn.status);
+            });
+            if (res.data.result.status !== checkStatus) {
+              clearInterval(this.timer);
+              this.timer = null;
               if (!pEnabled) {
                 // 当前操作的拨通vpn,失败之前的VPN也被断开了
                 this.vpns.forEach(vv => {
                   vv.enabled = false;
                 });
               }
-              if (vpn.status === eStatus) {
+              this.connecting = false;
+              if (res.data.result.status === eStatus) {
                 this.$toast(this.$t('trans0040'), 2000, 'success');
                 vpn.enabled = !pEnabled;
               } else {
@@ -310,42 +353,31 @@ export default {
           const info = result[0].data.result;
           const vpns = result[1].data.result.sort((a, b) => a.id - b.id);
           this.vpns = vpns.map((v) => {
-            if (v.protocol === VPNType.wireguard) {
-              this.$set(v, 'enabled', false);
-              if (v.id === info.default_vpn) {
-                v.enabled = info.enabled;
-              }
-            } else {
-              this.$set(v, 'enabled', false);
-              this.$set(v, 'status', VPNStatus.disconnected);
-            }
-
-            if (v.protocol !== VPNType.wireguard && v.id === info.default_vpn) {
+            this.$set(v, 'enabled', false);
+            this.$set(v, 'status', VPNStatus.ready);
+            if (v.id === info.default_vpn) {
               v.status = info.status;
               if (info.status === VPNStatus.connected) {
                 v.enabled = true;
+              } else if (info.status === VPNStatus.connecting) {
+                this.createIntervalTask(
+                  v,
+                  false,
+                  VPNStatus.ready,
+                  VPNStatus.connecting,
+                  VPNStatus.connected
+                );
+              } else if (info.status === VPNStatus.disconnecting) {
+                this.createIntervalTask(
+                  v,
+                  true,
+                  VPNStatus.connected,
+                  VPNStatus.disconnecting,
+                  VPNStatus.disconnected
+                );
               } else {
-                v.status = VPNStatus.ready;
+                v.status = VPNStatus.disconnected;
               }
-              // if (info.status === VPNStatus.connecting) {
-              //   this.createIntervalTask(
-              //     v,
-              //     false,
-              //     VPNStatus.ready,
-              //     VPNStatus.connecting,
-              //     VPNStatus.connected
-              //   );
-              // }
-              // if (info.status === VPNStatus.disconnecting) {
-              //   v.enabled = true;
-              // this.createIntervalTask(
-              //   v,
-              //   true,
-              //   VPNStatus.connected,
-              //   VPNStatus.disconnecting,
-              //   VPNStatus.disconnected
-              // );
-              // }
             }
             // 处理vpn protocol文本显示
             switch (v.protocol) {
@@ -362,9 +394,8 @@ export default {
 
             return { ...v, checked: false, open: false };
           });
-          this.$loading.close();
         })
-        .catch(() => {
+        .finally(() => {
           this.$loading.close();
         });
     },
@@ -379,6 +410,7 @@ export default {
       });
     },
     wireguardSwitchHandler(status, vpn) {
+      this.connecting = true;
       this.$reconnect({
         onsuccess: () => {
           if (status) {
@@ -390,12 +422,14 @@ export default {
           } else {
             vpn.status = VPNStatus.disconnected;
             vpn.enabled = false;
-            this.connecting = false;
           }
           this.connecting = false;
         },
         ontimeout: () => {
           this.$router.push({ path: '/unconnect' });
+        },
+        onfinally: () => {
+          this.connecting = false;
         },
         timeout: 30,
         showLoading: false
@@ -403,40 +437,6 @@ export default {
     },
     closeForm() {
       this.isShowForm = false;
-    }
-  },
-  computed: {
-    isMobile() {
-      return this.$store.state.isMobile;
-    },
-    hasVpns() {
-      return this.vpns !== null;
-    },
-    isEmpty() {
-      return this.vpns !== null && !this.vpns.length;
-    },
-    hasChecked() {
-      return this.vpns.some(i => i.checked);
-    },
-    isShowList() {
-      if (!this.isMobile) {
-        return true;
-      }
-      return !this.isShowForm;
-    }
-  },
-  watch: {
-    vpns: {
-      handler(nv) {
-        if (nv.length) {
-          if (nv.every(v => v.checked)) {
-            this.checkAll = true;
-          } else {
-            this.checkAll = false;
-          }
-        }
-      },
-      deep: true
     }
   },
   beforeDestroy() {

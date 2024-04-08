@@ -9,7 +9,7 @@
   "trans0008": "Speedtest",
   "trans0009": "Incorrect password, please try again",
   "trans0010": "Just now",
-  "trans0011": "%d seconds ago",
+  "trans0011": "Just now",
   "trans0012": "%d minutes ago",
   "trans0013": "%d hours ago",
   "trans0014": "Rate Limit",
@@ -1091,7 +1091,7 @@
   "trans1096": "Wired mesh",
   "trans1097": " ",
   "trans1098": "Wireless mesh",
-  "trans1099": "Notice:\nAfter the wired network is successfully established, it will become a wireless network after unplugging the network cable of the LAN port;",
+  "trans1099": "Note: \nWhen wired networking, make sure that the main router is connected to the network; after the wired networking is successful, unplug the LAN cable to become wireless networking",
   "trans1100": "Suggest:\nPutting two devices together during meshing can make mesh more efficient. After the meshing is successful, you can place them as needed.",
   "trans1101": "OK",
   "trans1102": "TX Power",
@@ -1186,7 +1186,7 @@
   "trans1191": "Internet offline",
   "trans1192": "How to bring a node back online?",
   "trans1193": "1. Disconnect and restart the node.\n2. Reset the node and reestablish the network connection.",
-  "trans1194": "Connect the network cable to the routing LAN button and the WAN port of the node, when the node LED turns blue, press and hold the connect key of the main route and the node respectively, the blue light flashes at this time, wait for about one minute, and the node appears in the topology diagram to indicate that the wired networking is successfully established",
+  "trans1194": "Connect the network cable to the routing LAN port and the WAN port of the node, when the node LED turns blue, press and hold the connect button of the main router and the node respectively, the blue light flashes at this time, wait for about one minute, and the node appears in the topology diagram to indicate that the wired networking is successfully established",
   "trans1195": "Note: \nWhen wired networking, make sure that the main router is connected to the network; after the wired networking is successful, unplug the LAN cable to become wireless networking",
   "trans1196": "Cannot connect to the router, please ensure a proper internet connection or wait for the router to finish booting up (white or red light).",
   "trans1197": "1.Clicking the delete button below will remove all your account-related information in the Mercku app, including the binding relationship between your account and your devices. If you want to clear the configuration information of the devices, please manually restore them to factory settings.",
@@ -1294,5 +1294,7 @@
   "trans1299": "CCMP",
   "trans1300": "TKIP",
   "trans1301": "TKIP/CCMP",
-  "trans1302": "Encryption Protocol"
+  "trans1302": "Encryption Protocol",
+  "trans1303": "VPN is on, please wait...",
+  "trans1304": "VPN is closing, please wait..."
 }

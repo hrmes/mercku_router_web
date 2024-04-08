@@ -16,52 +16,69 @@
                 <div class="realtime__speed speed">
                   <div class="speed__item">
                     <div class="speed__item__wrap">
-                      <i class="speed__icon speed__icon--down"></i>
-                      <div>
-                        <span class="speed__value">
-                          {{realtimeSpeedDown.value}}
-                        </span>
-                        <span class="speed__unit">{{realtimeSpeedDown.unit}}</span>
+                      <div class="left">
+                        <i class="speed__icon speed__icon--down"></i>
                       </div>
-                      <label class="speed__title">{{$t('trans0305')}}</label>
+                      <div class="right">
+                        <div>
+                          <span class="speed__value">
+                            {{realtimeSpeedDown.value}}
+                          </span>
+                          <span class="speed__unit">{{realtimeSpeedDown.unit}}</span>
+                        </div>
+                        <label class="speed__title">{{$t('trans0305')}}</label>
+                      </div>
                     </div>
                   </div>
                   <div class="speed__item">
                     <div class="speed__item__wrap">
-                      <i class="speed__icon speed__icon--up"></i>
-                      <div>
-                        <span class="speed__value">
-                          {{realtimeSpeedUp.value}}
-                        </span>
-                        <span class="speed__unit">{{realtimeSpeedUp.unit}}</span>
+                      <div class="left">
+                        <i class="speed__icon speed__icon--up"></i>
                       </div>
-                      <label class="speed__title">{{$t('trans0304')}}</label>
+                      <div class="right">
+                        <div>
+                          <span class="speed__value">
+                            {{realtimeSpeedUp.value}}
+                          </span>
+                          <span class="speed__unit">{{realtimeSpeedUp.unit}}</span>
+                        </div>
+                        <label class="speed__title">{{$t('trans0304')}}</label>
+                      </div>
+
                     </div>
                   </div>
                 </div>
                 <div class="traffic speed">
                   <div class="speed__item">
                     <div class="speed__item__wrap">
-                      <i class="speed__icon speed__icon--trafficdown"></i>
-                      <div>
-                        <span class="speed__value">
-                          {{trafficDl.value}}
-                        </span>
-                        <span class="speed__unit">{{trafficDl.unit}}</span>
+                      <div class="left">
+                        <i class="speed__icon speed__icon--trafficdown"></i>
                       </div>
-                      <label class="speed__title">{{$t('trans0309')}}</label>
+                      <div class="right">
+                        <div>
+                          <span class="speed__value">
+                            {{trafficDl.value}}
+                          </span>
+                          <span class="speed__unit">{{trafficDl.unit}}</span>
+                        </div>
+                        <label class="speed__title">{{$t('trans0309')}}</label>
+                      </div>
                     </div>
                   </div>
                   <div class="speed__item last">
                     <div class="speed__item__wrap">
-                      <i class="speed__icon speed__icon--trafficup"></i>
-                      <div>
-                        <span class="speed__value">
-                          {{trafficUl.value}}
-                        </span>
-                        <span class="speed__unit">{{trafficUl.unit}}</span>
+                      <div class="left">
+                        <i class="speed__icon speed__icon--trafficup"></i>
                       </div>
-                      <label class="speed__title">{{$t('trans0310')}}</label>
+                      <div class="right">
+                        <div>
+                          <span class="speed__value">
+                            {{trafficUl.value}}
+                          </span>
+                          <span class="speed__unit">{{trafficUl.unit}}</span>
+                        </div>
+                        <label class="speed__title">{{$t('trans0310')}}</label>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -538,10 +555,15 @@ export default {
     margin-right: 10px;
     transition: all 0.3s ease-in-out;
     .speed__wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
       width: 100%;
       height: 100%;
     }
     .section__body {
+      width: 60%;
+      height: 300px;
       display: flex;
       flex-direction: column;
     }
@@ -638,12 +660,12 @@ export default {
     }
   }
   .waninfo__wrapper {
+    width: 100%;
+    height: 100%;
     display: grid;
     grid-template-rows: 100%;
     grid-template-columns: repeat(2, 1fr);
-    width: 70%;
     margin: 0 auto;
-    margin-top: 50px;
   }
   .speed {
     display: flex;
@@ -659,7 +681,6 @@ export default {
       height: 30px;
       display: block;
       position: relative;
-      margin-bottom: 13px;
       &.speed__icon--up {
         background: url(#{$img_folder}/icon/ic_upload.png) center/contain
           no-repeat;
@@ -687,9 +708,20 @@ export default {
     }
     .speed__item__wrap {
       display: flex;
-      width: 100%;
-      flex-direction: column;
-      align-items: center;
+      .left {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 20px;
+      }
+      .right {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        > div {
+          line-height: 1.2;
+        }
+      }
     }
     .speed__title {
       font-size: 14px;
@@ -697,29 +729,13 @@ export default {
     }
     .speed__value {
       position: relative;
-      font-size: 24px;
+      font-size: 48px;
       font-weight: bold;
       font-family: 'DINAlternate', sans-serif;
       color: var(--text_default-color);
     }
     .speed__unit {
-      font-size: 16px;
-    }
-  }
-  .speedtest__wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 80px;
-    .speed__title {
-      text-align: center;
-    }
-
-    .btn {
-      margin-bottom: 20px;
-      .iconfont {
-        margin-right: 5px;
-      }
+      font-size: 24px;
     }
   }
   .uptime {
@@ -763,36 +779,41 @@ export default {
     .layout-left-wrap {
       margin: 0;
       .section__body {
-        flex-direction: column-reverse;
+        width: 100%;
+        padding: 0 15px;
+        height: fit-content;
       }
     }
     .layout-right-wrap {
       width: 100%;
-      max-width: 100%;
+      padding: 0 15px;
       .section {
         width: 100%;
-        border-radius: 0;
+        border-radius: 10px;
       }
     }
-    .speedtest__wrap {
-      margin-top: 0px;
-      .btn {
-        max-width: 340px;
-        margin-bottom: 40px;
-      }
-    }
+
     .waninfo__wrapper {
       display: flex;
       flex-direction: column;
       width: 100%;
-      margin-top: 0;
-      padding: 15px 0;
+      margin: 0 0 20px;
+      padding: 15px 20px;
       background: var(--internet_section-bgc);
       box-shadow: var(--internet_section-boxshadow);
-      margin-bottom: 20px;
+      border-radius: 10px;
       .speed__item__wrap {
+        flex-direction: column;
         align-items: flex-start;
-        padding-left: 20px;
+      }
+      .speed__value {
+        font-size: 24px;
+      }
+      .speed__unit {
+        font-size: 14px;
+      }
+      .speed {
+        flex-direction: row;
       }
       .realtime__speed {
         margin-bottom: 20px;
