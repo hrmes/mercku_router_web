@@ -418,7 +418,19 @@ export default {
     ipv6EnabledChange(enabled) {
       if (enabled) {
         // 由关闭状态切换到启用状态
-        this.enabled = enabled;
+        this.$dialog.confirm({
+          okText: this.$t('trans1306'),
+          cancelText: this.$t('trans0025'),
+          message: this.$t('trans1305'),
+          callback: {
+            ok: () => {
+              this.enabled = enabled;
+            },
+            cancel: () => {
+              this.enabled = !enabled;
+            }
+          }
+        });
       } else if (this.isSetup) {
         // 由启用状态切换到关闭状态
         this.$dialog.confirm({
