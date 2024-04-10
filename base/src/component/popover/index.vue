@@ -113,7 +113,7 @@ export default {
     position: absolute;
     padding: 0 10px;
     z-index: 999;
-    width: 200px;
+    width: 220px;
     background-color: $popover-background-color;
     border-radius: 8px;
     // box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.15);

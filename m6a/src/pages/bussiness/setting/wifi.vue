@@ -41,7 +41,6 @@
                    type="text"
                    :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
-
         <m-form-item key="b24gencrypt"
                      class="item">
           <m-select :label="$t('trans0522')"
@@ -49,7 +48,6 @@
                     @change="(nv, ov) => onEncryptChange('b24g', nv, ov)"
                     :options="encryptMethods"></m-select>
         </m-form-item>
-
         <m-form-item key="b24gpassword"
                      v-if="!isOpen('b24g')"
                      class="item"
@@ -59,7 +57,6 @@
                    type="password"
                    :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
-
         <m-form-item key="b24gchannelnumber"
                      class="form__item">
           <m-select :label="$t('trans0680')"
@@ -86,7 +83,22 @@
                     v-model="form.b5g.channel.bandwidth"
                     :options="bandwidths.b5g"></m-select>
         </m-form-item>
-
+        <div class="form-item check-info">
+          <label for="">
+            PMF
+            <div class="tool">
+              <m-popover position="bottom left"
+                         style="top:-7px"
+                         title="Protected Management Frame">
+                <img width="14"
+                     src="../../../assets/images/icon/ic_question.png"
+                     alt="" />
+              </m-popover>
+            </div>
+          </label>
+          <m-switch v-model="form.b24g.pmf_enabled"
+                    :disabled="!b24gEncryptIsWpa2" />
+        </div>
         <div class="form-item check-info">
           <label for="">
             {{ $t('trans0110') }}
@@ -104,7 +116,6 @@
           <m-switch v-model="form.b24g.hidden" />
         </div>
       </m-form>
-
       <m-form v-if="!form.smart_connect"
               class="form"
               ref="b5gForm"
@@ -125,7 +136,6 @@
                    type="text"
                    :placeholder="`${$t('trans0321')}`"></m-input>
         </m-form-item>
-
         <m-form-item key="b5gencrypt"
                      class="item">
           <m-select :label="$t('trans0522')"
@@ -133,7 +143,6 @@
                     @change="(nv, ov) => onEncryptChange('b5g', nv, ov)"
                     :options="encryptMethods"></m-select>
         </m-form-item>
-
         <m-form-item v-if="!isOpen('b5g')"
                      class="item"
                      key="b5gpassword"
@@ -143,7 +152,6 @@
                    type="password"
                    :placeholder="$t('trans0321')"></m-input>
         </m-form-item>
-
         <m-form-item class="form__item"
                      key="b5gchannelnumber"
                      v-if="!form.smart_connect">
@@ -158,7 +166,22 @@
                     v-model="form.b5g.channel.bandwidth"
                     :options="bandwidths.b5g"></m-select>
         </m-form-item>
-
+        <div class="form-item check-info">
+          <label for="">
+            PMF
+            <div class="tool">
+              <m-popover position="bottom left"
+                         style="top:-7px"
+                         title="Protected Management Frame">
+                <img width="14"
+                     src="../../../assets/images/icon/ic_question.png"
+                     alt="" />
+              </m-popover>
+            </div>
+          </label>
+          <m-switch v-model="form.b5g.pmf_enabled"
+                    :disabled="!b5gEncryptIsWpa2" />
+        </div>
         <div class="form-item check-info">
           <label for="">
             {{ $t('trans0110') }}
@@ -202,6 +225,7 @@ export default {
           ssid: '',
           password: '',
           hidden: false,
+          pmf_enabled: false,
           encrypt: EncryptMethod.wpawpa2,
           channel: {
             number: 0,
@@ -212,6 +236,7 @@ export default {
           ssid: '',
           password: '',
           hidden: false,
+          pmf_enabled: false,
           encrypt: EncryptMethod.wpawpa2,
           channel: {
             number: 0,
@@ -318,8 +343,18 @@ export default {
           value: EncryptMethod.wpa3,
           text: this.$t('trans0572')
         }
-      ]
+      ],
     };
+  },
+  computed: {
+    b24gEncryptIsWpa2() {
+      this.form.b24g.pmf_enabled = this.form.b24g.encrypt === EncryptMethod.wpa3;
+      return this.form.b24g.encrypt === EncryptMethod.wpa2;
+    },
+    b5gEncryptIsWpa2() {
+      this.form.b5g.pmf_enabled = this.form.b5g.encrypt === EncryptMethod.wpa3;
+      return this.form.b5g.encrypt === EncryptMethod.wpa2;
+    }
   },
   methods: {
     onEncryptChange(path, nv, ov) {
@@ -329,12 +364,16 @@ export default {
           cancelText: this.$t('trans0025'),
           message: this.$t('trans0692'),
           callback: {
+            ok: () => {
+              this.form[path].pmf_enabled = true;
+            },
             cancel: () => {
               this.form[path].encrypt = ov;
-              console.log('cancel', ov);
             }
           }
         });
+      } else {
+        this.form[path].pmf_enabled = false;
       }
     },
     changeSmartConnect() {
@@ -374,6 +413,7 @@ export default {
                 ssid: this.form.b24g.ssid,
                 password: this.form.b24g.password,
                 encrypt: this.form.b24g.encrypt,
+                pmf_enabled: this.form.b24g.pmf_enabled,
                 channel: {
                   number: this.form.b24g.channel.number,
                   bandwidth: this.form.b24g.channel.bandwidth
@@ -385,6 +425,7 @@ export default {
                 ssid: formBand.ssid,
                 password: formBand.password,
                 encrypt: formBand.encrypt,
+                pmf_enabled: formBand.pmf_enabled,
                 channel: {
                   number: this.form.b5g.channel.number,
                   bandwidth: this.form.b5g.channel.bandwidth
@@ -398,6 +439,7 @@ export default {
                   [Bands.b5g]: b5g
                 }
               };
+              console.log(wifi);
               this.$http.meshWifiUpdate(wifi).then(() => {
                 this.$reconnect({
                   onsuccess: () => {
@@ -436,6 +478,7 @@ export default {
           this.form.b24g.encrypt = b24g.encrypt;
           this.form.b24g.password = b24g.password;
           this.form.b24g.hidden = b24g.hidden;
+          this.form.b24g.pmf_enabled = b24g.pmf_enabled || false;
           this.form.b24g.channel.number = b24g.channel.number;
           this.form.b24g.channel.bandwidth = b24g.channel.bandwidth;
 
@@ -445,6 +488,7 @@ export default {
           this.form.b5g.encrypt = b5g.encrypt;
           this.form.b5g.password = b5g.password;
           this.form.b5g.hidden = b5g.hidden;
+          this.form.b5g.pmf_enabled = b5g.pmf_enabled || false;
           this.form.b5g.channel.number = b5g.channel.number;
           this.form.b5g.channel.bandwidth = b5g.channel.bandwidth;
 
