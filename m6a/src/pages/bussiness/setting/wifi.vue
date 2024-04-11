@@ -348,11 +348,9 @@ export default {
   },
   computed: {
     b24gEncryptIsWpa2() {
-      this.form.b24g.pmf_enabled = this.form.b24g.encrypt === EncryptMethod.wpa3;
       return this.form.b24g.encrypt === EncryptMethod.wpa2;
     },
     b5gEncryptIsWpa2() {
-      this.form.b5g.pmf_enabled = this.form.b5g.encrypt === EncryptMethod.wpa3;
       return this.form.b5g.encrypt === EncryptMethod.wpa2;
     }
   },
