@@ -94,11 +94,12 @@
         <vpnForm v-if="isShowForm"
                  :isEdit="isEdit"
                  @closeForm="closeForm"
-                 @refreshList="getVPNList"></vpnForm>
+                 @refreshList="getVPNList(false)"></vpnForm>
       </transition>
     </div>
     <m-progress v-if="connecting"
-                :label="loadingLabel"></m-progress>
+                :label="loadingLabel"
+                :during="timeout"></m-progress>
   </div>
 </template>
 <script>
@@ -111,7 +112,6 @@ export default {
   },
   data() {
     return {
-      ScrollPage: document.querySelector('.scrollbar-wrap'),
       vpns: [],
       VPNStatus,
       timer: null,
@@ -119,7 +119,8 @@ export default {
       checkAll: false,
       isShowForm: false,
       isEdit: false,
-      loadingLabel: ''
+      loadingLabel: '',
+      timeout: 60
     };
   },
   computed: {
@@ -141,6 +142,9 @@ export default {
       }
       return !this.isShowForm;
     },
+    hasVpnConnected() {
+      return this.vpns.some(vpn => vpn.status === VPNStatus.connected);
+    }
   },
   watch: {
     vpns: {
@@ -166,122 +170,93 @@ export default {
         vpn.status === VPNStatus.disconnecting
       );
     },
-    getSpinnerText(vpn) {
-      return vpn.status === VPNStatus.connecting
-        ? this.$t('trans0407')
-        : this.$t('trans0484');
-    },
     getColor(vpn) {
       return vpn.status === VPNStatus.connecting ? '#00d061' : '#ff0001';
     },
-    start(v, vpn) {
-      if (v) {
-        // 打开
-        vpn.status = VPNStatus.connecting;
-        this.$http
-          .updateVPNConfig({
-            vpn_id: vpn.id,
-            status: VPNAction.connect
-          })
-          .then(() => {
-            if (vpn.protocol.toLowerCase() === VPNType.wireguard) {
-              this.wireguardSwitchHandler(v, vpn);
-            } else {
-              this.createIntervalTask(
-                vpn,
-                false,
-                VPNStatus.ready,
-                VPNStatus.connecting,
-                VPNStatus.connected
-              );
-            }
-          })
-          .catch(() => {
-            vpn.enabled = false;
-            vpn.status = VPNStatus.ready;
-          });
-      } else {
-        // 关闭
-        vpn.status = VPNStatus.disconnecting;
-        this.$http
-          .updateVPNConfig({
-            vpn_id: vpn.id,
-            status: VPNAction.disconnect
-          })
-          .then(() => {
-            if (vpn.protocol.toLowerCase() === VPNType.wireguard) {
-              this.wireguardSwitchHandler(v, vpn);
-            } else {
-              this.createIntervalTask(
-                vpn,
-                true,
-                VPNStatus.connected,
-                VPNStatus.disconnecting,
-                VPNStatus.disconnected
-              );
-            }
-          })
-          .catch(() => {
-            vpn.enabled = true;
-            vpn.status = VPNStatus.connected;
-          });
-      }
-    },
-    createIntervalTask(vpn, pEnabled, pStatus, checkStatus, eStatus) {
-      let timeout = 60;
-      this.loadingLabel = pEnabled ? this.$t('trans1304') : this.$t('trans1303');
-      this.connecting = true;
-      this.timer = setInterval(() => {
-        if (timeout < 0) {
-          clearInterval(this.timer);
-          this.timer = null;
-          if (!pEnabled) {
-            // 当前操作的拨通vpn,失败之前的VPN也被断开了
-            this.vpns.forEach(vv => {
-              vv.enabled = false;
-            });
-            vpn.enabled = pEnabled;
-            vpn.status = pStatus;
-            this.connecting = false;
-            this.$toast(this.$t('trans0406'));
+    startVpnHandler(v, vpn) {
+      this.$http
+        .updateVPNConfig({
+          vpn_id: vpn.id,
+          status: VPNAction.connect
+        })
+        .then(() => {
+          if (vpn.protocol.toLowerCase() === VPNType.wireguard) {
+            this.wireguardSwitchHandler(v, vpn);
+          } else {
+            this.createIntervalTask(
+              vpn,
+              false,
+              VPNStatus.ready,
+              VPNStatus.connecting,
+              VPNStatus.connected
+            );
           }
-        } else if (timeout % 10 === 0) {
-          this.$http.getVPNInfo().then(res => {
-            this.$nextTick(() => {
-              vpn.status = res.data.result.status;
-              this.$forceUpdate(); // 强制组件重新渲染
-              console.log(vpn.status);
-            });
-            if (res.data.result.status !== checkStatus) {
-              clearInterval(this.timer);
-              this.timer = null;
-              if (!pEnabled) {
-                // 当前操作的拨通vpn,失败之前的VPN也被断开了
-                this.vpns.forEach(vv => {
-                  vv.enabled = false;
-                });
-              }
-              this.connecting = false;
-              if (res.data.result.status === eStatus) {
-                this.$toast(this.$t('trans0040'), 2000, 'success');
-                vpn.enabled = !pEnabled;
-              } else {
-                this.$toast(this.$t('trans0077'));
-                vpn.enabled = pEnabled;
-                vpn.status = pStatus;
-              }
+        })
+        .catch(() => {
+          vpn.enabled = false;
+          vpn.status = VPNStatus.ready;
+        });
+    },
+    closeVpnHandler(v, vpn) {
+      this.$http
+        .updateVPNConfig({
+          vpn_id: vpn.id,
+          status: VPNAction.disconnect
+        })
+        .then(() => {
+          if (vpn.protocol.toLowerCase() === VPNType.wireguard) {
+            this.wireguardSwitchHandler(v, vpn);
+          } else {
+            this.createIntervalTask(
+              vpn,
+              true,
+              VPNStatus.connected,
+              VPNStatus.disconnecting,
+              VPNStatus.disconnected
+            );
+          }
+        })
+        .catch(() => {
+          vpn.enabled = true;
+          vpn.status = VPNStatus.connected;
+        });
+    },
+    start(v, vpn) {
+      if (v && this.hasVpnConnected) {
+        vpn.status = VPNStatus.connecting;
+
+        this.$dialog.confirm({
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0025'),
+          message: this.$t('trans1307'),
+          callback: {
+            ok: () => {
+              // 打开
+              this.startVpnHandler(v, vpn);
+            },
+            cancel: () => {
+              vpn.enabled = false;
+              vpn.status = VPNStatus.ready;
             }
-          });
-        }
-        timeout -= 1;
-      }, 1000);
+          }
+        });
+        return;
+      }
+      if (v) {
+        vpn.status = VPNStatus.connecting;
+        // 打开
+        this.startVpnHandler(v, vpn);
+      } else {
+        vpn.status = VPNStatus.disconnecting;
+        this.closeVpnHandler(v, vpn);
+      }
     },
     edit(vpn) {
       if (!this.connecting && !vpn.enabled) {
         this.$store.state.modules.vpn = vpn;
         this.isEdit = true;
         if (this.isMobile) {
-          this.ScrollPage.scrollTop = 0;
+          document.querySelector('.scrollbar-wrap').scrollTop = 0;
         }
         this.isShowForm = true;
       }
@@ -293,7 +268,7 @@ export default {
       }
       this.isEdit = false;
       if (this.isMobile) {
-        this.ScrollPage.scrollTop = 0;
+        document.querySelector('.scrollbar-wrap').scrollTop = 0;
       }
       this.isShowForm = true;
     },
@@ -346,8 +321,20 @@ export default {
         }
       }
     },
-    getVPNList() {
-      this.$loading.open();
+    change(v) {
+      this.vpns.forEach(item => {
+        if (item.enabled) return;
+        if (v) {
+          item.checked = true;
+        } else {
+          item.checked = false;
+        }
+      });
+    },
+    getVPNList(needLoading = true) {
+      if (needLoading) {
+        this.$loading.open();
+      }
       Promise.all([this.$http.getVPNInfo(), this.$http.getVPNlist()])
         .then(result => {
           const info = result[0].data.result;
@@ -359,6 +346,7 @@ export default {
               v.status = info.status;
               if (info.status === VPNStatus.connected) {
                 v.enabled = true;
+                localStorage.removeItem('endTimestamp');
               } else if (info.status === VPNStatus.connecting) {
                 this.createIntervalTask(
                   v,
@@ -377,6 +365,7 @@ export default {
                 );
               } else {
                 v.status = VPNStatus.disconnected;
+                localStorage.removeItem('endTimestamp');
               }
             }
             // 处理vpn protocol文本显示
@@ -391,7 +380,6 @@ export default {
                 v.protocol = v.protocol?.toUpperCase();
                 break;
             }
-
             return { ...v, checked: false, open: false };
           });
         })
@@ -399,15 +387,16 @@ export default {
           this.$loading.close();
         });
     },
-    change(v) {
-      this.vpns.forEach(item => {
-        if (item.enabled) return;
-        if (v) {
-          item.checked = true;
-        } else {
-          item.checked = false;
+    createIntervalTask(vpn, pEnabled, pStatus, checkStatus, eStatus) {
+      this.recordTime(vpn, pEnabled, pStatus, checkStatus, eStatus);
+      this.loadingLabel = pEnabled ? this.$t('trans1304') : this.$t('trans1303');
+      this.connecting = true;
+      this.timer = setInterval(() => {
+        if (this.timeout < 5) {
+          this.updateVPNStatus(vpn, pEnabled, pStatus, checkStatus, eStatus);
         }
-      });
+        this.timeout -= 1;
+      }, 1000);
     },
     wireguardSwitchHandler(status, vpn) {
       this.connecting = true;
@@ -435,9 +424,59 @@ export default {
         showLoading: false
       });
     },
+    updateVPNStatus(vpn, pEnabled, pStatus, checkStatus, eStatus) {
+      this.$http.getVPNInfo()
+        .then(res => {
+          clearInterval(this.timer);
+          this.timer = null;
+          this.connecting = false;
+          this.$nextTick(() => {
+            if (res.data.result.status === checkStatus) {
+              this.vpns.forEach(vv => {
+                vv.enabled = pEnabled;
+                vv.status = pStatus;
+              });
+              this.$toast(this.$t('trans0406'));
+              localStorage.removeItem('endTimestamp');
+              return;
+            }
+            this.vpns.forEach(vv => {
+              vv.enabled = false;
+              vv.status = VPNStatus.ready;
+            });
+            if (res.data.result.status === eStatus) {
+              this.$toast(this.$t('trans0040'), 2000, 'success');
+              vpn.enabled = !pEnabled;
+              vpn.status = res.data.result.status;
+            } else {
+              this.$toast(this.$t('trans0077'));
+            }
+            localStorage.removeItem('endTimestamp');
+            this.$forceUpdate();
+          });
+        }).finally(() => {
+          clearInterval(this.timer);
+          this.timer = null;
+        });
+    },
+    recordTime(vpn, pEnabled, pStatus, checkStatus, eStatus) {
+      const currentTimestamp = new Date().getTime();
+      // 先获取一下本地的上次记录的时间戳
+      const endTimestamp = localStorage.getItem('endTimestamp');
+      if (endTimestamp) { // 如果有就要执行检查
+        // 如果上次记录的时间戳不存在，或者当前时间距离上次记录的时间戳大于等于60秒，则执行检查方法
+        if (Math.abs(endTimestamp - currentTimestamp) >= 60000) {
+          this.updateVPNStatus(vpn, pEnabled, pStatus, checkStatus, eStatus);
+        } else {
+          this.timeout = Number((Math.abs(endTimestamp - currentTimestamp) / 1000).toFixed(0));
+        }
+      } else { // 如果没有就要记录一次
+        localStorage.setItem('endTimestamp', new Date().getTime() + 60000);
+      }
+    },
     closeForm() {
       this.isShowForm = false;
-    }
+    },
   },
   beforeDestroy() {
     this.timer && clearInterval(this.timer);

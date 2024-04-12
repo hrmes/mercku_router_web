@@ -436,9 +436,9 @@ export default {
     submitForm(method) {
       this.$http[method](this.formParams)
         .then(() => {
-          this.$emit('refreshList');
           this.closeForm();
           this.$toast(this.$t('trans0040'), 2000, 'success');
+          this.$emit('refreshList');
         })
         .catch(() => {
           this.$loading.close();
