@@ -138,6 +138,12 @@ const launch = () => {
       } else {
         const { error } = data;
         if (error) {
+          // token过期
+          if (error.code === 200103) {
+            if (!window.location.href.includes('login')) {
+              window.location.href = '/';
+            }
+          }
           // 升级中
           if (error.code === 600402) {
             !upgrading && upgrade();
