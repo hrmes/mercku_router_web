@@ -14,6 +14,7 @@ export const Customers = {
   pentanet: '0019',
   homeway: '0025',
   junet: '0029',
+  sci: '0031',
   vistabeam: '0056'
 };
 export const IP = {
