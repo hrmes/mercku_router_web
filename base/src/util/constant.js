@@ -2,16 +2,6 @@ export const IPv6DefaultPlaceholder = '----:----:----:----:----:----:----:----';
 
 export const Customers = {
   mercku: '0001',
-  cik: '0002',
-  startca: '0003',
-  inverto: '0004',
-  orion: '0005',
-  realnett: '0006',
-  altima: '0007',
-  fibrestream: '0013',
-  skymesh: '0014',
-  pentanet: '0019',
-  homeway: '0025',
   junet: '0029'
 };
 export const IP = {
