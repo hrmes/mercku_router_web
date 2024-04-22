@@ -30,7 +30,9 @@ export default {
   props: { option: { type: Object } },
   computed: {
     width() {
-      return `${(this.option.current * 100) / (this.length - 1)}%`;
+      // eslint-disable-next-line no-nested-ternary
+      const multiplier = this.option.current === 0 ? 0 : this.option.current === this.length - 1 ? 2 : 1;
+      return `${(this.option.current * 2 + multiplier) * 0.5 / (this.length) * 100}%`;
     },
     length() {
       return this.option.steps.length;
@@ -97,10 +99,8 @@ export default {
     position: relative;
     z-index: 1;
     .step {
-      display: flex;
-      justify-content: center;
-      align-items: center;
       position: relative;
+      display: flex;
       justify-content: center;
       align-items: center;
       &:first-child {
