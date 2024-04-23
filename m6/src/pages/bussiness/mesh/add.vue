@@ -1,10 +1,8 @@
 <template>
   <div class="add-node">
-    <button @click="prev">prev</button>
-    <button @click="next">next</button>
     <div class="page-content">
       <div class="steps-container"
-           v-if="!showTips && !isAddSuccess && !isAddFail&& !showTipsDialog">
+           v-if="!showTips && !isAddSuccess && !isAddFail">
         <div class="step">
           <m-step :option="stepsOption"></m-step>
         </div>
@@ -13,7 +11,7 @@
                v-show="isStep(0)">
             <div class="main-content">
               <div class="img-container">
-                <img :src="getM6aSeriesProductAddNodeImg(0)" />
+                <img src="@/assets/images/add/img_add_01.svg" />
               </div>
               <p class="step-item__tip">{{transText('trans0693')}}</p>
               <p class="step-item__tip step-item__tip--gray">{{$t('trans0698')}}</p>
@@ -42,26 +40,87 @@
                v-show="isStep(2)">
             <div class="main-content">
               <div class="img-container">
-                <img :src="getM6aSeriesProductAddNodeImg(2,this.addNodeType)" />
+                <img src="@/assets/images/add/img_add_03.svg" />
               </div>
-              <div v-if="addNodeType===AddNodeType.wired">
-                <p class="step-item__tip">{{$t('trans1114')}}</p>
-                <p class="step-item__tip--gray ">{{$t('trans1099')}}</p>
-              </div>
-              <p v-else
-                 class="step-item__tip">
+              <p class="step-item__tip">
                 {{$t('trans0636')}}
               </p>
             </div>
             <div class="button-container">
               <button @click="forward2step(1)"
                       class="btn btn-default ">{{$t('trans0057')}}</button>
-              <button @click="checkAddNodeType"
-                      class="btn">
-                {{this.addNodeType===AddNodeType.wired?
-                      $t('trans0018'):
-                      $t('trans0055')}}
-              </button>
+              <button @click="forward2step(3)"
+                      class="btn">{{$t('trans0055')}}</button>
+            </div>
+          </div>
+          <div class="step-item step-item--scan"
+               v-show="isStep(3)">
+            <div class="main-content">
+              <div class="scaning "
+                   v-if="isScanning">
+                <m-lottie-loading :size="150"></m-lottie-loading>
+                <p>{{transText($t('trans0334'))}}</p>
+              </div>
+              <div class="scan-result"
+                   v-if="isScanFinished">
+                <div v-if="nodes.length === 1"
+                     class="scan-result__content">
+                  <div class="router">
+                    <img class="router__img"
+                         :src="getRouterImage(nodes[0].sn)" />
+                    <div class="router__info">
+                      <h6 class="router__found">{{$t('trans0658')}}</h6>
+                      <p class="router__sn"
+                         v-if="nodes[0].sn">
+                        <label class="with-colon">{{$t('trans0252')}}:</label>
+                        <span>{{nodes[0].sn}}</span>
+                      </p>
+                      <p class="router__mac"
+                         v-else>
+                        <label class="with-colon">{{$t('trans0188')}}:</label>
+                        <span>{{nodes[0].mac['2.4G'] || nodes[0].mac['5G']}}</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div v-else-if="nodes.length >1"
+                     class="scan-result__much">
+                  <img :src="require('base/assets/images/common/img_default_empty.png')" />
+                  <p class="scan-result__title">{{$t('trans0773')}}</p>
+                  <p class="scan-result__description">{{$t('trans0637')}}</p>
+                </div>
+                <div v-else
+                     class="scan-result__empty">
+                  <img class="scan-result__image"
+                       :src="require('base/assets/images/common/img_default_empty.png')" />
+                  <p class="scan-result__title">{{transText($t('trans0181')) }}</p>
+                  <span class="btn-help"
+                        @click.stop="updateHelpVisible(true)">{{$t('trans0128')}}</span>
+                </div>
+              </div>
+              <div class="adding"
+                   v-if="isAdding">
+                <m-lottie-loading :size="150"
+                                  :loadingType="'addNode'"></m-lottie-loading>
+                <p>{{$t('trans0195')}}</p>
+              </div>
+            </div>
+            <div v-if="isScanFinished"
+                 class="button-container">
+              <template v-if="nodes.length === 1">
+                <button @click="forward2step(2)"
+                        class="btn btn-default ">{{$t('trans0057')}}</button>
+                <button @click="addMeshNode(nodes[0])"
+                        class="btn">{{$t('trans0194')}}</button>
+              </template>
+              <template v-else-if="nodes.length >1">
+                <button @click="forward2step(0)"
+                        class="btn btn-large">{{$t('trans0162')}}</button>
+              </template>
+              <template v-else>
+                <button @click="scanHandler"
+                        class="btn btn-large">{{$t('trans0162')}}</button>
+              </template>
             </div>
           </div>
         </div>
@@ -71,17 +130,15 @@
         <div class="result-container__success"
              v-if="isAddSuccess">
           <div class="text-center">
-            <img class="result-container__img result-container__img--fail"
+            <img class="result-container__img"
                  src="~@/assets/images/add/img_add_success.png"
                  alt="" />
-          </div>
-          <div class="node-sn">
-            <span>{{$t('trans1006')}}:</span>
-            {{snAdded}}
           </div>
           <div class="result-container__tips">
             <p>{{$t('trans0192')}}</p>
             <p style="font-weight:400">{{$t('trans1007')}}</p>
+            <p v-if="isWeakSignal"
+               style="font-weight:400;font-size:12px;color:#999;">{{$t('trans0652')}}</p>
           </div>
           <div class="button-container">
             <button @click="updateResultVisiable"
@@ -94,7 +151,7 @@
             <img class="result-container__img result-container__img--fail"
                  :src="require('base/assets/images/common/img_default_empty.png')" />
           </div>
-          <div class="result-container__tips">{{transDeviceId('trans0181')}}</div>
+          <div class="result-container__tips">{{$t('trans0248')}}</div>
           <div class="text-center">
             <span class="result-container__help"
                   @click.stop="updateHelpVisible(true)">{{$t('trans0128')}}</span>
@@ -112,48 +169,8 @@
               <p>{{$t('trans0638')}}</p>
               <p>{{$t('trans0750')}}</p>
               <p>{{$t('trans0757')}}</p>
-              <div class="tips__content__try-out"
-                   @click.stop="updateTipsDialogVisible(true)">{{$t('trans0758')}}</div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="wireless-mesh-add-fail-tips"
-           v-if="showTipsDialog">
-        <div class="mesh-add-tips-list">
-          <div class="mesh-add-tips-list__item list-item">
-            <div class="list-item__img">
-              <img src="~@/assets/images/add/img_power_on.svg"
-                   alt="" />
-            </div>
-            <div class="list-item__text">
-              <p>{{$t('trans0760')}}</p>
-              <p>{{$t('trans0698')}}</p>
-            </div>
-          </div>
-          <div class="mesh-add-tips-list__item list-item">
-            <div class="list-item__img">
-              <img src="~@/assets/images/add/img_orangelight.png"
-                   alt="" />
-            </div>
-            <div class="list-item__text">
-              <p>{{$t('trans0761')}}</p>
-            </div>
-          </div>
-          <div class="mesh-add-tips-list__item list-item">
-            <div class="list-item__img">
-              <img :src="getM6aSeriesProductNetworkingImg()"
-                   alt="" />
-            </div>
-            <div class="list-item__text">
-              <p>{{$t('trans0762')}}</p>
-              <p>{{$t('trans0763')}}</p>
-            </div>
-          </div>
-        </div>
-        <div class="button-container">
-          <button @click="backMesh"
-                  class="btn">{{$t('trans0055')}}</button>
         </div>
       </div>
       <div class="tips center-wrap"
@@ -166,9 +183,6 @@
         </div>
       </div>
     </div>
-    <!--loading for scan-->
-    <div class="loading"
-         v-if="isScanning"></div>
     <!--dialog for help-->
     <m-modal class="modal"
              :visible.sync="showHelpDialog">
@@ -203,35 +217,26 @@
                 @click="showWirelessMeshTipsDialog=false">{{$t('trans0211')}}</button>
       </m-modal-body>
     </m-modal>
-
   </div>
 </template>
 <script>
 import RouterModel from 'base/mixins/router-model';
-import debounce from 'lodash/debounce';
-import { AddNodeType, M6aSeriesModelIDs, ModelsMap } from 'base/util/constant';
+import { ModelsMap, Bands } from 'base/util/constant';
 
 const PageStatus = {
   scanning: 'scanning',
   scan_finished: 'scan_finished',
+  adding: 'adding',
   add_success: 'add_success',
   add_fail: 'add_fail'
 };
-const Step = {
-  step1: 0,
-  step2: 1,
-  step3: 2
-};
-
+const checkWeakSignal = rssi => rssi < -65;
 export default {
   mixins: [RouterModel],
   data() {
     return {
       scrollbar: document.querySelector('.scrollbar-wrap'),
-      AddNodeType,
       PageStatus,
-      showChooseType: true,
-      showTips: false,
       stepsOption: {
         current: 0,
         steps: new Array(4).fill(0).map((item, index) => ({ text: '', success: index === 0 }))
@@ -239,12 +244,11 @@ export default {
       pageStatus: '',
       nodes: [],
       addTimeout: 90,
+      showTips: false,
       showHelpDialog: false,
-      showTipsDialog: false,
       showWirelessMeshTipsDialog: false,
-      snAdded: '',
       checkTimer: null,
-      addNodeType: AddNodeType.wireless
+      isWeakSignal: true
     };
   },
   computed: {
@@ -277,8 +281,10 @@ export default {
       return this.$store.state.isMobile;
     }
   },
-  created() {
-    this.addMeshNodeDebounce = debounce(this.addMeshNode, 500);
+  mounted() {
+    setTimeout(() => {
+      this.showWirelessMeshTipsDialog = true;
+    }, 400);
   },
   methods: {
     transText(text) {
@@ -299,160 +305,95 @@ export default {
     isStep(index) {
       return this.stepsOption.current === index;
     },
-    updateChooseTypeVisible(visible, type) {
-      this.showChooseType = visible;
-      if (!visible) {
-        this.forward2step(0);
-        if (type === AddNodeType.wireless) {
-          setTimeout(() => {
-            this.showWirelessMeshTipsDialog = true;
-          }, 400);
-        }
-      }
-      if (type) {
-        this.addNodeType = type;
-      }
-      this.isMobile && this.scrollbarToTop();
-    },
     updateHelpVisible(visible) {
       this.showHelpDialog = visible;
-    },
-    updateTipsDialogVisible(visible) {
-      this.showTipsDialog = visible;
-      this.showChooseType = false;
-      this.pageStatus = '';
-      this.isMobile && this.scrollbarToTop();
     },
     updateResultVisiable() {
       this.pageStatus = '';
       this.showTips = true;
     },
-    backMesh() {
-      this.showTipsDialog = false;
-      this.showChooseType = true;
-      this.isMobile && this.scrollbarToTop();
-    },
     retry() {
-      this.showChooseType = true;
       this.stepsOption.current = 0;
       this.pageStatus = '';
       this.isMobile && this.scrollbarToTop();
     },
-    addMeshNode() {
-      this.$http.addMeshNode().then(() => {
-        const template = `<div class="add-mesh-tip">${this.$t(
-          'trans1003'
-        )}</div>`;
-        this.$loading.open({ template });
-        // 超时90秒，间隔3秒
-        let timeout = this.addTimeout;
-        if (this.checkTimer) {
-          return;
-        }
-        this.checkTimer = setInterval(() => {
-          if (timeout < 0) {
-            this.pageStatus = PageStatus.add_fail;
-            this.$loading.close();
-            clearInterval(this.checkTimer);
-            this.checkTimer = null;
+    addMeshNode(node) {
+      if (!node) {
+        this.$toast(this.$t('trans0381'));
+        return;
+      }
+      this.pageStatus = PageStatus.adding;
+      // 超时90秒，间隔3秒
+      this.$http
+        .addMeshNode(
+          { node },
+          {
+            hideToast: true
           }
-          if (timeout % 3 === 0) {
-            this.$http.getNewMeshNodeInfo().then(res => {
-              if (res.data.result?.sn) {
-                this.$loading.close();
-                this.snAdded = res.data.result.sn;
-                this.pageStatus = PageStatus.add_success;
-                clearInterval(this.checkTimer);
-              }
-            });
-          }
-          timeout -= 1;
-        }, 1000);
-      });
+        )
+        .then(() => {
+          let timeout = this.addTimeout;
+          this.checkTimer = setInterval(() => {
+            if (timeout < 0) {
+              this.pageStatus = PageStatus.add_fail;
+              clearInterval(this.checkTimer);
+            }
+            if (timeout % 3 === 0) {
+              this.$http.isInMesh({ node }).then(res => {
+                if (res.data.result.status) {
+                  this.pageStatus = PageStatus.add_success;
+                  this.$http.getMeshNode().then(meshNodeRes => {
+                    const meshNodes = meshNodeRes.data.result;
+                    if (meshNodes.length) {
+                      const type = node.mac[Bands.b5g] ? Bands.b5g : Bands.b24g;
+                      // 获取刚添加的节点的sn
+                      const meshNode = meshNodes.find(item => item.mac[type] === node.mac[type]);
+                      if (meshNode) {
+                        const { sn } = meshNode;
+                        for (let i = 0; i < meshNodes.length; i += 1) {
+                          const mNode = meshNodes[i];
+                          if (mNode.sn !== sn && mNode.neighbors) {
+                            const neighborNood = mNode.neighbors.find(nItem => nItem.sn === sn);
+                            if (neighborNood) {
+                              this.isWeakSignal = checkWeakSignal(neighborNood.rssi);
+                              break;
+                            }
+                          }
+                        }
+                      }
+                    }
+                  });
+                  clearInterval(this.checkTimer);
+                }
+              });
+            }
+            timeout -= 1;
+          }, 1000);
+        })
+        .catch(() => {
+          this.pageStatus = PageStatus.add_fail;
+        });
     },
     forward2step(index, status = true) {
       this.stepsOption.current = index;
       this.stepsOption.steps[index].success = status;
       this.isMobile && this.scrollbarToTop();
-    },
-    next() {
-      // eslint-disable-next-line no-plusplus
-      this.stepsOption.current++;
-      this.stepsOption.steps[this.stepsOption.current].success = true;
-    },
-    prev() {
-      this.stepsOption.steps[this.stepsOption.current].success = false;
-      // eslint-disable-next-line no-plusplus
-      this.stepsOption.current--;
-    },
-    getM6aSeriesProductAddNodeImg(step, type) {
-      let img = '';
-      if (step === Step.step1) {
-        switch (this.modelID) {
-          case M6aSeriesModelIDs.M6a:
-            img = require('@/assets/images/add/img_add_01.svg');
-            break;
-          case M6aSeriesModelIDs.M6a_Plus:
-          case M6aSeriesModelIDs.M6c:
-            img = require('@/assets/images/add/m6a-4_lan_prots/img_add_01.svg');
-            break;
-          default:
-            break;
-        }
+      if (index === 3) {
+        this.scanHandler();
       }
-      if (step === Step.step3 && type && this.isM6a) {
-        switch (type) {
-          case AddNodeType.wireless:
-            img = require('@/assets/images/add/img_wireless_add_03.svg');
-            break;
-          case AddNodeType.wired:
-            img = require('@/assets/images/add/img_wired_add_03.svg');
-            break;
-          default:
-            break;
-        }
-      }
-      if (step === Step.step3 && type && !this.isM6a) {
-        switch (type) {
-          case AddNodeType.wireless:
-            img = require('@/assets/images/add/m6a-4_lan_prots/img_wireless_add_03.svg');
-            break;
-          case AddNodeType.wired:
-            img = require('@/assets/images/add/m6a-4_lan_prots/img_wired_add_03.svg');
-            break;
-          default:
-            break;
-        }
-      }
-      return img;
     },
-    getM6aSeriesProductNetworkingImg() {
-      let img = '';
-      switch (this.modelID) {
-        case M6aSeriesModelIDs.M6a:
-          img = require('@/assets/images/add/img_networking.svg');
-          break;
-        case M6aSeriesModelIDs.M6a_Plus:
-        case M6aSeriesModelIDs.M6c:
-          img = require('@/assets/images/add/m6a-4_lan_prots/img_networking.svg');
-          break;
-        default:
-          break;
-      }
-      return img;
-    },
-    checkAddNodeType() {
-      switch (this.addNodeType) {
-        case AddNodeType.wired:
-          this.showTips = true;
-          this.isMobile && this.scrollbarToTop();
-          break;
-        case AddNodeType.wireless:
-          this.addMeshNodeDebounce();
-          break;
-        default:
-          break;
-      }
+    scanHandler() {
+      this.pageStatus = PageStatus.scanning;
+
+      this.$http
+        .scanMeshNode()
+        .then(res => {
+          this.nodes = res.data.result;
+          this.pageStatus = PageStatus.scan_finished;
+        })
+        .catch(() => {
+          this.pageStatus = PageStatus.scan_finished;
+        });
     },
     scrollbarToTop() {
       this.scrollbar.scrollTop = 0;
@@ -492,20 +433,6 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
-@keyframes ripple {
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-  70% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1.3);
-    opacity: 0;
-  }
-}
 $img_folder: '../../../../../base/src/assets/images';
 .add-node {
   align-items: center;
@@ -523,16 +450,6 @@ $img_folder: '../../../../../base/src/assets/images';
   height: 100%;
   border-radius: 10px;
   background: var(--primary-bgc);
-}
-.loading {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #fff;
-  opacity: 0;
-  z-index: 1000;
 }
 .help-dialog-content {
   width: 400px;
@@ -615,70 +532,6 @@ $img_folder: '../../../../../base/src/assets/images';
     text-align: center;
   }
 }
-.choose__add__type {
-  align-items: center;
-  .type__list {
-    display: flex;
-    > li {
-      width: 340px;
-      height: auto;
-      margin-right: 30px;
-      &:last-child {
-        margin: 0;
-      }
-      &.wireless__wrap {
-        .inner {
-          background: url(#{$img_folder}/common/img_wireless.png) no-repeat
-            bottom;
-          background-size: contain;
-        }
-      }
-      &.wired__wrap {
-        .inner {
-          background: url(#{$img_folder}/common/img_wired.png) no-repeat bottom;
-          background-size: contain;
-        }
-      }
-    }
-    .card {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 17/15;
-      margin: 20px 0;
-      padding: 30px;
-      font-size: 16px;
-      border-radius: 10px;
-      border: 3.5px solid var(--common_card-bgc);
-      background-image: linear-gradient(
-        to bottom,
-        var(--common_card-bgc),
-        var(--common_card-bgc)
-      );
-      background-clip: padding-box, border-box;
-      background-origin: padding-box, border-box;
-      box-shadow: var(--common_card-boxshadow);
-      cursor: pointer;
-      &:hover {
-        border-color: transparent;
-        box-shadow: var(--common_card_hover-boxshadow);
-        background-image: linear-gradient(
-            to bottom,
-            var(--common_card-bgc),
-            var(--common_card-bgc)
-          ),
-          linear-gradient(225deg, #ff6734 30%, #ee1d4f 40%, #d6001c 80%);
-      }
-      .inner {
-        width: 100%;
-        height: 100%;
-        > span {
-          font-size: 20px;
-          font-weight: 500;
-        }
-      }
-    }
-  }
-}
 .circle-animation {
   position: relative;
   background: url(#{$img_folder}/common/add_node_tip_bj.png) no-repeat center;
@@ -700,6 +553,7 @@ $img_folder: '../../../../../base/src/assets/images';
     font-size: 12px;
     text-decoration: underline;
     cursor: pointer;
+    color: var(--primary-color);
   }
   .step {
     width: 960px;
@@ -738,6 +592,65 @@ $img_folder: '../../../../../base/src/assets/images';
         }
       }
     }
+    &.step-item--scan {
+      .scaning,
+      .adding {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .scan-result {
+        .scan-result__empty {
+          text-align: center;
+          p {
+            font-size: 14px;
+            text-align: center;
+          }
+        }
+        .scan-result__image {
+          width: 200px;
+        }
+        .scan-result__title {
+          text-align: center;
+          font-size: 14px;
+          font-weight: 600;
+          margin: 20px 0 10px;
+        }
+        .scan-result__content {
+          .router {
+            .router__img {
+              width: 200px;
+              display: block;
+              margin: 0 auto;
+            }
+            .router__found {
+              text-align: center;
+              font-size: 14px;
+            }
+
+            .router__mac,
+            .router__sn {
+              margin: 0;
+              margin-top: 10px;
+              text-align: center;
+            }
+          }
+        }
+        .scan-result__much {
+          text-align: center;
+          img {
+            width: 200px;
+          }
+        }
+        .scan-result__description {
+          text-align: center;
+          font-size: 12px;
+          color: var(--text_gery-color);
+          margin: 10px 0 0 0;
+        }
+      }
+    }
     .main-content {
       flex: 1;
       display: flex;
@@ -756,22 +669,9 @@ $img_folder: '../../../../../base/src/assets/images';
     }
   }
 }
-.router {
-  .router__img {
-    width: 240px;
-    display: block;
-    margin: 0 auto;
-  }
-
-  .router__mac,
-  .router__sn {
-    margin: 0;
-    margin-top: 20px;
-    text-align: center;
-  }
-}
 .result-container {
   height: 100%;
+  margin: 0 auto;
   .result-container__success,
   .result-container__fail {
     display: flex;
@@ -787,7 +687,7 @@ $img_folder: '../../../../../base/src/assets/images';
   }
   .result-container__success {
     .result-container__tips {
-      margin-top: 50px;
+      margin-top: 30px;
     }
     .button-container {
       margin-top: 50px;
@@ -888,74 +788,7 @@ $img_folder: '../../../../../base/src/assets/images';
     }
   }
 }
-.wireless-mesh-add-fail-tips {
-  display: grid;
-  grid-template-columns: 100%;
-  grid-template-rows: 1fr 50px;
-  gap: 10px;
-  width: 100%;
-  height: 100%;
-  padding: 40px;
-  .mesh-add-tips-list {
-    display: grid;
-    grid-template-rows: repeat(2, 300px);
-    grid-template-columns: repeat(2, 1fr);
-    grid-column-gap: 20px;
-    .list-item {
-      display: flex;
-      font-size: 14px;
-      color: var(--text_default-color);
-      .list-item__img {
-        background-color: var(--flexwarp_hasmenu-bgc);
-        margin-right: 15px;
-        border-radius: 2px;
-        width: 55%;
-        height: 225px;
-        text-align: center;
-        img {
-          height: 100%;
-        }
-      }
-      .list-item__text {
-        flex: 1;
-        p {
-          padding: 0 30px 0 10px;
-          margin: 0;
-          &:not(:first-child) {
-            margin-top: 20px;
-          }
-        }
-      }
-    }
-  }
-  .button-container {
-    height: 50px;
-    margin: 0;
-    .btn {
-      width: 340px;
-    }
-  }
-  @media screen and (max-width: 768px) {
-    .mesh-add-tips-list {
-      .mesh-add-tips-list__item {
-        width: 100%;
-        &:not(:first-child) {
-          margin-top: 20px;
-        }
-      }
-      .list-item {
-        flex-direction: column;
-        .list-item__img {
-          margin-right: 0;
-          width: 100%;
-        }
-        .list-item__text {
-          margin-top: 20px;
-        }
-      }
-    }
-  }
-}
+
 @media screen and (min-width: 769px) and (max-width: 1600px) {
   .help-dialog {
     padding: 250px;
@@ -999,23 +832,6 @@ $img_folder: '../../../../../base/src/assets/images';
       width: 100%;
     }
   }
-  .choose__add__type {
-    .type__list {
-      width: 100%;
-      flex-direction: column;
-      > li {
-        margin-right: 0;
-        width: 100%;
-      }
-      .card {
-        width: 100%;
-        aspect-ratio: 17/13;
-        &:hover {
-          outline-color: transparent;
-        }
-      }
-    }
-  }
   .steps-container {
     width: 100%;
     height: 100%;
@@ -1025,6 +841,7 @@ $img_folder: '../../../../../base/src/assets/images';
     }
     .step-content {
       margin-top: 15px;
+      width: 100%;
     }
     .step-item {
       width: 100%;
@@ -1046,29 +863,6 @@ $img_folder: '../../../../../base/src/assets/images';
             margin: 15px 0;
           }
         }
-      }
-    }
-  }
-
-  .wireless-mesh-add-fail-tips {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-    .mesh-add-tips-list {
-      grid-template-rows: repeat(3, auto);
-      grid-template-columns: 100%;
-      grid-column-gap: 0;
-      .list-item__text {
-        height: fit-content;
-      }
-    }
-    .button-container {
-      margin: 30px auto 0;
-      .btn {
-        width: 100%;
-        margin: 0;
       }
     }
   }

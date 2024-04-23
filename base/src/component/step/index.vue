@@ -31,7 +31,9 @@ export default {
   computed: {
     width() {
       // eslint-disable-next-line no-nested-ternary
-      const multiplier = this.option.current === 0 ? 0 : this.option.current === this.length - 1 ? 2 : 1;
+      const multiplier = this.option.current === 0
+        ? 0 : this.option.current === this.length - 1
+          ? 2 : 1;
       return `${(this.option.current * 2 + multiplier) * 0.5 / (this.length) * 100}%`;
     },
     length() {

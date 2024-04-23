@@ -326,7 +326,7 @@
             </ul>
             <div class='table-empty'
                  v-if="!devicesMap[id]||(devicesMap[id]&&devicesMap[id].length===0)">
-              <img :src="require('base/assets/images/common/img_default_empty.png')">
+              <img :src="require('base/assets/images/common/img_default_empty.png')" />
               <span>{{$t('trans0278')}}</span>
             </div>
           </div>

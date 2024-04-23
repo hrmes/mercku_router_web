@@ -35,6 +35,7 @@
                            ref="macInput"
                            @input="format"
                            v-model="mac.current"
+                           maxlength="17"
                            :placeholder="$t('trans0321')"></m-input>
                 </m-form-item>
               </m-form>

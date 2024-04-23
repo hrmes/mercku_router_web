@@ -1395,19 +1395,16 @@ $img_folder: '../../../../../base/src/assets/images';
             flex-direction: column-reverse;
             position: relative;
             .info {
+              display: flex;
+              flex-direction: column;
               background-color: var(--common_card-bgc);
               padding: 15px;
               border-radius: 5px;
             }
-            .legend-title {
-              justify-content: flex-start;
-              .iconfont {
-                margin-left: 5px;
-              }
-            }
             .legend {
               display: flex;
               flex-wrap: wrap;
+              order: 2;
               .legend-item {
                 margin: 0 20px 0 0;
                 margin-right: 20px;
@@ -1420,13 +1417,18 @@ $img_folder: '../../../../../base/src/assets/images';
                 }
               }
             }
-            .switch-wrap {
+            .legend-title {
+              order: 3;
+              justify-content: flex-start;
               margin-bottom: 0;
+              .iconfont {
+                margin-left: 5px;
+              }
+            }
+            .switch-wrap {
+              order: 1;
               .switch-item {
                 max-width: 100%;
-                label {
-                  // max-width: 150px;
-                }
               }
             }
             .legend-tx_power {
