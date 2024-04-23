@@ -1155,7 +1155,7 @@ export default {
                 -webkit-background-clip: text; /* Safari/Chrome */
                 background-clip: text;
                 color: transparent;
-                text-shadow: 0 3px 8px rgba(242, 46, 73, 0.3);
+                text-shadow: var(--header_selected_icon-textshadow);
               }
             }
             .hover-popover {

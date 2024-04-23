@@ -158,8 +158,7 @@
          @click="jumpApp">
       <div class="wrapper">
         <div class="icon mercku">
-          <img src="@/assets/images/customer/mercku/ic_launcher.png"
-               alt="">
+          <img :src="require('base/assets/images/customer/mercku/ic_launcher.png')" />
         </div>
         <div class="text-container">{{$t('trans1118')}}</div>
       </div>

@@ -53,11 +53,11 @@
         <img src="../../assets/images/icon/ic_qr_small.png" />
         <div class="jump-app-info">
           <div class="icon mercku">
-            <img src="@/assets/images/customer/mercku/ic_launcher.png" />
+            <img :src="require('base/assets/images/customer/mercku/ic_launcher.png')" />
           </div>
           <div class="text-container">{{$t('trans1118')}}</div>
           <div class="icon qr">
-            <img src="@/assets/images/customer/mercku/qr.png" />
+            <img :src="require('base/assets/images/customer/mercku/qr.png')" />
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 {
   "id": "0029",
   "title": "JUNET",
-  "host": "http://mywifi.junet.se",
+  "host": "http://mywifi.mercku.tech",
   "__host": "http://mywifi.mercku.tech",
   "accept": ".jun",
   "favicon": "customer-conf/0029/favicon.ico",
@@ -12,7 +12,7 @@
   "wifi": "JUNET-WIFI",
   "routers": {
     "M6": {
-      "name": "M6 Wi-Fi6 Router",
+      "name": "W6 Wi-Fi6 Router",
       "shortName": "W6"
     }
   },

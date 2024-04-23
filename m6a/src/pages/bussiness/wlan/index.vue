@@ -149,7 +149,7 @@
 </template>
 <script>
 import { Bands } from 'base/util/constant';
-import { WlanImg } from '@/assets/images/base64-img/img.js';
+import { WlanImg } from 'base/assets/images/base64-img/img.js';
 import {
   getStringByte,
   isValidPassword,

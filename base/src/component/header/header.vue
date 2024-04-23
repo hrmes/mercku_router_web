@@ -630,7 +630,7 @@ export default {
             -webkit-background-clip: text; /* Safari/Chrome */
             background-clip: text;
             color: transparent;
-            text-shadow: 0 3px 8px rgba(242, 46, 73, 0.3);
+            text-shadow: var(--header_selected_icon-textshadow);
           }
         }
         &:last-child {
@@ -857,7 +857,7 @@ export default {
               -webkit-background-clip: text; /* Safari/Chrome */
               background-clip: text;
               color: transparent;
-              text-shadow: 0 3px 8px rgba(242, 46, 73, 0.3);
+              text-shadow: var(--header_selected_icon-textshadow);
             }
             .nav-item-content {
               .nav-item__text {

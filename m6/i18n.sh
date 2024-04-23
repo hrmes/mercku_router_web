@@ -5,10 +5,10 @@ doc_branch=$1
 docs_remote_url="https://github.com/hrmes/docs.git"
 project_dir=$(pwd)
 
-folder=(m2_app_code)
-customer=(0001)
-source=(en_US_web.json zh_CN_web.json de_DE_web.json nb_NO_web.json bg_BG_web.json fi_FI_web.json)
-target=(en-US.json zh-CN.json de-DE.json nb-NO.json bg-BG.json fi-FI.json)
+folder=(m2_app_code junet_code)
+customer=(0001 0029)
+source=(en_US_web.json zh_CN_web.json de_DE_web.json bg_BG_web.json sv_SE_web.json)
+target=(en-US.json zh-CN.json de-DE.json bg-BG.json sv-SE.json)
 sourceerror=error_to_trans_web.json
 targeterror=code-map.json
 
@@ -94,7 +94,6 @@ beautify_echo "copy region files..." info
 cp country_code/zh_CN_region_web.json $project_dir/src/assets/regions/zh-CN.json
 cp country_code/en_US_region_web.json $project_dir/src/assets/regions/en-US.json
 cp country_code/de_DE_region_web.json $project_dir/src/assets/regions/de-DE.json
-cp country_code/nb_NO_region_web.json $project_dir/src/assets/regions/nb-NO.json
-cp country_code/fi-FI_region_web.json $project_dir/src/assets/regions/fi-FI.json
 cp country_code/bg-BG_region_web.json $project_dir/src/assets/regions/bg-BG.json
+cp country_code/sv-SE_region_web.json $project_dir/src/assets/regions/sv-SE.json
 beautify_echo "complete copy timezones files..." success

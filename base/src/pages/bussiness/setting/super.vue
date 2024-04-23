@@ -1,26 +1,37 @@
 <template>
   <div class="page">
-    <div class='page-header'>
-      {{$t('trans0576')}}
+    <div v-if="$store.state.isMobile"
+         class='page-header'>
+      {{$t('trans0561')}}
     </div>
     <div class="page-content">
-      <m-form ref="form"
-              class='form'
-              :model="form"
-              :rules='rules'>
-        <m-form-item class="item"
-                     prop='password'>
-          <m-input :label="$t('trans0113')"
-                   type='password'
-                   :placeholder="`${$t('trans0321')}`"
-                   v-model="form.password"></m-input>
-        </m-form-item>
-      </m-form>
-      <div class="form-button">
-        <button class="btn"
-                v-defaultbutton
-                @click="submit()">{{$t('trans0081')}}</button>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card">
+            <m-form ref="form"
+                    class='form'
+                    :model="form"
+                    :rules='rules'>
+              <m-form-item class="last"
+                           prop='password'
+                           :errorMsgIsStatic="true">
+                <m-input :label="$t('trans0113')"
+                         type='password'
+                         :placeholder="`${$t('trans0321')}`"
+                         v-model="form.password"></m-input>
+              </m-form-item>
+            </m-form>
+          </div>
+        </div>
       </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn"
+                  v-defaultbutton
+                  @click="submit()">{{$t('trans0081')}}</button>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -61,11 +72,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-.form {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-}
-</style>
