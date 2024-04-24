@@ -158,9 +158,9 @@
          @click="jumpApp">
       <div class="wrapper">
         <div class="icon mercku">
-          <img :src="require('base/assets/images/customer/mercku/ic_launcher.png')" />
+          <img :src="require(`base/assets/images/customer/${ispFolderName}/ic_launcher.png`)" />
         </div>
-        <div class="text-container">{{$t('trans1118')}}</div>
+        <div class="text-container">{{transText($t('trans1118'))}}</div>
       </div>
 
     </div>
@@ -314,7 +314,10 @@ export default {
     },
     realtimeSpeedDown() {
       return this.formatSpeed(this.netInfo.realDown);
-    }
+    },
+    ispFolderName() {
+      return process.env.CUSTOMER_CONFIG.title.toLowerCase();
+    },
   },
   mounted() {
     this.getWanNetInfo();
@@ -561,6 +564,12 @@ export default {
         return `${this.$t('trans0011').replace('%d', parseInt(date, 10))}`;
       }
       return `${this.$t('trans0010')}`;
+    },
+    transText(text) {
+      return this.$t(text).replaceAll(
+        '%s',
+        process.env.CUSTOMER_CONFIG.title
+      );
     },
     jumpApp() {
       if (!this.$store.state.isMobile) return;
@@ -1043,7 +1052,7 @@ $img_folder: '../../../../../base/src/assets/images';
         font-weight: bold;
         > div {
           border-radius: 5px;
-          padding: 1px 8px;
+          padding: 2px 8px;
           margin-right: 5px;
           &:last-child {
             margin: 0;

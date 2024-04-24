@@ -9,71 +9,40 @@
       &.light {
         .logo-wrap__logo {
           background: url(../../../assets/images/customer/junet/logo-light.webp)
-            center no-repeat;
+            left no-repeat;
           background-size: contain;
-        }
-        @media screen and (max-width: 768px) {
-          .logo-wrap__logo {
-            background: url(../../../assets/images/customer/junet/logo-light.webp)
-              center no-repeat;
-            background-size: contain;
-          }
         }
       }
       &.dark {
         .logo-wrap__logo {
           background: url(../../../assets/images/customer/junet/logo-dark.webp)
-            center no-repeat;
+            left no-repeat;
           background-size: contain;
         }
-        @media screen and (max-width: 768px) {
-          .logo-wrap__logo {
-            background: url(../../../assets/images/customer/junet/logo-dark.webp)
-              center no-repeat;
-            background-size: contain;
-          }
-        }
+      }
+      @media screen and (max-width: 768px) {
+        width: 100px;
+        height: 30px;
       }
       @media not all and (prefers-color-scheme: dark) and (prefers-color-scheme: light) {
         .logo-wrap__logo {
           background: url(../../../assets/images/customer/junet/logo-light.webp)
-            center no-repeat;
+            left no-repeat;
           background-size: contain;
-        }
-        @media screen and (max-width: 768px) {
-          .logo-wrap__logo {
-            background: url(../../../assets/images/customer/junet/logo-light.webp)
-              center no-repeat;
-            background-size: contain;
-          }
         }
       }
       @media (prefers-color-scheme: light) {
         .logo-wrap__logo {
           background: url(../../../assets/images/customer/junet/logo-light.webp)
-            center no-repeat;
+            left no-repeat;
           background-size: contain;
-        }
-        @media screen and (max-width: 768px) {
-          .logo-wrap__logo {
-            background: url(../../../assets/images/customer/junet/logo-light.webp)
-              center no-repeat;
-            background-size: contain;
-          }
         }
       }
       @media (prefers-color-scheme: dark) {
         .logo-wrap__logo {
           background: url(../../../assets/images/customer/junet/logo-dark.webp)
-            center no-repeat;
+            left no-repeat;
           background-size: contain;
-        }
-        @media screen and (max-width: 768px) {
-          .logo-wrap__logo {
-            background: url(../../../assets/images/customer/junet/logo-dark.webp)
-              center no-repeat;
-            background-size: contain;
-          }
         }
       }
     }
@@ -81,53 +50,52 @@
 
   /************************* 登陆页面*********************/
   &.login {
-    // background-color: var(--header-nav-hide-bgc);
     .center-form {
       &.light {
         .logo {
           background: url(../../../assets/images/customer/junet/logo-light.webp)
-            no-repeat center;
+            center no-repeat;
           background-size: contain;
         }
       }
       &.dark {
         .logo {
           background: url(../../../assets/images/customer/junet/logo-dark.webp)
-            no-repeat center;
+            center no-repeat;
           background-size: contain;
         }
       }
       @media not all and (prefers-color-scheme: dark) and (prefers-color-scheme: light) {
         .logo {
           background: url(../../../assets/images/customer/junet/logo-light.webp)
-            no-repeat center;
+            center no-repeat;
           background-size: contain;
         }
       }
       @media (prefers-color-scheme: light) {
         .logo {
           background: url(../../../assets/images/customer/junet/logo-light.webp)
-            no-repeat center;
+            center no-repeat;
           background-size: contain;
         }
       }
       @media (prefers-color-scheme: dark) {
         .logo {
           background: url(../../../assets/images/customer/junet/logo-dark.webp)
-            no-repeat center;
+            center no-repeat;
           background-size: contain;
         }
       }
     }
     .app-logo {
       background: url(../../../assets/images/customer/junet/ic_launcher.png)
-        no-repeat center;
+        center no-repeat;
       background-size: 100%;
     }
     .download {
       .qr {
-        background: url(../../../assets/images/customer/junet/qr.png) no-repeat
-          center;
+        background: url(../../../assets/images/customer/junet/qr.png) center
+          no-repeat;
         background-size: 100%;
       }
     }

@@ -732,8 +732,6 @@ export default {
     .logo-wrap {
       display: block;
       position: absolute;
-      width: 60px;
-      height: 20px;
       left: 20px;
       top: 50%;
       transform: translateY(-50%);
@@ -883,7 +881,8 @@ export default {
         display: block;
         position: absolute;
         right: 20px;
-        top: 20px;
+        top: 50%;
+        transform: translateY(-50%);
         .i18n-mobile {
           position: fixed;
           top: 65px;

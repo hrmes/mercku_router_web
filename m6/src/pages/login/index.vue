@@ -477,7 +477,7 @@ export default {
           border-radius: 30px;
           user-select: none;
           text-decoration: none;
-          color: #ff677b;
+          color: var(--primary-color);
         }
       }
     }
