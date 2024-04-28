@@ -7,9 +7,7 @@
             'i18n-open':mobileI18nVisible
           }">
     <div class="logo-wrap"
-         :class="{'light':currentTheme!=='auto'&&!isDarkMode,
-                  'dark':currentTheme!=='auto'&&isDarkMode
-                  }">
+         :class="currentTheme">
       <a v-if="website && isLoginPage"
          class="offical"
          target="_blank"
@@ -24,42 +22,16 @@
            :class="{'is-wlan-page':isWlanPage}"></div>
     </div>
 
-    <div class="nav-wrap nav-wrap--laptop"
-         v-if="!isMobile">
-      <ul class="nav reset-ul"
-          v-if="navVisible">
-        <li class="nav-item"
-            :key="menu.key"
-            v-for="menu in list"
-            :class="{'selected':menu.selected}">
-          <div class="nav-item-content"
-               @click.stop="jump(menu)"
-               :data-title="$t(menu.text)">
-            <i class="el-menu-item__icon iconfont"
-               :class="menu.selected? menu.selectedIcon : menu.icon"></i>
-          </div>
-        </li>
-        <li class="nav-item nav-item__add-node">
-          <div class="nav-item-content"
-               :data-title="$t('trans0194')">
-            <button class="btn btn-small"
-                    @click.stop="$router.push('/mesh/add')">
-              <span class="add-icon"></span>
-            </button>
-          </div>
-        </li>
-      </ul>
-    </div>
     <template v-if="isMobile">
       <div class="nav-wrap nav-wrap--mobile"
            v-show="mobileNavVisible">
         <ul class="nav reset-ul">
           <li class="nav-item"
+              :class="{'selected':menu.selected}"
               :key="menu.key"
               v-for="menu in list"
-              :class="{'selected':menu.selected}">
-            <div class="nav-item-content"
-                 @click="showMobileMenu(menu)">
+              @click="showMobileMenu(menu)">
+            <div class="nav-item-content">
               <i class="el-menu-item__icon iconfont"
                  :class="menu.selected? menu.selectedIcon : menu.icon"></i>
               <div class="nav-item__text">{{$t(menu.text)}}</div>
@@ -77,7 +49,7 @@
                   v-show="menu.selected">
                 <li class="nav-child__text"
                     :key="child.key"
-                    @click.stop="jumpMobile(child,menu)"
+                    @click.stop="jumpMobile(child)"
                     v-for="child in menu.children"
                     :class="{'selected':$route.name.includes(child.name),'disabled':child.disabled}">
                   {{$t(child.text)}}
@@ -87,7 +59,8 @@
               </ul>
             </transition>
           </li>
-          <li class="nav-item nav-item__exit add-node">
+          <li v-if="!isWirelessBridge"
+              class="nav-item nav-item__exit add-node">
             <div class="nav-item-content"
                  @click.stop="forward2Page('/mesh/add')">
               <button class="btn">
@@ -132,9 +105,37 @@
         </div>
       </div>
     </template>
+    <div class="nav-wrap nav-wrap--laptop"
+         v-else>
+      <ul class="nav reset-ul"
+          v-if="navVisible">
+        <li class="nav-item"
+            :key="menu.key"
+            v-for="menu in list"
+            :class="{'selected':menu.selected}">
+          <div class="nav-item-content"
+               @click.stop="jump(menu)"
+               :data-title="$t(menu.text)">
+            <i class="el-menu-item__icon iconfont"
+               :class="menu.selected? menu.selectedIcon : menu.icon"></i>
+          </div>
+        </li>
+        <li class="nav-item nav-item__add-node">
+          <div class="nav-item-content"
+               :data-title="$t('trans0194')">
+            <button class="btn btn-small"
+                    :class="{'disabled':isWirelessBridge}"
+                    @click.stop="jumpAddNode">
+              <span class="add-icon"></span>
+            </button>
+          </div>
+        </li>
+      </ul>
+    </div>
 
     <!-- theme change modal -->
     <m-modal class="theme-change-modal"
+             :type="isMobile?'confirm':'info'"
              :visible.sync='ThemechangeVisiable'>
       <m-modal-header>
         <div class="theme-change-header">
@@ -153,8 +154,7 @@
                         class="checkbox static"
                         :rect="false"
                         v-model="themeOptions.light.ischecked"></m-checkbox>
-            <img src="../../assets/images/img_theme_light.webp"
-                 alt="">
+            <img :src="require('base/assets/images/common/img_theme_light.png')" />
             <span class="label">{{$t('trans1122')}}</span>
             <m-checkbox v-if="!isMobile"
                         class="checkbox"
@@ -167,8 +167,7 @@
                         class="checkbox static"
                         :rect="false"
                         v-model="themeOptions.dark.ischecked"></m-checkbox>
-            <img src="../../assets/images/img_theme_dark.webp"
-                 alt="">
+            <img :src="require('base/assets/images/common/img_theme_dark.png')" />
             <span class="label">{{$t('trans1123')}}</span>
             <m-checkbox v-if="!isMobile"
                         class="checkbox"
@@ -181,8 +180,7 @@
                         class="checkbox static"
                         :rect="false"
                         v-model="themeOptions.auto.ischecked"></m-checkbox>
-            <img src="../../assets/images/img_theme_auto.webp"
-                 alt="">
+            <img :src="require('base/assets/images/common/img_theme_auto.png')" />
             <span class="label">{{$t('trans1121')}}</span>
             <m-checkbox v-if="!isMobile"
                         class="checkbox"
@@ -201,6 +199,7 @@
 <script>
 import Velocity from 'velocity-animate';
 import languageMixin from 'base/mixins/language';
+import { RouterMode } from 'base/util/constant';
 
 export default {
   mixins: [languageMixin],
@@ -267,6 +266,9 @@ export default {
     },
     currentTheme() {
       return this.$store.state.theme;
+    },
+    isWirelessBridge() {
+      return RouterMode.wirelessBridge === this.$store.state.mode;
     }
   },
   watch: {
@@ -346,19 +348,18 @@ export default {
         this.$router.push({ path: menu.url });
       }
     },
-    jumpMobile(child) {
-      if (child.key === this.list.length - 1) {
+    jumpMobile(menu) {
+      if (menu.key === this.list.length - 1) {
         const current = localStorage.getItem('theme');
         Object.keys(this.themeOptions).forEach(key => {
           this.themeOptions[key].ischecked = false;
         });
         this.themeOptions[current].ischecked = true;
         this.ThemechangeVisiable = true;
-      } else if (!child.disabled) {
-        this.$router.push({ path: child.url });
+      } else if (!menu.disabled) {
+        this.$router.push({ path: menu.url });
         this.mobileNavVisible = !this.mobileNavVisible;
       }
-      console.log('current', this.current);
     },
     trigerMobileNav() {
       this.mobileNavVisible = !this.mobileNavVisible;
@@ -433,11 +434,16 @@ export default {
       this.$store.state.theme = this.selectedTheme;
       document
         .querySelector('html')
-        .setAttribute('class', localStorage.getItem('theme'));
+        .setAttribute('class', this.selectedTheme);
+
       this.ThemechangeVisiable = false;
       if (this.mobileNavVisible) {
         this.mobileNavVisible = false;
       }
+    },
+    jumpAddNode() {
+      if (this.isWirelessBridge) return;
+      this.$router.push('/mesh/add');
     }
   },
   beforeDestroy() {
@@ -461,7 +467,7 @@ export default {
       width: 24px;
       height: 24px;
       border-radius: 50%;
-      background: var(--button-close-bgc);
+      background: var(--button_close-bgc);
       cursor: pointer;
       .iconfont {
         position: absolute;
@@ -489,7 +495,7 @@ export default {
       outline: 3px solid transparent;
       transition: outline 0.3s ease-out;
       &:hover {
-        outline-color: var(--primaryColor);
+        outline-color: var(--primary-color);
       }
       > img {
         width: 100%;
@@ -516,12 +522,12 @@ export default {
   width: 100%;
   height: 65px;
   padding: 0 30px;
-  color: var(--text-default-color);
+  color: var(--text_default-color);
   .logo-wrap {
     width: 185px;
     height: 30px;
     .offical {
-      color: var(--header-official-color);
+      color: var(--header_official-color);
       text-decoration: none;
       display: flex;
       align-items: center;
@@ -529,7 +535,7 @@ export default {
       line-height: 1;
       &:hover {
         text-decoration: underline;
-        color: var(--header-official-hover-color);
+        color: var(--header_official_hover-color);
       }
       img {
         width: 12px;
@@ -568,11 +574,11 @@ export default {
           border-radius: 50%;
           transition: background 0.3s linear;
           &:hover {
-            background: var(--header-nav-hover-background-color);
+            background: var(--header_nav_hover-bgc);
           }
           .iconfont {
             font-size: 24px;
-            color: var(--header-nav-iconfont-color);
+            color: var(--header_nav_iconfont-color);
           }
           .nav-item__text {
             height: 100%;
@@ -589,8 +595,8 @@ export default {
           top: 100%;
           left: 0;
           margin-top: 6px;
-          box-shadow: var(--select-popup-shadow);
-          background-color: var(--header-popup-bgc);
+          box-shadow: var(--select_popup-shadow);
+          background-color: var(--header_popup-bgc);
           &.show {
             display: block;
           }
@@ -620,11 +626,11 @@ export default {
             }
           }
           .iconfont {
-            background-image: var(--header-selected-bgc);
+            background-image: var(--header_selected-bgc);
             -webkit-background-clip: text; /* Safari/Chrome */
             background-clip: text;
             color: transparent;
-            text-shadow: 0 3px 8px rgba(242, 46, 73, 0.3);
+            text-shadow: var(--header_selected_icon-textshadow);
           }
         }
         &:last-child {
@@ -685,19 +691,23 @@ export default {
       flex-direction: column;
       .theme-option {
         flex: 1;
+        width: 100%;
+        aspect-ratio: unset;
         display: flex;
         align-items: center;
-        width: 50px;
         margin-bottom: 10px;
         margin-left: 20px;
         img {
+          width: 50px;
+          height: 80px;
           margin-left: 10px;
           margin-right: 20px;
         }
         .checkbox {
           &.static {
+            width: fit-content;
             top: 50%;
-            left: 0;
+            left: -10px;
             transform: translate(-50%, -50%);
           }
         }
@@ -722,8 +732,6 @@ export default {
     .logo-wrap {
       display: block;
       position: absolute;
-      width: 60px;
-      height: 20px;
       left: 20px;
       top: 50%;
       transform: translateY(-50%);
@@ -735,7 +743,7 @@ export default {
       left: 0;
       width: 100%;
       height: calc(100% - 65px);
-      background: var(--header-background-color);
+      background: var(--header-bgc);
       color: var(--header-color);
       .nav {
         flex-direction: column;
@@ -755,7 +763,7 @@ export default {
               background: transparent;
             }
             .nav-item__text {
-              color: var(--header-mobile-nav-item-color);
+              color: var(--header_mobile_navitem-color);
               line-height: 1;
               padding: 0;
               font-size: 16px;
@@ -768,7 +776,7 @@ export default {
               transform: translateY(-50%);
               width: 0;
               height: 0;
-              border-left: 6px solid var(--text-default-color);
+              border-left: 6px solid var(--text_default-color);
               border-right: 0px solid transparent;
               border-top: 5px solid transparent;
               border-bottom: 5px solid transparent;
@@ -787,7 +795,7 @@ export default {
           .nav-item-child {
             position: static;
             display: block;
-            background: var(--mobile-header-popup-bgc);
+            background: var(--mobile_header_popup-bgc);
             box-shadow: none;
             width: 100%;
             &.nav-item-child__animation-leave-active {
@@ -803,19 +811,19 @@ export default {
               list-style: none;
               height: 60px;
               padding: 0 23px 0 74px;
-              color: var(--text-default-color);
-              background: var(--header-popup-bgc);
+              color: var(--text_default-color);
+              background: var(--header_popup-bgc);
               cursor: not-allowed;
               &.disabled {
-                color: var(--header-popup_item-disabled-color);
+                color: var(--header_popup_item_disabled-color);
                 &:active,
                 &:hover {
-                  color: var(--header-popup_item-disabled-color);
-                  background: var(--header-popup-bgc);
+                  color: var(--header_popup_item_disabled-color);
+                  background: var(--header_popup-bgc);
                 }
               }
               &.selected {
-                color: var(--mobile-menu-selected-color);
+                color: var(--mobile_menu_selected-color);
               }
             }
           }
@@ -826,8 +834,8 @@ export default {
             .nav-item-content {
               height: 48px;
               justify-content: center;
-              background-color: var(--logout-btn-bgc) !important;
-              box-shadow: var(--logout-btn-boxshadow);
+              background-color: var(--logout_btn-bgc) !important;
+              box-shadow: var(--logout_btn-boxshadow);
               border-radius: 22px;
               margin: 0 auto;
               > .nav-item__text {
@@ -843,15 +851,15 @@ export default {
           }
           &.selected {
             .iconfont {
-              background-image: var(--header-selected-bgc);
+              background-image: var(--header_selected-bgc);
               -webkit-background-clip: text; /* Safari/Chrome */
               background-clip: text;
               color: transparent;
-              text-shadow: 0 3px 8px rgba(242, 46, 73, 0.3);
+              text-shadow: var(--header_selected_icon-textshadow);
             }
             .nav-item-content {
               .nav-item__text {
-                color: var(--mobile-menu-selected-color);
+                color: var(--mobile_menu_selected-color);
               }
               & .is-checked {
                 display: inline-flex;
@@ -873,15 +881,16 @@ export default {
         display: block;
         position: absolute;
         right: 20px;
-        top: 20px;
+        top: 50%;
+        transform: translateY(-50%);
         .i18n-mobile {
           position: fixed;
           top: 65px;
           left: 0;
           width: 100%;
           height: 100%;
-          background: var(--header-background-color);
-          color: var(--text-default-color);
+          background: var(--header-bgc);
+          color: var(--text_default-color);
           padding: 0 30px;
           z-index: 999;
           font-size: 16px;
@@ -893,10 +902,10 @@ export default {
             list-style: none;
             font-weight: 600;
             &.selected {
-              color: var(--mobile-menu-selected-color);
+              color: var(--mobile_menu_selected-color);
               .is-checked {
                 &::after {
-                  border-color: var(--mobile-menu-selected-color);
+                  border-color: var(--mobile_menu_selected-color);
                 }
               }
             }
@@ -925,7 +934,7 @@ export default {
       height: 65px;
     }
     &.is-not-position-nav {
-      background-color: var(--header-background-color);
+      background-color: var(--header-bgc);
     }
     &.open,
     &.i18n-open {

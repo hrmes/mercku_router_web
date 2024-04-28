@@ -35,6 +35,7 @@
                            ref="macInput"
                            @input="format"
                            v-model="mac.current"
+                           maxlength="17"
                            :placeholder="$t('trans0321')"></m-input>
                 </m-form-item>
               </m-form>
@@ -120,6 +121,7 @@ export default {
             current: formatMac(res.data.result.current)
           };
           this.isDefault = !this.mac.current;
+          if (this.mac.current && this.mac.default === this.mac.current) this.isDefault = true;
           this.$loading.close();
         })
         .catch(() => {
@@ -151,6 +153,7 @@ export default {
                   timeout: 60,
                   onsuccess: () => {
                     this.$toast(this.$t('trans0040'), 2000, 'success');
+                    if (this.mac.default === this.mac.current) this.isDefault = true;
                     this.$router.push({ path: '/advance/mac' });
                   },
                   ontimeout: () => {
@@ -185,7 +188,7 @@ export default {
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    border: 1.5px solid var(--checkbox-border-color);
+    border: 1.5px solid var(--checkbox_border-color);
     margin-right: 10px;
   }
   > span {
@@ -201,7 +204,7 @@ export default {
         transform: translate(-50%, -50%);
         width: 86%;
         height: 86%;
-        background-color: var(--primaryColor);
+        background-color: var(--primary-color);
         border-radius: 50%;
       }
     }

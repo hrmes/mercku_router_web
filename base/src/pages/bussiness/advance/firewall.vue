@@ -42,7 +42,8 @@
                                :placeholder="$t('trans0321')"
                                v-model="ping.ip_limit.ip_list[index]" />
                       <div @click="reduceIp(index)"
-                           class="form__reduce-btn">
+                           class="form__reduce-btn"
+                           :class="{'is-plural':allowedIpsLenIsPlural}">
                         <span></span>
                       </div>
                     </div>
@@ -72,7 +73,7 @@
 <script>
 import { isIP } from 'base/util/util';
 
-const cloneDeep = require('lodash/cloneDeep');
+import cloneDeep from 'lodash/cloneDeep';
 
 const maxIpNum = 10;
 const Mode = {
@@ -124,6 +125,9 @@ export default {
     },
     isMaxIpNum() {
       return this.allowedIpsLen === maxIpNum;
+    },
+    allowedIpsLenIsPlural() {
+      return this.allowedIpsLen > 1;
     }
   },
   mounted() {
@@ -177,7 +181,7 @@ export default {
       }
     },
     submit() {
-      if (!this.$refs.ipListForm.validate()) {
+      if (this.wan.ping.enabled && !this.$refs.ipListForm.validate()) {
         return;
       }
       this.ping.ip_limit.mode = this.isIpPointed ? Mode.whitelist : Mode.free;
@@ -216,12 +220,12 @@ export default {
   .page-content {
     .page-content__main {
       padding: 0 0 40px;
-      background-color: var(--common-card-bgc);
+      background-color: var(--common_card-bgc);
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
     }
     .page-content__bottom {
-      background-color: var(--common-card-bgc);
+      background-color: var(--common_card-bgc);
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
     }
@@ -246,14 +250,14 @@ export default {
       margin-right: 10px;
     }
     &.firewall {
-      background-color: var(--common-card-bgc);
-      box-shadow: var(--common-card-boxshadow);
+      background-color: var(--common_card-bgc);
+      box-shadow: var(--common_card-boxshadow);
     }
   }
   .content__line {
     width: 100%;
     height: 10px;
-    background: var(--flex-warp-has-menu-bgc);
+    background: var(--flexwarp_hasmenu-bgc);
   }
   .form {
     .form__item {
@@ -298,7 +302,7 @@ export default {
           transform: translate(-50%, -50%);
           height: 20px;
           width: 2px;
-          background-color: var(--primaryColor);
+          background-color: var(--primary-color);
         }
         &::after {
           content: '';
@@ -308,7 +312,7 @@ export default {
           transform: translate(-50%, -50%);
           width: 20px;
           height: 2px;
-          background-color: var(--primaryColor);
+          background-color: var(--primary-color);
         }
       }
     }
@@ -322,9 +326,10 @@ export default {
       column-gap: 20px;
       > .form-item {
         width: 100%;
-        &:first-child {
-          .form__reduce-btn {
-            visibility: hidden;
+        .form__reduce-btn {
+          visibility: hidden;
+          &.is-plural {
+            visibility: visible;
           }
         }
       }

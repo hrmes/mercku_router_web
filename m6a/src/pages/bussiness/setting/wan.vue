@@ -9,7 +9,7 @@
         <div class="row-1">
           <div class="seccess-info card">
             <div>
-              <label class="with-colon">上网方式:</label>
+              <label class="with-colon">{{$t('trans0317')}}:</label>
               <span>
                 {{ networkArr[localNetInfo.type] }}
               </span>
@@ -39,7 +39,7 @@
         <div class="row-2">
           <div class="net-type card">
             <m-form-item>
-              <m-select label="上网方式"
+              <m-select :label="$t('trans0317')"
                         v-model="netType"
                         :options="options"></m-select>
               <div class="des-tips">{{ netNote[netType] }}</div>
@@ -50,7 +50,7 @@
                     :model="dhcpForm"
                     :rules="dhcpRules">
               <m-form-item :class="{last:autodns.dhcp}">
-                <m-select label="DNS设置"
+                <m-select :label="$t('trans0401')"
                           v-model="autodns.dhcp"
                           :options="dnsOptions"></m-select>
               </m-form-item>
@@ -91,7 +91,7 @@
                          v-model="pppoeForm.password" />
               </m-form-item>
               <m-form-item :class="{'last':autodns.pppoe}">
-                <m-select label="DNS设置"
+                <m-select :label="$t('trans0401')"
                           v-model="autodns.pppoe"
                           :options="dnsOptions"></m-select>
               </m-form-item>
@@ -264,17 +264,21 @@ import {
   ipReg,
   isValidInteger
 } from 'base/util/util';
-import * as CONSTANTS from 'base/util/constant';
-import { cloneDeep } from 'lodash';
+import {
+  WanType,
+  M6aSeriesModelIDs,
+} from 'base/util/constant';
+import cloneDeep from 'lodash/cloneDeep';
 import store from '@/store/index';
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
 }
-function checkPortNums(modelID) {
-  let ports = null;
-  switch (modelID) {
-    case CONSTANTS.M6aRouterSnModelVersion.M6a:
+function checkPortNums(meshId) {
+  const modelId = meshId.charAt(9);
+  let ports;
+  switch (modelId) {
+    case M6aSeriesModelIDs.M6a:
       ports = [
         {
           port: {
@@ -302,7 +306,8 @@ function checkPortNums(modelID) {
         }
       ];
       break;
-    case CONSTANTS.M6aRouterSnModelVersion.M6a_Plus:
+    case M6aSeriesModelIDs.M6a_Plus:
+    case M6aSeriesModelIDs.M6c:
       ports = [
         {
           port: {
@@ -376,7 +381,7 @@ const VlanDefault = {
 const IpPhoneVlanDefault = {
   enabled: false,
   id: '',
-  ports: checkPortNums(store.state.modelID),
+  ports: checkPortNums(store.state.meshId),
   priority: 0,
   is_bridged: false,
   name: VlanName.ipPhone
@@ -384,7 +389,7 @@ const IpPhoneVlanDefault = {
 const IptvVlanDefault = {
   enabled: false,
   id: '',
-  ports: checkPortNums(store.state.modelID),
+  ports: checkPortNums(store.state.meshId),
   priority: 0,
   is_bridged: false,
   name: VlanName.iptv
@@ -392,8 +397,7 @@ const IptvVlanDefault = {
 export default {
   data() {
     return {
-      IPv6NetType: '',
-      CONSTANTS,
+      M6aSeriesModelIDs,
       netNote: {
         dhcp: this.$t('trans0147'),
         static: this.$t('trans0150'),
@@ -413,7 +417,7 @@ export default {
         { value: true, text: this.$t('trans0399') },
         { value: false, text: this.$t('trans0400') }
       ],
-      netType: CONSTANTS.WanType.dhcp,
+      netType: WanType.dhcp,
       netInfo: {},
       vlan: cloneDeep(VlanDefault),
       ipPhoneVlan: cloneDeep(IpPhoneVlanDefault),
@@ -618,17 +622,16 @@ export default {
   },
   mounted() {
     this.getWanNetInfo();
-    // this.getIPv6WanNetInfo();
   },
   computed: {
     isPppoe() {
-      return this.netType === CONSTANTS.WanType.pppoe;
+      return this.netType === WanType.pppoe;
     },
     isStatic() {
-      return this.netType === CONSTANTS.WanType.static;
+      return this.netType === WanType.static;
     },
     isDhcp() {
-      return this.netType === CONSTANTS.WanType.dhcp;
+      return this.netType === WanType.dhcp;
     },
     localNetInfo() {
       const local = {
@@ -641,18 +644,11 @@ export default {
         }
       };
       if (this.netInfo && this.netInfo.netinfo) {
-        local.type = this.netInfo.type ? this.netInfo.type : '-';
-        local.netinfo.ip = this.netInfo.netinfo.ip
-          ? this.netInfo.netinfo.ip
-          : '-';
-        local.netinfo.mask = this.netInfo.netinfo.mask
-          ? this.netInfo.netinfo.mask
-          : '-';
-        local.netinfo.gateway = this.netInfo.netinfo.gateway
-          ? this.netInfo.netinfo.gateway
-          : '-';
+        local.type = this.netInfo.type || '-';
+        local.netinfo.ip = this.netInfo.netinfo.ip || '-';
+        local.netinfo.mask = this.netInfo.netinfo.mask || '-';
+        local.netinfo.gateway = this.netInfo.netinfo.gateway || '-';
         local.netinfo.dns = this.netInfo.netinfo.dns;
-        return local;
       }
       return local;
     },
@@ -660,9 +656,6 @@ export default {
       return this.localNetInfo.netinfo.dns.length > 0
         ? this.localNetInfo.netinfo.dns.join('/')
         : '-';
-    },
-    modelID() {
-      return '0';
     }
   },
   methods: {
@@ -688,17 +681,6 @@ export default {
         this.staticForm.mask
       );
     },
-    getIPv6WanNetInfo() {
-      this.$http.getMeshInfoWanNetIpv6().then(res => {
-        const { result } = res.data;
-        const pppoeData = result.pppoe;
-        this.IPv6NetType = result.type;
-        if (this.IPv6NetType === CONSTANTS.WanType.pppoe) {
-          this.pppoeForm.account = pppoeData.account;
-          this.pppoeForm.password = pppoeData.password;
-        }
-      });
-    },
     getWanNetInfo() {
       this.$loading.open();
       this.$http
@@ -721,7 +703,7 @@ export default {
                 cloneDeep(IptvVlanDefault);
             }
             if (this.isDhcp) {
-              if (this.netInfo.dhcp && this.netInfo.dhcp.dns) {
+              if (this.netInfo.dhcp && this.netInfo.dhcp.dns && this.netInfo.dhcp.dns.length > 0) {
                 this.autodns.dhcp = false;
                 [this.dhcpForm.dns1] = this.netInfo.dhcp.dns;
                 this.dhcpForm.dns2 = this.netInfo.dhcp.dns[1] || '';
@@ -785,9 +767,9 @@ export default {
         }
         // 经过上面的判断，到这里已经可以确定如果有值的话必定是数字，所以可以用部分等于
         if (
-          (this.ipPhoneVlan.id == this.vlan.id && this.ipPhoneVlan.enabled) ||
-          (this.iptvVlan.id == this.vlan.id && this.iptvVlan.enabled) ||
-          (this.ipPhoneVlan.id == this.iptvVlan.id &&
+          (this.ipPhoneVlan.id === this.vlan.id && this.ipPhoneVlan.enabled) ||
+          (this.iptvVlan.id === this.vlan.id && this.iptvVlan.enabled) ||
+          (this.ipPhoneVlan.id === this.iptvVlan.id &&
             this.ipPhoneVlan.enabled &&
             this.iptvVlan.enabled)
         ) {
@@ -815,7 +797,7 @@ export default {
         }
       }
       switch (this.netType) {
-        case CONSTANTS.WanType.dhcp:
+        case WanType.dhcp:
           if (!this.$refs.dhcpForm.validate()) {
             return;
           }
@@ -827,7 +809,7 @@ export default {
           }
           this.save(form);
           break;
-        case CONSTANTS.WanType.pppoe:
+        case WanType.pppoe:
           if (!this.$refs.pppoeForm.validate()) {
             return;
           }
@@ -843,7 +825,7 @@ export default {
           }
           this.save(form);
           break;
-        case CONSTANTS.WanType.static:
+        case WanType.static:
           if (!this.$refs.staticForm.validate()) {
             return;
           }

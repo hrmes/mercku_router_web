@@ -1,66 +1,81 @@
 <template>
   <div class="timelimit">
-    <div class='table'
+    <div class='timelimit-table'
          :class="{'table--empty':!sortList.length}">
-      <div class="tools">
-        <button class="btn btn-small"
-                @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
-      </div>
       <div class="table-head">
-        <div class="column-date-stop">{{$t('trans0084')}}</div>
-        <div class="column-date-start">{{$t('trans0085')}}</div>
-        <div class="column-repeat">{{$t('trans0082')}}</div>
-        <div class="column-handle">{{$t('trans0370')}}</div>
+        <div class="column-switch">{{$t('trans0190')}}</div>
+        <div class="column-date-stop"
+             v-if="!isMobile">{{$t('trans0084')}}</div>
+        <div class="column-date-start"
+             v-if="!isMobile">{{$t('trans0085')}}</div>
+        <div class="column-repeat"
+             v-if="!isMobile">{{$t('trans0082')}}</div>
+        <div class="column-handle">
+          <button class="btn btn-small"
+                  @click.stop="modalOpen('add')">{{$t('trans0035')}}</button>
+        </div>
       </div>
       <div class="table-body">
-        <div class="table-row"
-             v-for="(row,index) in sortList"
-             :key='index'>
+        <div v-for="(row,index) in sortList"
+             :key='index'
+             class="table-row">
+          <div class="column-switch check-wrap">
+            <m-switch @change="(v)=>changehandle(v,row)"
+                      v-model="row.enabled" />
+          </div>
           <div class="column-date-stop">
             <span>{{row.time_begin}}</span>
-            <span class="mobile-start">&nbsp;-&nbsp;</span>
-            <span class="mobile-start">{{row.time_end}}</span>
+            <span class="mobile-start"
+                  v-if="isMobile">&nbsp;-&nbsp;</span>
+            <span class="mobile-start"
+                  v-if="isMobile">{{row.time_end}}</span>
           </div>
-          <div class="column-date-start">{{row.time_end}}</div>
+          <div class="column-date-start"
+               v-if="!isMobile">
+            {{row.time_end}}
+          </div>
           <div class="column-repeat">{{formatSchedulText(row.schedule)}}</div>
           <div class="column-handle">
-            <div class="check-wrap">
-              <m-switch @change="(v)=>changehandle(v,row)"
-                        v-model="row.enabled" />
-            </div>
-            <a class="btn-text"
-               @click.stop="modalOpen('edit',row)">{{$t('trans0034')}}</a>
-            <a class="btn-text text-primary"
-               @click="delRow(row)">{{$t('trans0033')}}</a>
+            <span class="limit-icon"
+                  @click.stop="modalOpen('edit',row)">
+              <i class=" iconfont  ic_settings"></i>
+              <span class="hover-popover">{{$t('trans0034')}}</span>
+            </span>
+            <span class="limit-icon"
+                  @click.stop="delRow(row)">
+              <i class=" iconfont  ic_trash"></i>
+              <span class="hover-popover">{{$t('trans0033')}}</span>
+            </span>
           </div>
         </div>
         <div class="empty"
              v-if="isEmpty">
-          <img src="../../../../assets/images/img_default_empty.webp"
-               alt="">
+          <img :src="require('base/assets/images/common/img_default_empty.png')">
           <p class="empty-text">{{$t('trans0278')}}</p>
         </div>
       </div>
     </div>
     <m-modal class="modal"
-             :visible.sync="modalShow">
+             :visible.sync="modalShow"
+             :type="'confirm'">
       <div class="modal-content">
         <div class="modal-form">
-          <div class="item">
-            <label for="">{{$t('trans0075')}}</label>
-            <m-switch v-model="form.enabled" />
+          <div class="item left-right">
+            <m-switch v-model="form.enabled"
+                      :label="$t('trans0075')"
+                      class="switch" />
           </div>
-          <div class="item">
+          <div class="item top-bottom">
             <label for="">{{$t('trans0084')}}</label>
             <m-time-picker class="time-picker"
                            v-model="form.time_begin" />
           </div>
-          <div class="item">
+          <div class="item top-bottom">
             <label for="">{{$t('trans0085')}}</label>
             <m-time-picker class="time-picker"
                            v-model="form.time_end" />
           </div>
-          <div class="item">
+          <div class="item top-bottom">
             <label for="">{{$t('trans0082')}}</label>
             <div class="date-wrap">
               <div class='check-inner'
@@ -95,6 +110,7 @@ const formatTime = t => {
   const s = new Date(`2018-01-01 ${t}:00`).getTime();
   return s;
 };
+
 export default {
   mixins: [TimezoneOffset],
   data() {
@@ -102,6 +118,7 @@ export default {
       modalStatus: 'add',
       isChoose: false,
       msgShow: false,
+      open: false,
       selectedRow: {},
       disabled: true,
       modalShow: false,
@@ -155,9 +172,8 @@ export default {
   },
   mounted() {
     this.form.mac = this.$route.params.mac;
-    const limit = this.$store.modules.limits[this.form.mac];
-    if (limit && limit.time_limit) {
-      this.timeLimitList = limit.time_limit;
+    if (this.limit && this.limit.time_limit) {
+      this.timeLimitList = this.limit.time_limit;
     } else {
       this.getList();
     }
@@ -174,6 +190,9 @@ export default {
     }
   },
   computed: {
+    isMobile() {
+      return this.$store.state.isMobile;
+    },
     isEmpty() {
       return !this.sortList.length;
     },
@@ -189,6 +208,9 @@ export default {
         }
         return 0;
       });
+    },
+    limit() {
+      return this.$store.state.modules.limits[this.form.mac];
     }
   },
   methods: {
@@ -261,9 +283,14 @@ export default {
     getList() {
       this.$http.getTimeLimit({ mac: this.form.mac }).then(res => {
         this.timeLimitList = res.data.result;
+        if (this.limit && this.limit.time_limit) {
+          this.limit.time_limit = this.timeLimitList;
+        }
       });
     },
     changehandle(v, row) {
+      console.log(v);
+      console.log(row);
       this.$loading.open();
       const params = {
         mac: this.form.mac,
@@ -274,7 +301,7 @@ export default {
         .timeLimitUpdate({ ...params })
         .then(() => {
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 2000, 'success');
+          this.$toast(this.$t('trans0040'), 1500, 'success');
         })
         .catch(() => {
           this.$loading.close();
@@ -293,6 +320,9 @@ export default {
         })
         .then(() => {
           this.timeLimitList = this.timeLimitList.filter(v => v.id !== row.id);
+          if (this.limit && this.limit.time_limit) {
+            this.limit.time_limit = this.timeLimitList;
+          }
           this.$loading.close();
           this.$toast(this.$t('trans0040'), 2000, 'success');
         })
@@ -316,13 +346,11 @@ export default {
             this.$loading.close();
             this.getList();
             this.modalShow = false;
-            if (this.form.enabled) {
-              this.isSameTimezoneOffset().then(result => {
-                if (result.same || !result.redirect) {
-                  this.$toast(this.$t('trans0040'), 2000, 'success');
-                }
-              });
-            }
+            this.isSameTimezoneOffset().then(result => {
+              if (result.same || !result.redirect) {
+                this.$toast(this.$t('trans0040'), 2000, 'success');
+              }
+            });
           })
           .catch(() => {
             this.$loading.close();
@@ -355,6 +383,10 @@ export default {
               }
               return v;
             });
+            if (this.limit && this.limit.time_limit) {
+              this.limit.time_limit = this.timeLimitList;
+            }
+
             this.modalShow = false;
             if (this.form.enabled) {
               this.isSameTimezoneOffset().then(result => {
@@ -376,50 +408,51 @@ export default {
 </script>
 <style lang="scss" scoped>
 .modal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   .message {
-    padding-left: 120px;
     font-size: 12px;
     color: #ff0001;
     display: inline-block;
     height: 14px;
   }
   .btn-info {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
     margin-top: 20px;
     justify-content: center;
-    .btn {
-      width: 120px;
-      height: 42px;
-      &:last-child {
-        margin-left: 30px;
-      }
-    }
   }
   .modal-content {
     border-radius: 5px;
-    background-color: #ffffff;
     .item {
       display: flex;
-      align-items: center;
-      margin-top: 30px;
+      margin-top: 20px;
       &:first-child {
         margin: 0;
       }
       &:last-child {
         align-items: flex-start;
       }
+      &.left-right {
+        .switch {
+          margin-right: 10px;
+        }
+        label {
+          color: var(--text_default-color);
+        }
+      }
+      &.top-bottom {
+        flex-direction: column;
+        label {
+          margin-bottom: 10px;
+        }
+      }
       label {
         width: 120px;
+        font-weight: 600;
         font-size: 14px;
-        color: #333333;
+        color: var(--text_gery-color);
         overflow: hidden;
         flex-shrink: 0;
-      }
-      .time-picker {
-        width: 160px;
       }
       .date-wrap {
         display: flex;
@@ -427,86 +460,59 @@ export default {
         align-items: center;
         width: 320px;
         .check-inner {
-          width: 160px;
+          width: 105px;
           margin-bottom: 12px;
         }
       }
+    }
+    .btn-default {
+      background-image: linear-gradient(
+          to right,
+          var(--modal_content-bgc),
+          var(--modal_content-bgc)
+        ),
+        var(--common_btn_default-bgimg) !important;
     }
   }
 }
 .timelimit {
   width: 100%;
-  .table {
+  .timelimit-table {
     width: 100%;
-    .tools {
-      margin-bottom: 20px;
-    }
-    .column-date-stop {
-      width: 150px;
-      .mobile-start {
-        display: none;
-      }
-    }
-    .column-date-start {
-      width: 150px;
-    }
-    .column-repeat {
-      min-width: 150px;
-      flex: 1;
-    }
-    .column-handle {
-      width: 250px;
-    }
     .table-head {
-      height: 50px;
-      background-color: #f1f1f1;
-      display: flex;
-      padding: 0 30px;
+      display: grid;
+      grid-template-rows: 100%;
+      grid-template-columns: 120px 180px 200px 1fr 120px;
+      color: var(--table_header_text-color);
+      background-color: var(--common_sub_card-bgc);
+      padding: 5px 5px 5px 30px;
+      margin-bottom: 5px;
+      border-radius: 8px;
+      font-size: 13px;
       div {
         display: flex;
-        height: 50px;
         align-items: center;
+        &:last-child {
+          justify-content: flex-end;
+        }
       }
     }
     .table-body {
       .table-row {
-        display: flex;
-        padding: 15px 30px;
-        border-bottom: 1px solid #f1f1f1;
-        &:nth-child(2n) {
-          background: #f7f7f7;
-          @media screen and(max-width:768px) {
-            background: #fff;
-          }
-        }
-        .column-handle {
+        display: grid;
+        grid-template-rows: 100%;
+        grid-template-columns: 120px 180px 200px 1fr 120px;
+        height: 60px;
+        padding: 5px 5px 5px 30px;
+        margin-bottom: 5px;
+        background-color: var(--common_sub_card-bgc);
+        border-radius: 10px;
+        > div {
           display: flex;
           align-items: center;
-          a {
-            margin-left: 50px;
-            &:last-child {
-              margin-left: 30px;
-            }
-          }
-        }
-      }
-    }
-  }
-}
-
-@media screen and (min-width: 769px) {
-  .timelimit {
-    .content {
-      .table {
-        .column-date-stop,
-        .column-date-start,
-        .column-repeat,
-        .column-handle {
-          display: flex;
-          align-items: center;
-          .check-wrap {
-            display: flex;
-            align-items: center;
+          &:last-child {
+            justify-content: flex-end;
+            padding-right: 5px;
           }
         }
       }
@@ -514,123 +520,49 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
-  .timelimit {
-    .table {
-      margin: 0;
-      position: relative;
-      &.table--empty {
-        .tools {
-          position: static;
-          justify-content: center;
-          border: 0;
-          margin: 0;
-          margin-top: 10px;
-          .btn {
-            min-width: 120px;
-            height: 38px;
+  .modal {
+    .modal-content {
+      .item {
+        .date-wrap {
+          width: 100%;
+          .check-inner {
+            width: 50%;
           }
         }
-      }
-      .tools {
-        position: absolute;
-        right: 0;
-        top: 0;
-        padding-bottom: 20px;
-        width: 100%;
-        border-bottom: 1px solid #f1f1f1;
-        display: flex;
-        justify-content: flex-end;
-        .btn {
-          margin: 0;
-        }
-      }
-      .table-body {
-        margin-top: 68px;
-        .table-row {
-          flex-direction: column;
-          padding: 20px 0;
-          position: relative;
-          &:first-child {
-            padding-top: 0;
-          }
-        }
-      }
-      .column-date-stop {
-        display: flex;
-        width: 100%;
-        .mobile-start {
-          display: block;
-        }
-      }
-      .column-date-start {
-        width: auto;
-        display: none;
-      }
-      .column-repeat {
-        width: 100%;
-        margin-top: 5px;
-        padding-right: 50px;
-      }
-      .column-handle {
-        width: 100%;
-        justify-content: flex-end;
-        margin-top: 20px;
-        a {
-          margin-left: 30px !important;
-        }
-        .check-wrap {
-          position: absolute;
-          right: 0;
-          top: 20px;
-        }
-      }
-      .table-head {
-        display: none;
       }
     }
   }
-  .modal {
-    .modal-content {
-      border-radius: 5px;
-      background-color: #ffffff;
-      .btn-info {
-        margin-top: 10px;
+  .timelimit {
+    .timelimit-table {
+      margin: 0;
+      position: relative;
+      .table-head {
+        grid-template-columns: 1fr 100px;
+        padding: 5px 5px 5px 15px;
       }
-      .item {
-        display: flex;
-        align-items: center;
-
-        margin-top: 20px;
-        &:first-child {
-          margin: 0;
-        }
-        &:last-child {
-          align-items: flex-start;
-        }
-        label {
-          width: 110px;
-          flex-shrink: 0;
-          @media screen and (max-width: 320px) {
-            flex-shrink: 0;
-            width: 60px;
-            margin-right: 5px;
+      .table-body {
+        .table-row {
+          position: relative;
+          grid-template-columns: 100%;
+          grid-template-rows: 30px auto 30px;
+          height: fit-content;
+          padding: 10px 15px;
+          position: relative;
+          .column-date-stop {
+            grid-row: 1;
+            margin-bottom: 5px;
           }
-          font-size: 14px;
-          color: #333333;
-          overflow: hidden;
-          margin-right: 12px;
-        }
-        .time-picker {
-          width: 140px;
-        }
-        .date-wrap {
-          display: flex;
-          flex-wrap: wrap;
-          align-items: center;
-          width: 180px;
-          .check-inner {
-            width: 160px;
-            margin-bottom: 12px;
+          .column-repeat {
+            grid-row: 2;
+            margin-bottom: 5px;
+          }
+          .column-switch {
+            grid-column: 1;
+            grid-row: 3;
+          }
+          .column-handle {
+            grid-column: 1;
+            grid-row: 3;
           }
         }
       }

@@ -8,14 +8,14 @@
   // padding: 30px 30px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  color: var(--text-default-color) !important;
+  color: var(--text_default-color) !important;
   .btn-default {
     background-image: linear-gradient(
         to right,
-        var(--modal-content-background),
-        var(--modal-content-background)
+        var(--modal_content-bgc),
+        var(--modal_content-bgc)
       ),
-      var(--common-btn_default-bgimg) !important;
+      var(--common_btn_default-bgimg) !important;
   }
   @media screen and (min-width: 768px) {
     ::-webkit-scrollbar {
@@ -23,11 +23,11 @@
       height: 6px;
     }
     ::-webkit-scrollbar-track {
-      background-color: var(--scrollbar_wrap-track-color);
+      background-color: var(--scrollbar_wrap_track-color);
       // border-radius: 100px;
     }
     ::-webkit-scrollbar-thumb {
-      background-color: var(--scrollbar_wrap-thumb-color);
+      background-color: var(--scrollbar_wrap_thumb-color);
       border-radius: 100px;
       &:hover {
         opacity: 0.5;

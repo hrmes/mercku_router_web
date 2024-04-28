@@ -1,18 +1,7 @@
 export const IPv6DefaultPlaceholder = '----:----:----:----:----:----:----:----';
 
 export const Customers = {
-  internal: '0000',
   mercku: '0001',
-  cik: '0002',
-  startca: '0003',
-  inverto: '0004',
-  orion: '0005',
-  realnett: '0006',
-  altima: '0007',
-  fibrestream: '0013',
-  skymesh: '0014',
-  pentanet: '0019',
-  homeway: '0025',
   junet: '0029'
 };
 export const IP = {
@@ -34,7 +23,8 @@ export const Role = {
 };
 export const RouterStatus = {
   online: 'online',
-  offline: 'offline'
+  offline: 'offline',
+  installing: 'installing'
 };
 export const RouterMode = {
   router: 'router',
@@ -58,15 +48,38 @@ export const RouterSnModel = {
   M2: '01',
   Bee: '02',
   M6: '06',
-  M6c: '07',
   M6a: '08',
   Homeway: '09',
-  M6s: '11'
+  M6s: '11',
+  M6s_Nano: '13',
+  'M6s_PoE++': '16'
 };
-export const M6aRouterSnModelVersion = {
+export const Models = {
+  M2: 'M2R2',
+  M6: 'M6R0',
+  M6a: 'M8',
+  M6s: 'M11R1',
+  M6s_Nano: 'M13R0',
+  'M6s_PoE++': 'M16R0'
+};
+export const ModelsMap = Object.entries(Models).reduce(
+  (model, [key, value]) => {
+    model[value] = key;
+    return model;
+  },
+  {}
+);
+export const M6aSeriesModelIDs = {
   M6a: '0',
-  M6a_Plus: '1'
+  M6a_Plus: '1',
+  M6c: '2'
 };
+export const M6aSeriesModelIDMap2Model = Object.entries(
+  M6aSeriesModelIDs
+).reduce((model, [key, value]) => {
+  model[value] = key;
+  return model;
+}, {});
 export const SpeedTestStatus = {
   testing: 'testing',
   done: 'done',
@@ -76,9 +89,10 @@ export const Bands = {
   '2.4G': '2.4G',
   '5G': '5G',
   b24g: '2.4G',
-  b5g: '5G'
+  b5g: '5G',
+  wired: 'wired'
 };
-export const channelMode = {
+export const ChannelMode = {
   auto: 'auto',
   manual: 'manual'
 };
@@ -110,12 +124,10 @@ export const VPNStatus = {
   disconnected: 'disconnected',
   ready: 'ready'
 };
-
 export const VPNAction = {
   connect: 'connect',
   disconnect: 'disconnect'
 };
-
 export const defaultScrollbarOpt = {
   freeScroll: true,
   disableMouse: false,
@@ -137,15 +149,7 @@ export const Weeks = {
   sat: 'Sat',
   sun: 'Sun'
 };
-export const Models = {
-  m2: 'M2R2',
-  m6: 'M6R0',
-  m6c: 'M7R0',
-  m6a: 'M8',
-  homeway_230v: 'M9R0',
-  homeway_POE1: 'M9R1',
-  homeway_POE2: 'M9R2'
-};
+
 export const HomewayFanModel = {
   game: 'game',
   standard: 'standard',
@@ -157,22 +161,23 @@ export const AddNodeType = {
   wired: 'wired',
   wireless: 'wireless'
 };
-
 export const ConnectionQuality = {
   excellent: 'excellent',
   fair: 'fair',
   offline: 'offline'
 };
-
 export const Color = {
   good: '#00d061',
   bad: '#ff6f00',
   offline: '#b3b3b3'
 };
-
 export const RouterColor = {
   black: 'black',
   white: 'white',
   grey: 'grey',
   red: 'red'
+};
+export const RouterPowerSupplyMode = {
+  active: 'active', // 主动模式
+  passive: 'passive' // 被动模式
 };

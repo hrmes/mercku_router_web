@@ -1,43 +1,43 @@
 <template>
   <div class="page">
-    <div class="page-header"
-         @click="showDropdown">
-      <div class="page-header__text">{{$t('trans0019')}}</div>
-
-      <div class="page-header-trigger"
-           :class="{'show':dropdownVisible}"></div>
-      <div class="tabs-container"
-           :class="{'show':dropdownVisible}">
-        <m-tabs class="tabs">
-          <m-tab :class="{'selected':isCategory('time')}"
-                 @click.native.stop="forward2page('time')">
-            {{$t('trans0075')}}
-            <i class="is-mobile is-checked"
-               v-show="isCategory('time')"></i>
-          </m-tab>
-          <m-tab :class="{'selected':isCategory('speed')}"
-                 @click.native.stop="forward2page('speed')">
-            {{$t('trans0014')}}
-            <i class="is-mobile is-checked"
-               v-show="isCategory('speed')"></i>
-          </m-tab>
-          <m-tab :class="{'selected':isCategory('url')}"
-                 @click.native.stop="forward2page('url')">
-            {{$t('trans0076')}}
-            <i class="is-mobile is-checked"
-               v-show="isCategory('url')"></i>
-          </m-tab>
-        </m-tabs>
+    <div class="limit-wrapper">
+      <div class="limit-wrapper__title">
+        <div class="content">
+          <div>{{litmitType}}</div>
+          <div class="des"
+               v-if="isUrlLimit">{{$t('trans0101')}}</div>
+        </div>
+        <span class="btn-icon close"
+              @click="$router.go(-1)">
+          <i class="iconfont ic_close"></i>
+        </span>
       </div>
-    </div>
-    <div class="page-content">
-      <router-view></router-view>
+      <div class="limit-wrapper-__content">
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>
 <script>
 export default {
+  computed: {
+    isMobile() {
+      return this.$store.state.isMobile;
+    },
+    isUrlLimit() {
+      return this.$route.path.includes('url');
+    },
+    litmitType() {
+      return this.$t(this.$route.meta.text);
+    },
+    deviceName() {
+      return sessionStorage.getItem('deviceName');
+    }
+  },
   methods: {
+    onBack(target) {
+      this.$router.replace({ path: target });
+    },
     isCategory(category) {
       return this.$route.fullPath.includes(category);
     },
@@ -46,110 +46,62 @@ export default {
       this.$router.push(`/limit/${this.$route.params.mac}/${category}`);
     },
     showDropdown() {
-      this.dropdownVisible = !this.dropdownVisible;
+      this.dropdownVisible = true;
+    },
+    close() {
+      this.dropdownVisible = false;
     }
-  },
-  data() {
-    return {
-      dropdownVisible: false
-    };
   }
 };
 </script>
 <style lang="scss" scoped>
 .page {
-  .page-header {
+  padding: 0 30px;
+  background: transparent;
+  .limit-wrapper {
+    flex: 1;
+    justify-content: flex-start;
+    height: 100%;
+    border-radius: 10px;
+    padding: 20px;
+    background-color: var(--common_card-bgc);
+  }
+  .limit-wrapper__title {
     display: flex;
     justify-content: space-between;
-    .page-header-trigger {
-      display: none;
+    align-items: flex-start;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    .content {
+      flex: 1;
+      max-width: calc(100% - 40px);
     }
-    .tabs-container {
-      .tabs {
-        border: 0;
-        padding: 0;
-        .tab {
-          padding: 15px 0;
-          font-weight: normal;
-          display: flex;
-          align-items: center;
-          font-size: 14px;
-          .is-mobile {
-            display: none;
-          }
-        }
-      }
+    .des {
+      color: var(--common_gery-color);
+      font-size: 12px;
     }
+  }
+  .limit-wrapper__content {
+    flex: 1;
+    justify-content: flex-start;
+    height: 100%;
+    background-color: var(--dashboard_icon-bgc);
   }
 }
 @media screen and (max-width: 768px) {
   .page {
-    .page-header {
-      position: relative;
-      background: var(--header-background-color);
-      color: #fff;
-      align-items: center;
-      border-top: 1px solid var(--header-nav-item-border-color);
-      .page-header-trigger {
-        display: block;
-        &::before {
-          content: '';
-          display: block;
-          width: 8px;
-          height: 8px;
-          border-bottom: 1px solid #fff;
-          border-right: 1px solid #fff;
-          transform: rotate(45deg);
-          position: relative;
-          top: -2px;
-          transition: all 0.3s linear;
-        }
-        &.show {
-          &::before {
-            transform: rotate(225deg);
-          }
-        }
-      }
-      .tabs-container {
-        display: none;
-        &.show {
-          display: block;
-        }
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        z-index: 999;
-        .tabs {
-          display: flex;
-          flex-direction: column;
-          padding: 0 30px;
-          background: var(--header-background-color);
-          .tab {
-            padding: 18px 0;
-            color: #fff;
-            font-size: 14px;
-            // font-weight: bold;
-            margin: 0;
-            border-bottom: 1px solid var(--header-nav-item-border-color);
-            display: flex;
-            justify-content: space-between;
-            .is-mobile {
-              display: inline-block;
-            }
-            &.selected {
-              border-bottom: 1px solid var(--header-nav-item-border-color);
-              color: var(--tab-selected-text-color);
-              &::before {
-                display: none;
-              }
-              .is-checked {
-                &::after {
-                  border-color: var(--header-popup_item-checked-color);
-                }
-              }
-            }
-          }
+    padding: 0 15px;
+    .limit-wrapper {
+      padding: 20px 15px;
+    }
+    .limit-wrapper__title {
+      font-size: 17px;
+      .btn-icon {
+        width: 26px;
+        height: 26px;
+        .iconfont {
+          font-size: 12px;
         }
       }
     }

@@ -1,5 +1,6 @@
 const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 const UUID = require('uuid');
 
@@ -14,6 +15,7 @@ if (process.env.CUSTOMER_ID) {
 }
 
 const CUSTOMER_CONFIG = require(`./customer-conf/${CUSTOMER_ID}/conf.json`);
+console.log(process.env.MODEL);
 console.log(
   `get CUSTOMER_CONFIG for ${CUSTOMER_ID}:\n`,
   JSON.stringify(CUSTOMER_CONFIG, null, 2)
@@ -107,14 +109,16 @@ module.exports = {
       })
     );
     const plugins = [
+      new CleanWebpackPlugin(),
       new TerserPlugin({
         cache: true,
         parallel: true,
         sourceMap: true, // Must be set to true if using source-maps in production
         terserOptions: {
           compress: {
-            drop_console: true, // drop console
-            drop_debugger: true
+            // drop_console: false, // 打包时删除console，默认false。此处不需要配置，如果配置了，则会清空所有console
+            // drop_debugger: true, // 打包时删除 debugger，默认true。
+            pure_funcs: ['console.log', 'console.warn'] // 删除console
           }
         }
       })
@@ -160,7 +164,7 @@ module.exports = {
     loaderOptions: {
       sass: {
         // @/ is an alias to src/
-        data: `@import "@/style/${CUSTOMER_ID}/theme.scss";`
+        data: `@import "base/style/customer/${CUSTOMER_ID}/theme.scss";`
       }
     }
   }

@@ -29,7 +29,6 @@ export default {
   watch: {
     '$store.state.theme': {
       handler(nv) {
-        console.log(nv);
         let animation = LottiePaths.light; // 默认为浅色模式
         if (
           nv === 'dark' ||

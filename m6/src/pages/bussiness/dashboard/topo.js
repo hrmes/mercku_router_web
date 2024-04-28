@@ -6,25 +6,57 @@
  *
  *
  */
-import * as CONSTANTS from 'base/util/constant';
+import picM6Gateway from '@/assets/images/topo/ic_m6_gw.png';
+import picM6Wifi6Good from '@/assets/images/topo/ic_m6_normal.png';
+import picM6Wifi6Bad from '@/assets/images/topo/ic_m6_bad.png';
+import picM6Wifi6Offline from '@/assets/images/topo/ic_m6_offline.png';
 
-import picM6Gateway from '@/assets/images/icon/ic_m6_gw_green.png';
-import picM6Wifi6Good from '@/assets/images/icon/ic_m6_normal.png';
-import picM6Wifi6Bad from '@/assets/images/icon/ic_m6_bad.png';
-import picM6Wifi6Offline from '@/assets/images/icon/ic_m6_offline.png';
-
-const Color = {
-  good: '#00d061',
-  bad: '#ff6f00',
-  offline: '#000'
-};
+import { Color, Bands, RouterSnModel, RouterStatus } from 'base/util/constant';
 
 // 大于-70均认为优秀
-const isGood = rssi => rssi >= -65;
+const isGood = rssi => rssi >= -60;
 
+function filterValidNeighbors(neighbors) {
+  const isValidNeighbor = n => {
+    if (!Object.prototype.hasOwnProperty.call(n, 'sn')) {
+      console.log(`neighbors: ${n.sn} sn缺失`);
+      return false;
+    }
+    if (!Object.prototype.hasOwnProperty.call(n, 'rssi')) {
+      console.log(`neighbors: ${n.sn} rssi缺失`);
+      return false;
+    }
+    if (!Object.prototype.hasOwnProperty.call(n, 'backhaul_type')) {
+      console.log(`neighbors: ${n.sn} backhaul_type缺失`);
+      return false;
+    }
+    // 检查是否存在 sn 且值为字符串，长度为15，且只包含数字
+    if (typeof n.sn !== 'string' || n.sn.length !== 15 || !/^\d+$/.test(n.sn)) {
+      console.log(`neighbors: ${n.sn} sn有误`);
+      return false;
+    }
+    // 检查 backhaul_type 是否为合法值
+    const validBackhaulTypes = [
+      'wireless_2g',
+      'wireless_5g',
+      'wired',
+      'unknown'
+    ];
+    if (!validBackhaulTypes.includes(n.backhaul_type)) {
+      console.log(`neighbors: ${n.sn} backhaul_type值有误`);
+      return false;
+    }
+    // 如果所有条件都满足，说明对象结构是合法的
+    return true;
+  };
+
+  // 使用 filter 函数过滤出符合条件的对象数组
+  return neighbors.filter(n => isValidNeighbor(n));
+}
 // 补充关系，a-b,b-a
 function addConnection(source) {
   return source.map(s => {
+    s.neighbors = filterValidNeighbors(s.neighbors);
     if (s.neighbors) {
       s.neighbors.forEach(n => {
         const rssi1 = n.rssi;
@@ -90,15 +122,16 @@ function findRedNode(green, nodes) {
 // 生成绘图需要的节点数据
 function genNodes(gateway, green, red, offline) {
   const picModelColorMap = {
-    [CONSTANTS.RouterSnModel.M6]: {
+    [RouterSnModel.M6]: {
       [Color.good]: picM6Wifi6Good,
       [Color.bad]: picM6Wifi6Bad,
       [Color.offline]: picM6Wifi6Offline
     }
   };
 
-  function genNode(node, color, symbolSize = 50) {
+  function genNode(node, color, symbolSize = 70) {
     let symbol = 'image://';
+
     if (node.is_gw) {
       symbol = `${symbol}${picM6Gateway}`;
     } else {
@@ -112,6 +145,8 @@ function genNodes(gateway, green, red, offline) {
       name: `${node.sn}${node.name}`, // 避免节点同名echarts报错不能绘图
       originName: node.name, // 用于节点的label显示
       sn: node.sn,
+      isGateway: node.is_gw,
+      stationsCount: node?.stations?.length || 0,
       itemStyle: {
         color
       },
@@ -123,13 +158,12 @@ function genNodes(gateway, green, red, offline) {
   const nodes = [];
 
   const nodeCount = 1 + green.length + red.length + offline.length;
-  const symbolSize = [70, 50];
+  const symbolSize = [90, 70];
   if (nodeCount >= 8) {
-    symbolSize[0] = 50;
-    symbolSize[1] = 30;
+    symbolSize[0] = 70;
+    symbolSize[1] = 50;
   }
 
-  // m2
   nodes.push(genNode(gateway, Color.good, symbolSize[0]));
 
   // 绿点
@@ -151,14 +185,26 @@ function genNodes(gateway, green, red, offline) {
 
 // 生成绘图需要的线条信息
 function genLines(gateway, green, red, nodes, fullLine) {
-  function genLine(source, target, color, value = 0) {
+  function genLine(source, target, color, neighbor) {
+    // 有线实线显示，无线虚线显示
+    if (neighbor.rssi === 5555 || neighbor?.backhaul_type === Bands.wired) {
+      return {
+        source: `${source.sn}${source.name}`,
+        target: `${target.sn}${target.name}`,
+        rssi: neighbor.rssi,
+        lineStyle: {
+          color,
+          type: 'solid'
+        }
+      };
+    }
     return {
       source: `${source.sn}${source.name}`,
       target: `${target.sn}${target.name}`,
-      rssi: value,
+      rssi: neighbor.rssi,
       lineStyle: {
         color,
-        type: 'solid'
+        type: 'dotted'
       }
     };
   }
@@ -176,15 +222,16 @@ function genLines(gateway, green, red, nodes, fullLine) {
   }
 
   const lines = [];
+
   gateway.neighbors.forEach(n => {
     const node = nodes.find(s => s.sn === n.sn);
     if (!exist(node, gateway)) {
       if (isGood(n.rssi)) {
-        lines.push(genLine(gateway, node, Color.good, n.rssi));
+        lines.push(genLine(gateway, node, Color.good, n));
       } else if (red.includes(node)) {
-        lines.push(genLine(gateway, node, Color.bad, n.rssi));
+        lines.push(genLine(gateway, node, Color.bad, n));
       } else if (fullLine) {
-        lines.push(genLine(gateway, node, Color.bad, n.rssi));
+        lines.push(genLine(gateway, node, Color.bad, n));
       }
     }
   });
@@ -194,9 +241,9 @@ function genLines(gateway, green, red, nodes, fullLine) {
       const node = nodes.find(s => s.sn === n.sn);
       if (!exist(node, r)) {
         if (isGood(n.rssi)) {
-          lines.push(genLine(r, node, Color.good, n.rssi));
+          lines.push(genLine(r, node, Color.good, n));
         } else {
-          lines.push(genLine(r, node, Color.bad, n.rssi));
+          lines.push(genLine(r, node, Color.bad, n));
         }
       }
     });
@@ -207,11 +254,11 @@ function genLines(gateway, green, red, nodes, fullLine) {
       const node = nodes.find(s => s.sn === n.sn);
       if (!exist(node, r)) {
         if (isGood(n.rssi)) {
-          lines.push(genLine(r, node, Color.good, n.rssi));
+          lines.push(genLine(r, node, Color.good, n));
         } else if (!green.includes(node)) {
-          lines.push(genLine(r, node, Color.bad, n.rssi));
+          lines.push(genLine(r, node, Color.bad, n));
         } else if (fullLine) {
-          lines.push(genLine(r, node, Color.bad, n.rssi));
+          lines.push(genLine(r, node, Color.bad, n));
         }
       }
     });
@@ -222,7 +269,10 @@ function genLines(gateway, green, red, nodes, fullLine) {
 // 找出离线节点
 function findOfflineNode(array, offline) {
   array = array.filter(a => {
-    if (a.status === CONSTANTS.RouterStatus.offline) {
+    if (
+      a.status === RouterStatus.offline ||
+      a.status === RouterStatus.installing
+    ) {
       offline.push(a);
       return false;
     }
@@ -230,14 +280,12 @@ function findOfflineNode(array, offline) {
   });
   return array;
 }
-
 // 生成所有绘图数据
 function genData(array, fullLine = false) {
   let routers = JSON.parse(JSON.stringify(array));
 
   const offline = [];
   routers = findOfflineNode(routers, offline);
-
   routers = addConnection(routers);
 
   const gateway = findGateway(routers);
@@ -246,11 +294,9 @@ function genData(array, fullLine = false) {
   const green = findGreenNode(gateway, routers, visited);
 
   const meshNodes = routers.filter(r => r.sn !== gateway.sn);
-
   const red = findRedNode(green, meshNodes);
 
   const nodes = genNodes(gateway, green, red, offline);
-
   const lines = genLines(gateway, green, red, routers, fullLine);
 
   return {

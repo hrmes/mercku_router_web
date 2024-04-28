@@ -18,9 +18,11 @@ import Http from './http';
 import i18nInstance from './i18n';
 import router from './router';
 
+require('base/style/common.scss');
+require('base/style/theme-mode.scss');
+require('@/style/router-model.scss');
 // 不同客户特别的样式表
-require(`./style/${process.env.CUSTOMER_CONFIG.id}/custom.scss`);
-require('./style/theme-mode.scss');
+require(`base/style/customer/${process.env.CUSTOMER_CONFIG.id}/custom.scss`);
 
 const launch = () => {
   const http = new Http();
@@ -136,6 +138,12 @@ const launch = () => {
       } else {
         const { error } = data;
         if (error) {
+          // token过期
+          if (error.code === 200103) {
+            if (!window.location.href.includes('login')) {
+              window.location.href = '/';
+            }
+          }
           // 升级中
           if (error.code === 600402) {
             !upgrading && upgrade();

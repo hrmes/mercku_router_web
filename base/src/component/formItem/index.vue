@@ -130,7 +130,7 @@ export default {
     margin-bottom: 0;
   }
   .error-message {
-    color: var(--input-error-text-color);
+    color: var(--input_error_text-color);
     font-size: 12px;
     display: block;
     padding-top: 4px;
@@ -145,17 +145,17 @@ export default {
   &.form-item-error {
     .input-wrapper {
       input {
-        border: 2px solid var(--input-error-text-color);
+        border: 2px solid var(--input_error_text-color);
       }
       animation: errorshake 0.3s forwards;
     }
     .select-container {
       .select {
-        border: 2px solid var(--input-error-text-color);
+        border: 2px solid var(--input_error_text-color);
         animation: errorshake 0.3s forwards;
       }
       .icon-container {
-        border-left: 2px solid var(--input-error-text-color);
+        border-left: 2px solid var(--input_error_text-color);
       }
     }
   }

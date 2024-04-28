@@ -34,10 +34,12 @@
                   key="b24gform"
                   :model="form"
                   :rules="rules">
-            <div class="form-header">
-              <span
-                    class="form-header__title">{{ form.smart_connect?'Wi-Fi':$t('trans0677') }}</span>
-            </div>
+            <m-form-item key="b24genabled"
+                         prop="b24g.enabled">
+              <m-switch v-model="form.b24g.enabled"
+                        disabled
+                        :label="form.smart_connect?'Wi-Fi':$t('trans0677')"></m-switch>
+            </m-form-item>
             <m-form-item key="b24gssid"
                          prop="b24g.ssid">
               <m-input v-model="form.b24g.ssid"
@@ -76,15 +78,18 @@
             </m-form-item>
           </m-form>
           <!-- wifi 5g -->
-          <m-form v-if="!form.smart_connect"
+          <m-form v-show="!form.smart_connect"
                   class="form card"
                   ref="b5gForm"
                   key="b5gform"
                   :model="form"
                   :rules="rules">
-            <div class="form-header">
-              <span class="form-header__title">{{ $t('trans0679') }}</span>
-            </div>
+            <m-form-item key="b5genabled"
+                         prop="b5g.enabled">
+              <m-switch v-model="form.b5g.enabled"
+                        disabled
+                        :label="$t('trans0679')"></m-switch>
+            </m-form-item>
             <m-form-item key="b5gssid"
                          prop="b5g.ssid">
               <m-input v-model="form.b5g.ssid"
@@ -143,12 +148,17 @@
                         v-model="form.channel.b5gChannel.number"
                         :options="channels.b5g"></m-select>
             </m-form-item>
+            <!-- DFS -->
+            <!-- <m-form-item key="dfs">
+              <m-switch v-model="form.dfs"
+                        :label="$t('trans1231')"
+                        @change="onDFSChange" />
+            </m-form-item> -->
+            <!-- AUTO Channel -->
             <m-form-item key="autochannel"
                          class="check-info">
               <m-switch v-model="isAutoChannel"
-                        @change="()=>isAutoChannel!=isAutoChannel"
-                        :label="$t('trans0781')"
-                        :bold="false" />
+                        :label="$t('trans0781')" />
             </m-form-item>
           </m-form>
           <!-- channel width -->
@@ -206,7 +216,7 @@ import {
   isFieldHasComma,
   isFieldHasSpaces
 } from 'base/util/util';
-import { EncryptMethod, Bands, channelMode } from 'base/util/constant';
+import { EncryptMethod, Bands, ChannelMode } from 'base/util/constant';
 import encryptMix from 'base/mixins/encrypt-methods';
 
 export default {
@@ -216,15 +226,18 @@ export default {
       form: {
         smart_connect: true,
         compatibility_mode: false,
+        // dfs: true,
         b24g: {
           ssid: '',
           password: '',
+          enabled: true,
           hidden: false,
           encrypt: EncryptMethod.wpa2
         },
         b5g: {
           ssid: '',
           password: '',
+          enabled: true,
           hidden: false,
           encrypt: EncryptMethod.wpa2
         },
@@ -243,30 +256,38 @@ export default {
       rules: {
         'b24g.ssid': [
           {
-            rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0237')
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
           },
           {
-            rule: value => getStringByte(value.trim()) <= 20,
-            message: this.$t('trans0261')
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
           },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
           {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
+            rule: value => getStringByte(value.trim()) <= 20,
+            message: this.$t('trans0261')
+          },
+          {
+            rule: () => this.validateSsid5G(),
+            message: this.$t('trans0660')
           }
         ],
         'b24g.password': [
           {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
-          },
-          {
             rule: value => isFieldHasSpaces(value),
             message: this.$t('trans1020')
+          },
+          {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
           },
           {
             rule: value => isValidPassword(value),
@@ -275,30 +296,38 @@ export default {
         ],
         'b5g.ssid': [
           {
-            rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0237')
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
           },
           {
-            rule: value => getStringByte(value.trim()) <= 20,
-            message: this.$t('trans0261')
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
           },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
           {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
+            rule: value => getStringByte(value) <= 20,
+            message: this.$t('trans0261')
+          },
+          {
+            rule: () => this.validateSsid5G(),
+            message: this.$t('trans0660')
           }
         ],
         'b5g.password': [
           {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
-          },
-          {
             rule: value => isFieldHasSpaces(value),
             message: this.$t('trans1020')
+          },
+          {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
           },
           {
             rule: value => isValidPassword(value),
@@ -367,8 +396,15 @@ export default {
         });
       }
     },
+    validateSsid5G() {
+      if (!this.form.smart_connect && this.form.b24g.ssid) {
+        return this.form.b24g.ssid !== this.form.b5g.ssid;
+      }
+      return true;
+    },
     changeSmartConnect() {
       const { form } = this;
+      form.b5g.enabled = form.b24g.enabled;
       form.b5g.hidden = form.b24g.hidden;
       form.b5g.ssid = form.smart_connect
         ? form.b24g.ssid
@@ -380,18 +416,21 @@ export default {
       return this.form[band].encrypt === EncryptMethod.open;
     },
     submit() {
-      const validResult1 = this.$refs.b24gForm.validate();
-      const validResult2 = this.$refs.b5gForm.validate();
+      let validResult1 = true;
+      let validResult2 = true;
 
-      if (!validResult1 || !validResult2) {
-        return;
-      }
-
+      validResult1 = this.$refs.b24gForm.validate();
       if (!this.form.smart_connect) {
+        // 表单验证通过且ssid不一致
+        validResult2 = this.$refs.b5gForm.validate();
         if (this.form.b24g.ssid === this.form.b5g.ssid) {
           this.$toast(this.$t('trans0660'), 2000, 'error');
           return;
         }
+      }
+
+      if (!validResult1 || !validResult2) {
+        return;
       }
 
       this.$dialog.confirm({
@@ -419,8 +458,10 @@ export default {
               smart_connect: this.form.smart_connect,
               compatibility_mode: this.form.compatibility_mode,
               tx_power: this.form.wifiTxPower,
+              // dfs: this.form.dfs,
               bands: { [Bands.b24g]: b24g, [Bands.b5g]: b5g }
             };
+            console.log(wifi);
 
             this.$http
               .meshWifiUpdate(wifi)
@@ -448,7 +489,6 @@ export default {
         .then(([wifiResult, channelsResult]) => {
           const wifi = wifiResult.data.result;
           const channels = channelsResult.data.result;
-          console.log('wifi data', wifi);
 
           this.channels.b24g = this.mapChannelNumbers(
             channels[Bands.b24g].numbers
@@ -456,13 +496,13 @@ export default {
           this.channels.b5g = this.mapChannelNumbers(
             channels[Bands.b5g].numbers
           );
-          console.log('channel', this.channels);
 
           // 2.4G
           const b24g = wifi.bands[Bands.b24g];
           this.form.b24g.ssid = b24g.ssid;
           this.form.b24g.encrypt = b24g.encrypt;
           this.form.b24g.password = b24g.password;
+          this.form.b24g.enabled = b24g.enabled;
           this.form.b24g.hidden = b24g.hidden;
 
           // 5G
@@ -470,6 +510,7 @@ export default {
           this.form.b5g.ssid = b5g.ssid;
           this.form.b5g.encrypt = b5g.encrypt;
           this.form.b5g.password = b5g.password;
+          this.form.b5g.enabled = b5g.enabled;
           this.form.b5g.hidden = b5g.hidden;
 
           // channel
@@ -478,16 +519,17 @@ export default {
           this.form.channel.b5gChannel.number = b5g.channel.number;
           this.form.channel.b5gChannel.bandwidth = b5g.channel.bandwidth;
           if (
-            b24g.channel.mode === channelMode.auto &&
-            b5g.channel.mode === channelMode.auto
+            b24g.channel.mode === ChannelMode.auto &&
+            b5g.channel.mode === ChannelMode.auto
           ) {
             this.isAutoChannel = true;
           }
-          console.log('123', this.form.channel.b24gChannel);
 
           // smart_connect
           this.form.smart_connect = wifi.smart_connect;
           this.form.compatibility_mode = wifi.compatibility_mode;
+          // DFS
+          // this.form.dfs = wifi.dfs || true;
 
           // wifi Tx_power
           this.form.wifiTxPower = wifi.tx_power || 'high';
@@ -500,13 +542,16 @@ export default {
     },
     mapBandData(formBand, channel) {
       return {
+        enabled: formBand.enabled,
         hidden: formBand.hidden,
         ssid: formBand.ssid,
         password: formBand.password,
         encrypt: formBand.encrypt,
-        channel: this.isAutoChannel
-          ? { mode: channelMode.auto, bandwidth: channel.bandwidth }
-          : { number: channel.number, bandwidth: channel.bandwidth }
+        channel: {
+          mode: this.isAutoChannel ? ChannelMode.auto : ChannelMode.manual,
+          number: channel.number,
+          bandwidth: channel.bandwidth
+        }
       };
     },
     mapChannelNumbers(numbers) {
@@ -514,7 +559,25 @@ export default {
         value: number,
         text: number
       }));
-    }
+    },
+    // onDFSChange(val) {
+    //   if (!val) {
+    //     this.$dialog.confirm({
+    //       okText: this.$t('trans0024'),
+    //       cancelText: this.$t('trans0025'),
+    //       title: this.$t('trans1233'),
+    //       message: this.$t('trans1234'),
+    //       callback: {
+    //         ok: () => {
+    //           this.form.dfs = false;
+    //         },
+    //         cancel: () => {
+    //           this.form.dfs = true;
+    //         }
+    //       }
+    //     });
+    //   }
+    // }
   }
 };
 </script>

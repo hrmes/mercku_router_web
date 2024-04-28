@@ -31,7 +31,7 @@ export default {
       upperApFormRules: {
         'upperApForm.ssid': [
           {
-            rule: value => !/^\s*$/g.test(value.trim()),
+            rule: value => value,
             message: this.$t('trans0237')
           }
         ]
@@ -39,7 +39,6 @@ export default {
       originalUpperList: [],
       processedUpperApList: [],
       pwdDisabled: true,
-      saveDisable: true,
       selectIsLoading: LoadingStatus.default,
       loadingText: `${this.$t('trans1181')}...`,
       getApclientScanTimer: null,
@@ -54,7 +53,7 @@ export default {
           // 这一套只验证ssid是否为空
           'upperApForm.ssid': [
             {
-              rule: value => !/^\s*$/g.test(value.trim()),
+              rule: value => value,
               message: this.$t('trans0237')
             }
           ]
@@ -64,18 +63,26 @@ export default {
           // 这一套要验证ssid和密码
           'upperApForm.ssid': [
             {
-              rule: value => !/^\s*$/g.test(value.trim()),
+              rule: value => value,
               message: this.$t('trans0237')
             }
           ],
           'upperApForm.password': [
             {
-              rule: value => value !== '',
-              message: this.$t('trans0281')
+              rule: value => value,
+              message: this.$t('trans0232')
             },
             {
-              rule: value => isValidPassword(value, 1, 63),
-              message: this.$t('trans1077')
+              rule: value => isValidPassword(value, 8, 64),
+              message: this.$t('trans1220').replace('%s', 8)
+            },
+            {
+              rule: value => value.trim() !== '',
+              message: this.$t('trans1227')
+            },
+            {
+              rule: value => value.trim() === value,
+              message: this.$t('trans1226')
             }
           ]
         };
@@ -133,7 +140,7 @@ export default {
             clearTimeout(this.getApclientScanTimer);
             this.getApclientScanTimer = null;
 
-            result = result.filter(item => item.ssid !== ' ');
+            // result = result.filter(item => !/^\s*$/.test(item.ssid));
             result = this.deweight(result);
             console.log('deweight', result);
             result.sort((a, b) => b.rssi - a.rssi);
@@ -173,7 +180,9 @@ export default {
         });
     },
     selectedChange(option) {
-      this.pwdDisabled = option.security === EncryptMethod.OPEN;
+      this.pwdDisabled =
+        option.security === EncryptMethod.OPEN ||
+        option.security === EncryptMethod.open;
       this.saveDisable = false;
       const {
         ssid,
@@ -195,56 +204,74 @@ export default {
       };
       console.log('upperAp', this.upperApForm);
     },
-    connectUpperAp(pageType) {
-      if (this.$refs.upperApForm.validate()) {
-        console.log('upperApInfo is', this.upperApForm);
-        // this.$loading.open({ template: this.$t('trans1105') });
-        this.$http
-          .updateMeshApclient({ apclient: this.upperApForm })
-          .then(() => {
-            this.checkMeshApclient(pageType);
+    connectUpperAp(mode) {
+      this.$loading.open();
+
+      console.log('upperApInfo is', this.upperApForm);
+      this.$http
+        .updateMeshApclient({ mode, apclient: this.upperApForm })
+        .then(() => {
+          this.$store.state.changeMode = true;
+          this.$store.state.mode = mode;
+          localStorage.setItem('mode', mode);
+
+          this.$reconnect({
+            timeout: 180,
+            delayTime: 95, // 95秒后检测更改模式是否成功
+            onsuccess: () => {
+              this.$toast(this.$t('trans0040'), 3000, 'success');
+              // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
+              this.$router.push({ path: '/login' });
+            },
+            ontimeout: () => {
+              this.$router.push({ path: '/unconnect' });
+            }
           });
-        // setTimeout(() => {
-        //   this.checkMeshApclient(pageType);
-        // }, 60000);
-      }
+          // this.checkMeshApclient(pageType);
+        })
+        .catch(() => {
+          this.$store.state.changeMode = false;
+        })
+        .finally(() => {
+          this.$loading.close();
+        });
     },
-    checkMeshApclient(pageType) {
-      if (pageType === PageTypes.Initialization) {
-        // this.$loading.close();
-        this.initializationHandle();
-      }
-      if (pageType === PageTypes.ModeChange) {
-        this.modeChangeHandle();
-      }
-      // this.$http
-      //   .checkMeshApclient(undefined, { hideToast: true })
-      //   .then(res => {
-      //     const { status } = res.data.result;
-      //     if (status) {
-      //       if (pageType === PageTypes.Initialization) {
-      //         this.$loading.close();
-      //         this.initializationHandle();
-      //       }
-      //       if (pageType === PageTypes.ModeChange) {
-      //         this.modeChangeHandle();
-      //       }
-      //     } else {
-      //       this.$dialog.info({
-      //         okText: this.$t('trans0024'),
-      //         message: this.$t('trans1103')
-      //       });
-      //       this.$loading.close();
-      //     }
-      //   })
-      //   .catch(() => {
-      //     this.$dialog.info({
-      //       okText: this.$t('trans0024'),
-      //       message: this.$t('trans1103')
-      //     });
-      //     this.$loading.close();
-      //   });
-    },
+    // checkMeshApclient(pageType) {
+    //   if (pageType === PageTypes.Initialization) {
+    //     this.$loading.close();
+    //     this.initializationHandle();
+    //   }
+    //   if (pageType === PageTypes.ModeChange) {
+    //     this.modeChangeHandle();
+    //   }
+    //   this.$http
+    //     .checkMeshApclient(undefined, { hideToast: true })
+    //     .then(res => {
+    //       const { status } = res.data.result;
+    //       if (status) {
+    //         if (pageType === PageTypes.Initialization) {
+    //           this.$loading.close();
+    //           this.initializationHandle();
+    //         }
+    //         if (pageType === PageTypes.ModeChange) {
+    //           this.modeChangeHandle();
+    //         }
+    //       } else {
+    //         this.$dialog.info({
+    //           okText: this.$t('trans0024'),
+    //           message: this.$t('trans1103')
+    //         });
+    //         this.$loading.close();
+    //       }
+    //     })
+    //     .catch(() => {
+    //       this.$dialog.info({
+    //         okText: this.$t('trans0024'),
+    //         message: this.$t('trans1103')
+    //       });
+    //       this.$loading.close();
+    //     });
+    // },
     initializationHandle() {
       this.stepOption.current = 1;
       this.stepOption.steps[1].success = true;

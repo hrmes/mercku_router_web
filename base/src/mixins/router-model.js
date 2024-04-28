@@ -1,69 +1,95 @@
-import {
-  RouterSnModel,
-  M6aRouterSnModelVersion,
-  Models
-} from '../util/constant';
+import { RouterSnModel, M6aSeriesModelIDs } from '../util/constant';
 
 export default {
   methods: {
-    getNodeName(node) {
-      const id = node.sn.slice(0, 2);
-      // const modelVersion = node.sn.slice(9, 10);
-      const num = node.sn.slice(-4);
-      const category = this.Products[id] || { shortName: 'Unknown' };
-      return `${category.shortName}-${num}`;
-    },
-    getNodeImage(node) {
-      console.log(node);
-      const id = node.sn.slice(0, 2);
-      const modelVersion = node.sn.slice(9, 10);
+    getRouterImage(sn) {
+      const id = sn.slice(0, 2);
+      const modelID = sn.charAt(9);
       let image = '';
       switch (id) {
         case RouterSnModel.M2:
-          image = require('../assets/images/img_m2.png');
+          image = require('../assets/images/model/img_m2.png');
           break;
         case RouterSnModel.Bee:
-          image = require('../assets/images/img_bee.png');
+          image = require('../assets/images/model/img_bee.png');
           break;
         case RouterSnModel.M6:
-          image = require('../assets/images/img_m6.png');
-          break;
-        case RouterSnModel.M6c:
-          image = require('../assets/images/img_m6.png');
+          image = require('../assets/images/model/img_m6.png');
           break;
         case RouterSnModel.M6a:
-          if (modelVersion === M6aRouterSnModelVersion.M6a) {
-            image = require('../assets/images/img_m6a.png');
-          } else if (modelVersion === M6aRouterSnModelVersion.M6a_Plus) {
-            image = require('../assets/images/img_m6a_plus.png');
+          if (modelID === M6aSeriesModelIDs.M6a) {
+            image = require('../assets/images/model/img_m6a.png');
+          } else if (modelID === M6aSeriesModelIDs.M6a_Plus) {
+            image = require('../assets/images/model/img_m6a_plus.png');
+          } else if (modelID === M6aSeriesModelIDs.M6c) {
+            image = require('../assets/images/model/img_m6c.png');
           }
           break;
-        case RouterSnModel.M6s:
-          image = require('../assets/images/img_m6s.svg');
-          break;
         case RouterSnModel.Homeway:
-          image = require('../assets/images/img_homeway.png');
+          image = require('../assets/images/model/img_homeway.png');
+          break;
+        case RouterSnModel.M6s:
+          image = require('../assets/images/model/img_m6s.svg');
+          break;
+        case RouterSnModel.M6s_Nano:
+          image = require('../assets/images/model/img_nano.svg');
+          break;
+        case RouterSnModel['M6s_PoE++']:
+          image = require('../assets/images/model/img_m6s_poe.svg');
           break;
         default:
           break;
       }
       return image;
-    }
-  },
-  data() {
-    return {
-      Products: {
-        [RouterSnModel.M2]: process.env.CUSTOMER_CONFIG.routers.M2,
-        [RouterSnModel.Bee]: process.env.CUSTOMER_CONFIG.routers.Bee,
-        [RouterSnModel.M6]: process.env.CUSTOMER_CONFIG.routers.M6,
-        [RouterSnModel.M6c]: process.env.CUSTOMER_CONFIG.routers.M6c,
-        [RouterSnModel.Homeway]: process.env.CUSTOMER_CONFIG.routers.Homeway,
-        [RouterSnModel.M6a]:
-          process.env.MODEL_CONFIG.id === Models.m6a
-            ? process.env.CUSTOMER_CONFIG.routers.M6a
-            : process.env.CUSTOMER_CONFIG.routers.M6a_plus,
-        [RouterSnModel.M6s]: process.env.CUSTOMER_CONFIG.routers.M6s
+    },
+    productsInfo(modelId, modelVersion) {
+      let productInfo;
+      switch (modelId) {
+        case RouterSnModel.M2:
+          productInfo = process.env.CUSTOMER_CONFIG.routers.M2;
+          break;
+        case RouterSnModel.Bee:
+          productInfo = process.env.CUSTOMER_CONFIG.routers.Bee;
+          break;
+        case RouterSnModel.M6:
+          productInfo = process.env.CUSTOMER_CONFIG.routers.M6;
+          break;
+        case RouterSnModel.M6a:
+          productInfo = this.getM6aProductsInfo(modelVersion);
+          break;
+        case RouterSnModel.Homeway:
+          productInfo = process.env.CUSTOMER_CONFIG.routers.Homeway;
+          break;
+        case RouterSnModel.M6s:
+          productInfo = process.env.CUSTOMER_CONFIG.routers.M6s;
+          break;
+        case RouterSnModel.M6s_Nano:
+          productInfo = process.env.CUSTOMER_CONFIG.routers.M6s_Nano;
+          break;
+        case RouterSnModel['M6s_PoE++']:
+          productInfo = process.env.CUSTOMER_CONFIG.routers['M6s_PoE++'];
+          break;
+        default:
+          break;
       }
-    };
+      return productInfo;
+    },
+    getM6aProductsInfo(modelID) {
+      let res;
+      switch (modelID) {
+        case M6aSeriesModelIDs.M6a:
+          res = process.env.CUSTOMER_CONFIG.routers.M6a;
+          break;
+        case M6aSeriesModelIDs.M6a_Plus:
+          res = process.env.CUSTOMER_CONFIG.routers.M6a_Plus;
+          break;
+        case M6aSeriesModelIDs.M6c:
+          res = process.env.CUSTOMER_CONFIG.routers.M6c;
+          break;
+        default:
+          break;
+      }
+      return res;
+    }
   }
 };

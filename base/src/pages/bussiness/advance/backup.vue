@@ -26,6 +26,7 @@
           <div class="restore-notes">
             <p>{{$t('trans1016')}}</p>
             <p>{{$t('trans1017')}}</p>
+            <p>{{$t('trans1230')}}</p>
           </div>
           <div class="backup__content">
             <div class="backup__upload">
@@ -122,9 +123,8 @@ export default {
               clearTimeout(this.downloadTimer);
               this.downloadTimer = null;
             }, 5000);
-            window.location.href = `/${fileName}${
-              this.fileSuffix
-            }?t=${Date.now()}`;
+            window.location.href = `/${fileName}${this.fileSuffix
+              }?t=${Date.now()}`;
           }
         })
         .catch(() => {
@@ -223,9 +223,9 @@ export default {
   background-color: transparent;
   .page-content {
     .backup {
-      background-color: var(--common-card-bgc);
+      background-color: var(--common_card-bgc);
       margin-bottom: 15px;
-      box-shadow: var(--common-card-boxshadow);
+      box-shadow: var(--common_card-boxshadow);
       padding: 15px 30px;
       border-radius: 10px;
       .backup-wrapper {
@@ -244,7 +244,10 @@ export default {
       .backup__tips--danger {
         font-size: 12px;
         font-weight: 400;
-        color: var(--primaryColor);
+        color: var(--primary-color);
+      }
+      .btn-middle {
+        min-width: 150px;
       }
     }
     .restore {
@@ -255,17 +258,17 @@ export default {
       }
       .restore-notes {
         font-size: 12px;
-        color: var(--common-gery-color);
+        color: var(--common_gery-color);
       }
     }
     .page-content__main {
       padding: 0;
-      background-color: var(--common-card-bgc);
+      background-color: var(--common_card-bgc);
       border-top-left-radius: 10px;
       border-top-right-radius: 10px;
     }
     .page-content__bottom {
-      background-color: var(--common-card-bgc);
+      background-color: var(--common_card-bgc);
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;
     }
@@ -293,14 +296,14 @@ export default {
         .backup__tips--danger {
           font-size: 12px;
           font-weight: 400;
-          color: var(--primaryColor);
+          color: var(--primary-color);
         }
         .operate-btn {
           &.btn-default {
             background-image: linear-gradient(
                 to right,
-                var(--common-card-bgc),
-                var(--common-card-bgc)
+                var(--common_card-bgc),
+                var(--common_card-bgc)
               ),
               linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
           }
@@ -314,17 +317,17 @@ export default {
         }
         .restore-notes {
           font-size: 12px;
-          color: var(--common-gery-color);
+          color: var(--common_gery-color);
         }
       }
       .page-content__main {
         padding: 0;
-        background-color: var(--common-card-bgc);
+        background-color: var(--common_card-bgc);
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
       }
       .page-content__bottom {
-        background-color: var(--common-card-bgc);
+        background-color: var(--common_card-bgc);
         border-bottom-left-radius: 10px;
         border-bottom-right-radius: 10px;
       }

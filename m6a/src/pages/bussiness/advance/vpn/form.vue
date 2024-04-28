@@ -345,7 +345,20 @@ export default {
             update: true
           };
         } else if (vpn.protocol?.toLowerCase() === VPNType.wireguard) {
-          this.form.wireguard = JSON.parse(JSON.stringify(vpn.wireguard));
+          const originalWireguard = JSON.parse(JSON.stringify(vpn.wireguard));
+          const modifiedWireguard = {
+            ...originalWireguard,
+            interface: {
+              ...originalWireguard.interface,
+              listen_port: originalWireguard.interface.listen_port || '',
+              mtu: originalWireguard.interface.mtu || '',
+            },
+            peers: originalWireguard.peers.map(peer => ({
+              ...peer,
+              endpoint_port: peer.endpoint_port || '',
+            })),
+          };
+          this.form.wireguard = modifiedWireguard;
         } else {
           this.form.server = vpn.server;
           this.form.username = vpn.username;
@@ -395,7 +408,7 @@ export default {
       const formData = new FormData();
       formData.append('type', 'openvpn');
       formData.append('file', this.openvpnForm.configFile);
-      return this.$http.uploadFile(formData, () => {});
+      return this.$http.uploadFile(formData, () => { });
     },
     updateFormParams() {
       this.form.name = this.form.name.trim();
@@ -520,7 +533,7 @@ export default {
     align-items: center;
   }
   .config-uploader__label {
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     margin-bottom: 5px;
     font-size: 14px;
     margin-right: 12px;
@@ -625,7 +638,7 @@ export default {
   .title {
     margin: 0;
     font-size: 16px;
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     border-top: 1px solid var(--hr-color);
     padding: 25px 0;
   }

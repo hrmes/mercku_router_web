@@ -963,7 +963,7 @@
   "trans0968": "Hoppa över handledning",
   "trans0969": "Nästa",
   "trans0970": "Dela enkelt ditt Wi-Fi-lösenord med hjälp av QR-koden eller genom att kopiera och klistra in, och upplev Merckus höghastighetsnätverk tillsammans.",
-  "trans0971": "I det personliga centret kan du visa hjälp eller röststyrning, skicka feedback, ändra lösenord, byta inloggningskonto, byta språk och rensa cache.",
+  "trans0971": "I det personliga centret kan du se hjälp eller skicka feedback, ändra lösenord, byta inloggningskonto, byta språk och rensa cache.",
   "trans0972": "Växla till nätverksvyn så att du bättre kan förstå den aktuella nätverksstatusen.",
   "trans0973": "Klicka på den här knappen för att växla mellan dina olika nätverk.",
   "trans0974": "Helgen",
@@ -1115,5 +1115,15 @@
   "trans1120": "Logga ut",
   "trans1121": "AUTO",
   "trans1122": "Ljus",
-  "trans1123": "Mörkt"
+  "trans1123": "Mörkt",
+  "trans1124": " ",
+  "trans1125": " ",
+  "trans1126": " ",
+  "trans1127": " ",
+  "trans1128": " ",
+  "trans1129": " ",
+  "trans1130": " ",
+  "trans1131": " ",
+  "trans1132": " ",
+  "trans1133": " "
 }

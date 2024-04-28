@@ -13,7 +13,14 @@
                 <m-radio-group v-model="mode"
                                :options="modes"
                                direction="vertical"></m-radio-group>
-                <p class="note">{{$t('trans0543')}}</p>
+                <p class="note"
+                   v-show="isBridgeMode">{{$t('trans1212')}}</p>
+                <p class="note"
+                   v-show="isWirelessBridgeMode">{{$t('trans1189')}}</p>
+                <p class="note"
+                   v-show="isWirelessBridgeMode">{{$t('trans1211')}}</p>
+                <p class="note"
+                   v-show="!isRouterMode">{{$t('trans0543')}}</p>
               </m-form-item>
             </div>
           </div>
@@ -44,22 +51,22 @@
           <div class="card">
             <div class="upperApForm">
               <div class="upperApForm__bottom">
-                <h4>Set upper-level</h4>
+                <h4>{{$t('trans1135')}}</h4>
                 <m-form ref="upperApForm"
                         :model="upperApForm"
                         :rules="upperApFormRules">
                   <m-form-item prop="upperApForm.ssid"
                                :class="{last:pwdDisabled}">
-                    <m-loadingSelect label="SSID"
-                                     :placeholder="$t('trans1182')"
-                                     type='text'
-                                     @change="selectedChange"
-                                     @scanApclient="startApclientScan"
-                                     :popupTop='currentUpperInfo.show||$store.state.isMobile'
-                                     :bssid="upperApForm.bssid"
-                                     :options="processedUpperApList"
-                                     :loading="selectIsLoading"
-                                     :loadingText="loadingText" />
+                    <m-scan-upper-select label="SSID"
+                                         :placeholder="$t('trans1182')"
+                                         type='text'
+                                         @change="selectedChange"
+                                         @scanApclient="startApclientScan"
+                                         :popupTop='$store.state.isMobile'
+                                         :bssid="upperApForm.bssid"
+                                         :options="processedUpperApList"
+                                         :loading="selectIsLoading"
+                                         :loadingText="loadingText" />
                   </m-form-item>
                   <m-form-item v-show="!pwdDisabled"
                                prop="upperApForm.password">
@@ -79,7 +86,7 @@
         <div class="form-button__wrapper">
           <button class="btn primary"
                   v-defaultbutton
-                  @click="updateMode"
+                  @click="checkWanStatus"
                   :disabled="saveDisable">{{$t('trans0081')}}</button>
         </div>
       </div>
@@ -88,8 +95,8 @@
   </div>
 </template>
 <script>
-import { EncryptMethod, RouterMode } from 'base/util/constant';
-import SettingUpperAp from '@/mixins/setting-upperAp';
+import { EncryptMethod, RouterMode, WanNetStatus } from 'base/util/constant';
+import SettingUpperAp from 'base/mixins/setting-upperAp';
 
 const UpperApInitForm = {
   ssid: '', // 必选
@@ -106,6 +113,7 @@ export default {
     return {
       EncryptMethod,
       RouterMode,
+      WanNetStatus,
       currentMode: '',
       modeHasChange: false,
       saveDisable: false,
@@ -118,10 +126,6 @@ export default {
         {
           text: this.$t('trans1131'),
           value: 'bridge'
-        },
-        {
-          text: this.$t('trans1130'),
-          value: 'wireless_bridge'
         }
       ],
       currentUpperInfo: {
@@ -130,7 +134,8 @@ export default {
         security: EncryptMethod.OPEN,
         password: ''
       },
-      originalUpperList: []
+      originalUpperList: [],
+      meshStatusNeedChange: false
     };
   },
   mounted() {
@@ -150,6 +155,16 @@ export default {
       this.modeHasChange = true;
       this.pwdDisabled = true;
 
+      console.log(this.currentMode, nv);
+      if (this.currentMode === RouterMode.wirelessBridge ||
+        nv === RouterMode.wirelessBridge
+      ) {
+        this.meshStatusNeedChange = true;
+      } else {
+        this.meshStatusNeedChange = false;
+      }
+      console.log(this.meshStatusNeedChange);
+
       switch (nv) {
         case RouterMode.wirelessBridge:
           this.saveDisable = true;
@@ -166,7 +181,16 @@ export default {
       return this.currentUpperInfo.security !== EncryptMethod.OPEN
         ? this.currentUpperInfo.password
         : '-';
-    }
+    },
+    isRouterMode() {
+      return this.mode === RouterMode.router;
+    },
+    isBridgeMode() {
+      return this.mode === RouterMode.bridge;
+    },
+    isWirelessBridgeMode() {
+      return this.mode === RouterMode.wirelessBridge;
+    },
   },
   methods: {
     getMode() {
@@ -175,72 +199,62 @@ export default {
         .getMeshMode()
         .then(res => {
           const {
-            data: { result }
+            data: { result: { mode, apclient } }
           } = res;
-          if (result.mode === RouterMode.wirelessBridge) {
-            this.currentUpperInfo.ssid = result.apclient.ssid;
-            this.currentUpperInfo.password = result.apclient.password;
-            this.currentUpperInfo.security = result.apclient.security;
+
+          this.mode = mode;
+          this.currentMode = mode;
+
+          if (this.isWirelessBridgeMode) {
+            this.currentUpperInfo.ssid = apclient.ssid;
+            this.currentUpperInfo.password = apclient.password;
+            this.currentUpperInfo.security = apclient.security;
             this.currentUpperInfo.show = true;
             console.log('upperApform', this.upperApForm);
           }
-          this.mode = result.mode;
-          this.currentMode = result.mode;
-          this.$loading.close();
         })
-        .catch(() => {
+        .finally(() => {
           this.$loading.close();
         });
     },
     updateMode() {
-      switch (this.mode) {
-        // 如果提交的mode为有线桥，就要检测是否插入网线，未插入就提示用户
-        case RouterMode.bridge:
-        case RouterMode.router:
-          this.$dialog.confirm({
-            okText: this.$t('trans0024'),
-            cancelText: this.$t('trans0025'),
-            // 提示为切换模式网络会中断
-            message: this.$t('trans0229'),
-            callback: {
-              ok: () => {
-                this.confirmUpdateMeshMode({ mode: this.mode });
-              }
+      if (this.isBridgeMode) {
+        this.$dialog.confirm({
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0025'),
+          message: `${this.$t('trans1212')}\n${this.$t('trans0229')}`,
+          callback: {
+            ok: () => {
+              this.checkMeshStatus();
             }
-          });
-
-          break;
-        case RouterMode.wirelessBridge:
-          if (this.$refs.upperApForm.validate()) {
-            this.$dialog.confirm({
-              okText: this.$t('trans0024'),
-              cancelText: this.$t('trans0025'),
-              // 提示为可能会让网络不可用
-              message: this.$t('trans0229'),
-              callback: {
-                ok: () => {
-                  this.connectUpperAp('modeChange');
-                }
-              }
-            });
           }
-          break;
-        default:
-          break;
+        });
+      } else {
+        this.$dialog.confirm({
+          okText: this.$t('trans0024'),
+          cancelText: this.$t('trans0025'),
+          message: this.$t('trans0229'),
+          callback: {
+            ok: () => {
+              this.checkMeshStatus();
+            }
+          }
+        });
       }
     },
     confirmUpdateMeshMode(params) {
-      // if (params.mode === HomewayWorkModel.bridge) {
-      //   this.$loading.open();
-      // }
       this.$loading.open();
+
       this.$http
         .updateMeshMode(params)
         .then(() => {
-          this.$store.mode = params.mode;
+          this.$store.state.changeMode = true;
+          this.$store.state.mode = params.mode;
           localStorage.setItem('mode', params.mode);
+
           this.$reconnect({
             timeout: 120,
+            delayTime: 30, // 95秒后检测更改模式是否成功
             onsuccess: () => {
               this.$toast(this.$t('trans0040'), 3000, 'success');
               // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
@@ -251,9 +265,61 @@ export default {
             }
           });
         })
+        .catch(() => {
+          this.$store.state.changeMode = false;
+        })
         .finally(() => {
           this.$loading.close();
         });
+    },
+    checkWanStatus() {
+      if (this.isWirelessBridgeMode) {
+        this.wirelessBridgeModeHandler();
+      } else {
+        this.updateMode();
+      }
+    },
+    wirelessBridgeModeHandler() {
+      if (this.$refs.upperApForm.validate()) {
+        if (this.modeHasChange) {
+          this.$http.getWanStatus()
+            .then(res => {
+              const { result: { status: wanStatus } } = res.data;
+              const wanIsUnlinked = wanStatus === WanNetStatus.unlinked;
+
+              if (this.isWirelessBridgeMode && !wanIsUnlinked) {
+                this.$toast(this.$t('trans1189'), 3000);
+              } else {
+                this.updateMode();
+              }
+            });
+        } else {
+          this.updateMode();
+        }
+      }
+    },
+    checkMeshStatus() {
+      console.log(this.meshStatusNeedChange);
+      if (this.meshStatusNeedChange) {
+        const params = {
+          enable: this.mode === RouterMode.wirelessBridge ? 0 : 1
+        };
+        this.$loading.open();
+
+        this.$http.updateMeshEnabled(params)
+          .then(() => {
+            this.meshStatusNeedChange = false;
+            if (this.mode === RouterMode.wirelessBridge) {
+              this.connectUpperAp(this.mode);
+            } else {
+              this.confirmUpdateMeshMode({ mode: this.mode });
+            }
+          });
+      } else if (this.mode === RouterMode.wirelessBridge) {
+        this.connectUpperAp(this.mode, 'modeChange', true);
+      } else {
+        this.confirmUpdateMeshMode({ mode: this.mode });
+      }
     }
   }
 };
@@ -270,31 +336,39 @@ export default {
 }
 .upperApForm {
   .upperApForm__top {
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     .upperApForm__top__upperinfo {
       width: 100%;
-      padding: 10px;
-      background: var(--flex-warp-has-menu-bgc);
       border-radius: 4px;
       font-size: 14px;
-      .current-pwd {
-        width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+      > div {
+        display: flex;
+        flex-direction: column;
+        &:last-child {
+          margin-top: 5px;
+        }
+      }
+      .current-ssid {
+        white-space: pre;
+        .content {
+          white-space: pre;
+        }
       }
     }
     .title {
-      margin-right: 10px;
-      color: var(--dashboard-gery-color);
+      color: var(--dashboard_gery-color);
     }
     .content {
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
       font-weight: 600;
     }
   }
   .upperApForm__bottom {
     .tips {
-      color: var(--text-default-color);
+      color: var(--text_default-color);
       font-size: 12px;
     }
   }

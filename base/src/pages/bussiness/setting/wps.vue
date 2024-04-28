@@ -1,64 +1,102 @@
 <template>
-  <div class="page wps">
-    <div class="page-header">
-      {{$t('trans0794')}}
+  <div class="page">
+    <div v-if="$store.state.isMobile"
+         class='page-header'>
+      {{$t('trans1168')}}
     </div>
     <div class="page-content">
-      <!-- <label class="wps__label">{{$t('trans0792')}}</label> -->
-      <button class="btn"
-              :disabled="started"
-              @click="start()">{{btnText}}</button>
-    </div>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card">
+            <m-form-item class="last">
+              <h4>{{$t('trans1168')}}</h4>
+              <p class="des-tips">{{$t('trans1169')}}</p>
+            </m-form-item>
+          </div>
+        </div>
+        <div class="row-2">
+          <div class="card">
+            <m-form ref="form"
+                    class='form'>
+              <m-form-item class="last">
+                <m-select :label="$t('trans1170')"
+                          v-model="wpsBand"
+                          :options="bandList"></m-select>
+                <p class="des-tips">{{$t('trans1171')}}</p>
+              </m-form-item>
+            </m-form>
+          </div>
+        </div>
 
+      </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn"
+                  v-defaultbutton
+                  @click="submit()">{{$t('trans0081')}}</button>
+        </div>
+      </div>
+
+    </div>
   </div>
 </template>
-
 <script>
-const WPS_DURATION = 120;
+import { debounce } from 'base/util/util';
+
 export default {
   data() {
     return {
-      started: false,
-      duration: WPS_DURATION
+      wpsBand: '2g',
+      bandList: [
+        { value: '2g', text: this.$t('trans0677') },
+        { value: '5g', text: this.$t('trans0679') }
+      ]
     };
   },
-  computed: {
-    btnText() {
-      if (this.started) {
-        return `${this.$t('trans0792')} (${this.duration})`;
-      }
-      return this.$t('trans0792');
-    }
+  mounted() {
+    this.getWps();
   },
   methods: {
-    start() {
-      if (!this.started) {
-        this.$http.startWPS().then(() => {
-          this.started = true;
-          this.timer = setInterval(() => {
-            this.duration -= 1;
-            if (this.duration <= 0) {
-              this.started = false;
-              this.duration = WPS_DURATION;
-              clearInterval(this.timer);
-            }
-          }, 1000);
+    async getWps() {
+      try {
+        this.$loading.open();
+        const response = await this.$http.getMeshWps();
+        const {
+          data: {
+            result: { bands }
+          }
+        } = response;
+        let showFirst = false;
+        bands.forEach(item => {
+          if (item.wps_enabled) {
+            this.wpsBand = item.band;
+            if (item.band === '2g') showFirst = true;
+          }
         });
+        if (showFirst) this.wpsBand = '2g';
+      } catch (error) {
+        console.error(error);
+      } finally {
+        this.$loading.close();
       }
-    }
+    },
+    submit: debounce(function updateWps() {
+      this.$loading.open();
+      this.$http
+        .updateMeshWps({ band: this.wpsBand, wps_enabled: true })
+        .then(() => {
+          this.$toast(this.$t('trans0040'), 3000, 'success');
+        })
+        .finally(() => {
+          this.$loading.close();
+        });
+    }, 500)
   }
 };
 </script>
 <style lang="scss" scoped>
-.page-content {
-  .wps__label {
-    width: 340px;
-    text-align: left;
-    display: block;
-    margin-bottom: 10px;
-    font-size: 14px;
-    font-weight: bold;
-    color: #333;
-  }
+h4 {
+  margin: 0;
+  padding: 0;
 }
 </style>

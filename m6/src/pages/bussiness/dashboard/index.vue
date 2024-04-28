@@ -1,194 +1,211 @@
 <template>
   <div class="dashboard customized">
-    <div v-if="isMobile"
-         class="mobile-net-info">
-      <div class="mobile-net-info__inner">
-        <div class="device-container">
-          <div class="icon-container">
-            <img src="@/assets/images/icon/ic_device.png"
-                 alt="" />
+    <div class="net-info">
+      <div class="device inner">
+        <div class="card"
+             @click="forward2page('/dashboard/device/primary')">
+          <div class="row-1">
+            <h2 class="main-text">{{$t('trans0174')}}</h2>
           </div>
-        </div>
-        <div class="line-container">
-          <div class="line"></div>
-        </div>
-        <div class="wifi-container">
-          <div class="icon-container">
-            <img :src="getWifiIcon( MODEL)"
-                 alt="" />
+          <div class="row-2">
+            <div class="devices-num">{{deviceCount}}</div>
           </div>
-        </div>
-        <div class="line-container">
-          <div class="line"
-               :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
-            <div class="icon-unconnected-container"
-                 @click.stop="showTips()">
+          <div class="row-3">
+            <div class="current-device-info"
+                 :class="{'empty':!localDeviceInfo.online_info.band}">
+              <m-loading v-if="deviceLoading"
+                         :id="'deviceLoading'"
+                         :color="'#29b96c'"
+                         :size='20'
+                         class="deviceLoading"></m-loading>
+              <div v-else
+                   class="info">
+                <div class="device-name"
+                     :title="localDeviceInfo.name">
+                  <img class="current-device-icon"
+                       :src="require('base/assets/images/icon/ic_local-device.svg')" />
+                  {{localDeviceInfo.name}}
+                </div>
+                <div class="other">
+                  <div class="band"
+                       :class="{'wired':isWired}">
+                    {{bandMap[`${localDeviceInfo.online_info.band}`] }}</div>
+                  <div class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div class="internet-container">
-          <div class="icon-container">
-            <img src="@/assets/images/icon/ic_internet.png"
-                 alt="" />
           </div>
         </div>
       </div>
-    </div>
-    <div class="laptop-net-info">
-      <ul class="laptop-net-info__inner">
-        <li @click="forward2page('/dashboard/device/primary')"
-            class="functional-module device-container">
-          <div class="icon-container">
-            <img src="@/assets/images/icon/ic_device.png"
-                 alt="">
-          </div>
-          <div class="text-container">
-            <h3 class="main-text">{{$t('trans0174')}}</h3>
-          </div>
-          <div class="devices-num">
-            <span>{{deviceCount}}</span>
-          </div>
-          <div class="current-device-info-container"
-               :class="{'empty':!localDeviceInfo.online_info.band}">
-            <div v-if="deviceLoading"
-                 class="loading-container">
-              <m-loading :id="'deviceLoading'"
-                         :color="'#29b96c'"
-                         :size='20'></m-loading>
-            </div>
-            <div v-else
-                 class="info-wrap">
-              <div class="name"
-                   :title="localDeviceInfo.name">
-                <div class="current-icon">
-                  <img src="@/assets/images/icon/ic_local-device.svg"
-                       alt="">
-                </div>
-                <span>{{localDeviceInfo.name}}
-                </span>
-              </div>
-              <div class="info">
-                <div class="band">{{bandMap[`${localDeviceInfo.online_info.band}`] }}</div>
-                <div v-if="!isWired"
-                     class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-        <li class="line-container">
+      <div class="mesh inner">
+        <div class="line-wrapper left"
+             v-if="!isMobile">
           <div class="line"></div>
-        </li>
-        <li @click="forward2page('/dashboard/mesh/topo')"
-            class="functional-module mesh-container">
-          <div class="icon-container">
-            <img :src="getWifiIcon(MODEL)"
-                 alt="">
-          </div>
-          <div class="text-container">
-            <h3 class="main-text">{{$t('trans0153')}}</h3>
-            <h6 class="sub-text router-type"
-                :title="meshInfo.gatewayName">{{meshInfo.gatewayName?meshInfo.gatewayName:'-'}}</h6>
-          </div>
-          <div class="wifi-container">
-            <div class="wifi-list">
-              <div v-if="meshLoading"
-                   class="loading-container">
-                <m-loading :id="'meshLoading'"
-                           :color="'#29b96c'"
-                           :size="20"></m-loading>
-              </div>
-              <ul v-else>
-                <li class="wifi"
-                    @click.stop="$router.push('/setting/wifi')">
-                  <span class="
-                    wifi__dot"></span>
-                  <span class="wifi__band">{{meshInfo.smartConnect?'Wi-Fi':$t('trans0677')}}:</span>
-                  <span class="wifi__name"
-                        :title="meshInfo.b24gWifi.ssid">{{meshInfo.b24gWifi.ssid}}</span>
-                </li>
-                <li v-if="!meshInfo.smartConnect"
-                    @click.stop="$router.push('/setting/wifi')"
-                    class="wifi">
-                  <span class="wifi__dot"></span>
-                  <span class="wifi__band">{{$t('trans0679')}}:</span>
-                  <span class="wifi__name"
-                        :title="meshInfo.b5gWifi.ssid">{{meshInfo.b5gWifi.ssid}}</span>
-                </li>
-              </ul>
-
-            </div>
-          </div>
-          <div class="add-node-container">
-            <button class="btn btn-default add-btn"
-                    @click.stop="$router.push('/mesh/add')">
-              <span>{{$t('trans1117')}}</span>
-            </button>
-          </div>
-        </li>
-        <li class="line-container">
+        </div>
+        <div class="wrapper">
+          <div class="router__img"
+               :class="$store.state.deviceColor"></div>
+          <div key="mesh-shadow"
+               class="background-shadow"></div>
+        </div>
+        <div class="line-wrapper right"
+             v-if="!isMobile">
           <div class="line"
                :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
-            <div class="icon-unconnected-container"
+            <div v-if="(!isTesting && !isConnected)"
+                 class="icon-unconnected-container"
                  @click.stop="showTips()">
+              <img :src="require('base/assets/images/icon/ic_default_error.png')" />
             </div>
           </div>
-        </li>
-        <li @click="forward2page('/dashboard/internet')"
-            class="functional-module internet-container">
-          <div class="icon-container">
-            <img src="@/assets/images/icon/ic_internet.png"
-                 alt="">
-          </div>
-          <div class="text-container">
-            <h3 class="main-text">{{$t('trans0366')}}</h3>
+        </div>
+        <div class="mobile-icon-wrapper"
+             v-if="isMobile">
+          <span class="btn-icon"
+                :class="{disabled:!meshGatewayInfo.name, close:!meshGatewayInfo.name}"
+                @click.stop="editMesh(meshGatewayInfo)">
+            <i class="iconfont ic_edit"></i>
+          </span>
+          <span class="btn-icon">
+            <m-loading v-if="isTesting"
+                       class="mobile-wan-loading"
+                       :id="'mobileWanLoading'"
+                       :size="20"
+                       :color="'#29b96c'"></m-loading>
+            <div v-else
+                 @click.stop="showTips()">
+              <i class="iconfont ic_internet_light"></i>
+              <i class="sub"
+                 :class="{'connected':isConnected,'unconnected':!isConnected}"></i>
+            </div>
+          </span>
+        </div>
+      </div>
+      <div class="internet inner">
+        <div class="card"
+             @click="forward2page('/dashboard/internet')">
+          <div class="row-1">
+            <h2 class="main-text">{{$t('trans0366')}}</h2>
             <h6 class="sub-text internet-type">{{networkTypeArr[netInfo.type]}}</h6>
           </div>
-          <div v-if="isRouter"
-               class="speed-container">
-            <div class="speed-info upload-wrap">
-              <div class="speed-icon-wrap">
-                <img src="@/assets/images/icon/ic_upload.webp"
-                     alt="">
+          <div class="row-2">
+            <div v-if="isRouter"
+                 class="speed">
+              <div class="speed-info upload">
+                <div class="speed-icon-wrap">
+                  <img :src="require('base/assets/images/icon/ic_upload.png')" />
+                </div>
+                <div class="speed-wrap">
+                  <div>
+                    <span class="speed-num">{{realtimeSpeedUp.value}}</span>
+                    <span class="speed-unit">{{realtimeSpeedUp.unit}}</span>
+                  </div>
+                  <div class="text-wrap">{{$t('trans0006')}}</div>
+                </div>
               </div>
-              <div class="speed-wrap">
-                <div class="speed-text-wrap">{{$t('trans0006')}}</div>
-                <div class="speed-num">{{realtimeSpeedUp.value}}</div>
-                <div class="speed-unit">{{realtimeSpeedUp.unit}}</div>
+              <div class="speed-info download">
+                <div class="speed-icon-wrap">
+                  <img :src="require('base/assets/images/icon/ic_download.png')" />
+                </div>
+                <div class="speed-wrap">
+                  <div>
+                    <span class="speed-num">{{realtimeSpeedDown.value}}</span>
+                    <span class="speed-unit">{{realtimeSpeedDown.unit}}</span>
+                  </div>
+                  <div class="text-wrap">{{$t('trans0007')}}</div>
+                </div>
               </div>
             </div>
-            <div class="line-wrap">
-              <div class="line"></div>
-            </div>
-            <div class="speed-info download-wrap">
-              <div class="speed-icon-wrap">
-                <img src="@/assets/images/icon/ic_download.webp"
-                     alt="">
-              </div>
-              <div class="speed-wrap">
-                <div class="speed-text-wrap">{{$t('trans0007')}}</div>
-                <div class="speed-num">{{realtimeSpeedDown.value}}</div>
-                <div class="speed-unit">{{realtimeSpeedDown.unit}}</div>
-              </div>
+            <div v-else
+                 class="bridge-mode-tip">
+              <img v-if="!isMobile"
+                   :src="require('base/assets/images/common/img_bridge.png')" />
+              <span>{{$t('trans0984')}}</span>
             </div>
           </div>
-          <div v-else
-               class="bridge-mode-tip">
-            {{$t('trans0984')}}
+        </div>
+      </div>
+      <div class="functional">
+        <div class="row-1">
+          <div class="mesh-name"
+               :title="meshGatewayInfo.name">
+            {{meshGatewayInfo.name?meshGatewayInfo.name:'-'}}
           </div>
-        </li>
-      </ul>
+          <span class="btn-icon"
+                :class="{disabled:!meshGatewayInfo.name, close:!meshGatewayInfo.name}"
+                v-if="!isMobile"
+                @click.stop="editMesh(meshGatewayInfo)">
+            <i class="iconfont ic_edit"></i>
+            <span class="icon-hover-popover">{{$t('trans0034')}}</span>
+          </span>
+        </div>
+        <div class="row-2">
+          <div class="model">{{modelName}}</div>
+          <div class="gateway">{{$t('trans0153')}}</div>
+        </div>
+        <div class="row-3">
+          <button class="btn"
+                  @click="forward2page('/dashboard/mesh')">
+            <i class="iconfont icon-ic_devices_mesh_normal"></i>
+            Mesh
+          </button>
+        </div>
+      </div>
     </div>
     <div class="jump-app-info"
+         v-if="isMobile"
          @click="jumpApp">
-      <div class="icon mercku">
-        <img :src="launcherIconSrc">
+      <div class="wrapper">
+        <div class="icon mercku">
+          <img :src="require(`base/assets/images/customer/${ispFolderName}/ic_launcher.png`)" />
+        </div>
+        <div class="text-container">{{transText($t('trans1118'))}}</div>
       </div>
-      <div class="text-container">{{openInAppText}}</div>
-      <div class="icon qr">
-        <img :src="qrImgSrc">
-      </div>
+
     </div>
+    <!-- mesh编辑弹窗 -->
+    <m-modal :visible.sync="showMeshEditModal"
+             :type="'confirm'"
+             class="edit-name-modal">
+      <m-modal-body class="content">
+        <m-form :model="form"
+                class="form"
+                :rules="rules"
+                ref="form">
+          <m-form-item prop="name">
+            <m-editable-select :options="options"
+                               :label="$t('trans0108')"
+                               v-model="form.name"></m-editable-select>
+          </m-form-item>
+          <m-form-item prop="color">
+            <div class="color-select">
+              <h4 class="label">{{$t('trans1214')}}</h4>
+              <ul class="color-select__wrapper reset-ul">
+                <li v-for="(color,index) in availableDeviceColors"
+                    :key="index"
+                    class="limit-icon">
+                  <div class="color"
+                       :class="{selected:selectedColorName===color.name,
+                                'light-color':color.name===RouterColor.white}"
+                       :style="{backgroundImage:color.value}"
+                       @click="changeDeviceColor(color)">
+                  </div>
+                  <span class="hover-popover"> {{color.name}}</span>
+                </li>
+              </ul>
+            </div>
+          </m-form-item>
+        </m-form>
+        <div class="btn-inner">
+          <button @click="closeMeshEditModal"
+                  class="btn btn-default">{{$t('trans0025')}}</button>
+          <button @click="updateMehsNode(meshGatewayInfo,form.name)"
+                  class="btn">{{$t('trans0024')}}</button>
+        </div>
+      </m-modal-body>
+    </m-modal>
+    <!-- 无网弹窗 -->
     <m-modal :visible.sync="tipsModalVisible">
       <m-modal-body>
         <div class="tip-modal">
@@ -207,17 +224,19 @@
 </template>
 <script>
 import marked from 'marked';
-import * as CONSTANTS from 'base/util/constant';
+import { WanNetStatus, RouterMode } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
+import meshEditMixin from 'base/mixins/mesh-edit.js';
+import routerModelMixin from 'base/mixins/router-model.js';
+
 
 export default {
+  mixins: [meshEditMixin, routerModelMixin],
   data() {
     return {
-      CONSTANTS,
-      netStatus: CONSTANTS.WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
+      netStatus: WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       pageActive: true,
       deviceLoading: true,
-      meshLoading: true,
       ssid: '',
       deviceCount: '-',
       deviceCountTimer: null,
@@ -231,11 +250,9 @@ export default {
           online_duration: ''
         }
       },
-      meshInfo: {
-        smartConnect: true,
-        gatewayName: '',
-        b24gWifi: { ssid: '' },
-        b5gWifi: { ssid: '' }
+      meshGatewayInfo: {
+        name: '',
+        sn: ''
       },
       netInfo: {
         type: '-',
@@ -257,16 +274,22 @@ export default {
     };
   },
   computed: {
-    MODEL() {
-      return process.env.MODEL_CONFIG.id;
+    modelName() {
+      const modelId = this.$store.state.meshId.slice(0, 2);
+      const modelVersion = this.$store.state.meshId.charAt(9);
+      const productInfo = this.productsInfo(modelId, modelVersion);
+      if (productInfo) {
+        return productInfo.shortName;
+      }
+      return '';
     },
     isMobile() {
       return this.$store.state.isMobile;
     },
     ...(() => {
       const result = {};
-      Object.keys(CONSTANTS.WanNetStatus).forEach(key => {
-        const value = CONSTANTS.WanNetStatus[key];
+      Object.keys(WanNetStatus).forEach(key => {
+        const value = WanNetStatus[key];
         const prop = value.slice(0, 1).toUpperCase() + value.slice(1);
         result[`is${prop}`] = function temp() {
           return this.netStatus === value;
@@ -275,13 +298,13 @@ export default {
       return result;
     })(),
     isRouter() {
-      return CONSTANTS.RouterMode.router === this.$store.state.mode;
+      return RouterMode.router === this.$store.state.mode;
     },
     tips() {
       return marked(this.$t('trans0574'), { sanitize: true });
     },
     isConnected() {
-      return this.netStatus === CONSTANTS.WanNetStatus.connected;
+      return this.netStatus === WanNetStatus.connected;
     },
     isWired() {
       return this.localDeviceInfo.online_info.band === 'wired';
@@ -292,25 +315,16 @@ export default {
     realtimeSpeedDown() {
       return this.formatSpeed(this.netInfo.realDown);
     },
-    folderName() {
+    ispFolderName() {
       return process.env.CUSTOMER_CONFIG.title.toLowerCase();
     },
-    launcherIconSrc() {
-      return require(`@/assets/images/customer/${this.folderName}/ic_launcher.png`);
-    },
-    qrImgSrc() {
-      return require(`@/assets/images/customer/${this.folderName}/qr.png`);
-    },
-    openInAppText() {
-      return this.$t('trans1118').replaceAll('%s', process.env.CUSTOMER_CONFIG.title);
-    }
   },
   mounted() {
-    this.getMeshInfo();
     this.getWanNetInfo();
     this.createIntercvalTask();
     this.getWanStatus();
     this.getLocalDeviceInfo();
+    this.getMeshInfo();
   },
   watch: {
     '$store.mode': function watcher() {
@@ -320,12 +334,7 @@ export default {
     },
     netStatus: {
       handler(val) {
-        console.log(val);
-        if (val === CONSTANTS.WanNetStatus.connected) {
-          this.$store.state.isConnected = true;
-        } else {
-          this.$store.state.isConnected = false;
-        }
+        this.$store.state.isConnected = val === WanNetStatus.connected;
       }
     }
   },
@@ -342,35 +351,52 @@ export default {
     });
   },
   methods: {
-    checkFrimwareLatest() {
-      this.$http
-        .firmwareList(undefined, {
+    async checkFirmwareLatest() {
+      try {
+        const res = await this.$http.firmwareList(undefined, {
           hideToast: true
-        })
-        .then(res => {
-          let nodes = res.data.result;
-          const filter = node => {
-            const { current, latest } = node.version;
-            return compareVersion(current, latest);
-          };
-          nodes = nodes.filter(filter);
-          if (nodes.length) {
-            this.$dialog.confirm({
-              okText: this.$t('trans0225'),
-              cancelText: this.$t('trans0025'),
-              message: this.$t('trans0383'),
-              callback: {
-                ok: () => {
-                  this.$router.push({ path: '/upgrade/online' });
-                }
-              }
-            });
+        });
+
+        const nodes = res.data.result;
+        const nodesToUpdate = nodes.filter(node => {
+          const { current, latest } = node.version;
+          return compareVersion(current, latest);
+        });
+
+        if (nodesToUpdate.length > 0) {
+          await this.showFirmwareUpdateDialog();
+        }
+      } catch (error) {
+        console.error('Error fetching firmware list:', error);
+      }
+    },
+    async showFirmwareUpdateDialog() {
+      try {
+        await this.$dialog.confirm({
+          okText: this.$t('trans0225'),
+          cancelText: this.$t('trans0025'),
+          message: this.$t('trans0383'),
+          callback: {
+            ok: () => {
+              this.$router.push({ path: '/upgrade/online' });
+            }
           }
-        })
-        .catch(() => {});
+        });
+      } catch (error) {
+        console.error('Error showing firmware update dialog:', error);
+      }
+    },
+    editMesh() {
+      if (!this.meshGatewayInfo.name) return;
+      this.form.name = this.meshGatewayInfo.name;
+      this.showMeshEditModal = true;
     },
     showTips() {
-      this.tipsModalVisible = true;
+      if (this.isConnected) {
+        this.$toast(this.$t('trans1190'), 1500, 'success');
+      } else if (!this.isTesting) {
+        this.tipsModalVisible = true;
+      }
     },
     forward2page(url) {
       this.$router.push({ path: url });
@@ -388,152 +414,123 @@ export default {
       clearTimeout(this.wanNetStatsTimer);
       this.wanNetStatsTimer = null;
     },
-    getMeshInfo() {
-      this.meshLoading = true;
-      this.$http.getMeshNode().then(res1 => {
-        const {
-          data: { result: meshNodeList }
-        } = res1;
-        const { 0: gatewayInfo } = meshNodeList.filter(item => item.is_gw);
-        console.log(gatewayInfo.name);
-        this.meshInfo.gatewayName = gatewayInfo.name;
-      });
-      this.$http
-        .getMeshMeta()
-        .then(res2 => {
-          const {
-            data: {
-              result: { smart_connect: smartConnect }
-            }
-          } = res2;
-          this.meshInfo.smartConnect = smartConnect;
-          this.meshInfo.b24gWifi = res2.data.result.bands[CONSTANTS.Bands.b24g];
-          if (!smartConnect) {
-            this.meshInfo.b5gWifi = res2.data.result.bands[CONSTANTS.Bands.b5g];
-          }
-        })
-        .finally(() => {
-          this.meshLoading = false;
-        });
+    async getMeshInfo() {
+      try {
+        const res1 = await this.$http.getMeshNode();
+        const meshNodeList = res1.data.result;
+
+        const gatewayInfo = meshNodeList.find(item => item.is_gw);
+        if (gatewayInfo) {
+          this.meshGatewayInfo.name = gatewayInfo.name;
+          this.meshGatewayInfo.sn = gatewayInfo.sn;
+        }
+      } catch (error) {
+        console.error('Error fetching mesh info:', error);
+      }
     },
-    getDeviceCount() {
+    async getDeviceCount() {
       clearTimeout(this.deviceCountTimer);
-      this.deviceCountTimer = null;
-      this.$http
-        .getDeviceCount({
+
+      try {
+        const res = await this.$http.getDeviceCount({
           filters: [
             { type: 'primary', status: ['online'] },
             { type: 'guest', status: ['online'] }
           ]
-        })
-        .then(res => {
-          this.deviceCount = res.data.result.count;
-          if (this.pageActive) {
-            this.deviceCountTimer = setTimeout(() => {
-              this.getDeviceCount();
-            }, 10000);
-          }
-        })
-        .catch(() => {
-          if (this.pageActive) {
-            this.deviceCountTimer = setTimeout(() => {
-              this.getDeviceCount();
-            }, 10000);
-          }
         });
+
+        this.deviceCount = res.data.result.count;
+      } catch (error) {
+        console.error('Error fetching device count:', error);
+      } finally {
+        if (this.pageActive) {
+          this.deviceCountTimer = setTimeout(() => {
+            this.getDeviceCount();
+          }, 10000);
+        }
+      }
     },
     getWanStatus() {
-      this.netStatus = CONSTANTS.WanNetStatus.testing;
+      this.netStatus = WanNetStatus.testing;
       const timer = setTimeout(() => {
         this.$http
           .getWanStatus()
           .then(res => {
             clearTimeout(timer);
             this.netStatus = res.data.result.status;
-            if (this.isConnected && this.pageActive && this.needCheckUpgradable) {
-              this.checkFrimwareLatest();
+            if (
+              this.isConnected &&
+              this.pageActive &&
+              this.needCheckUpgradable
+            ) {
+              this.checkFirmwareLatest();
             }
           })
           .catch(() => {
             clearTimeout(timer);
-            this.netStatus = CONSTANTS.WanNetStatus.unlinked;
+            this.netStatus = WanNetStatus.unlinked;
           });
       }, 1000);
     },
-    getLocalDeviceInfo() {
-      this.deviceLoading = true;
-      this.$http.getLocalDevice().then(res1 => {
-        const {
-          data: { result: selfInfo }
-        } = res1;
-        console.log('selfInfo', selfInfo);
+    async getLocalDeviceInfo() {
+      try {
+        this.deviceLoading = true;
+
+        const res1 = await this.$http.getLocalDevice();
+        const selfInfo = res1.data.result;
         this.localDeviceIP = selfInfo.ip;
+
         const params = { filters: [{ type: 'primary', status: ['online'] }] };
-        this.$http
-          .getDeviceList(params)
-          .then(res2 => {
-            const {
-              data: { result: deviceList }
-            } = res2;
-            console.log(deviceList);
-            const localDeviceInfoArr = deviceList.filter(item => item.ip === selfInfo.ip);
-            console.log(localDeviceInfoArr);
-            if (localDeviceInfoArr.length) {
-              // eslint-disable-next-line prefer-destructuring
-              this.localDeviceInfo = localDeviceInfoArr[0];
-            }
-          })
-          .finally(() => {
-            this.deviceLoading = false;
-          });
-      });
+        const res2 = await this.$http.getDeviceList(params);
+        const deviceList = res2.data.result;
+
+        const localDeviceInfoArr = deviceList.filter(
+          item => item.ip === selfInfo.ip
+        );
+
+        if (localDeviceInfoArr.length > 0) {
+          [this.localDeviceInfo] = localDeviceInfoArr;
+        }
+      } catch (error) {
+        console.error('Error fetching local device info:', error);
+      } finally {
+        this.deviceLoading = false;
+      }
     },
-    getWanNetInfo() {
-      this.$http
-        .getWanNetInfo()
-        .then(res => {
-          this.wanInfoTimer = null;
-          clearTimeout(this.wanInfoTimer);
-          this.netInfo.type = res.data.result.type ? res.data.result.type : '-';
-        })
-        .catch(() => {
+    async getWanNetInfo() {
+      try {
+        const res = await this.$http.getWanNetInfo();
+        this.netInfo.type = res.data.result.type || '-';
+
+        clearTimeout(this.wanInfoTimer);
+        this.wanInfoTimer = null;
+      } catch {
+        if (!this.wanInfoTimer) {
           this.wanInfoTimer = setTimeout(() => {
             this.getWanNetInfo();
           }, 1000 * 3);
-        });
-    },
-    getWanNetStats() {
-      clearTimeout(this.wanNetStatsTimer);
-      this.wanNetStatsTimer = null;
-      this.$http
-        .getWanNetStats()
-        .then(res => {
-          if (this.pageActive) {
-            this.netInfo.realUp = res.data.result.speed.realtime.up;
-            this.netInfo.realDown = res.data.result.speed.realtime.down;
-            this.wanNetStatsTimer = setTimeout(() => {
-              this.getWanNetStats();
-            }, 10000);
-          }
-        })
-        .catch(() => {
-          if (this.pageActive) {
-            this.wanNetStatsTimer = setTimeout(() => {
-              this.getWanNetStats();
-            }, 10000);
-          }
-        });
-    },
-    getWifiIcon(model) {
-      let image = '';
-      switch (model) {
-        case CONSTANTS.Models.m6:
-          image = require('@/assets/images/icon/ic_homepage_m6.svg');
-          break;
-        default:
-          break;
+        }
       }
-      return image;
+    },
+    async getWanNetStats() {
+      clearTimeout(this.wanNetStatsTimer);
+
+      try {
+        const res = await this.$http.getWanNetStats();
+        if (this.pageActive) {
+          this.netInfo.realUp = res.data.result.speed.realtime.up;
+          this.netInfo.realDown = res.data.result.speed.realtime.down;
+          this.wanNetStatsTimer = setTimeout(() => {
+            this.getWanNetStats();
+          }, 10000);
+        }
+      } catch {
+        if (this.pageActive) {
+          this.wanNetStatsTimer = setTimeout(() => {
+            this.getWanNetStats();
+          }, 10000);
+        }
+      }
     },
     transformDate(date) {
       if (!date) {
@@ -550,17 +547,29 @@ export default {
       }
       // 小于1天大于1小时
       if (date <= split[0] && date > split[1]) {
-        return `${this.$t('trans0013').replace('%d', parseInt(date / split[1], 10))}`;
+        return `${this.$t('trans0013').replace(
+          '%d',
+          parseInt(date / split[1], 10)
+        )}`;
       }
       // 小于1小时大于1分钟
       if (date <= split[1] && date > split[2]) {
-        return `${this.$t('trans0012').replace('%d', parseInt(date / split[2], 10))}`;
+        return `${this.$t('trans0012').replace(
+          '%d',
+          parseInt(date / split[2], 10)
+        )}`;
       }
       // 小于1分钟大于5秒
       if (date <= split[2] && date > split[3]) {
         return `${this.$t('trans0011').replace('%d', parseInt(date, 10))}`;
       }
       return `${this.$t('trans0010')}`;
+    },
+    transText(text) {
+      return this.$t(text).replaceAll(
+        '%s',
+        process.env.CUSTOMER_CONFIG.title
+      );
     },
     jumpApp() {
       if (!this.$store.state.isMobile) return;
@@ -574,13 +583,62 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
+h2,
+h4,
+h6 {
+  padding: 0;
+  margin: 0;
+}
+.btn-icon {
+  margin: 0;
+  font-weight: 500;
+}
 @keyframes speed-test-line {
   from {
     width: 0%;
   }
   to {
     width: 100%;
+  }
+}
+@keyframes circle-out-center {
+  from {
+    clip-path: circle(0%);
+  }
+  to {
+    clip-path: circle(125%);
+  }
+}
+@import '../../../../../base/src/style/mixin.scss';
+
+$img_folder: '../../../../../base/src/assets/images';
+
+[transition-style='out:circle:center'] {
+  animation: 2.5s cubic-bezier(0.25, 1, 0.3, 1) 0.5s circle-out-center both;
+}
+.edit-name-modal {
+  .content {
+    display: flex;
+    flex-direction: column;
+    .select-container {
+      width: 100%;
+      .select-text {
+        white-space: pre;
+      }
+    }
+    .btn-inner {
+      display: flex;
+      justify-content: center;
+      .btn {
+        width: 120px;
+        height: 42px;
+        &:last-child {
+          margin-left: 30px;
+        }
+      }
+    }
   }
 }
 .tip-modal {
@@ -599,288 +657,42 @@ export default {
     width: auto;
   }
 }
-h3,
-h6,
-ul {
-  margin: 0;
-  padding: 0;
-}
 .dashboard {
-  display: flex;
-  flex-direction: column;
-  flex: auto;
-  position: relative;
-  .mobile-net-info {
-    display: none;
-  }
-  .laptop-net-info {
-    display: block;
-    margin-top: calc(8%);
-    .laptop-net-info__inner {
+  min-height: calc(780px - 65px - 60px);
+  flex: 1;
+  .net-info {
+    display: grid;
+    grid-template-rows: 85% 15%;
+    grid-template-columns: 1fr 1.1fr 1fr;
+    grid-column-gap: 2%;
+    width: 100%;
+    height: 100%;
+    padding: 0 5%;
+    .inner {
       display: flex;
-      justify-content: center;
       align-items: center;
-      list-style: none;
-      > .functional-module {
-        display: flex;
-        flex-direction: column;
-        width: 26%;
-        height: 45vh;
-        max-height: 430px;
-        min-height: 325px;
-        background-color: var(--dashboard-icon-background-color);
-        border-radius: 20px;
-        box-shadow: 0 20px 20px -5px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 2;
+      .card {
+        display: grid;
         position: relative;
-        text-align: center;
-        overflow: hidden;
+        width: 90%;
+        aspect-ratio: 1/1;
+        max-width: 390px;
+        min-width: 300px;
+        max-height: 390px;
+        min-height: 300px;
+        padding: 20px;
+        margin-top: -40px;
+        border-radius: 20px;
         cursor: pointer;
-        .icon-container {
-          position: relative;
-          height: 30%;
-          > img {
-            position: absolute;
-            bottom: 15px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 70px;
-            height: 70px;
-            filter: var(--img-brightness);
-          }
-        }
-        .text-container {
-          height: 20%;
-          padding: 20px 0;
-          .sub-text {
-            width: 87%;
-            margin: 0 auto;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: pre;
-            color: var(--dashboard-gery-color);
-          }
-        }
-        .loading-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 100%;
-          text-align: center;
-          padding: 10px;
-          border-radius: 5px;
-        }
-        &.device-container {
-          .devices-num {
-            height: 25%;
-            font-size: 40px;
-            font-weight: 600;
-            color: var(--text-default-color);
-          }
-          .current-device-info-container {
-            border-radius: 5px;
-            .info-wrap {
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              align-items: center;
-              color: var(--text-default-color);
-              padding: 0 20px;
-            }
-            .name {
-              display: flex;
-              justify-content: center;
-              width: 100%;
-              overflow: hidden;
-              font-size: 16px;
-              font-weight: 500;
-              .current-icon {
-                width: 15px;
-                height: 15px;
-                margin-right: 5px;
-                margin-top: 1px;
-                > img {
-                  width: 100%;
-                  height: 100%;
-                }
-              }
-              > span {
-                max-width: calc(100% - 20px);
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: pre;
-                height: 22px;
-              }
-            }
-            .info {
-              display: flex;
-              align-items: center;
-              font-size: 12px;
-              min-width: 30px;
-              margin-top: 5px;
-              .band {
-                padding: 0 6px;
-                margin-right: 5px;
-                border-radius: 3px;
-                color: #fff;
-                background-color: var(--dashboard-band-background-color);
-              }
-              .uptime {
-                color: var(--dashboard-gery-color);
-              }
-            }
-            &.empty {
-              .info-wrap {
-                .name {
-                  color: var(--dashboard-gery-color);
-                }
-              }
-            }
-          }
-        }
-        &.mesh-container {
-          .wifi-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 30%;
-            .wifi-list {
-              width: 87%;
-
-              padding: 10px;
-              border-radius: 5px;
-              background-color: var(--dashboard-wifi-background-color);
-              .wifi {
-                display: flex;
-                align-items: center;
-                color: var(--dashboard-gery-text-color);
-                .wifi__dot {
-                  width: 10px;
-                  height: 10px;
-                  border-radius: 50%;
-                  background: #29b96c;
-                  margin-right: 5px;
-                }
-                .wifi__band {
-                  width: fit-content;
-                  margin-right: 5px;
-                  font-weight: 550;
-                }
-                .wifi__name {
-                  flex: 1;
-                  overflow: hidden;
-                  text-overflow: ellipsis;
-                  white-space: pre;
-                  text-align: left;
-                }
-              }
-            }
-          }
-          .add-node-container {
-            .add-btn {
-              width: 87%;
-              > span {
-                position: relative;
-                &::before {
-                  content: '';
-                  display: block;
-                  height: 2px;
-                  border-radius: 2px;
-                  width: 15px;
-                  background: var(--button-default-text-color);
-                  position: absolute;
-                  top: 50%;
-                  left: -10px;
-                  transform: translate(-100%, -50%) rotate(0deg);
-                }
-                &::after {
-                  content: '';
-                  display: block;
-                  height: 2px;
-                  border-radius: 2px;
-                  width: 15px;
-                  background: var(--button-default-text-color);
-                  position: absolute;
-                  top: 50%;
-                  left: -10px;
-                  transform: translate(-100%, -50%) rotate(90deg);
-                }
-              }
-              &:hover {
-                > span {
-                  &::before {
-                    background: var(--button-default-hover-text-color);
-                  }
-                  &::after {
-                    background: var(--button-default-hover-text-color);
-                  }
-                }
-              }
-            }
-          }
-        }
-        &.internet-container {
-          .speed-container {
-            display: flex;
-            height: 50%;
-            .line-wrap {
-              display: flex;
-              align-items: center;
-              width: 2px;
-              .line {
-                width: 100%;
-                height: 35px;
-                background-color: var(--dashboard-dividing-line-color);
-              }
-            }
-            .speed-info {
-              flex: 1;
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              align-items: center;
-              .speed-icon-wrap {
-                width: 30px;
-                height: 30px;
-                margin-bottom: 5px;
-                > img {
-                  width: 30px;
-                  height: 30px;
-                }
-              }
-              .speed-wrap {
-                font-weight: 600;
-                color: var(--text-default-color);
-                .speed-text-wrap {
-                  font-size: 12px;
-                  font-weight: 500;
-                  color: var(--dashboard-gery-color);
-                  margin-bottom: 10px;
-                }
-                .speed-num {
-                  font-size: 24px;
-                }
-                .speed-unit {
-                  font-size: 12px;
-                  margin-top: -5px;
-                }
-              }
-            }
-          }
-          .bridge-mode-tip {
-            width: 90%;
-            font-size: 18px;
-            padding: 30px;
-            margin: 45px auto 0;
-            color: var(--bridge-tips-color);
-            background: var(--dashboard-wifi-background-color);
-            border-radius: 10px;
-          }
-        }
+        background-color: var(--common_card-bgc);
+        box-shadow: var(--common_card-boxshadow);
         &::before {
           content: '';
           display: block;
           position: absolute;
-          top: 15px;
+          top: 28px;
           right: 15px;
           width: 3px;
           height: 3px;
@@ -895,21 +707,163 @@ ul {
         }
         &:hover {
           &::before {
-            border-top-color: var(--primaryColor);
-            border-right-color: var(--primaryColor);
+            border-top-color: var(--primary-color);
+            border-right-color: var(--primary-color);
           }
         }
-        ul {
-          list-style: none;
+      }
+      .main-text {
+        font-size: 18px;
+      }
+      .sub-text {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--common_gery-color);
+      }
+    }
+    .device {
+      justify-content: flex-end;
+      .card {
+        grid-template-columns: 100%;
+        grid-template-rows: 50px 2.5fr 1fr;
+      }
+      .row-2,
+      .row-3 {
+        position: relative;
+      }
+      .devices-num {
+        position: absolute;
+        bottom: 20%;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 90px;
+        font-weight: 600;
+        font-family: 'DINAlternate', sans-serif;
+        text-align: center;
+      }
+      .current-device-info {
+        text-align: center;
+        img {
+          width: 16px;
+          height: 16px;
+        }
+        .info {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          margin: 0 auto;
+          width: 100%;
+          min-width: 260px;
+          max-width: 370px;
+        }
+        .device-name {
+          position: relative;
+          height: 24px;
+          padding-left: 20px;
+          font-size: 16px;
+          font-weight: 500;
+          max-width: 100%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          .current-device-icon {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translateY(-52%);
+          }
+        }
+        .other {
+          display: flex;
+          justify-content: center;
+          margin-top: 5px;
+          .band {
+            color: #fff;
+            padding: 0 8px;
+            margin-right: 10px;
+            border-radius: 3px;
+            background-image: linear-gradient(294deg, #1ad692 20%, #03aa56);
+            &.wired {
+              background-image: linear-gradient(294deg, #3da8ff 20%, #0c70b8);
+            }
+          }
+          .uptime {
+            color: var(--common_gery-color);
+          }
+        }
+        &.empty {
+          height: 100%;
         }
       }
-      > .line-container {
-        flex: 1;
+    }
+    .mesh {
+      position: relative;
+      justify-content: center;
+      z-index: 1;
+      .wrapper {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        margin-top: 0px;
+        border-radius: 0;
+        background-color: transparent;
+        box-shadow: none;
+        .router__img {
+          width: 100%;
+          min-width: 350px;
+          max-width: 440px;
+          position: relative;
+          @include aspect(1, 1);
+          z-index: 2;
+        }
+        img {
+          width: inherit;
+          min-width: 350px;
+          max-width: 440px;
+          @include aspect(1, 1);
+          position: relative;
+          z-index: 2;
+        }
+      }
+      .background-shadow {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        z-index: 0;
+        transform: translate(-50%, -50%);
+        z-index: 0;
+        width: 150%;
+        height: 40%;
+        object-fit: contain;
+        background-image: radial-gradient(
+          circle at 50% 150%,
+          rgba(130, 130, 130, 0.62),
+          rgba(214, 214, 214, 0) 70%
+        );
+      }
+      .line-wrapper {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 25%;
+        z-index: 9999;
+        &.left {
+          left: -15px;
+        }
+        &.right {
+          right: -15px;
+        }
         .line {
-          width: 55%;
-          height: 2px;
+          width: 100%;
+          height: 3px;
           background-color: #29b96c;
           margin: 0 auto;
+          border-radius: 20px;
           &.testing {
             position: relative;
             background: none;
@@ -942,11 +896,12 @@ ul {
               position: absolute;
               top: 0;
               left: 0;
-              height: 2px;
+              height: 3px;
               width: 100%;
-              background: var(--dashboard-unlinked-color);
+              background: var(--dashboard_unlinked-color);
               background-size: 10px 2px;
               background-repeat: repeat-x;
+              border-radius: 20px;
             }
             .icon-unconnected-container {
               position: absolute;
@@ -957,166 +912,168 @@ ul {
               flex-direction: column;
               justify-content: center;
               align-items: center;
-              width: 20px;
-              height: 20px;
-              background: var(--dashboard-unconnect-icon-background-color);
+              width: 30px;
+              height: 30px;
+              background: var(--dashboard_unconnect_icon-bgc);
               z-index: 999;
               border-radius: 50%;
               cursor: pointer;
-              &::before {
-                content: '';
-                display: block;
-                height: 2px;
-                border-radius: 2px;
-                width: 10px;
-                background: var(--text-default-color);
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) rotate(45deg);
-              }
-              &::after {
-                content: '';
-                display: block;
-                height: 2px;
-                border-radius: 2px;
-                width: 10px;
-                background: var(--text-default-color);
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) rotate(-45deg);
+              & > img {
+                width: 60%;
+                height: 60%;
               }
             }
           }
         }
       }
     }
-  }
-  .jump-app-info {
-    // position: absolute;
-    // bottom: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    align-self: flex-end;
-    margin-top: calc(7%);
-    margin-right: calc(2%);
-    width: 200px;
-    padding: 10px 10px 10px 20px;
-    border-radius: 10px;
-    background: var(--dashboard-icon-background-color);
-    .text-container {
-      color: var(--text-default-color);
-      width: 90px;
-      // height: 40px;
-    }
-    .icon {
-      width: 70px;
-      height: 70px;
-      img {
+    .internet {
+      justify-content: flex-start;
+      .card {
+        grid-template-columns: 100%;
+        grid-template-rows: 50px 1fr;
+      }
+      .speed {
         width: 100%;
         height: 100%;
       }
-      &.mercku {
-        display: none;
-      }
-      &.qr {
-        display: block;
-      }
-    }
-  }
-}
-// 匹配1440px到无穷大
-@media screen and(min-width:1440px) {
-  .dashboard {
-    .laptop-net-info {
-      .laptop-net-info__inner {
-        padding: 0 220px;
-      }
-    }
-  }
-}
-// 匹配小于1440px
-@media screen and(max-width:1440px) {
-  .dashboard {
-    .laptop-net-info {
-      .laptop-net-info__inner {
-        padding: 0 110px;
-        > .functional-module {
-          > .icon-container {
-            height: 25%;
-            img {
-              width: 50px;
-              height: 50px;
-              bottom: 0;
-            }
+      .speed-info {
+        display: flex;
+        width: 100%;
+        height: 50%;
+        padding-left: 10%;
+        img {
+          width: 40px;
+          height: 40px;
+          margin-right: 10px;
+        }
+        &.upload {
+          align-items: flex-end;
+          padding-bottom: 5%;
+          img {
+            margin-bottom: 7px;
+          }
+        }
+        &.download {
+          align-items: flex-start;
+          padding-top: 5%;
+          img {
+            margin-top: 7px;
           }
         }
       }
+      .speed-wrap {
+        flex: 1;
+        .speed-num {
+          font-size: 40px;
+          margin-right: 6px;
+          font-weight: 600;
+          line-height: 1;
+          font-family: 'DINAlternate', sans-serif;
+        }
+        .speed-unit {
+          font-size: 24px;
+          line-height: 1;
+        }
+      }
+      .text-wrap {
+        color: var(--common_gery-color);
+      }
+      .bridge-mode-tip {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 95%;
+        margin-top: 5%;
+        border-radius: 5px;
+        font-size: 16px;
+        background-color: var(--common_sub_card-bgc);
+        img {
+          width: 120px;
+          height: 120px;
+          margin-bottom: 10px;
+        }
+      }
     }
-  }
-}
-@media screen and(max-width:960px) {
-  .dashboard {
-    font-size: 12px;
-    .laptop-net-info {
-      .laptop-net-info__inner {
-        > .functional-module {
-          height: 50vh;
-          > .icon-container {
-            > img {
-              width: 40px;
-              height: 40px;
-            }
+    .functional {
+      position: relative;
+      display: grid;
+      grid-template-columns: 100%;
+      grid-template-rows: 1fr 30px 1.2fr;
+      grid-area: 2 / 2 / 3 / 3; /* 将盒子  放在第二行的第二列 */
+      width: 100%;
+      height: 140%;
+      margin-top: -11%;
+      z-index: 5;
+      .row-1 {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: fit-content;
+        max-width: calc(400px - 46px);
+        @media screen and (min-width: 1920px) {
+          max-width: calc(550px - 46px);
+        }
+        margin: 0 auto;
+        .mesh-name {
+          width: fit-content;
+          max-width: 100%;
+          height: 45px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          font-size: 28px;
+          font-weight: 600;
+          text-align: center;
+        }
+        .btn-icon {
+          position: absolute;
+          top: 50%;
+          right: -5px;
+          transform: translate(100%, -50%);
+          width: 36px;
+          height: 36px;
+          .iconfont {
+            font-size: 18px;
           }
-          > .text-container {
-            padding: 10px 0;
+        }
+      }
+      .row-2 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 30px;
+        color: #fff;
+        font-family: Helvetica;
+        font-size: 16px;
+        font-weight: bold;
+        > div {
+          border-radius: 5px;
+          padding: 2px 8px;
+          margin-right: 5px;
+          &:last-child {
+            margin: 0;
           }
-          &.device-container {
-            .devices-num {
-              font-size: 30px;
-            }
-            .current-device-info-container {
-              .name {
-                width: 90%;
-                font-size: 12px;
-              }
-              &.empty {
-                .name {
-                  width: 100%;
-                }
-              }
-            }
-          }
-          &.mesh-container {
-            .text-container {
-              height: fit-content;
-              padding-bottom: 10px;
-            }
-            .wifi-container {
-              height: 20%;
-            }
-            .add-node-container {
-              margin-top: 10px;
-            }
-          }
-          &.internet-container {
-            .speed-container {
-              .speed-info {
-                padding: 0;
-                .speed-wrap {
-                  .speed-num {
-                    font-size: 20px;
-                  }
-                }
-              }
-            }
-            .bridge-mode-tip {
-              font-size: 16px;
-              padding: 15px;
-              margin: 25px auto 0;
-            }
+        }
+        .model {
+          background-image: linear-gradient(117deg, #97006a, #f45199 100%);
+        }
+        .gateway {
+          background-image: linear-gradient(97deg, #50cc83 6%, #3cc146 90%);
+        }
+      }
+      .row-3 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .btn {
+          width: 240px;
+          font-weight: 700;
+          i {
+            margin-right: 5px;
           }
         }
       }
@@ -1125,308 +1082,223 @@ ul {
 }
 @media screen and (max-width: 768px) {
   .dashboard {
-    .mobile-net-info {
-      display: block;
-      height: 150px;
-      position: relative;
-      .mobile-net-info__inner {
-        display: flex;
-        padding: 0 20px;
-        width: 100%;
-        height: 150px;
-        align-items: center;
-        position: absolute;
-        top: 0;
-        left: 0;
-        .icon-container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 75px;
-          height: 75px;
-          margin: -20px auto 0;
-          border-radius: 50%;
-          background: var(--dashboard-icon-background-color);
-          overflow: hidden;
-          img {
-            width: 60%;
-            height: 60%;
-            display: block;
-            filter: var(--img-brightness);
-          }
-        }
-        .line-container {
-          flex: 1;
-          .line {
-            width: 73%;
-            height: 2px;
-            margin: 0 auto;
-            text-align: center;
-            position: relative;
-            transform: translateY(-10px);
-            background: #29b96c;
-            &.testing {
-              position: relative;
-              background: none;
-              &::after {
-                content: '';
-                display: block;
-                position: absolute;
-                top: 0;
-                left: 0;
-                height: 2px;
-                width: 100%;
-                background: linear-gradient(
-                  to right,
-                  #29b96c 0%,
-                  #29b96c 50%,
-                  transparent 50%
-                );
-                background-size: 10px 2px;
-                background-repeat: repeat-x;
-                animation: speed-test-line linear 0.5s infinite;
-              }
-            }
-            &.unconnected {
-              display: flex;
-              position: relative;
-              background: none;
-              &::after {
-                content: '';
-                display: block;
-                position: absolute;
-                top: 0;
-                left: 0;
-                height: 2px;
-                width: 100%;
-                background: var(--dashboard-unlinked-color);
-                background-size: 10px 2px;
-                background-repeat: repeat-x;
-              }
-              .icon-unconnected-container {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-                width: 15px;
-                height: 15px;
-                background: var(--dashboard-unconnect-icon-background-color);
-                z-index: 999;
-                border-radius: 50%;
-                &::before {
-                  content: '';
-                  display: block;
-                  height: 2px;
-                  border-radius: 2px;
-                  width: 10px;
-                  background: var(--text-default-color);
-                  position: absolute;
-                  top: 50%;
-                  left: 50%;
-                  transform: translate(-50%, -50%) rotate(45deg);
-                }
-                &::after {
-                  content: '';
-                  display: block;
-                  height: 2px;
-                  border-radius: 2px;
-                  width: 10px;
-                  background: var(--text-default-color);
-                  position: absolute;
-                  top: 50%;
-                  left: 50%;
-                  transform: translate(-50%, -50%) rotate(-45deg);
-                }
-              }
-            }
-          }
-        }
-
-        .device-container,
-        .wifi-container,
-        .internet-container {
-          position: relative;
-          width: 75px;
-          height: 100%;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-      }
-    }
-    .laptop-net-info {
-      margin: 0;
-      .laptop-net-info__inner {
-        padding: 0 20px;
-        flex-direction: column;
-        > .functional-module {
+    min-width: auto;
+    min-height: auto;
+    .net-info {
+      display: flex;
+      flex-direction: column;
+      padding: 55px 20px 20px;
+      .inner {
+        .card {
           width: 100%;
           height: auto;
+          max-width: 100%;
+          min-width: auto;
           max-height: auto;
           min-height: auto;
-          display: block;
-          margin-bottom: 20px;
-          padding: 15px 20px;
-          text-align: left;
-          .icon-container {
-            display: none;
+          min-width: auto;
+          min-height: auto;
+          margin-top: 0;
+          aspect-ratio: auto;
+        }
+      }
+      .mesh {
+        order: 1;
+        position: relative;
+        .wrapper {
+          .router__img {
+            max-width: auto;
+            max-height: auto;
+            min-width: auto;
+            min-height: auto;
+            width: 195px;
           }
-          .text-container {
-            display: inline;
-            padding: 10px 0;
-            height: auto;
-            .main-text {
-              display: inline;
-              font-size: 16px;
-              font-weight: 600;
-              &::after {
-                content: ':';
-                display: inline-block;
-                width: 10px;
-                height: 5px;
-              }
-            }
-            .sub-text {
-              color: var(--text-default-color);
-              display: inline;
-              font-size: 16px;
-              font-weight: 600;
-            }
+          img {
+            max-width: auto;
+            max-height: auto;
+            min-width: auto;
+            min-height: auto;
+            width: 195px;
           }
-          .loading-container {
-            background: var(--dashboard-wifi-background-color);
-          }
-          &.device-container {
-            .devices-num {
-              display: inline;
-              font-size: 16px;
+        }
+        .background-shadow {
+          width: 375px;
+          height: 135px;
+          transform: translate(-50%, -60%);
+        }
+        .mobile-icon-wrapper {
+          position: absolute;
+          top: 0;
+          right: 0;
+          display: flex;
+          flex-direction: column;
+          .btn-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin-bottom: 25px;
+            &:last-child {
+              margin-bottom: 0;
             }
-            .current-device-info-container {
-              height: 60px;
-              background: var(--dashboard-wifi-background-color);
-              margin-top: 15px;
-              padding: 10px;
-              .info-wrap {
-                display: block;
-                padding: 0;
-                .name {
-                  justify-content: flex-start;
-                  > span {
-                    max-width: 90%;
-                  }
-                }
-                .info {
-                  justify-content: flex-start;
-                  margin-left: 20px;
-                }
+            .sub {
+              position: absolute;
+              bottom: 0;
+              right: 0;
+              width: 17px;
+              height: 17px;
+              color: #fff;
+              border-radius: 50%;
+              box-sizing: border-box;
+              border: 2px solid var(--logout_btn-bgc);
+              overflow: hidden;
+              &.connected {
+                background: url(#{$img_folder}/icon/ic_default_success.png)
+                  center no-repeat;
+                background-size: contain;
               }
-              &.empty {
-                height: 60px;
-                text-align: center;
+              &.unconnected {
+                background: url(#{$img_folder}/icon/ic_default_error.png) center
+                  center no-repeat;
+                background-size: contain;
               }
-            }
-          }
-          &.mesh-container {
-            .text-container {
-              display: flex;
-              align-items: center;
-              padding: 0;
-              .sub-text {
-                display: inline-block;
-                width: 60%;
-                margin: 0;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: pre;
-              }
-            }
-            .wifi-list {
-              width: 100% !important;
-              margin: 15px 0;
-            }
-            .add-node-container {
-              margin-top: 0;
-              .add-btn {
-                width: 100%;
-                height: 48px;
-              }
-            }
-          }
-          &.internet-container {
-            .speed-container {
-              .speed-info {
-                padding: 0;
-                flex-direction: row;
-                justify-content: flex-start;
-                margin: 15px 0;
-                .speed-icon-wrap {
-                  padding-top: 5px;
-                }
-                .speed-wrap {
-                  position: relative;
-                  display: flex;
-                  align-items: baseline;
-                  .speed-text-wrap {
-                    position: absolute;
-                    bottom: -15px;
-                    left: 10px;
-                    margin: 0;
-                  }
-                  .speed-num {
-                    font-size: 20px;
-                    margin: 0 2px 0 10px;
-                  }
-                }
-              }
-              .line-wrap {
-                display: none;
-              }
-            }
-            .bridge-mode-tip {
-              width: 100%;
-              margin-top: 15px;
-              text-align: center;
-            }
-          }
-          &::before {
-            top: 20px;
-          }
-          &:hover {
-            &::before {
-              border-top-color: #808080;
-              border-right-color: #808080;
             }
           }
         }
-        > .line-container {
-          display: none;
+      }
+      .functional {
+        order: 2;
+        margin-top: 0;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        .row-1 {
+          max-width: 90%;
+          .mesh-name {
+            font-size: 18px;
+            height: auto;
+          }
+        }
+        .row-2 {
+          > div {
+            font-size: 12px;
+          }
+        }
+        .row-3 {
+          width: 100%;
+          margin-top: 10px;
+          .btn {
+            width: 50%;
+            height: 44px;
+          }
+        }
+      }
+      .device {
+        order: 3;
+        justify-content: center;
+        margin-bottom: 20px;
+        .card {
+          grid-template-columns: 4fr 1fr;
+          grid-template-rows: 50px 1fr;
+          grid-template-areas:
+            'cardTitle cardTitle'
+            'deviceInfo deviceNums';
+        }
+        .row-1 {
+          grid-area: cardTitle;
+        }
+        .row-2 {
+          grid-area: deviceNums;
+          text-align: -webkit-right;
+          .devices-num {
+            font-size: 36px;
+            position: static;
+            transform: translateX(0);
+            max-width: 65px;
+            text-align: right;
+          }
+        }
+        .row-3 {
+          grid-area: deviceInfo;
+          .deviceLoading {
+            position: absolute;
+            top: 40%;
+            left: 40%;
+          }
+          .info {
+            max-width: 220px;
+            min-width: auto;
+            margin: 0;
+            align-items: flex-start;
+          }
+          .other {
+            width: 100%;
+            justify-content: flex-start;
+            font-size: 12px;
+          }
+        }
+      }
+      .internet {
+        order: 4;
+        justify-content: center;
+        .card {
+          grid-row-gap: 15px;
+        }
+        .speed {
+          display: flex;
+          .speed-info {
+            flex: 1;
+            width: auto;
+            height: auto;
+            padding: 0;
+            margin: 0;
+            flex-direction: column;
+            align-items: flex-start;
+          }
+          .speed-num {
+            font-size: 32px;
+          }
+          .speed-unit {
+            font-size: 18px;
+          }
+        }
+        .bridge-mode-tip {
+          font-size: 16px;
+          margin-top: 0;
+          span {
+            margin: 30px 0;
+          }
         }
       }
     }
     .jump-app-info {
-      position: relative;
-      width: 90%;
-      height: 60px;
-      right: 0;
-      margin: 20px auto;
-      background-color: var(--dashboard-app-background-color);
+      padding: 0 20px;
+      width: 100%;
+      .wrapper {
+        position: relative;
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        align-self: flex-end;
+        border-radius: 20px;
+        padding: 0 5px 0 20px;
+        background-color: rgba(171, 171, 171, 0.2);
+        margin-bottom: 20px;
+      }
       .text-container {
+        color: var(--text_default-color);
         flex: 1;
-        line-height: 40px;
       }
       .icon {
         width: 40px;
         height: 40px;
         margin-right: 10px;
-        &.mercku {
-          display: block;
-        }
-        &.qr {
-          display: none;
+        img {
+          width: 100%;
+          height: 100%;
         }
       }
     }
@@ -1434,75 +1306,23 @@ ul {
 }
 @media screen and (max-width: 374px) {
   .dashboard {
-    .bridge-mode-tip {
-      padding: 20px;
-      font-size: 14px;
-    }
-    .mobile-net-info {
-      .mobile-net-info__inner {
-        .icon-container {
-          width: 60px;
-          height: 60px;
+    .net-info {
+      .inner {
+        .card {
+          padding: 10px 8px;
         }
-        .line-container {
-          .line {
-            width: 20px;
-            &.unconnected {
-              .icon-unconnected-container {
-                width: 5px;
-                height: 5px;
-              }
-            }
+      }
+      .device {
+        .row-3 {
+          .info {
+            max-width: 150px;
           }
         }
       }
     }
-    .laptop-net-info {
-      .laptop-net-info__inner {
-        > .functional-module {
-          .text-container {
-            .main-text {
-              font-size: 12px;
-            }
-            .sub-text {
-              font-size: 12px;
-            }
-          }
-          &.device-container {
-            .devices-num {
-              font-size: 12px;
-            }
-          }
-          &.mesh-container {
-            .wifi-list {
-              .wifi {
-                .wifi__band {
-                  font-size: 12px;
-                }
-              }
-            }
-          }
-          &.internet-container {
-            .speed-container {
-              .speed-info {
-                .speed-icon-wrap {
-                  width: 20px;
-                  height: 20px;
-                  img {
-                    width: 20px;
-                    height: 20px;
-                  }
-                }
-                .speed-wrap {
-                  .speed-num {
-                    margin-left: 0;
-                    font-size: 18px;
-                  }
-                }
-              }
-            }
-          }
-        }
+    .jump-app-info {
+      .wrapper {
+        padding: 0 0 0 8px;
       }
     }
   }

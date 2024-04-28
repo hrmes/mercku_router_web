@@ -4,7 +4,10 @@
          v-show="visible">
       <div class="dialog-content">
         <div v-if="title"
-             class="dialog-title">{{title}}</div>
+             class="dialog-title">
+          <img :src="require('base/assets/images/icon/ic_hint.png')" />
+          {{title}}
+        </div>
         <div class="dialog-message">
           <p v-for="(m,index) in dialogMessage"
              :key="index">{{m}}</p>
@@ -92,17 +95,17 @@ export default {
   top: 0;
   left: 0;
   z-index: 1001;
-  background: var(--dialog-shadow-background-color);
+  background: var(--dialog_shadow-bgc);
   opacity: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   .dialog-content {
     text-align: center;
-    background: var(--dialog-content-bgc);
+    background: var(--dialog_content-bgc);
     padding: 20px 20px 30px 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 12px 0 var(--dialog-box-shadow-color);
+    box-shadow: 0 2px 12px 0 var(--dialog_shadow-color);
     .dialog-buttons {
       display: flex;
       justify-content: center;
@@ -117,25 +120,35 @@ export default {
       .btn-default {
         background-image: linear-gradient(
             to right,
-            var(--dialog-content-bgc),
-            var(--dialog-content-bgc)
+            var(--dialog_content-bgc),
+            var(--dialog_content-bgc)
           ),
-          var(--common-btn_default-bgimg) !important;
+          var(--common_btn_default-bgimg) !important;
       }
     }
     .dialog-title {
+      display: flex;
+      justify-content: center;
+
+      align-items: center;
       font-size: 16px;
       line-height: 1;
-      color: var(--dialog-title-color);
+      color: var(--dialog_title-color);
       font-weight: bold;
       text-align: center;
       margin-bottom: 10px;
+      > img {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+      }
     }
     .dialog-message {
-      color: var(--dialog-content-color);
+      color: var(--dialog_content-color);
       margin-bottom: 45px;
       text-align: center;
       font-size: 14px;
+      white-space: pre-line;
     }
   }
   &.dialog-enter-active {

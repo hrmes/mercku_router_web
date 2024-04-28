@@ -2,13 +2,13 @@
   <transition name="modal">
     <div class="modal-dialog"
          v-if="open">
-      <div class="mask"
-           @click="close"
-           @touchstart="close"></div>
-      <div class="modal-content">
+      <div class="mask"></div>
+      <div v-clickoutside="close"
+           class="modal-content">
         <slot></slot>
       </div>
     </div>
+
   </transition>
 </template>
 <script>
@@ -27,10 +27,7 @@ export default {
       type: String,
       default: Types.info
     },
-    closeOnClickMask: {
-      type: Boolean,
-      default: true
-    }
+
   },
   data() {
     return { open: false };
@@ -47,7 +44,7 @@ export default {
   },
   methods: {
     close() {
-      if (this.type === Types.info && this.closeOnClickMask) {
+      if (this.type === Types.info) {
         this.open = false;
         document.body.style.position = this.position;
         this.$emit('update:visible', false);
@@ -94,14 +91,14 @@ export default {
     left: 0;
     top: 0;
     height: 100%;
-    background: var(--modal-mask-background-color);
+    background: var(--modal_mask-bgc);
   }
   .modal-content {
     min-width: 380px;
-    background: var(--modal-content-background);
+    background: var(--modal_content-bgc);
     padding: 30px;
     border-radius: 5px;
-    box-shadow: 0 2px 12px 0 var(--modal-shadow-color);
+    box-shadow: 0 2px 12px 0 var(--modal_shadow-color);
   }
 }
 @media screen and (max-width: 768px) {

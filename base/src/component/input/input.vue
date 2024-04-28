@@ -14,8 +14,6 @@
                type="text"
                readonly
                :value="addonBefore" />
-        <!-- <div class="extra"
-             v-if="addonBefore">{{addonBefore}}</div> -->
         <input v-if="inputType==='number'"
                @focus="focus"
                @blur="blur"
@@ -37,6 +35,7 @@
                v-model="inputValue"
                :placeholder="placeholder"
                :type="inputType"
+               :maxlength="maxlength"
                :class="{'has-icon':isPwdInput,margin:addonBefore}">
       </div>
       <div class="icon-container"
@@ -65,6 +64,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    maxlength: {
+      type: String,
+      default: ''
     },
     label: {
       type: String,
@@ -172,7 +175,7 @@ input[type='number'] {
     text-align: left;
     margin-bottom: 5px;
     font-weight: bold;
-    color: var(--input-label-color);
+    color: var(--input_label-color);
     font-size: 14px;
   }
   .input-wrapper {
@@ -201,28 +204,28 @@ input[type='number'] {
       border-radius: 10px;
       box-sizing: border-box;
       -webkit-appearance: none;
-      background: transparent;
-      border: 1.5px solid var(--input-border-color);
-      color: var(--text-default-color);
+      background: var(--input-content-background);
+      border: 1.5px solid var(--input_border-color);
+      color: var(--text_default-color);
       transition: all 0.2s ease-in-out;
       &::-webkit-input-placeholder {
-        color: var(--input-placeholder-color);
+        color: var(--input_placeholder-color);
       }
       &.margin {
         padding-left: 0px;
       }
       &:focus {
-        border-color: var(--input-focus-border-color);
+        border-color: var(--input_focus_border-color);
       }
       &:disabled {
         border: none;
-        background: var(--input-disabled-background-color);
-        opacity: var(--input-disabled-opacity);
+        background: var(--input_disabled-bgc);
+        opacity: var(--input_disabled-opacity);
         cursor: not-allowed;
       }
       &:invalid {
         animation: errorshake 0.3s forwards;
-        border: 2px solid var(--input-error-border-color);
+        border: 2px solid var(--input_error_border-color);
       }
       &.has-icon {
         padding-right: 50px;

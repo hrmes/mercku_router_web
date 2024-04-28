@@ -1,20 +1,22 @@
 {
   "id": "0001",
   "title": "Mercku",
+  "host": "http://mywifi.mercku.tech",
   "accept": ".ma",
   "favicon": "customer-conf/0001/favicon.ico",
   "policy": "",
   "allow2LevelAdmin": false,
-  "assetFolderName": "mercku",
-  "languages": ["zh-CN", "en-US", "de-DE"],
+  "languages": ["zh-CN", "en-US", "de-DE", "fi-FI", "bg-BG"],
+  "deviceID": "Mercku",
+  "wifi": "Mercku Wi-Fi",
   "routers": {
     "M6": {
       "name": "M6 Wi-Fi6 Router",
       "shortName": "M6"
     }
   },
+  "deviceColors": ["black", "white", "grey", "red"],
   "loading": {
-    "name": "loading.gif",
     "color": "#d6001c"
   },
   "website": {

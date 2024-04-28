@@ -32,8 +32,7 @@
       <div class="table-inner">
         <div class="off-more-message"
              v-if="isOfflineDevices&&devicesMap[id]&&devicesMap[id].length>60">
-          <img src="@/assets/images/icon/ic_hint.webp"
-               alt="">
+          <img :src="require('base/assets/images/icon/ic_hint.png')" />
           {{$t('trans0517')}}
         </div>
         <div class="table-head"
@@ -139,8 +138,7 @@
                       <div class="mobile-icon"
                            v-if="isMobile">
                         <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}"
-                             src="@/assets/images/icon/ic_side_bar_pick_up.svg"
-                             alt="">
+                             :src="require('base/assets/images/icon/ic_side_bar_pick_up.svg')" />
                       </div>
                     </div>
                   </div>
@@ -185,9 +183,7 @@
                     <span v-if='row.local'
                           class="local-device-wrapper">
                       <img class="localDevice"
-                           src="@/assets/images/icon/ic_local-device.svg"
-                           alt=""
-                           title="LocalDevice">
+                           :src="require('base/assets/images/icon/ic_local-device.svg')" />
                     </span>
                   </div>
                   <div class="name-wrap"
@@ -197,9 +193,7 @@
                         <span v-if='isMobile && row.local'
                               class="local-device-wrapper">
                           <img class="localDevice"
-                               src="@/assets/images/icon/ic_local-device.svg"
-                               alt=""
-                               title="LocalDevice">
+                               :src="require('base/assets/images/icon/ic_local-device.svg')" />
                         </span>
                         <span :title='row.name'
                               class="overflow-hidden">{{row.name}}</span>
@@ -207,14 +201,12 @@
                              class="btn-text icon-btn"
                              :title="$t('trans0034')"
                              @click.stop='()=>nameModalOpen(row)'
-                             src="@/assets/images/icon/ic_edit.png"
-                             alt="">
+                             :src="require('base//assets/images/icon/ic_edit.png')" />
                       </a>
                       <div class="mobile-icon"
                            v-if="isMobile">
                         <img :class="{'i-collapse':row.expand,'i-expand':!row.expand}"
-                             src="@/assets/images/icon/ic_side_bar_pick_up.svg"
-                             alt="">
+                             :src="require('base/assets/images/icon/ic_side_bar_pick_up.svg')" />
                       </div>
                     </div>
                     <div class="des-inner">
@@ -226,8 +218,7 @@
                             v-if="isMobile & !isWired(row)">
                         <img :src="getConnectTypeIcon(row)" />
                       </span>
-                      <span class="online-duration"
-                            v-if="!isWired(row)">
+                      <span class="online-duration">
                         <span
                               class="value">{{transformDate(row.online_info.online_duration)}}</span>
                       </span>
@@ -250,8 +241,7 @@
                   <div class="speed-inner">
                     <div class="speed-wrap">
                       <img class='icon'
-                           src="@/assets/images/icon/ic-speed-upload.svg"
-                           alt="">
+                           :src="require('base/assets/images/icon/ic-speed-upload.svg')" />
                       <label class="text-inner">
                         <span>{{formatSpeed(row.online_info.realtime_speed.up).value}}</span>
                         <span>{{formatSpeed(row.online_info.realtime_speed.up).unit}}</span>
@@ -259,8 +249,7 @@
                     </div>
                     <div class="speed-wrap">
                       <img class='icon'
-                           src="@/assets/images/icon/ic-speed-download.svg"
-                           alt="">
+                           :src="require('base/assets/images/icon/ic-speed-download.svg')" />
                       <label class="text-inner">
                         <span>{{formatSpeed(row.online_info.realtime_speed.down).value}}</span>
                         <span>{{formatSpeed(row.online_info.realtime_speed.down).unit}}</span>
@@ -274,7 +263,7 @@
                   <span v-if="isMobile"
                         class="label">{{$t('trans0015')}}</span>
                   <span class="value">
-                    <i class="iconfont icon-ic_device_throughput"></i>
+                    <i class="iconfont ic_device_throughput"></i>
                     <span>{{formatNetworkData
                     (row.online_info.traffic.ul+row.online_info.traffic.dl).value}}</span>
                     <span>{{formatNetworkData
@@ -308,37 +297,36 @@
                 <li class="control"
                     v-if='isMobileRow(row.expand) && isRouter'>
                   <div class="limit-inner">
-                    <span class="limit-icon"
+                    <!-- <span class="limit-icon"
                           @click="()=>forward2limit(row,'time')">
                       <i class="time-limit iconfont ic_limit_time_off"
                          :class="{'active':isTimeLimit(row)}"></i>
                       <span class="hover-popover">{{$t('trans0075')}}</span>
-                    </span>
+                    </span> -->
                     <span class="limit-icon"
                           @click="()=>forward2limit(row,'speed')">
                       <i class="speed-limit iconfont ic_limit_speed_off"
                          :class="{'active':isSpeedLimit(row)}"></i>
                       <span class="hover-popover">{{$t('trans0014')}}</span>
                     </span>
-                    <span class="limit-icon"
+                    <!-- <span class="limit-icon"
                           @click="()=>forward2limit(row,'url')">
                       <i class="url-limit iconfont ic_limit_website_off"
                          :class="{'active':isBlacklsitLimit(row)}"></i>
                       <span class="hover-popover">{{$t('trans0076')}}</span>
-                    </span>
-                    <span class="limit-icon"
+                    </span> -->
+                    <!-- <span class="limit-icon"
                           @click="()=>addToBlackList(row)">
                       <i class="add-block iconfont ic_blocklist"></i>
                       <span class="hover-popover">{{$t('trans0016')}}</span>
-                    </span>
+                    </span> -->
                   </div>
                 </li>
               </template>
             </ul>
             <div class='table-empty'
                  v-if="!devicesMap[id]||(devicesMap[id]&&devicesMap[id].length===0)">
-              <img src="@/assets/images/img_default_empty.webp"
-                   alt="">
+              <img :src="require('base/assets/images/common/img_default_empty.png')" />
               <span>{{$t('trans0278')}}</span>
             </div>
           </div>
@@ -353,7 +341,7 @@
                    @refreshDeviceList="updateDeviceList()"></speed-Limit>
     </transition>
     <m-modal :visible.sync="modalShow"
-             :closeOnClickMask="false"
+             :type="'confirm'"
              class="edit-name-modal">
       <div class="content">
         <div class="select-wrapper">
@@ -388,7 +376,7 @@ import {
   formatDate,
   formatDuration
 } from 'base/util/util';
-import { BlacklistMode, RouterMode } from 'base/util/constant';
+import { BlacklistMode, RouterMode, Bands } from 'base/util/constant';
 import speedLimit from 'base/component/limit/speed/index';
 
 export default {
@@ -469,14 +457,14 @@ export default {
         {
           id: 'offline',
           text: this.$t('trans0516'),
-          icon: 'ic_devices_guest_normal'
+          icon: 'ic_devices_offline_normal'
         }
       ];
       if (this.isRouter) {
         list.splice(1, 0, {
           id: 'guest',
           text: this.$t('trans0515'),
-          icon: 'ic_devices_offline_normal'
+          icon: 'ic_devices_guest_normal'
         });
       }
       return list;
@@ -504,7 +492,7 @@ export default {
       return row?.access_node?.name ?? '-';
     },
     isWired(row) {
-      return row.online_info.band === 'wired';
+      return row.online_info.band === Bands.wired;
     },
     isCurrentTab(tab) {
       return tab.id === this.id;
@@ -568,18 +556,24 @@ export default {
               }
               return 0;
             }
-            const wired = 'wired';
-            if (a.online_info.band === wired || b.online_info.band === wired) {
+            if (a.online_info.band === Bands.wired || b.online_info.band === Bands.wired) {
               if (
-                a.online_info.band === wired &&
-                b.online_info.band === wired
+                a.online_info.band === Bands.wired &&
+                b.online_info.band === Bands.wired
               ) {
-                return a.name > b.name;
+                const isLetterOrNumberReg = /[0-9A-Za-z]+/i;
+                if (isLetterOrNumberReg.test(a.name) && !isLetterOrNumberReg.test(b.name)) {
+                  return -1;
+                }
+                if (!isLetterOrNumberReg.test(a.name) && isLetterOrNumberReg.test(b.name)) {
+                  return 1;
+                }
+                return a.name.localeCompare(b.name);
               }
-              if (a.online_info.band === wired) {
+              if (a.online_info.band === Bands.wired) {
                 return 1;
               }
-              if (b.online_info.band === wired) {
+              if (b.online_info.band === Bands.wired) {
                 return -1;
               }
               return 0;
@@ -902,35 +896,39 @@ export default {
     },
     getConnectTypeIcon(row) {
       let icon = '';
+
       if (this.isOfflineDevices) {
         if (this.isWired(row)) {
-          icon = require('@/assets/images/icon/ic_offline_wired.svg');
+          icon = require('base/assets/images/icon/ic_offline_wired.svg');
           return icon;
         }
-        icon = require('@/assets/images/icon/ic_offline_wireless.svg');
+        icon = require('base/assets/images/icon/ic_offline_wireless.svg');
         return icon;
       }
+
       if (this.isWired(row)) {
-        icon = require('@/assets/images/icon/ic_wired.svg');
+        icon = require('base/assets/images/icon/ic_wired.svg');
         return icon;
       }
+
       const {
         online_info: { rssi }
       } = row;
+
       if (this.isMobile) {
-        if (rssi >= -76) {
-          icon = require('@/assets/images/v3/icon/ic_signal_excellent.svg');
-        } else if (rssi < -76 && rssi >= -90) {
-          icon = require('@/assets/images/v3/icon/ic_signal_good.svg');
+        if (rssi > -60) {
+          icon = require('base/assets/images/icon/ic_signal_excellent.svg');
+        } else if (rssi <= -60 && rssi > -75) {
+          icon = require('base/assets/images/icon/ic_signal_good.svg');
         } else {
-          icon = require('@/assets/images/v3/icon/ic_signal_bad.svg');
+          icon = require('base/assets/images/icon/ic_signal_bad.svg');
         }
-      } else if (rssi >= -76) {
-        icon = require('@/assets/images/icon/ic_wireless_excellent.svg');
-      } else if (rssi < -76 && rssi >= -90) {
-        icon = require('@/assets/images/icon/ic_wireless_fair.svg');
+      } else if (rssi > -60) {
+        icon = require('base/assets/images/icon/ic_wireless_excellent.svg');
+      } else if (rssi <= -60 && rssi > -75) {
+        icon = require('base/assets/images/icon/ic_wireless_fair.svg');
       } else {
-        icon = require('@/assets/images/icon/ic_wireless_weak.svg');
+        icon = require('base/assets/images/icon/ic_wireless_weak.svg');
       }
 
       return icon;
@@ -1009,7 +1007,7 @@ export default {
         grid-column-gap: 10px;
         height: fit-content;
         padding: 10px 20px;
-        color: var(--table-header-text-color);
+        color: var(--table_header_text-color);
         font-size: 12px;
         font-weight: 500;
         > li {
@@ -1030,7 +1028,7 @@ export default {
             height: 49px;
             margin-right: 10px;
             border-radius: 50%;
-            background: var(--device-connect_type-bgc);
+            background: var(--device_connect_type-bgc);
             img {
               width: 90%;
               height: 90%;
@@ -1086,7 +1084,7 @@ export default {
               }
             }
             .online-duration {
-              color: var(--common-gery-color);
+              color: var(--common_gery-color);
               margin-left: 10px;
             }
           }
@@ -1150,14 +1148,14 @@ export default {
             transition: all 0.15s ease-in-out;
             .iconfont {
               font-size: 20px;
-              color: var(--device-limit_icon-color);
+              color: var(--device_limit_icon-color);
               font-weight: 500;
               &.active {
-                background-image: var(--header-selected-bgc);
+                background-image: var(--header_selected-bgc);
                 -webkit-background-clip: text; /* Safari/Chrome */
                 background-clip: text;
                 color: transparent;
-                text-shadow: 0 3px 8px rgba(242, 46, 73, 0.3);
+                text-shadow: var(--header_selected_icon-textshadow);
               }
             }
             .hover-popover {
@@ -1165,7 +1163,7 @@ export default {
               position: absolute;
               padding: 5px 12px;
               font-size: 12px;
-              background: var(--table-action-popover-bgc);
+              background: var(--table_action_popover-bgc);
               color: #fff;
               top: -8px;
               left: 50%;
@@ -1184,7 +1182,7 @@ export default {
                 width: 0;
                 height: 0;
                 border: 6px solid transparent;
-                border-top-color: var(--table-action-popover-bgc);
+                border-top-color: var(--table_action_popover-bgc);
               }
             }
             @media screen and (max-width: 768px) {
@@ -1199,7 +1197,7 @@ export default {
               }
             }
             &:hover {
-              background-color: var(--device-limit_icon-hover-bgc);
+              background-color: var(--device_limit_icon-hover-bgc);
               .hover-popover {
                 display: block;
               }
@@ -1244,10 +1242,10 @@ export default {
             .btn-default {
               background-image: linear-gradient(
                   to right,
-                  var(--table-head-background-color),
-                  var(--table-head-background-color)
+                  var(--table_header-bgc),
+                  var(--table_header-bgc)
                 ),
-                var(--common-btn_default-bgimg);
+                var(--common_btn_default-bgimg);
             }
             .btn-icon {
               box-shadow: none;
@@ -1261,7 +1259,7 @@ export default {
       }
       .table-head {
         border-radius: 5px;
-        background: var(--table-head-background-color);
+        background: var(--table_header-bgc);
         width: 100%;
         margin-bottom: 5px;
       }
@@ -1276,8 +1274,8 @@ export default {
           border-radius: 5px;
           margin-bottom: 5px;
           font-size: 14px;
-          color: var(--text-default-color);
-          background: var(--common-card-bgc);
+          color: var(--text_default-color);
+          background: var(--common_card-bgc);
         }
       }
       ul {
@@ -1322,10 +1320,10 @@ export default {
       .btn-default {
         background-image: linear-gradient(
             to right,
-            var(--modal-content-background),
-            var(--modal-content-background)
+            var(--modal_content-bgc),
+            var(--modal_content-bgc)
           ),
-          var(--common-btn_default-bgimg) !important;
+          var(--common_btn_default-bgimg) !important;
       }
     }
   }
@@ -1340,7 +1338,7 @@ export default {
       margin-bottom: 5px;
       .check-info {
         padding: 5px 10px;
-        background: var(--table-head-background-color);
+        background: var(--table_header-bgc);
         border-radius: 5px;
       }
       .check-info {
@@ -1359,10 +1357,10 @@ export default {
         &.btn-default {
           background-image: linear-gradient(
               to right,
-              var(--table-head-background-color),
-              var(--table-head-background-color)
+              var(--table_header-bgc),
+              var(--table_header-bgc)
             ),
-            var(--common-btn_default-bgimg);
+            var(--common_btn_default-bgimg);
         }
       }
     }
@@ -1391,8 +1389,8 @@ export default {
                 height: 48px;
                 justify-content: space-between;
                 padding: 0 10px;
-                background: var(--common-card-bgc);
-                border-bottom: 1px solid var(--common-hr-color);
+                background: var(--common_card-bgc);
+                border-bottom: 1px solid var(--common_hr-color);
                 &:first-child {
                   border-bottom: none;
                   margin-bottom: 1px;
@@ -1417,7 +1415,7 @@ export default {
                     padding: 10px;
                   }
                   .label {
-                    color: var(--text-gery-color);
+                    color: var(--text_gery-color);
                   }
                 }
               }

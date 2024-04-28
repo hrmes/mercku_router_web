@@ -25,8 +25,9 @@
                v-if="isDrawerStyle"
                @click.stop="">
             <span class="btn-icon close"
+                  v-if="isMobile"
                   @click.stop="()=>opened=false">
-              <i class="iconfont  icon-ic_close"></i>
+              <i class="iconfont  ic_close"></i>
             </span>
           </div>
           <template v-if="options.length">
@@ -179,12 +180,13 @@ export default {
     width: 100%;
     border-radius: 10px;
     outline: 0;
-    border: 1.5px solid var(--input-border-color);
+    border: 1.5px solid var(--input_border-color);
     font-size: 14px;
     padding: 0 10px;
     position: relative;
     padding-right: 50px;
     transition: all 0.3s ease-in-out;
+    background: var(--select-content-background);
     .select-text {
       font-size: 14px;
       overflow: hidden;
@@ -197,11 +199,11 @@ export default {
       outline: none;
       border: none;
       padding: 0;
-      color: var(--text-default-color);
+      color: var(--text_default-color);
       background: transparent;
       cursor: pointer;
       &::-webkit-input-placeholder {
-        color: var(--input-placeholder-color);
+        color: var(--input_placeholder-color);
       }
     }
   }
@@ -210,7 +212,7 @@ export default {
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: bold;
-    color: var(--input-label-color);
+    color: var(--input_label-color);
   }
   .select-popup {
     position: absolute;
@@ -219,10 +221,10 @@ export default {
     right: -1px;
     top: 52px;
     max-height: 300px;
-    background: var(--select-popup-background-color);
+    background: var(--select_popup-bgc);
     border-radius: 7px;
     box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.12);
-    border: 1px solid var(--select-popup-border-color);
+    border: 1px solid var(--select_popup_border-color);
     overflow: auto;
     &.popup-top {
       top: -5px;
@@ -237,19 +239,19 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       &:active {
-        background: var(--select-item-active-background-color);
-        color: var(--select-item-active-color);
+        background: var(--select_item_active-bgc);
+        color: var(--select_item_active-color);
       }
       &:hover {
-        background: var(--select-item-hover-background-color);
-        color: var(--select-item-hover-color);
+        background: var(--select_item_hover-bgc);
+        color: var(--select_item_hover-color);
       }
       &.selected {
         position: relative;
-        color: var(--select-item-selected-color);
+        color: var(--select_item_selected-color);
         .main-title,
         .sub-title {
-          color: var(--select-item-selected-color);
+          color: var(--select_item_selected-color);
         }
         &::after {
           content: '\e6be';
@@ -261,11 +263,11 @@ export default {
         }
       }
       .main-title {
-        color: var(--text-default-color);
+        color: var(--text_default-color);
         font-weight: 600;
       }
       .sub-title {
-        color: var(--dashboard-gery-color);
+        color: var(--dashboard_gery-color);
         font-size: 12px;
         margin-top: 5px;
       }
@@ -277,7 +279,7 @@ export default {
       width: 100%;
       height: 84px;
       font-size: 14px;
-      color: var(--text-default-color);
+      color: var(--text_default-color);
       cursor: default;
     }
   }
@@ -312,8 +314,8 @@ export default {
   &.disabled {
     .select {
       border: 1.5px solid transparent;
-      background: var(--input-disabled-background-color);
-      opacity: var(--input-disabled-opacity);
+      background: var(--input_disabled-bgc);
+      opacity: var(--input_disabled-opacity);
       cursor: not-allowed;
       input {
         background: transparent;
@@ -322,11 +324,14 @@ export default {
       .icon-container {
         cursor: not-allowed;
       }
+      .icon {
+        filter: var(--img-disabled-brightness);
+      }
     }
   }
   &.focus {
     .select {
-      border-color: var(--input-focus-border-color);
+      border-color: var(--input_focus_border-color);
     }
   }
 }
@@ -362,7 +367,7 @@ export default {
           height: 50px;
           padding-right: 10px;
           text-align: right;
-          background: var(--select-popup-background-color);
+          background: var(--select_popup-bgc);
           z-index: 888;
         }
       }

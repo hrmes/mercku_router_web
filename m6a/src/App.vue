@@ -10,12 +10,7 @@
                     :isWlanPage="isWlanPage"
                     :navs="menus"
                     id="header" />
-          <component v-if="isMobile"
-                     :is="layout"
-                     :hasBackWrap='hasBackWrap'
-                     :asideInfo='asideInfo'></component>
-          <transition v-else
-                      name="fade"
+          <transition :name="!isMobile && $store.state.hasTransition?'fade':''"
                       :css="!isMobile && $store.state.hasTransition"
                       mode="out-in">
             <component :is="layout"
@@ -31,9 +26,8 @@
   </div>
 </template>
 <script>
-import './style/common.scss';
-import defaultLayout from './layouts/default.vue';
-import primaryLayout from './layouts/primary.vue';
+import defaultLayout from 'base/layouts/default.vue';
+import primaryLayout from 'base/layouts/primary.vue';
 import getMenu from './menu';
 
 export default {
@@ -164,11 +158,6 @@ export default {
 </script>
 
 <style lang="scss">
-@font-face {
-  font-family: 'DINAlternate';
-  src: url('./style/iconfont/DIN.ttf');
-  font-display: swap;
-}
 [data-title]:hover:after {
   opacity: 1;
   visibility: visible;
@@ -183,7 +172,7 @@ export default {
   font-size: 14px;
   padding: 5px 15px 5px;
   color: #ffffff;
-  background: var(--table-action-popover-bgc);
+  background: var(--table_action_popover-bgc);
   border-radius: 5px;
   white-space: pre;
   box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.2);
@@ -205,16 +194,9 @@ export default {
 .fade-leave-to {
   opacity: 0;
 }
-ul,
-li {
-  padding: 0;
-  margin: 0;
-  list-style: none;
-}
 .scrollbar-wrap {
   height: 100%;
   overflow: auto;
-  font-family: 'PingFang', 'Helvetica', sans-serif;
   background: var(--scrollbar_wrap-bgc__isNotLogin);
   &.is-login-page {
     background: var(--scrollbar_wrap-bgc__isLogin);
@@ -227,12 +209,12 @@ li {
     }
     &::-webkit-scrollbar-track,
     ::-webkit-scrollbar-track {
-      background-color: var(--scrollbar_wrap-track-color);
+      background-color: var(--scrollbar_wrap_track-color);
       // border-radius: 100px;
     }
     &::-webkit-scrollbar-thumb,
     ::-webkit-scrollbar-thumb {
-      background-color: var(--scrollbar_wrap-thumb-color);
+      background-color: var(--scrollbar_wrap_thumb-color);
       border-radius: 100px;
       &:hover {
         opacity: 0.5;
@@ -256,7 +238,7 @@ li {
 .flex-wrap {
   display: flex;
   flex-direction: column;
-  color: var(--text-default-color);
+  color: var(--text_default-color);
 }
 
 @media screen and (max-width: 768px) {

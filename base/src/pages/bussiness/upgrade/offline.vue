@@ -56,7 +56,7 @@
                  :style="{
             'margin-top': isRetitleFixed ? `${nodesInfoMarginTop}px` : 0
           }">
-              <div v-for="node in localNodes"
+              <div v-for="node in localNodesOrdered"
                    :key="node.sn"
                    class="node">
                 <div class="message"
@@ -64,11 +64,13 @@
                   <m-checkbox :readonly="true"
                               v-model="node.checked" />
                   <div class="img-container">
-                    <img :src="getNodeImage(node)"
+                    <img :src="getRouterImage(node.sn)"
                          alt="">
                   </div>
                   <div class="info-container">
-                    <p class="node-name">{{ node.name }}</p>
+                    <div class="node-name">
+                      <p>{{ node.name }}</p>
+                    </div>
                     <p class="node-sn">
                       <label class="with-colon">{{ $t('trans0252') }}:</label>
                       <span>{{ node.sn }}</span>
@@ -81,7 +83,7 @@
                       <m-tag v-if="node.isGW&&isHomewayProduct"
                              class="AP">{{$t('trans1097')}}</m-tag>
                       <m-tag v-else-if="node.isGW"
-                             class="gateway">{{ $t('trans0165') }}</m-tag>
+                             class="gateway">{{ $t('trans0153') }}</m-tag>
                     </div>
                   </div>
                 </div>
@@ -122,10 +124,11 @@
 import { UploadStatus, Models } from 'base/util/constant';
 import { getFileExtendName } from 'base/util/util';
 import RouterModel from 'base/mixins/router-model';
+import upgradeMixin from 'base/mixins/upgrade';
 
-const mobileWidth = 768;
+
 export default {
-  mixins: [RouterModel],
+  mixins: [RouterModel, upgradeMixin],
   data() {
     return {
       files: [],
@@ -137,8 +140,6 @@ export default {
       packageInfo: {},
       fwInfo: {},
       upgraded: false,
-      isRetitleFixed: false,
-      nodesInfoMarginTop: 114
     };
   },
   beforeRouteLeave(to, from, next) {
@@ -169,14 +170,14 @@ export default {
       return this.localNodes.length > 0;
     },
     productName() {
-      const product = this.Products[this.fwInfo.model.id];
+      const product = this.productsInfo(this.fwInfo.model.id, this.fwInfo.model.version.id);
       if (product) {
         return product.name;
       }
       return '';
     },
     modelName() {
-      const product = this.Products[this.fwInfo.model.id];
+      const product = this.productsInfo(this.fwInfo.model.id, this.fwInfo.model.version.id);
       if (product) {
         return product.shortName;
       }
@@ -185,32 +186,24 @@ export default {
     isHomewayProduct() {
       let result = false;
       switch (process.env.MODEL_CONFIG.id) {
-        case Models.homeway_230v:
-        case Models.homeway_POE1:
-        case Models.homeway_POE2:
+        case Models.Homeway_230v:
+        case Models.Homeway_POE1:
+        case Models.Homeway_POE2:
           result = true;
           break;
         default:
           break;
       }
       return result;
+    },
+    localNodesOrdered() {
+      return this.localNodes.sort((a, b) => {
+        if (a.isGW) {
+          return -1;
+        }
+        return 0;
+      });
     }
-  },
-  watch: {
-    isRetitleFixed(val) {
-      if (!val && this.$refs.retitle) {
-        const { height } = this.$refs.retitle.getBoundingClientRect();
-        this.nodesInfoMarginTop = height;
-      }
-    }
-  },
-  mounted() {
-    window.addEventListener('scroll', this.scrollHandler, true);
-    window.addEventListener('resize', this.resizeHandler);
-  },
-  destroyed() {
-    window.removeEventListener('scroll', this.scrollHandler, true);
-    window.removeEventListener('resize', this.resizeHandler);
   },
   methods: {
     transWebsite(text) {
@@ -218,23 +211,6 @@ export default {
         '%s',
         process.env.CUSTOMER_CONFIG.website.url
       );
-    },
-    resizeHandler() {
-      if (document.body.clientWidth > mobileWidth) {
-        this.isRetitleFixed = false;
-      } else {
-        this.scrollHandler();
-      }
-    },
-    scrollHandler() {
-      let flag = false;
-      if (this.$refs.renodes && document.body.clientWidth <= mobileWidth) {
-        const { top } = this.$refs.renodes.getBoundingClientRect();
-        flag = top <= 65;
-      }
-      this.$nextTick(() => {
-        this.isRetitleFixed = flag;
-      });
     },
     check(node) {
       node.checked = !node.checked;
@@ -290,17 +266,14 @@ export default {
           this.$http.getMeshNode().then(res1 => {
             const gw = res1.data.result.filter(node => node.is_gw)[0];
             let { nodes } = res.data.result;
-            nodes = nodes.map(node => {
-              let isGW = false;
-              if (node.sn === gw.sn) {
-                isGW = true;
-              }
-              return {
+            nodes = nodes
+              .map(node => ({
                 ...node,
-                isGW,
+                isGW: node.sn === gw.sn,
                 checked: false
-              };
-            });
+              }))
+              .sort((a, b) => (b.isGW ? 1 : -1)); // 将 isGW 为真的元素排在前面
+            console.log(nodes);
             this.localNodes = nodes;
             this.fwInfo = res.data.result.fw_info;
             this.packageInfo = {
@@ -308,6 +281,7 @@ export default {
               version: this.fwInfo.version,
               model: this.modelName
             };
+            console.log(this.packageInfo);
             uploader.status = UploadStatus.success;
             this.uploadStatus = UploadStatus.success;
           });
@@ -342,11 +316,12 @@ export default {
                   ontimeout: () => {
                     this.$router.push({ path: '/unconnect' });
                   },
-                  timeout: 300,
+                  timeout: 180,
                   progressVisible: true
                 });
               })
-              .catch(() => {
+              .catch(err => {
+                if (err.response.data.error.code === 600402) this.upgraded = true;
                 this.$loading.close();
               });
           }
@@ -364,7 +339,7 @@ export default {
   p {
     margin: 0;
     font-size: 14px;
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     margin-bottom: 10px;
     &:last-child {
       margin-bottom: 20px;
@@ -383,7 +358,7 @@ export default {
   margin-top: 50px;
   text-align: center;
   padding-top: 35px;
-  color: var(--text-default-color);
+  color: var(--text_default-color);
   font-size: 14px;
   :first-child {
     display: flex;
@@ -396,37 +371,17 @@ export default {
   }
 }
 .nodes-wrapper {
-  .retitle {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    padding: 0 0 20px;
-    border-radius: 0;
-    word-break: keep-all;
-    &.retitle--fixed {
-      display: block;
-      position: fixed;
-      top: 65px;
-      left: 0;
-      right: 0;
-      background: var(--dashboard-icon-background-color);
-      border-bottom-left-radius: 20px;
-      border-bottom-right-radius: 20px;
-      box-shadow: var(--offline-box-shadow);
-      z-index: 999;
-      padding: 20px;
-      .retitle__btn-wrap {
-        margin-top: 15px;
-      }
-      .retitle__btn {
-        margin-left: 0;
-      }
-    }
-  }
   text-align: center;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  .retitle {
+    padding: 20px 0;
+    text-align: left;
+    .retitle__btn-wrap {
+      margin-top: 20px;
+    }
+  }
   .nodes-info {
     display: flex;
     width: 100%;
@@ -435,7 +390,7 @@ export default {
     .node {
       width: 360px;
       height: 136px;
-      border: 1px solid var(--tag-node-border-color);
+      border: 1px solid var(--tag_node_border-color);
       border-radius: 5px;
       margin-right: 20px;
       margin-bottom: 30px;
@@ -472,27 +427,35 @@ export default {
           justify-content: center;
           flex: 1;
           overflow: hidden;
-
           .node-name {
-            width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: pre;
-            word-break: break-all;
-            padding: 0;
-            margin: 0;
-            text-align: left;
-            line-height: 1;
+            display: flex;
+            align-items: center;
             padding-top: 0px;
             font-size: 14px;
             font-weight: bold;
+            word-break: break-all;
+            width: 100%;
+            height: 42px;
+            > p {
+              padding: 0;
+              margin: 0;
+              text-align: left;
+              width: 100%;
+              height: fit-content;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              word-break: break-all;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+            }
           }
           .node-sn {
             padding: 0;
             margin: 0;
             text-align: left;
             font-size: 12px;
-            padding-top: 10px;
+            padding-top: 5px;
             line-height: 1;
             white-space: nowrap;
           }
@@ -511,14 +474,14 @@ export default {
         }
       }
       .badges {
-        padding-top: 10px;
+        padding-top: 12px;
         display: flex;
         .mk-tag {
           &.gateway,
           &.AP {
-            color: var(--tag-green-text-color);
+            color: var(--tag_green_text-color);
             font-weight: 600;
-            background: var(--tag-green-background-color);
+            background: var(--tag_green-bgc);
           }
         }
       }
@@ -536,17 +499,41 @@ export default {
 }
 
 @media screen and (max-width: 768px) {
+  .page {
+    width: 100vw;
+  }
   .nodes-wrapper {
     .retitle {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      border-radius: 0;
+      word-break: keep-all;
       flex-direction: column;
-      text-align: left;
       .retitle__btn-wrap {
-        margin-top: 15px;
+        margin-top: 20px;
+      }
+      &.retitle--fixed {
+        display: block;
+        position: fixed;
+        top: 65px;
+        left: 0;
+        right: 0;
+        background: var(--dashboard_icon-bgc);
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        box-shadow: var(--offline-boxshadow);
+        z-index: 999;
+        padding: 20px;
+        .retitle__btn {
+          margin: 0;
+        }
       }
     }
     .nodes-info {
       .node {
         width: 100%;
+        max-width: calc(100vw - 40px);
         margin-right: 0;
       }
     }
@@ -561,13 +548,18 @@ export default {
     }
   }
 }
-@media screen and (min-width: 769px) and (max-width: 1000px) {
+@media screen and (max-width: 374px) {
   .nodes-wrapper {
     .nodes-info {
       .node {
-        width: 340px;
-        margin-left: auto;
-        margin-right: auto;
+        .message {
+          padding: 0 10px;
+          .img-container {
+            img {
+              width: 60px;
+            }
+          }
+        }
       }
     }
   }

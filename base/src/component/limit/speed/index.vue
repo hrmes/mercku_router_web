@@ -21,14 +21,14 @@
             <m-input v-model="form.up"
                      :label="`${$t('trans0304')} (Kbps)`"
                      type='text'
-                     :placeholder="`${$t('trans0391')}`"></m-input>
+                     :placeholder="`${$t('trans1180')}`"></m-input>
           </m-form-item>
           <m-form-item class="form-item"
                        prop='down'>
             <m-input v-model="form.down"
                      :label=" `${$t('trans0305')} (Kbps)`"
                      type='text'
-                     :placeholder="`${$t('trans0391')}`"></m-input>
+                     :placeholder="`${$t('trans1180')}`"></m-input>
           </m-form-item>
           <div class="btn-container">
             <button class="btn btn-default"
@@ -50,11 +50,11 @@ export default {
   },
   data() {
     function speedTest(v) {
-      return /^[1-9]\d*$/.test(v);
+      return /^[1-9]\d*$/.test(v) && v >= 100;
     }
     function Len(v) {
       v = Number(v);
-      return v >= 1 && v <= 1000000;
+      return v <= 1000000;
     }
     return {
       form: {
@@ -66,7 +66,7 @@ export default {
         up: [
           {
             rule: value => (value ? speedTest(value) : true),
-            message: this.$t('trans0031')
+            message: this.$t('trans0687').format('%d', 100, 1000000)
           },
           {
             rule: value => (value ? Len(value) : true),
@@ -76,7 +76,7 @@ export default {
         down: [
           {
             rule: value => (value ? speedTest(value) : true),
-            message: this.$t('trans0031')
+            message: this.$t('trans0687').format('%d', 100, 1000000)
           },
           {
             rule: value => (value ? Len(value) : true),
@@ -97,8 +97,8 @@ export default {
       const speed = limit.speed_limit;
       this.form = {
         ...speed,
-        up: this.b_to_Kb(speed.up),
-        down: this.b_to_Kb(speed.down)
+        up: this.bps_to_Kbps(speed.up),
+        down: this.bps_to_Kbps(speed.down)
       };
     } else {
       this.getSpeed();
@@ -108,13 +108,13 @@ export default {
     modalClose() {
       this.$emit('speedLimitClose');
     },
-    b_to_Kb(v) {
+    bps_to_Kbps(v) {
       if (!v) {
         return '';
       }
       return v / 1000;
     },
-    Kb_to_b(v) {
+    Kbps_to_bps(v) {
       return v * 1000;
     },
     getSpeed() {
@@ -128,36 +128,40 @@ export default {
       });
     },
     submit() {
-      if (this.form.up || this.form.down) {
-        if (this.$refs.form.validate()) {
-          this.$loading.open();
-          const params = {
-            enabled: this.form.enabled
-          };
-          if (this.form.up) {
-            params.up = this.Kb_to_b(Number(this.form.up));
-          }
-          if (this.form.down) {
-            params.down = this.Kb_to_b(Number(this.form.down));
-          }
-          this.$http
-            .speedLimitUpdate({
-              mac: this.mac,
-              speed_limit: params
-            })
-            .then(() => {
-              this.$loading.close();
-              this.$store.state.modules.limits[this.mac].speed_limit = params;
-              this.$toast(this.$t('trans0040'), 2000, 'success');
-              this.modalClose();
-              this.$emit('refreshDeviceList');
-            })
-            .catch(() => {
-              this.$loading.close();
-            });
-        }
-      } else {
+      if (this.form.enabled && !this.form.up && !this.form.down) {
         this.$toast(this.$t('trans0065'));
+        return;
+      }
+      if (this.$refs.form.validate()) {
+        this.$loading.open();
+        const params = {
+          enabled: this.form.enabled
+        };
+        if (this.form.up) {
+          params.up = this.Kbps_to_bps(Number(this.form.up));
+        } else {
+          params.up = 0;
+        }
+        if (this.form.down) {
+          params.down = this.Kbps_to_bps(Number(this.form.down));
+        } else {
+          params.down = 0;
+        }
+        this.$http
+          .speedLimitUpdate({
+            mac: this.mac,
+            speed_limit: params
+          })
+          .then(() => {
+            this.$loading.close();
+            this.$store.state.modules.limits[this.mac].speed_limit = params;
+            this.$toast(this.$t('trans0040'), 2000, 'success');
+            this.modalClose();
+            this.$emit('refreshDeviceList');
+          })
+          .catch(() => {
+            this.$loading.close();
+          });
       }
     }
   }
@@ -174,7 +178,7 @@ export default {
   align-items: center;
   width: 100%;
   height: 100%;
-  background: var(--modal-mask-background-color);
+  background: var(--modal_mask-bgc);
   z-index: 6;
 }
 .main {
@@ -184,7 +188,7 @@ export default {
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 50px 40px -20px rgba(0, 0, 0, 0.1);
-  background-color: var(--modal-content-background);
+  background-color: var(--modal_content-bgc);
   z-index: 7;
 }
 .main__title {
@@ -196,8 +200,8 @@ export default {
   font-weight: 500;
   margin-bottom: 20px;
   .close {
-    color: var(--text-default-color);
-    background-color: var(--button-close-bgc);
+    color: var(--text_default-color);
+    background-color: var(--button_close-bgc);
     .iconfont {
       font-size: 12px;
       font-weight: 700;
@@ -227,10 +231,10 @@ export default {
     .btn-default {
       background-image: linear-gradient(
           to right,
-          var(--modal-content-background),
-          var(--modal-content-background)
+          var(--modal_content-bgc),
+          var(--modal_content-bgc)
         ),
-        var(--common-btn_default-bgimg) !important;
+        var(--common_btn_default-bgimg) !important;
     }
   }
 }

@@ -99,6 +99,5 @@
   { "name": "Weißrussland", "code": "112" },
   { "name": "Zypern", "code": "196" },
   { "name": "Ägypten", "code": "818" },
-  { "name": "österreich", "code": "40" },
-  { "name": "Andere", "code": "999" }
+  { "name": "österreich", "code": "40" }
 ]

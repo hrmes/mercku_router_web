@@ -24,19 +24,19 @@
               <div class="form-content">
                 <div>
                   <label class="with-colon">{{$t('trans0375')}}:</label>
-                  <span>{{networkArr[netInfo.type] ? networkArr[netInfo.type]:'-'}}</span>
+                  <span>{{networkArr[netInfo.type] || '-'}}</span>
                 </div>
                 <div>
                   <label class="with-colon">{{$t('trans0151')}}:</label>
-                  <span>{{netInfo.ip}}</span>
+                  <span>{{netInfo.ip || '-'}}</span>
                 </div>
                 <div>
                   <label class="with-colon">{{$t('trans0236')}}:</label>
-                  <span>{{netInfo.dns}}</span>
+                  <span>{{netInfo.dns || '-'}}</span>
                 </div>
                 <div>
                   <label class="with-colon">{{$t('trans0153')}}:</label>
-                  <span>{{netInfo.gateway}}</span>
+                  <span>{{netInfo.gateway || '-'}}</span>
                 </div>
               </div>
             </div>
@@ -65,7 +65,7 @@
                         :rules="autoRules"
                         class="auto-form">
                   <m-form-item :class="{last:autodns}">
-                    <m-select label="DNS设置"
+                    <m-select :label="$t('trans0401')"
                               v-model="autodns"
                               :options="dnsOptions"></m-select>
                   </m-form-item>
@@ -107,7 +107,7 @@
                                 class="pppoe-form__item__checkbox"></m-checkbox>
                   </m-form-item>
                   <m-form-item :class="{last:autodns}">
-                    <m-select label="DNS设置"
+                    <m-select :label="$t('trans0401')"
                               v-model="autodns"
                               :options="dnsOptions"></m-select>
                   </m-form-item>
@@ -177,34 +177,21 @@
 </template>
 
 <script>
-import * as CONSTANTS from 'base/util/constant';
 import { isValidInteger, isIP } from 'base/util/util';
+import { Models, IP, IPv6DefaultPlaceholder, WanNetStatus, WanType } from 'base/util/constant';
 
 const defaultPrefixLength = 64;
-const { IPv6 } = CONSTANTS.IP;
+const { IPv6 } = IP;
+const NoPPPoeList = [Models.M6s, Models.M6s_Nano, Models['M6s_PoE++']];
 export default {
   data() {
     return {
       IPv4NetType: '', // IPv4的网络状态
       isSetup: false, // 是否已经设置了
       enabled: false, // 是否启用IPv6
-      IPv6DefaultPlaceholder: CONSTANTS.IPv6DefaultPlaceholder,
-      netType: CONSTANTS.WanType.auto,
-      netStatus: CONSTANTS.WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
-      wanTypeOptions: [
-        {
-          value: CONSTANTS.WanType.auto,
-          text: this.$t('trans0696')
-        },
-        {
-          value: CONSTANTS.WanType.pppoe,
-          text: this.$t('trans0144')
-        },
-        {
-          value: CONSTANTS.WanType.static,
-          text: this.$t('trans0148')
-        }
-      ],
+      IPv6DefaultPlaceholder,
+      netType: WanType.auto,
+      netStatus: WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       networkArr: {
         auto: this.$t('trans0696'),
         static: this.$t('trans0148'),
@@ -295,16 +282,44 @@ export default {
   },
   computed: {
     isAuto() {
-      return this.netType === CONSTANTS.WanType.auto;
+      return this.netType === WanType.auto;
     },
     isPppoe() {
-      return this.netType === CONSTANTS.WanType.pppoe;
+      return this.netType === WanType.pppoe;
     },
     isStatic() {
-      return this.netType === CONSTANTS.WanType.static;
+      return this.netType === WanType.static;
     },
     isShowWarn() {
-      return this.IPv4NetType === CONSTANTS.WanType.pppoe && !this.isPppoe;
+      return this.IPv4NetType === WanType.pppoe && !this.isPppoe;
+    },
+    wanTypeOptions() {
+      if (NoPPPoeList.includes(process.env.MODEL_CONFIG.id)) {
+        return [
+          {
+            value: WanType.auto,
+            text: this.$t('trans0696')
+          },
+          {
+            value: WanType.static,
+            text: this.$t('trans0148')
+          }
+        ];
+      }
+      return [
+        {
+          value: WanType.auto,
+          text: this.$t('trans0696')
+        },
+        {
+          value: WanType.pppoe,
+          text: this.$t('trans0144')
+        },
+        {
+          value: WanType.static,
+          text: this.$t('trans0148')
+        }
+      ];
     }
   },
   watch: {
@@ -388,7 +403,7 @@ export default {
             ontimeout: () => {
               this.$router.push({ path: '/unconnect' });
             },
-            timeout: 60
+            timeout: 30
           });
         } else {
           this.$dialog.info({
@@ -426,7 +441,7 @@ export default {
         .getWanNetInfo()
         .then(res => {
           const { type } = res.data.result;
-          if (type !== CONSTANTS.WanType.pppoe) {
+          if (type !== WanType.pppoe) {
             this.$dialog.info({
               okText: this.$t('trans0024'),
               cancelText: this.$t('trans0025'),
@@ -458,7 +473,7 @@ export default {
           const { result } = res.data;
           const pppoeData = result.pppoe;
           this.IPv4NetType = result.type;
-          if (this.IPv4NetType === CONSTANTS.WanType.pppoe) {
+          if (this.IPv4NetType === WanType.pppoe) {
             this.pppoeForm.account = pppoeData.account;
             this.pppoeForm.password = pppoeData.password;
           }
@@ -467,62 +482,64 @@ export default {
     },
     submit() {
       const form = { type: this.netType };
-      if (this.isAuto) {
-        if (!this.$refs.autoForm.validate()) {
-          return;
-        }
-        form.auto = {
-          dns: []
-        };
-        if (!this.autodns) {
-          form.auto.dns.push({
-            ip: this.autoForm.dns,
-            prefix_length: defaultPrefixLength
-          });
-        }
-      }
-      if (this.isPppoe) {
-        if (!this.$refs.pppoeForm.validate()) {
-          return;
-        }
-        form.pppoe = {
-          share_ipv4_credentials: this.pppoeForm.isUseIPv4,
-          account: this.pppoeForm.account,
-          password: this.pppoeForm.password,
-          dns: []
-        };
-        if (!this.autodns) {
-          form.pppoe.dns.push({
-            ip: this.pppoeForm.dns,
-            prefix_length: defaultPrefixLength
-          });
-        }
-      }
-      if (this.isStatic) {
-        if (!this.$refs.staticForm.validate()) {
-          return;
-        }
-        form.static = {
-          netinfo: {
-            family: 'ipv6',
-            address: [
-              {
-                ip: this.staticForm.ip,
-                prefix_length: Number(this.staticForm.prefixLength)
-              }
-            ],
-            gateway: {
-              ip: this.staticForm.gateway,
-              prefix_length: defaultPrefixLength
-            },
-            dns: [
-              {
-                ip: this.staticForm.dns,
-                prefix_length: defaultPrefixLength
-              }
-            ]
+      if (this.enabled) {
+        if (this.isAuto) {
+          if (!this.$refs.autoForm.validate()) {
+            return;
           }
-        };
+          form.auto = {
+            dns: []
+          };
+          if (!this.autodns) {
+            form.auto.dns.push({
+              ip: this.autoForm.dns,
+              prefix_length: defaultPrefixLength
+            });
+          }
+        }
+        if (this.isPppoe) {
+          if (!this.$refs.pppoeForm.validate()) {
+            return;
+          }
+          form.pppoe = {
+            share_ipv4_credentials: this.pppoeForm.isUseIPv4,
+            account: this.pppoeForm.account,
+            password: this.pppoeForm.password,
+            dns: []
+          };
+          if (!this.autodns) {
+            form.pppoe.dns.push({
+              ip: this.pppoeForm.dns,
+              prefix_length: defaultPrefixLength
+            });
+          }
+        }
+        if (this.isStatic) {
+          if (!this.$refs.staticForm.validate()) {
+            return;
+          }
+          form.static = {
+            netinfo: {
+              family: 'ipv6',
+              address: [
+                {
+                  ip: this.staticForm.ip,
+                  prefix_length: Number(this.staticForm.prefixLength)
+                }
+              ],
+              gateway: {
+                ip: this.staticForm.gateway,
+                prefix_length: defaultPrefixLength
+              },
+              dns: [
+                {
+                  ip: this.staticForm.dns,
+                  prefix_length: defaultPrefixLength
+                }
+              ]
+            }
+          };
+        }
       }
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
@@ -546,7 +563,7 @@ export default {
 .form-content {
   > div {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     padding: 5px 0;
     font-size: 14px;
     label {
@@ -556,7 +573,8 @@ export default {
     }
     span {
       display: inline-block;
-      width: 160px;
+      width: 175px;
+      word-wrap: break-word;
     }
   }
 }

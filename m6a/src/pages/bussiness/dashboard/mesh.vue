@@ -12,7 +12,7 @@
         <div class="topo-container"
              :class="{'show-table':showTable}">
           <div class="legend-wrap">
-            <span class="btn-icon"
+            <span class="btn-icon close"
                   @click="resetChartPosition">
               <i class=" iconfont ic_center"></i>
             </span>
@@ -24,7 +24,7 @@
               </div>
               <p class="legend-title">
                 <span>{{$t('trans0302')}}</span>
-                <i class="iconfont icon-ic_connection_quality icon-quality"
+                <i class="iconfont ic_connection_quality"
                    @click.stop="showRssiModal"></i>
               </p>
               <div class="legend-tx_power">
@@ -38,7 +38,6 @@
                       class="value text">{{txPowerMap[tx_power]}}</span>
               </div>
             </div>
-
           </div>
           <div class="topo-wrap"
                id="toppo-wrap">
@@ -55,11 +54,13 @@
                 <span class="model-name info-label">{{modelName}}</span>
                 <span class="gateway-label info-label"
                       v-if="isGateway">{{$t('trans0153')}}</span>
-                <span class="connect-quality info-label"
-                      :class="{'fair':connectQuality(selectedNodeInfo.color)===ConnectionQualityMap.fair,
-                               'offline':connectQuality(selectedNodeInfo.color)===ConnectionQualityMap.offline
-                              }"
-                      v-if="!isGateway">{{connectQuality(selectedNodeInfo.color)}}</span>
+                <span class="gateway-label info-label"
+                      v-else>{{$t('trans1210')}}</span>
+                <span v-if="!isGateway"
+                      class="connect-quality info-label"
+                      :class="selectedNodeColor">
+                  {{connectQuality(selectedNodeInfo.color)}}
+                </span>
                 <span class="close btn-icon"
                       @click.stop="()=>showTable=false">
                   <i class="iconfont ic_close"></i>
@@ -71,9 +72,11 @@
                 <div class="mesh-router__info">
                   <div class="row-1">
                     <div class="line-icon"
-                         :class="{'m6a_plus':modelID===M6aRouterSnModelVersion.M6a_Plus}"></div>
-                    <span class="text"
-                          :title="selectedNodeInfo.name">{{selectedNodeInfo.name}}</span>
+                         :class="{
+                          'm6a_plus':(selectedNodeInfo.sn.charAt(9)===M6aSeriesModelIDs.M6a_Plus),
+                          'm6c':(selectedNodeInfo.sn.charAt(9)===M6aSeriesModelIDs.M6c)}">
+                    </div>
+                    <div class="text">{{selectedNodeInfo.name}}</div>
                   </div>
                   <div class="row-2">
                     <span class="label">{{$t('trans0251')}}: </span>
@@ -85,7 +88,7 @@
                   </div>
                   <div class="row-4">
                     <span class="label">{{$t('trans0151')}}: </span>
-                    <span class="value">{{selectedNodeInfo.ip?selectedNodeInfo.ip:'-'}}</span>
+                    <span class="value">{{selectedNodeIp}}</span>
                   </div>
                   <div class="row-5">
                     <span class="label">{{$t('trans0201')}}: </span>
@@ -109,7 +112,7 @@
                         v-if="isGateway"
                         @click.stop="resetNode(selectedNodeInfo)">
                     <i class="iconfont ic_reset"></i>
-                    <span class="icon-hover-popover">{{$t('trans0205')}}</span>
+                    <span class="icon-hover-popover rightmost">{{$t('trans0205')}}</span>
                   </span>
                   <span class="btn-icon"
                         v-if="!isGateway"
@@ -123,7 +126,7 @@
             <div class="card-bottom">
               <div class="card-bottom__offline-tips"
                    v-if="isRouterOffline(selectedNodeInfo)">
-                The device is offline
+                {{$t('trans0219')}}
                 <span>{{$t('trans0128')}}</span>
               </div>
               <div class="card-bottom__header">
@@ -136,9 +139,9 @@
                 <div class="col-3"
                      v-if="!isMobile">{{$t('trans0375')}}</div>
               </div>
-              <ul class="card-bottom__main"
+              <ul class="card-bottom__main reset-ul"
                   v-if="selectedNodeInfo.stations.length>0">
-                <li v-for="sta in selectedNodeInfo.stations"
+                <li v-for="sta in sortedStationsList"
                     :key="sta.ip">
                   <div class="col-1">
                     <span class="local-device"
@@ -157,13 +160,15 @@
                   </div>
                   <div class="col-3">
                     <span class="band"
-                          :class="{'wired':isWired(sta.connected_network.band)}">{{bandMap[sta.connected_network.band]}}</span>
+                          :class="{'wired':isWired(sta.connected_network.band)}">
+                      {{bandMap[sta.connected_network.band]}}
+                    </span>
                     <span class="guest"
                           v-if="isGuest(sta.connected_network.type)"></span>
                   </div>
                 </li>
               </ul>
-              <ul class="card-bottom__empty"
+              <ul class="card-bottom__empty reset-ul"
                   v-else>
                 <li>{{$t('trans0278')}}</li>
               </ul>
@@ -174,7 +179,7 @@
     </div>
     <!-- 编辑设备名称弹窗 -->
     <m-modal :visible.sync="showMeshEditModal"
-             :closeOnClickMask="false"
+             :type="'confirm'"
              class="edit-name-modal">
       <m-modal-body class="content">
         <m-form :model="form"
@@ -185,6 +190,25 @@
             <m-editable-select :options="options"
                                :label="$t('trans0108')"
                                v-model="form.name"></m-editable-select>
+          </m-form-item>
+          <m-form-item prop="color">
+            <div class="color-select">
+              <h4 class="label">{{$t('trans1214')}}</h4>
+              <ul class="color-select__wrapper reset-ul">
+                <li v-for="(color,index) in availableDeviceColors"
+                    :key="index"
+                    class="limit-icon">
+                  <div class="color"
+                       :class="{selected:selectedColorName===color.name,
+                                'light-color':color.name===RouterColor.white
+                               }"
+                       :style="{backgroundImage:color.value}"
+                       @click="changeDeviceColor(color)">
+                  </div>
+                  <span class="hover-popover"> {{color.name}}</span>
+                </li>
+              </ul>
+            </div>
           </m-form-item>
         </m-form>
         <div class="btn-inner">
@@ -205,8 +229,7 @@
         <div class="connect-quality-modal-contnet">
           <div class="examples">
             <div class="example error">
-              <img src="@/assets/images/img_help_error.webp"
-                   alt="">
+              <img :src="require('base/assets/images/common/img_help_error.png')" />
               <div class="description">
                 <span class="icon-circle">
                 </span>
@@ -214,8 +237,7 @@
               </div>
             </div>
             <div class="example right">
-              <img src="@/assets/images/img_help_right.webp"
-                   alt="">
+              <img :src="require('base/assets/images/common/img_help_right.png')" />
               <div class="description">
                 <span class="icon-circle">
                 </span>
@@ -242,9 +264,11 @@ import { formatMac } from 'base/util/util';
 import {
   RouterStatus,
   Color,
-  M6aRouterSnModelVersion
+  M6aSeriesModelIDs,
+  Bands
 } from 'base/util/constant';
 import meshEditMixin from 'base/mixins/mesh-edit.js';
+import routerModelMixin from 'base/mixins/router-model.js';
 import genData from './topo';
 
 const echarts = require('echarts/lib/echarts');
@@ -252,13 +276,13 @@ require('echarts/lib/chart/graph');
 
 const GUEST = 'guest'; // 是否是访客
 export default {
-  mixins: [meshEditMixin],
+  mixins: [meshEditMixin, routerModelMixin],
   data() {
     return {
       rssiModalVisible: false,
       RouterStatus,
       formatMac,
-      M6aRouterSnModelVersion,
+      M6aSeriesModelIDs,
       pageActive: true,
       meshNodeTimer: null,
       chart: null,
@@ -313,7 +337,7 @@ export default {
       return this.selectedNodeInfo?.is_gw;
     },
     selectedNodeStationCount() {
-      return this.selectedNodeInfo.stations.length ?? '0';
+      return this.selectedNodeInfo?.stations?.length ?? '0';
     },
     isMobile() {
       return this.$store.state.isMobile;
@@ -321,27 +345,77 @@ export default {
     currentTheme() {
       return this.$store.state.theme;
     },
-    modelID() {
-      return this.$store.state.modelID;
-    },
     modelName() {
-      const routerConfig = process.env.CUSTOMER_CONFIG.routers;
-      const name =
-        routerConfig[
-          this.modelID === M6aRouterSnModelVersion.M6a_Plus ? 'M6a_plus' : 'M6a'
-        ].shortName;
-      return name;
-    }
+      const modelId = this.selectedNodeInfo.sn.slice(0, 2);
+      const modelVersion = this.selectedNodeInfo.sn.charAt(9);
+      const productInfo = this.productsInfo(modelId, modelVersion);
+      if (productInfo) {
+        return productInfo.shortName;
+      }
+      return '';
+    },
+    sortedStationsList() {
+      return this.selectedNodeInfo.stations.sort((a, b) => {
+        if (this.isThisMachine(a.ip) || this.isThisMachine(b.ip)) {
+          if (this.isThisMachine(a.ip)) {
+            return -1;
+          }
+          if (this.isThisMachine(b.ip)) {
+            return 1;
+          }
+          return 0;
+        }
+        if (this.isWired(a.connected_network.band) || this.isWired(b.connected_network.band)) {
+          if (this.isWired(a.connected_network.band)) {
+            return 1;
+          }
+          if (this.isWired(b.connected_network.band)) {
+            return -1;
+          }
+          return 0;
+        }
+        const isLetterOrNumberReg = /[0-9A-Za-z]+/i;
+        if (isLetterOrNumberReg.test(a.name) && !isLetterOrNumberReg.test(b.name)) {
+          return -1;
+        }
+        if (!isLetterOrNumberReg.test(a.name) && isLetterOrNumberReg.test(b.name)) {
+          return 1;
+        }
+        return a.name.localeCompare(b.name);
+      });
+    },
+    selectedNodeIp() {
+      return this.selectedNodeInfo?.lan?.ip ?? this.selectedNodeInfo?.ip ?? '-';
+    },
+    selectedNodeColor() {
+      let color;
+      switch (this.selectedNodeInfo.color) {
+        case Color.good:
+          color = 'good';
+          break;
+        case Color.bad:
+          color = 'bad';
+          break;
+        case Color.offline:
+          color = 'offline';
+          break;
+        default:
+          break;
+      }
+      return color;
+    },
   },
   watch: {
     currentTheme: {
       handler(nv) {
         if (nv === 'dark') {
           this.isDarkMode = true;
+        } else if (nv === 'auto' && window.matchMedia('(prefers-color-scheme:dark)').matches) {
+          this.isDarkMode = true;
         } else {
           this.isDarkMode = false;
         }
-        if (this.routers.length !== 0) {
+        if (this.routers?.length !== 0) {
           this.drawTopo(this.routers);
         }
       },
@@ -365,7 +439,7 @@ export default {
       return type === GUEST;
     },
     isWired(band) {
-      return band === 'wired';
+      return band === Bands.wired;
     },
     connectQuality(color) {
       let result = '';
@@ -492,7 +566,6 @@ export default {
           ...this.routers.filter(route => route.sn === sn)[0],
           color
         };
-        console.log(this.selectedNodeInfo);
         this.showTable = true;
 
         // 立即重新绘制图表，并在下一个更新周期前调整大小
@@ -559,21 +632,50 @@ export default {
               normal: {
                 show: true,
                 position: 'bottom',
-                distance: 10,
+                distance: -15,
                 backgroundColor: 'transparent',
                 formatter: category => this.labelFormatter(category),
                 rich: {
                   name: {
-                    color: this.isDarkMode ? '#fff' : '#333'
+                    color: this.isDarkMode ? '#fff' : '#333',
+                    padding: [0, 0, 25, 0],
+                    align: 'center',
+                    fontWeight: 600,
+                    fontSize: 12
+                  },
+                  oneDigits: {
+                    color: this.isDarkMode ? '#fff' : '#333',
+                    padding: [0, 0, 8, 0],
+                    align: 'center',
+                    width: 65,
+                    fontWeight: 600,
+                    fontSize: 12
+                  },
+                  twoDigits: {
+                    color: this.isDarkMode ? '#fff' : '#333',
+                    padding: [0, 0, 8, 0],
+                    align: 'center',
+                    width: 80,
+                    fontWeight: 600,
+                    fontSize: 12
+                  },
+                  threeDigits: {
+                    color: this.isDarkMode ? '#fff' : '#333',
+                    padding: [0, 0, 8, 0],
+                    align: 'center',
+                    width: 95,
+                    fontWeight: 600,
+                    fontSize: 12
                   },
                   stationCount: {
                     height: 18,
-                    padding: [0, 4],
+                    padding: [0, 5, 2, 5],
                     borderRadius: 5,
                     borderColor: this.isDarkMode ? '#161616 ' : '#fff',
-                    borderWidth: 1.5,
-                    color: '#333333',
-                    backgroundColor: '#d8d8d8'
+                    borderWidth: 2,
+                    color: '#000000',
+                    backgroundColor: '#d8d8d8',
+                    align: 'right',
                   },
                   good: {
                     color: '#29b96c',
@@ -600,7 +702,8 @@ export default {
             links: data.lines,
             categories: [
               { name: `${this.$t('trans0193')}` },
-              { name: `${this.$t('trans0196')}` }
+              { name: `${this.$t('trans0196')}` },
+              { name: `${this.$t('trans0214')}` }
             ],
             lineStyle: { width: 2 }
           }
@@ -625,7 +728,6 @@ export default {
         .getMeshNode()
         .then(res => {
           const { result } = res.data;
-          console.log(result);
           if (!this.chart) {
             this.initChart();
           }
@@ -683,26 +785,27 @@ export default {
       } = category.data;
       const { isGateway } = category.data;
       let result;
-      if (name.length > 12) {
-        name = `${name.substring(0, 12)}...`;
+      if (name.length > 15) {
+        name = `${name.substring(0, 15)}...`;
       }
+      let nameStyle = 'oneDigits';
+      if (stationsCount > 9) nameStyle = 'twoDigits';
+      if (stationsCount > 99) nameStyle = 'threeDigits';
       if (isGateway) {
-        result = `{name|${name}} {stationCount|${stationsCount}}`;
+        result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}`;
         return result;
       }
       switch (color) {
         case Color.good:
-          result = `{name|${name}} {stationCount|${stationsCount}}\n{good|${this.$t(
-            'trans0193'
-          )}} `;
+          result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}\n{good|${this.$t('trans0193')}} `;
           break;
         case Color.bad:
-          result = `{name|${name}} {stationCount|${stationsCount}}\n{bad|${this.$t(
-            'trans0196'
-          )}} `;
+          result = `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}\n{bad|${this.$t('trans0196')}} `;
           break;
         case Color.offline:
-          result = `{name|${name}}\n{offline|${this.$t('trans0214')}}`;
+          result = stationsCount > 0
+            ? `{stationCount|${stationsCount}}\n{${nameStyle}|${name}}\n{offline|${this.$t('trans0214')}}`
+            : `{name|${name}}\n{offline|${this.$t('trans0214')}}`;
           break;
         default:
           break;
@@ -743,6 +846,9 @@ export default {
 }
 </style>
 <style lang="scss" scoped>
+@import '../../../../../base/src/style/mixin.scss';
+
+$img_folder: '../../../../../base/src/assets/images';
 .edit-name-modal {
   .content {
     display: flex;
@@ -775,7 +881,6 @@ export default {
       position: absolute;
       top: 0;
       right: -5px;
-      // transform: translateY(-50%);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -820,64 +925,24 @@ export default {
           display: flex;
           align-items: center;
           justify-content: center;
-          position: relative;
           .icon-circle {
-            width: 16px;
-            height: 16px;
-            border: 1px solid #ff4d64;
-            border-radius: 50%;
+            width: 18px;
+            height: 18px;
             margin-right: 5px;
-            position: relative;
           }
         }
         &.error {
           .icon-circle {
-            &::before {
-              content: '';
-              display: block;
-              width: 7px;
-              height: 1px;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%) rotate(45deg);
-              background: #ff4d64;
-              z-index: 999;
-              position: absolute;
-            }
-            &::after {
-              content: '';
-              display: block;
-              width: 7px;
-              height: 1px;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%) rotate(-45deg);
-              background: #ff4d64;
-              z-index: 999;
-              position: absolute;
-            }
+            background: url(#{$img_folder}/icon/ic_upgrade_failed.png)
+              center/contain no-repeat;
           }
         }
         &.right {
           .icon-circle {
-            border-color: #55c630;
-            &::after {
-              position: absolute;
-              content: '';
-              display: block;
-              width: 3px;
-              height: 6px;
-              border-right: 1px solid #55c630;
-              border-bottom: 1px solid #55c630;
-              border-left: 0;
-              border-top: 0;
-              transform: rotate(45deg);
-              top: 3px;
-              left: 5px;
-            }
+            background: url(#{$img_folder}/icon/ic_upgrade_successful.png)
+              center/contain no-repeat;
           }
         }
-
         img {
           width: 300px;
           @media screen and (max-width: 768px) {
@@ -933,7 +998,7 @@ export default {
               display: flex;
               align-items: center;
               margin-top: 10px;
-              color: var(--text-default-color);
+              color: var(--text_default-color);
             }
             .legend-item {
               margin-right: 10px;
@@ -961,7 +1026,7 @@ export default {
           }
           .legend-title {
             font-size: 12px;
-            color: var(--text-default-color);
+            color: var(--text_default-color);
             margin: 0;
             display: flex;
             align-items: center;
@@ -971,7 +1036,7 @@ export default {
               transform: translateX(25%);
               cursor: pointer;
               &:hover {
-                color: var(--text-gery-color);
+                color: var(--text_gery-color);
               }
             }
           }
@@ -1019,8 +1084,8 @@ export default {
         max-height: calc(100vh - 65px - 60px);
         width: 40%;
         height: 100%;
-        background: var(--common-card-bgc);
-        box-shadow: var(--common-card-boxshadow);
+        background: var(--common_card-bgc);
+        box-shadow: var(--common_card-boxshadow);
         border-radius: 10px;
         .card-top {
           position: relative;
@@ -1055,12 +1120,16 @@ export default {
             padding: 4px 10px;
             border-radius: 5px;
             color: #fff;
+            font-weight: 500;
             margin-right: 5px;
-            background-image: linear-gradient(97deg, #50cc83 6%, #3cc146 90%);
             &.model-name {
               background-image: linear-gradient(117deg, #97006a, #f45199 100%);
             }
-            &.fair {
+            &.gateway-label,
+            &.good {
+              background-image: linear-gradient(97deg, #50cc83 6%, #3cc146 90%);
+            }
+            &.bad {
               background-image: linear-gradient(97deg, #ebb351 6%, #e16825 90%);
             }
             &.offline {
@@ -1077,7 +1146,7 @@ export default {
           .router__img {
             width: 150px;
             height: 150px;
-            aspect-ratio: 1/1;
+            @include aspect(1, 1);
           }
           .mesh-router__info {
             display: grid;
@@ -1097,24 +1166,33 @@ export default {
                 width: 40px;
                 height: 40px;
                 margin-right: 5px;
-                aspect-ratio: 1/1;
+                @include aspect(1, 1);
                 background: url(../../../assets/images/icon/ic_homepage_m6a.png)
                   center no-repeat;
                 background-size: contain;
                 filter: var(--img-brightness);
                 &.m6a_plus {
-                  background: url(../../../assets/images/m6a_plus/ic_homepage_m6a-plus.png)
+                  background: url(../../../assets/images/icon/ic_homepage_m6a-plus.png)
+                    center no-repeat;
+                  background-size: contain;
+                }
+                &.m6c {
+                  background: url(../../../assets/images/icon/ic_homepage_m6c.png)
                     center no-repeat;
                   background-size: contain;
                 }
               }
               .text {
-                font-size: 18px;
+                flex: 1;
+                font-size: 16px;
                 font-weight: 500;
-                max-width: calc(100% - 45px);
+                line-height: 1;
                 overflow: hidden;
                 text-overflow: ellipsis;
-                white-space: nowrap;
+                word-break: break-all;
+                display: -webkit-box;
+                -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical;
               }
             }
             .row-2,
@@ -1123,7 +1201,7 @@ export default {
             .row-5 {
               font-size: 14px;
               font-weight: 500;
-              color: var(--common-gery-color);
+              color: var(--common_gery-color);
               .label {
                 margin-right: 5px;
               }
@@ -1135,9 +1213,8 @@ export default {
             align-items: flex-end;
             width: fit-content;
             height: 100%;
-            margin-left: 10px;
             > span {
-              background-color: var(--button-close-bgc);
+              background-color: var(--button_close-bgc);
               margin-right: 10px;
               &:last-child {
                 margin: 0;
@@ -1155,10 +1232,10 @@ export default {
             justify-content: center;
             align-items: center;
             height: 40px;
-            background-color: var(--mesh-table-offline_tips-bgc);
+            background-color: var(--mesh_table_offline_tips-bgc);
             > span {
               cursor: pointer;
-              color: var(--mobile-menu-selected-color);
+              color: var(--mobile_menu_selected-color);
               margin-left: 7px;
               text-decoration: underline;
             }
@@ -1167,9 +1244,9 @@ export default {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             height: 35px;
-            color: var(--text-gery-color);
+            color: var(--text_gery-color);
             padding: 7px 0;
-            background-color: var(--mesh-table-header-bgc);
+            background-color: var(--mesh_table_header-bgc);
             > div {
               text-align: center;
             }
@@ -1187,7 +1264,7 @@ export default {
               font-size: 14px;
               font-weight: 500;
               text-align: center;
-              border-bottom: 1.5px solid var(--common-hr-color);
+              border-bottom: 1.5px solid var(--common_hr-color);
               .col-1 {
                 padding: 0 10px;
                 max-width: 100%;
@@ -1200,9 +1277,11 @@ export default {
                   height: 15px;
                   margin-right: 5px;
                   vertical-align: text-top;
-                  background: url(../../../assets/images/icon/ic_local-device.svg)
-                    center no-repeat;
-                  background-size: contain;
+                  background: url(#{$img_folder}/icon/ic_local-device.svg)
+                    center/contain no-repeat;
+                }
+                > :last-child {
+                  vertical-align: text-bottom;
                 }
               }
               .col-2 {
@@ -1244,10 +1323,10 @@ export default {
                 .guest {
                   display: inline-block;
                   height: 20px;
-                  aspect-ratio: 38/23;
+                  @include aspect(38, 23);
                   margin-left: 15px;
-                  background: url(../../../assets/images/icon/ic_guest.svg)
-                    center no-repeat;
+                  background: url(#{$img_folder}/icon/ic_guest.svg) center
+                    no-repeat;
                   background-size: contain;
                   filter: var(--img-brightness);
                 }
@@ -1295,7 +1374,7 @@ export default {
             flex-direction: column-reverse;
             position: relative;
             .info {
-              background-color: var(--common-card-bgc);
+              background-color: var(--common_card-bgc);
               padding: 15px;
               border-radius: 5px;
             }

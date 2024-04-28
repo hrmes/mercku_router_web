@@ -81,10 +81,10 @@
             </m-form>
           </div>
           <div class="step-item step-item2"
-               v-show="stepOption.current===1">
-            <m-lottieLoading class="configing-loading"
-                             :size="160"
-                             :id="'loading'" />
+               v-if="stepOption.current===1">
+            <m-lottie-loading class="configing-loading"
+                              :size="160"
+                              id="config-loading" />
             <p class="cutdown">{{$t('trans0294')}}{{countdown}}s</p>
             <div class="tip"
                  style="margin-top:5px;">
@@ -149,7 +149,7 @@
 </template>
 <script>
 import { Bands } from 'base/util/constant';
-import { WlanImg } from '@/assets/images/v3/base64-img/img.js';
+import { WlanImg } from 'base/assets/images/base64-img/img.js';
 import {
   getStringByte,
   isValidPassword,
@@ -183,30 +183,38 @@ export default {
       wifiFormRules: {
         ssid24g: [
           {
-            rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0237')
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
           },
           {
-            rule: value => getStringByte(value.trim()) <= 20,
-            message: this.$t('trans0261')
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
           },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
           {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
+            rule: value => getStringByte(value.trim()) <= 20,
+            message: this.$t('trans0261')
+          },
+          {
+            rule: () => this.validateSsid5G(),
+            message: this.$t('trans0660')
           }
         ],
         password24g: [
           {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
-          },
-          {
             rule: value => isFieldHasSpaces(value),
             message: this.$t('trans1020')
+          },
+          {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
           },
           {
             rule: value => isValidPassword(value),
@@ -215,20 +223,20 @@ export default {
         ],
         ssid5g: [
           {
-            rule: value => !/^\s*$/g.test(value),
-            message: this.$t('trans0237')
+            rule: value => isFieldHasSpaces(value),
+            message: this.$t('trans1021')
           },
           {
-            rule: value => getStringByte(value) <= 20,
-            message: this.$t('trans0261')
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
           },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
           {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
+            rule: value => getStringByte(value) <= 20,
+            message: this.$t('trans0261')
           },
           {
             rule: () => this.validateSsid5G(),
@@ -237,12 +245,16 @@ export default {
         ],
         password5g: [
           {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
-          },
-          {
             rule: value => isFieldHasSpaces(value),
             message: this.$t('trans1020')
+          },
+          {
+            rule: value => !/^\s*$/g.test(value.trim()),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => isFieldHasComma(value),
+            message: this.$t('trans0452')
           },
           {
             rule: value => isValidPassword(value),
@@ -263,36 +275,47 @@ export default {
     }
   },
   mounted() {
-    this.$loading.open();
-    this.$http
-      .login(
-        { password: '' },
-        {
-          hideToast: true
-        }
-      )
-      .catch(() => {
-        // password is not empty, go to login page
-        this.$router.push({ path: '/login' });
-        this.$loading.close();
-      });
-    this.$http
-      .getMeshMeta()
-      .then(res => {
-        const wifi = res.data.result;
-        const b24g = wifi.bands[Bands.b24g];
-        const b5g = wifi.bands[Bands.b5g];
-        this.wifiForm.ssid24g = b24g.ssid;
-        this.wifiForm.password24g = b24g.password;
-        this.wifiForm.ssid5g = b5g.ssid;
-        this.wifiForm.password5g = b5g.password;
-        this.wifiForm.smart_connect = wifi.smart_connect;
-      })
-      .then(() => {
-        this.getRegionInitData();
-      });
+    this.authorize();
   },
   methods: {
+    authorize() {
+      this.$loading.open();
+      this.$http
+        .login(
+          { password: '' },
+          {
+            hideToast: true
+          }
+        )
+        .then(() => {
+          this.getMesh();
+        })
+        .catch(() => {
+          // password is not empty, go to login page
+          this.$router.push({ path: '/login' });
+          this.$loading.close();
+        });
+    },
+    getMesh() {
+      this.$http
+        .getMeshMeta()
+        .then(res => {
+          const wifi = res.data.result;
+          const b24g = wifi.bands[Bands.b24g];
+          const b5g = wifi.bands[Bands.b5g];
+          this.wifiForm.ssid24g = b24g.ssid;
+          this.wifiForm.password24g = b24g.password;
+          this.wifiForm.ssid5g = b5g.ssid;
+          this.wifiForm.password5g = b5g.password;
+          this.wifiForm.smart_connect = wifi.smart_connect;
+        })
+        .then(() => {
+          this.getRegionInitData();
+        })
+        .catch(() => {
+          this.$loading.open();
+        });
+    },
     onSsid24gChange() {
       if (this.$refs.ssid5g && this.wifiForm.ssid5g) {
         this.$refs.ssid5g.extraValidate(
@@ -311,13 +334,10 @@ export default {
       // 开关变化后
       if (v) {
         this.wifiForm.ssid5g = this.wifiForm.ssid24g;
-        this.wifiForm.password24g = '';
-        this.wifiForm.password5g = this.wifiForm.password24g;
       } else {
         this.wifiForm.ssid5g = `${this.wifiForm.ssid24g}_5G`;
-        this.wifiForm.password24g = '';
-        this.wifiForm.password5g = '';
       }
+      this.wifiForm.password5g = this.wifiForm.password24g;
     },
     getRegionInitData() {
       Promise.all([this.$http.getRegion(), this.$http.getSupportRegions()])
@@ -344,9 +364,8 @@ export default {
             }
           });
           this.regionsList = regions;
-          this.$loading.close();
         })
-        .catch(() => {
+        .finally(() => {
           this.$loading.close();
         });
     },
@@ -362,7 +381,7 @@ export default {
         this.isLoading = true;
         // 提交表单
         this.$http
-          .updateMeshConfig({
+          .updateRouterInitialize({
             config: {
               wifi: {
                 bands: {
@@ -403,6 +422,9 @@ export default {
               },
               showLoading: false
             });
+          })
+          .finally(() => {
+            this.isLoading = false;
           });
       }
     }
@@ -423,10 +445,10 @@ export default {
     width: 100%;
     height: 100%;
     text-align: center;
-    background: var(--common-card-bgc);
+    background: var(--common_card-bgc);
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: var(--common-card-boxshadow);
+    box-shadow: var(--common_card-boxshadow);
     .row-1 {
       display: grid;
       grid-template-rows: 100%;
@@ -455,7 +477,7 @@ export default {
         align-items: center;
         width: 100%;
         height: 100%;
-        border-top: 1px solid var(--wlan-hr-color);
+        border-top: 1px solid var(--wlan_hr-color);
         > button {
           width: 240px;
         }
@@ -475,7 +497,7 @@ export default {
         }
         .tip-label {
           font-size: 12px;
-          color: var(--text-gery-color);
+          color: var(--text_gery-color);
           margin-top: 10px;
         }
         .form-item {
@@ -524,7 +546,7 @@ export default {
           margin: 0 auto;
         }
         .cutdown {
-          color: var(--primaryColor);
+          color: var(--primary-color);
           font-size: 16px;
           margin: 10px 0;
         }
@@ -534,14 +556,14 @@ export default {
           &.tip-setting {
             margin: 10px 0 15px;
             text-align: left;
-            color: var(--wlan-tips-color);
+            color: var(--wlan_tips-color);
           }
         }
         .info-container {
           border-radius: 7px;
           padding: 10px 15px;
           margin-top: 20px;
-          background: var(--common-sub_card-bgc);
+          background: var(--common_sub_card-bgc);
         }
         .info {
           font-size: 14px;
@@ -556,7 +578,7 @@ export default {
           .info__title {
             font-size: 12px;
             margin-bottom: 5px;
-            color: var(--text-gery-color);
+            color: var(--text_gery-color);
           }
           .info__value {
             font-size: 14px;
@@ -575,12 +597,12 @@ export default {
         .wifi-24g,
         .wifi-5g {
           .form-header__title {
-            color: var(--text-gery-color);
+            color: var(--text_gery-color);
           }
           .info {
             > :first-child {
               padding-bottom: 5px;
-              border-bottom: 1px solid var(--darker-hr-color);
+              border-bottom: 1px solid var(--darker_hr-color);
             }
           }
         }
@@ -593,7 +615,7 @@ export default {
       display: flex;
       flex-direction: column;
       padding: 15px;
-      background: var(--common-sub_card-bgc);
+      background: var(--common_sub_card-bgc);
       margin-bottom: 15px;
       border-radius: 15px;
       &:last-child {

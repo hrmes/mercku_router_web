@@ -21,15 +21,15 @@ export default function getMenu(role, mode = RouterMode.router) {
     mode: [RouterMode.router]
   };
   const dashboard = {
-    icon: 'icon-ic_home_light1',
-    selectedIcon: 'icon-ic_home_selected',
+    icon: 'ic_home_light',
+    selectedIcon: 'ic_home_selected',
     text: 'trans0173',
     url: '/dashboard',
     children: []
   };
   const setting = {
-    icon: 'icon-ic_home_settings_light1',
-    selectedIcon: 'icon-ic_home_settings_selected_light',
+    icon: 'ic_home_settings_light',
+    selectedIcon: 'ic_home_settings_selected',
     text: 'trans0019',
     name: 'setting',
     url: '/setting/wifi',
@@ -50,12 +50,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0620',
         name: 'ipv6',
         url: '/setting/ipv6',
-        config: strategyA,
-        customers: {
-          [Customers.realnett]: {
-            show: false
-          }
-        }
+        config: strategyA
       },
       {
         text: 'trans0561',
@@ -63,19 +58,10 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/setting/safe',
         config,
         customers: {
-          [Customers.realnett]: {
-            auth: [Role.admin]
-          },
-          [Customers.fibrestream]: {
-            auth: [Role.admin]
-          },
-          [Customers.inverto]: {
-            auth: [Role.admin]
-          },
-          [Customers.orion]: {
-            auth: [Role.admin]
-          },
           [Customers.junet]: {
+            auth: [Role.admin]
+          },
+          [Customers.vistabeam]: {
             auth: [Role.admin]
           }
         }
@@ -89,23 +75,11 @@ export default function getMenu(role, mode = RouterMode.router) {
           [Customers.mercku]: {
             show: false
           },
-          [Customers.realnett]: {
-            show: true,
-            auth: [Role.super]
-          },
-          [Customers.inverto]: {
-            show: true,
-            auth: [Role.super]
-          },
-          [Customers.orion]: {
-            show: true,
-            auth: [Role.super]
-          },
-          [Customers.fibrestream]: {
-            show: true,
-            auth: [Role.super]
-          },
           [Customers.junet]: {
+            show: true,
+            auth: [Role.super]
+          },
+          [Customers.vistabeam]: {
             show: true,
             auth: [Role.super]
           }
@@ -156,8 +130,8 @@ export default function getMenu(role, mode = RouterMode.router) {
     ]
   };
   const advance = {
-    icon: 'icon-ic_advanced_settings_light',
-    selectedIcon: 'icon-ic_advanced_settings_selected_light',
+    icon: 'ic_advanced_settings_light',
+    selectedIcon: 'ic_advanced_settings_selected',
     text: 'trans0416',
     name: 'advance',
     url: '/advance/portforwarding',
@@ -213,15 +187,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/mode',
         name: 'advance-mode',
         text: 'trans0539',
-        config,
-        customers: {
-          [Customers.cik]: {
-            show: false
-          },
-          [Customers.startca]: {
-            show: false
-          }
-        }
+        config
       },
       {
         url: '/advance/diagnosis',
@@ -239,23 +205,13 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/firewall',
         name: 'advance-firewall',
         text: 'trans0424',
-        config: strategyA,
-        customers: {
-          [Customers.realnett]: {
-            auth: [Role.super]
-          }
-        }
+        config: strategyA
       },
       {
         url: '/advance/wwa',
         name: 'advance.wwa',
         text: 'trans0511',
-        config: strategyA,
-        customers: {
-          [Customers.realnett]: {
-            auth: [Role.super]
-          }
-        }
+        config: strategyA
       },
       {
         url: '/advance/tr069',
@@ -270,11 +226,12 @@ export default function getMenu(role, mode = RouterMode.router) {
           [Customers.mercku]: {
             show: true
           },
-          [Customers.realnett]: {
-            show: false
-          },
           [Customers.junet]: {
             show: false
+          },
+          [Customers.vistabeam]: {
+            show: true,
+            auth: [Role.super, Role.admin]
           }
         }
       },
@@ -297,22 +254,22 @@ export default function getMenu(role, mode = RouterMode.router) {
     ]
   };
   const upgrade = {
-    icon: 'icon-ic_upgrade_firmware_light1',
-    selectedIcon: 'icon-ic_upgrade_firmware_selected_light',
+    icon: 'ic_upgrade_firmware_light',
+    selectedIcon: 'ic_upgrade_firmware_selected',
     text: 'trans0197',
     name: 'upgrade',
     url: '/upgrade/online',
     children: [
       {
-        url: '/upgrade/online',
-        name: 'online',
-        text: 'trans0202',
-        config
-      },
-      {
         url: '/upgrade/offline',
         name: 'offline',
         text: 'trans0204',
+        config
+      },
+      {
+        url: '/upgrade/online',
+        name: 'online',
+        text: 'trans0202',
         config
       },
       {
@@ -324,7 +281,7 @@ export default function getMenu(role, mode = RouterMode.router) {
     ]
   };
   const theme = {
-    icon: 'icon-ic_theme_light',
+    icon: 'ic_theme_light',
     text: 'trans1119',
     children: []
   };

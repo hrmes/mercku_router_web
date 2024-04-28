@@ -1,82 +1,100 @@
 <template>
   <div class="page">
-    <div class="page-header">
+    <div v-if="$store.state.isMobile"
+         class="page-header">
       {{ $t('trans0202') }}
-
-      <div class="btn-info"
+      <!-- <div class="btn-info"
            v-if="nodes.length">
         <button class="btn btn-small"
                 @click="submit()">
           {{ $t('trans0225') }}
         </button>
-      </div>
+      </div> -->
     </div>
     <div class="page-content">
-      <div class="nodes-wrapper"
-           v-if="hasUpgradablityNodes">
-        <div class="nodes-info">
-          <div v-for="node in nodes"
-               :key="node.sn"
-               class="node">
-            <div class="badges">
-              <m-tag class="gateway"
-                     v-if="node.isGW">{{$t('trans0165')}}</m-tag>
-              <m-tag>{{ node.version.latest }}</m-tag>
+      <div class="page-content__main">
+        <div v-if="hasUpgradablityNodes"
+             class="nodes-wrapper"
+             ref="renodes">
+          <div class="retitle"
+               :class="{
+                 'retitle--fixed': isRetitleFixed
+               }"
+               ref="retitle">
+            <div v-if="$store.state.isMobile"
+                 class="retitle__btn-wrap">
+              <button @click="submit()"
+                      class="btn btn-small retitle__btn">
+                {{ $t('trans0225') }}
+              </button>
             </div>
-            <div class="message"
-                 @click="check(node)">
-              <m-checkbox :readonly="true"
-                          v-model="node.checked" />
-              <div class="img-container">
-                <img class="img-m2"
-                     v-if="node.model.id === RouterSnModel.M2"
-                     src="../../../assets/images/img_m2.png"
-                     alt="" />
-                <img class="img-bee"
-                     v-else-if="node.model.id === RouterSnModel.Bee"
-                     src="../../../assets/images/img_bee.png"
-                     alt="" />
-                <img class="img-other"
-                     v-else
-                     src="../../../assets/images/icon/ic_default_router.png"
-                     alt="" />
-              </div>
-              <div class="info-container">
-                <p class="node-name">{{ node.name }}</p>
-                <p class="node-sn">
-                  <label class="with-colon">{{ $t('trans0252') }}:</label>
-                  <span>{{ node.sn }}</span>
-                </p>
-                <p class="node-version">
-                  <label class="with-colon">{{ $t('trans0209') }}:</label>
-                  <span>{{ node.version.current }}</span>
-                </p>
-                <p class="changelog"
-                   @click.stop="showChangelog(node)">
-                  {{ $t('trans0546') }}
-                </p>
+          </div>
+          <div class="nodes-info"
+               :style="{
+            'margin-top': isRetitleFixed ? `${nodesInfoMarginTop}px` : 0
+          }">
+            <div v-for="node in nodes"
+                 :key="node.sn"
+                 class="node">
+
+              <div class="message"
+                   @click="check(node)">
+                <m-checkbox :readonly="true"
+                            v-model="node.checked" />
+                <div class="img-container">
+                  <img :src="getRouterImage(node.sn)"
+                       alt="" />
+                </div>
+                <div class="info-container">
+                  <div class="node-name">
+                    <p>{{ node.name }}</p>
+                  </div>
+                  <p class="node-sn">
+                    <label class="with-colon">{{ $t('trans0252') }}:</label>
+                    <span>{{ node.sn }}</span>
+                  </p>
+                  <p class="node-version">
+                    <label class="with-colon">{{ $t('trans0209') }}:</label>
+                    <span>{{ node.version.current }}</span>
+                  </p>
+                  <div class="badges">
+                    <m-tag class="gateway"
+                           v-if="node.isGW">{{$t('trans0153')}}</m-tag>
+                    <m-tag><span :title="$t('trans0210')">{{ node.version.latest }}</span></m-tag>
+                  </div>
+                  <p class="changelog"
+                     @click.stop="showChangelog(node)">
+                    {{ $t('trans0546') }}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="msg-wrapper"
-           v-else>
-        <div v-if="
+        <div class="msg-wrapper"
+             v-else>
+          <div v-if="
             !hasUpgradablityNodes &&
               requestResult.complete &&
-              !requestResult.error
-          ">
-          <img src="../../../assets/images/img_new_version.png"
-               alt=""
-               width="220" />
-          <p>{{ $t('trans0259') }}</p>
+              !requestResult.error">
+            <img :src="require('base/assets/images/common/img_new_version.png')"
+                 width="220" />
+            <p>{{ $t('trans0259') }}</p>
+          </div>
+          <div v-if="requestResult.error">
+            <img :src="require('base/assets/images/common/img_error.png')"
+                 width="220" />
+            <p>{{ requestResult.message }}</p>
+          </div>
         </div>
-        <div v-if="requestResult.error">
-          <img src="../../../assets/images/img_error.png"
-               alt=""
-               width="220" />
-          <p>{{ requestResult.message }}</p>
+      </div>
+      <div class="page-content__bottom"
+           v-if="!$store.state.isMobile && hasUpgradablityNodes">
+        <div class="form-button__wrapper">
+          <button class="btn"
+                  @click="submit()">
+            {{ $t('trans0225') }}
+          </button>
         </div>
       </div>
     </div>
@@ -99,14 +117,21 @@
         </div>
       </m-modal-footer>
     </m-modal>
+    <upgradeProcessDialog @after-close="afterCloseProgress"
+                          :visible.sync="processDialogVisible" />
   </div>
 </template>
 <script>
 import marked from 'marked';
 import { compareVersion } from 'base/util/util';
 import { RouterSnModel } from 'base/util/constant';
+import RouterModel from 'base/mixins/router-model';
+import upgradeMixin from 'base/mixins/upgrade';
+
+import upgradeProcessDialog from './components/progress.vue';
 
 export default {
+  mixins: [RouterModel, upgradeMixin],
   data() {
     return {
       nodes: [],
@@ -116,6 +141,7 @@ export default {
         error: null,
         message: ''
       },
+      processDialogVisible: false,
       showChangelogModal: false,
       changelog: ''
     };
@@ -123,43 +149,69 @@ export default {
   mounted() {
     this.firmwareList();
   },
+  components: {
+    upgradeProcessDialog
+  },
   computed: {
     hasUpgradablityNodes() {
       return this.nodes.length > 0;
     }
   },
   methods: {
+    afterCloseProgress(success) {
+      if (success) {
+        // 升级成功
+        const nodes = this.nodeChecked.filter(node => node.isGW);
+        console.log(this.nodeChecked);
+        if (nodes.length) {
+          // 包含网关，强制刷新网页清空缓存
+          window.location.reload(true);
+        } else {
+          // 从列表中移除升级成功的节点
+          this.nodeChecked.forEach(node => {
+            this.nodes = this.nodes.filter(n => n.sn !== node.sn);
+          });
+        }
+      }
+      console.log('after close event', success);
+    },
     close() {
       this.showChangelogModal = false;
     },
     check(node) {
-      node.checked = !node.checked;
+      if (node.checked) {
+        node.checked = false;
+      } else {
+        this.nodes.forEach(item => {
+          item.checked = false;
+        });
+        node.checked = true;
+      }
     },
     showChangelog(node) {
       this.showChangelogModal = true;
       if (node.changelog) {
         this.changelog = marked(node.changelog, { sanitize: true });
+        console.log(this.changelog);
       } else {
         this.changelog = '';
       }
     },
     firmwareList() {
       this.$loading.open();
-
       Promise.all([this.$http.firmwareList(), this.$http.getMeshNode()])
         .then(resArr => {
           this.$loading.close();
-          const gw = resArr[1].data.result.filter(node => node.is_gw)[0];
-
           const nodes = resArr[0].data.result;
+          const gw = resArr[1].data.result.filter(node => node.is_gw)[0];
 
           this.requestResult.complete = true;
 
           const filter = node => {
             const { current, latest } = node.version;
+            console.log('compare', current, latest);
             return compareVersion(current, latest);
           };
-
           let containGW = false;
           this.nodes = nodes.filter(filter).map(node => {
             let isGW = false;
@@ -172,7 +224,8 @@ export default {
               isGW,
               checked: false
             };
-          });
+          })
+            .sort((a, b) => (b.isGW ? 1 : -1)); // 将 isGW 为真的元素排在前面
 
           if (containGW && this.nodes.length > 1) {
             this.$dialog.confirm({
@@ -181,11 +234,11 @@ export default {
               message: this.$t('trans0669'),
               callback: {
                 ok: () => {
-                  this.nodes.forEach(node => {
-                    if (!node.isGW) {
-                      node.checked = true;
-                    }
-                  });
+                  const meshNodes = this.nodes.filter(n => !n.isGW);
+                  if (meshNodes.length) {
+                    // 选中第一个节点
+                    meshNodes[0].checked = true;
+                  }
                 }
               }
             });
@@ -201,8 +254,8 @@ export default {
         });
     },
     submit() {
-      const nodeIds = this.nodes.filter(n => n.checked).map(n => n.sn);
-      if (!nodeIds.length) {
+      const nodeChecked = this.nodes.filter(n => n.checked);
+      if (!nodeChecked.length) {
         this.$toast(this.$t('trans0381'));
         return;
       }
@@ -212,16 +265,13 @@ export default {
         message: this.$t('trans0213'),
         callback: {
           ok: () => {
+            this.nodeChecked = nodeChecked;
             this.$loading.open();
             this.$http
-              .upgradeMeshNode({ node_ids: nodeIds })
+              .upgradeMeshNode({ node_ids: nodeChecked.map(n => n.sn) })
               .then(() => {
                 this.$loading.close();
-                this.$upgrade({
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  }
-                });
+                this.processDialogVisible = true;
               })
               .catch(() => {
                 this.$loading.close();
@@ -233,11 +283,7 @@ export default {
   }
 };
 </script>
-
 <style lang="scss" scoped>
-.page-content {
-  align-items: flex-start;
-}
 .page-header {
   justify-content: space-between;
 }
@@ -253,9 +299,9 @@ export default {
     overflow: hidden;
     flex-wrap: wrap;
     .node {
-      width: 340px;
-      height: 136px;
-      border: 1px solid #dbdbdb;
+      width: 360px;
+      height: 160px;
+      border: 1px solid var(--tag_node_border-color);
       border-radius: 5px;
       margin-right: 20px;
       margin-bottom: 30px;
@@ -284,8 +330,8 @@ export default {
         .img-container {
           margin: 0 5px;
           img {
-            width: 80px;
-            height: 80px;
+            width: 120px;
+            height: 120px;
           }
         }
 
@@ -295,18 +341,32 @@ export default {
           align-content: start;
           justify-content: center;
           flex: 1;
-          padding-top: 38px;
-          padding-bottom: 10px;
+          overflow: hidden;
+          // padding-top: 38px;
+          // padding-bottom: 10px;
 
           .node-name {
-            padding: 0;
-            margin: 0;
-            text-align: left;
-            line-height: 1;
+            display: flex;
+            align-items: center;
             padding-top: 0px;
             font-size: 14px;
             font-weight: bold;
             word-break: break-all;
+            width: 100%;
+            height: 42px;
+            > p {
+              padding: 0;
+              margin: 0;
+              text-align: left;
+              width: 100%;
+              height: fit-content;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              word-break: break-all;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+            }
           }
           .node-sn {
             padding: 0;
@@ -314,7 +374,7 @@ export default {
             text-align: left;
             font-size: 12px;
             line-height: 1;
-            padding-top: 10px;
+            padding-top: 5px;
             white-space: nowrap;
           }
           .node-version {
@@ -331,42 +391,48 @@ export default {
           }
           .changelog {
             font-size: 12px;
+            font-weight: 600;
             text-decoration: underline;
-            color: #333;
+            color: var(--text_default-color);
             margin: 0;
-            align-self: flex-end;
-            color: #333;
-            padding-top: 10px;
+            padding-top: 7px;
           }
         }
       }
       .badges {
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        z-index: 1;
         display: flex;
+        padding-top: 12px;
         .mk-tag {
           &.gateway {
-            background: #00d061;
+            color: var(--tag_green_text-color);
+            font-weight: 600;
+            background: var(--tag_green-bgc);
           }
         }
       }
     }
   }
   .btn-info {
-    margin-top: 120px;
+    margin-top: 0;
+    padding-top: 25px;
+    border-top: 1px solid var(--hr-color);
+    text-align: left;
+    .btn {
+      width: 460px;
+    }
   }
 }
 .msg-wrapper {
-  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   text-align: center;
-  margin-top: 30px;
   img {
     width: 200px;
   }
   p {
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     font-size: 16px;
   }
 }
@@ -381,6 +447,7 @@ export default {
   flex-direction: column;
   position: relative;
   .changelog {
+    word-wrap: break-word;
     p:first-child {
       margin-top: 0;
     }
@@ -400,13 +467,45 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .page-content {
+    .page-content__main {
+      padding-top: 0;
+    }
+  }
   .nodes-wrapper {
+    .retitle {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 20px 0;
+      border-radius: 0;
+      word-break: keep-all;
+      flex-direction: column;
+      text-align: left;
+      &.retitle--fixed {
+        display: block;
+        position: fixed;
+        top: 65px;
+        left: 0;
+        right: 0;
+        background: var(--dashboard_icon-bgc);
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        box-shadow: var(--offline-boxshadow);
+        z-index: 999;
+        padding: 20px;
+        .retitle__btn {
+          margin: 0;
+        }
+      }
+    }
     .nodes-info {
       .node {
-        // width: 303px;
-
         margin-left: auto;
         margin-right: auto;
+        .message {
+          padding: 0 10px 0 20px;
+        }
       }
     }
     .btn-info {

@@ -8,8 +8,8 @@ CUR_NPM_VER_MINOR := $(shell echo $(CUR_NPM_VER) | cut -f2 -d.)
 CUR_NPM_VER_PATCH := $(shell echo $(CUR_NPM_VER) | cut -f3 -d.)
 IS_NPM_OK := $(shell [ $(CUR_NPM_VER_MAJOR) -gt $(MIN_NPM_VER_MAJOR) -o \( $(CUR_NPM_VER_MAJOR) -eq $(MIN_NPM_VER_MAJOR) -a \( $(CUR_NPM_VER_MINOR) -gt $(MIN_NPM_VER_MINOR) -o \( $(CUR_NPM_VER_MINOR) -eq $(MIN_NPM_VER_MINOR) -a $(CUR_NPM_VER_PATCH) -ge $(MIN_NPM_VER_PATCH) \)  \) \) ] && echo true)
 
-CUSTOMER_LIST = 0001 0002 0003 0004 0005 0006 0007 0013 0014 0019 0025 0029
-MODEL_LIST = M2R2=m2 M6R0=m6 M7R0=m6c M8=m6a M9R0=homeway M9R1=homeway M9R2=homeway M11R1=m6s
+CUSTOMER_LIST = 0001 0029
+MODEL_LIST = M6R0=m6 M8=m6a M11R1=m6s M13R0=nano M16R0=m6s_poe
 
 # 默认为 false，你可以在 make 命令中设置为 true
 IS_MVU ?= false
@@ -50,7 +50,6 @@ dev_depend: package.json check_npm_version
 
 build: prd_depend
 	cd $(MODEL) && make CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID) IS_MVU=$(IS_MVU)
-	ln -sf $(MODEL)/dist dist
 
 dev:
 	cd $(MODEL) && make dev CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID) IS_MVU=$(IS_MVU)

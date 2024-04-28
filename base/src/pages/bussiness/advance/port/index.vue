@@ -65,7 +65,7 @@
                 <p>
                   <label class="m-title with-colon"
                          v-if="isMobile">{{$t('trans0425')}}:</label>
-                  <span>{{item.remote.ip === '0.0.0.0' ? $t('trans0109') : item.remote.ip}}</span>
+                  <span>{{item.remote.ip === '0.0.0.0'||item.remote.ip==='' ? $t('trans0109') : item.remote.ip}}</span>
                 </p>
                 <span v-if="!isMobile"
                       style="margin:0 3px">/</span>
@@ -109,8 +109,7 @@
             </div>
             <div class="empty"
                  v-if="(empty !== null) && empty">
-              <img src="../../../../assets/images/img_default_empty.webp"
-                   alt="">
+              <img :src="require('base/assets/images/common/img_default_empty.png')">
               <p>{{$t('trans0278')}}</p>
             </div>
           </div>
@@ -354,7 +353,7 @@ export default {
         grid-template-rows: 1fr 2fr 2fr 1fr 1fr;
         grid-template-columns: 100%;
         font-weight: 400;
-        color: var(--common-gery-color);
+        color: var(--common_gery-color);
         > div {
           height: 50px;
           border-bottom: 1px solid var(--hr-color);
@@ -372,7 +371,7 @@ export default {
           }
           .name {
             grid-area: name;
-            color: var(--text-default-color);
+            color: var(--text_default-color);
             height: 100%;
             > span {
               line-height: 50px;
@@ -394,7 +393,7 @@ export default {
               transform: translateY(-50%) rotate(90deg);
               font-size: 12px;
               transition: transform 0.3s;
-              color: var(--text-default-color);
+              color: var(--text_default-color);
             }
           }
         }

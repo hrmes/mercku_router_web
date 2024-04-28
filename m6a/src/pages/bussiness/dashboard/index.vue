@@ -23,14 +23,14 @@
                 <div class="device-name"
                      :title="localDeviceInfo.name">
                   <img class="current-device-icon"
-                       src="@/assets/images/icon/ic_local-device.svg"
-                       alt="">
+                       :src="require('base/assets/images/icon/ic_local-device.svg')" />
                   {{localDeviceInfo.name}}
                 </div>
                 <div class="other">
-                  <div class="band">{{bandMap[`${localDeviceInfo.online_info.band}`] }}</div>
-                  <div v-if="!isWired"
-                       class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
+                  <div class="band"
+                       :class="{'wired':isWired}">
+                    {{bandMap[`${localDeviceInfo.online_info.band}`] }}</div>
+                  <div class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
                   </div>
                 </div>
               </div>
@@ -53,15 +53,17 @@
              v-if="!isMobile">
           <div class="line"
                :class="{'testing':isTesting,'unconnected':(!isTesting && !isConnected)}">
-            <div class="icon-unconnected-container"
+            <div v-if="(!isTesting && !isConnected)"
+                 class="icon-unconnected-container"
                  @click.stop="showTips()">
+              <img :src="require('base/assets/images/icon/ic_default_error.png')" />
             </div>
           </div>
         </div>
         <div class="mobile-icon-wrapper"
              v-if="isMobile">
           <span class="btn-icon"
-                :class="{disabled:!meshGatewayInfo.name}"
+                :class="{disabled:!meshGatewayInfo.name, close:!meshGatewayInfo.name}"
                 @click.stop="editMesh(meshGatewayInfo)">
             <i class="iconfont ic_edit"></i>
           </span>
@@ -92,8 +94,7 @@
                  class="speed">
               <div class="speed-info upload">
                 <div class="speed-icon-wrap">
-                  <img src="@/assets/images/icon/ic_upload.webp"
-                       alt="">
+                  <img :src="require('base/assets/images/icon/ic_upload.png')" />
                 </div>
                 <div class="speed-wrap">
                   <div>
@@ -105,8 +106,7 @@
               </div>
               <div class="speed-info download">
                 <div class="speed-icon-wrap">
-                  <img src="@/assets/images/icon/ic_download.webp"
-                       alt="">
+                  <img :src="require('base/assets/images/icon/ic_download.png')" />
                 </div>
                 <div class="speed-wrap">
                   <div>
@@ -120,7 +120,7 @@
             <div v-else
                  class="bridge-mode-tip">
               <img v-if="!isMobile"
-                   src="../../../assets/images/img-bridge.webp">
+                   :src="require('base/assets/images/common/img_bridge.png')" />
               <span>{{$t('trans0984')}}</span>
             </div>
           </div>
@@ -128,11 +128,12 @@
       </div>
       <div class="functional">
         <div class="row-1">
-          <div class="mesh-name">
+          <div class="mesh-name"
+               :title="meshGatewayInfo.name">
             {{meshGatewayInfo.name?meshGatewayInfo.name:'-'}}
           </div>
           <span class="btn-icon"
-                :class="{disabled:!meshGatewayInfo.name}"
+                :class="{disabled:!meshGatewayInfo.name, close:!meshGatewayInfo.name}"
                 v-if="!isMobile"
                 @click.stop="editMesh(meshGatewayInfo)">
             <i class="iconfont ic_edit"></i>
@@ -140,7 +141,7 @@
           </span>
         </div>
         <div class="row-2">
-          <div class="model">{{ModelName}}</div>
+          <div class="model">{{modelName}}</div>
           <div class="gateway">{{$t('trans0153')}}</div>
         </div>
         <div class="row-3">
@@ -157,8 +158,7 @@
          @click="jumpApp">
       <div class="wrapper">
         <div class="icon mercku">
-          <img src="@/assets/images/customer/mercku/ic_launcher.png"
-               alt="">
+          <img :src="require('base/assets/images/customer/mercku/ic_launcher.png')" />
         </div>
         <div class="text-container">{{$t('trans1118')}}</div>
       </div>
@@ -166,7 +166,7 @@
     </div>
     <!-- mesh编辑弹窗 -->
     <m-modal :visible.sync="showMeshEditModal"
-             :closeOnClickMask="false"
+             :type="'confirm'"
              class="edit-name-modal">
       <m-modal-body class="content">
         <m-form :model="form"
@@ -180,8 +180,8 @@
           </m-form-item>
           <m-form-item prop="color">
             <div class="color-select">
-              <h4 class="label">Device Color</h4>
-              <ul class="color-select__wrapper">
+              <h4 class="label">{{$t('trans1214')}}</h4>
+              <ul class="color-select__wrapper reset-ul">
                 <li v-for="(color,index) in availableDeviceColors"
                     :key="index"
                     class="limit-icon">
@@ -224,22 +224,19 @@
 </template>
 <script>
 import marked from 'marked';
-import {
-  WanNetStatus,
-  M6aRouterSnModelVersion,
-  RouterMode
-} from 'base/util/constant';
+import { WanNetStatus, RouterMode } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
 import meshEditMixin from 'base/mixins/mesh-edit.js';
+import routerModelMixin from 'base/mixins/router-model.js';
+
 
 export default {
-  mixins: [meshEditMixin],
+  mixins: [meshEditMixin, routerModelMixin],
   data() {
     return {
       netStatus: WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       pageActive: true,
       deviceLoading: true,
-      meshLoading: true,
       ssid: '',
       deviceCount: '-',
       deviceCountTimer: null,
@@ -277,19 +274,14 @@ export default {
     };
   },
   computed: {
-    ModelName() {
-      let modelName = '';
-      switch (this.$store.state.modelID) {
-        case M6aRouterSnModelVersion.M6a:
-          modelName = 'M6a';
-          break;
-        case M6aRouterSnModelVersion.M6a_Plus:
-          modelName = 'M6a Plus';
-          break;
-        default:
-          break;
+    modelName() {
+      const modelId = this.$store.state.meshId.slice(0, 2);
+      const modelVersion = this.$store.state.meshId.charAt(9);
+      const productInfo = this.productsInfo(modelId, modelVersion);
+      if (productInfo) {
+        return productInfo.shortName;
       }
-      return modelName;
+      return '';
     },
     isMobile() {
       return this.$store.state.isMobile;
@@ -325,11 +317,11 @@ export default {
     }
   },
   mounted() {
-    this.getMeshInfo();
     this.getWanNetInfo();
     this.createIntercvalTask();
     this.getWanStatus();
     this.getLocalDeviceInfo();
+    this.getMeshInfo();
   },
   watch: {
     '$store.mode': function watcher() {
@@ -421,7 +413,6 @@ export default {
     },
     async getMeshInfo() {
       try {
-        this.meshLoading = true;
         const res1 = await this.$http.getMeshNode();
         const meshNodeList = res1.data.result;
 
@@ -432,8 +423,6 @@ export default {
         }
       } catch (error) {
         console.error('Error fetching mesh info:', error);
-      } finally {
-        this.meshLoading = false;
       }
     },
     async getDeviceCount() {
@@ -486,18 +475,15 @@ export default {
 
         const res1 = await this.$http.getLocalDevice();
         const selfInfo = res1.data.result;
-        console.log('selfInfo', selfInfo);
         this.localDeviceIP = selfInfo.ip;
 
         const params = { filters: [{ type: 'primary', status: ['online'] }] };
         const res2 = await this.$http.getDeviceList(params);
         const deviceList = res2.data.result;
-        console.log(deviceList);
 
         const localDeviceInfoArr = deviceList.filter(
           item => item.ip === selfInfo.ip
         );
-        console.log(localDeviceInfoArr);
 
         if (localDeviceInfoArr.length > 0) {
           [this.localDeviceInfo] = localDeviceInfoArr;
@@ -588,8 +574,10 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 h2,
+h4,
 h6 {
   padding: 0;
   margin: 0;
@@ -614,6 +602,9 @@ h6 {
     clip-path: circle(125%);
   }
 }
+@import '../../../../../base/src/style/mixin.scss';
+
+$img_folder: '../../../../../base/src/assets/images';
 
 [transition-style='out:circle:center'] {
   animation: 2.5s cubic-bezier(0.25, 1, 0.3, 1) 0.5s circle-out-center both;
@@ -659,7 +650,7 @@ h6 {
 }
 .dashboard {
   min-height: calc(780px - 65px - 60px);
-  flex: auto;
+  flex: 1;
   .net-info {
     display: grid;
     grid-template-rows: 85% 15%;
@@ -677,7 +668,7 @@ h6 {
         display: grid;
         position: relative;
         width: 90%;
-        aspect-ratio: 1;
+        aspect-ratio: 1/1;
         max-width: 390px;
         min-width: 300px;
         max-height: 390px;
@@ -686,8 +677,8 @@ h6 {
         margin-top: -40px;
         border-radius: 20px;
         cursor: pointer;
-        background-color: var(--common-card-bgc);
-        box-shadow: var(--common-card-boxshadow);
+        background-color: var(--common_card-bgc);
+        box-shadow: var(--common_card-boxshadow);
         &::before {
           content: '';
           display: block;
@@ -707,8 +698,8 @@ h6 {
         }
         &:hover {
           &::before {
-            border-top-color: var(--primaryColor);
-            border-right-color: var(--primaryColor);
+            border-top-color: var(--primary-color);
+            border-right-color: var(--primary-color);
           }
         }
       }
@@ -718,7 +709,7 @@ h6 {
       .sub-text {
         font-size: 13px;
         font-weight: 500;
-        color: var(--common-gery-color);
+        color: var(--common_gery-color);
       }
     }
     .device {
@@ -784,9 +775,12 @@ h6 {
             margin-right: 10px;
             border-radius: 3px;
             background-image: linear-gradient(294deg, #1ad692 20%, #03aa56);
+            &.wired {
+              background-image: linear-gradient(294deg, #3da8ff 20%, #0c70b8);
+            }
           }
           .uptime {
-            color: var(--common-gery-color);
+            color: var(--common_gery-color);
           }
         }
         &.empty {
@@ -814,7 +808,15 @@ h6 {
           width: 100%;
           min-width: 350px;
           max-width: 440px;
-          aspect-ratio: 1;
+          position: relative;
+          @include aspect(1, 1);
+          z-index: 2;
+        }
+        img {
+          width: inherit;
+          min-width: 350px;
+          max-width: 440px;
+          @include aspect(1, 1);
           position: relative;
           z-index: 2;
         }
@@ -887,7 +889,7 @@ h6 {
               left: 0;
               height: 3px;
               width: 100%;
-              background: var(--dashboard-unlinked-color);
+              background: var(--dashboard_unlinked-color);
               background-size: 10px 2px;
               background-repeat: repeat-x;
               border-radius: 20px;
@@ -901,35 +903,15 @@ h6 {
               flex-direction: column;
               justify-content: center;
               align-items: center;
-              width: 20px;
-              height: 20px;
-              background: var(--dashboard-unconnect-icon-background-color);
+              width: 30px;
+              height: 30px;
+              background: var(--dashboard_unconnect_icon-bgc);
               z-index: 999;
               border-radius: 50%;
               cursor: pointer;
-              &::before {
-                content: '';
-                display: block;
-                height: 2px;
-                border-radius: 2px;
-                width: 10px;
-                background: var(--text-default-color);
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) rotate(45deg);
-              }
-              &::after {
-                content: '';
-                display: block;
-                height: 2px;
-                border-radius: 2px;
-                width: 10px;
-                background: var(--text-default-color);
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) rotate(-45deg);
+              & > img {
+                width: 60%;
+                height: 60%;
               }
             }
           }
@@ -986,7 +968,7 @@ h6 {
         }
       }
       .text-wrap {
-        color: var(--common-gery-color);
+        color: var(--common_gery-color);
       }
       .bridge-mode-tip {
         display: flex;
@@ -998,7 +980,7 @@ h6 {
         margin-top: 5%;
         border-radius: 5px;
         font-size: 16px;
-        background-color: var(--common-sub_card-bgc);
+        background-color: var(--common_sub_card-bgc);
         img {
           width: 120px;
           height: 120px;
@@ -1034,7 +1016,7 @@ h6 {
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          font-size: 32px;
+          font-size: 28px;
           font-weight: 600;
           text-align: center;
         }
@@ -1122,10 +1104,18 @@ h6 {
             min-height: auto;
             width: 195px;
           }
+          img {
+            max-width: auto;
+            max-height: auto;
+            min-width: auto;
+            min-height: auto;
+            width: 195px;
+          }
         }
         .background-shadow {
           width: 375px;
           height: 135px;
+          transform: translate(-50%, -60%);
         }
         .mobile-icon-wrapper {
           position: absolute;
@@ -1142,8 +1132,6 @@ h6 {
             &:last-child {
               margin-bottom: 0;
             }
-            &.connected {
-            }
             .sub {
               position: absolute;
               bottom: 0;
@@ -1153,15 +1141,15 @@ h6 {
               color: #fff;
               border-radius: 50%;
               box-sizing: border-box;
-              border: 2px solid var(--logout-btn-bgc);
+              border: 2px solid var(--logout_btn-bgc);
               overflow: hidden;
               &.connected {
-                background: url(../../../assets/images/v3/icon/ic_mobile_connected.svg)
+                background: url(#{$img_folder}/icon/ic_default_success.png)
                   center no-repeat;
                 background-size: contain;
               }
               &.unconnected {
-                background: url(../../../assets/images/v3/icon/ic_mobile_unconnect.svg)
+                background: url(#{$img_folder}/icon/ic_default_error.png) center
                   center no-repeat;
                 background-size: contain;
               }
@@ -1261,7 +1249,7 @@ h6 {
             align-items: flex-start;
           }
           .speed-num {
-            font-size: 30px;
+            font-size: 32px;
           }
           .speed-unit {
             font-size: 18px;
@@ -1292,7 +1280,7 @@ h6 {
         margin-bottom: 20px;
       }
       .text-container {
-        color: var(--text-default-color);
+        color: var(--text_default-color);
         flex: 1;
       }
       .icon {

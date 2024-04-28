@@ -15,7 +15,7 @@
               </div>
             </div>
           </li>
-          <li class="wired__wrap">
+          <!-- <li class="wired__wrap">
             <div class="card"
                  @click="updateChooseTypeVisible(false,'wired')">
               <div class="inner">
@@ -24,7 +24,7 @@
               </div>
             </div>
             <p class="tips__text tips__subtext">{{$t('trans1097')}}</p>
-          </li>
+          </li> -->
         </ul>
       </div>
       <div class="steps-container"
@@ -45,7 +45,7 @@
             </div>
             <div class="button-container">
               <button @click="updateChooseTypeVisible(true)"
-                      class="btn btn-default ">{{$t('trans0057')}}</button>
+                      class="btn btn-default">{{$t('trans0057')}}</button>
               <button @click="forward2step(1)"
                       class="btn">{{$t('trans0055')}}</button>
             </div>
@@ -54,7 +54,7 @@
                v-show="isStep(1)">
             <div class="main-content">
               <div class="img-container">
-                <img src="@/assets/images/img_m6a_add_02.svg"
+                <img src="@/assets/images/add/img_add_02.svg"
                      alt="">
               </div>
               <p class="step-item__tip">{{$t('trans1005')}}</p>
@@ -97,7 +97,7 @@
              v-if="isAddSuccess">
           <div class="text-center">
             <img class="result-container__img result-container__img--fail"
-                 src="~@/assets/images/img_m6a_add_success.webp"
+                 src="~@/assets/images/add/img_add_success.png"
                  alt="" />
           </div>
           <div class="node-sn">
@@ -117,8 +117,7 @@
              v-if="isAddFail">
           <div class="text-center">
             <img class="result-container__img result-container__img--fail"
-                 src="~@/assets/images/img_default_empty.webp"
-                 alt="" />
+                 :src="require('base/assets/images/common/img_default_empty.png')" />
           </div>
           <div class="result-container__tips">{{transDeviceId('trans0181')}}</div>
           <div class="text-center">
@@ -131,8 +130,7 @@
           </div>
           <div class="tips">
             <div class="tips__header">
-              <img src="~@/assets/images/icon/ic_note.svg"
-                   alt="" />
+              <img :src="require('base/assets/images/icon/ic_note.svg')" />
               Tips
             </div>
             <div class="tips__content">
@@ -150,7 +148,7 @@
         <div class="mesh-add-tips-list">
           <div class="mesh-add-tips-list__item list-item">
             <div class="list-item__img">
-              <img src="~@/assets/images/img_m6_power_on.svg"
+              <img src="~@/assets/images/add/img_power_on.svg"
                    alt="" />
             </div>
             <div class="list-item__text">
@@ -160,7 +158,7 @@
           </div>
           <div class="mesh-add-tips-list__item list-item">
             <div class="list-item__img">
-              <img src="~@/assets/images/img_m6_orangelight.png"
+              <img src="~@/assets/images/add/img_orangelight.png"
                    alt="" />
             </div>
             <div class="list-item__text">
@@ -185,12 +183,8 @@
       </div>
       <div class="tips center-wrap"
            v-if="showTips">
-        <div class="circle-animation">
-          <!-- <div class="circle circle1"></div>
-          <div class="circle circle2"></div>
-          <div class="circle circle3"></div> -->
-        </div>
-        <p class="tips__text">{{$t('trans0175')}}</p>
+        <div class="circle-animation"></div>
+        <p class="tips__text successed">{{$t('trans0175')}}</p>
         <div class="button-container">
           <button class="btn btn-large"
                   @click="()=>$router.push('/dashboard/mesh')">{{$t('trans0211')}}</button>
@@ -213,10 +207,6 @@
             <p>{{$t('trans0175')}}</p>
             <p>{{$t('trans0698')}}</p>
             <p>{{$t('trans0661')}}</p>
-            <!-- <p>6. {{$t('trans0372')}}
-              <a :href="$t('trans0477')"
-                 target="_blank">{{$t('trans0477')}}</a> {{$t('trans0392')}}
-            </p> -->
           </div>
         </div>
       </div>
@@ -230,7 +220,7 @@
              :visible.sync='showWirelessMeshTipsDialog'>
       <m-modal-body class="wireless-mesh-tips-modal-body">
         <div class="img-container">
-          <img src="@/assets/images/img_m6a_together.webp"
+          <img src="@/assets/images/add/img_together.png"
                alt="">
         </div>
         <p class="tips">{{$t('trans1100')}}</p>
@@ -242,8 +232,8 @@
 </template>
 <script>
 import RouterModel from 'base/mixins/router-model';
-import { debounce } from 'lodash';
-import { AddNodeType, M6aRouterSnModelVersion } from 'base/util/constant';
+import debounce from 'lodash/debounce';
+import { AddNodeType, M6aSeriesModelIDs } from 'base/util/constant';
 
 const PageStatus = {
   scanning: 'scanning',
@@ -304,7 +294,17 @@ export default {
       return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
     },
     modelID() {
-      return this.$store.state.modelID;
+      const meshId = this.$store.state.meshId || localStorage.getItem('meshId');
+      return meshId.charAt(9);
+    },
+    isM6a() {
+      return this.modelID === M6aSeriesModelIDs.M6a;
+    },
+    isM6aPlus() {
+      return this.modelID === M6aSeriesModelIDs.M6a_Plus;
+    },
+    isM6c() {
+      return this.modelID === M6aSeriesModelIDs.M6c;
     },
     isMobile() {
       return this.$store.state.isMobile;
@@ -316,16 +316,22 @@ export default {
   methods: {
     transText(text) {
       let resultText = '';
-      if (this.modelID === M6aRouterSnModelVersion.M6a) {
+      if (this.isM6a) {
         resultText = this.$t(text).replaceAll(
           '%s',
           process.env.CUSTOMER_CONFIG.routers.M6a.shortName
         );
       }
-      if (this.modelID === M6aRouterSnModelVersion.M6a_Plus) {
+      if (this.isM6aPlus) {
         resultText = this.$t(text).replaceAll(
           '%s',
-          process.env.CUSTOMER_CONFIG.routers.M6a_plus.shortName
+          process.env.CUSTOMER_CONFIG.routers.M6a_Plus.shortName
+        );
+      }
+      if (this.isM6c) {
+        resultText = this.$t(text).replaceAll(
+          '%s',
+          process.env.CUSTOMER_CONFIG.routers.M6c.shortName
         );
       }
       return resultText;
@@ -339,13 +345,6 @@ export default {
     },
     isStep(index) {
       return this.stepsOption.current === index;
-    },
-    updateTipsVisible(visible) {
-      this.showTips = visible;
-      this.showChooseType = !visible;
-      // if (!visible) {
-      //   this.forward2step(0);
-      // }
     },
     updateChooseTypeVisible(visible, type) {
       this.showChooseType = visible;
@@ -427,41 +426,36 @@ export default {
       let img = '';
       if (step === Step.step1) {
         switch (this.modelID) {
-          case M6aRouterSnModelVersion.M6a:
-            img = require('@/assets/images/img_m6a_add_01.svg');
+          case M6aSeriesModelIDs.M6a:
+            img = require('@/assets/images/add/img_add_01.svg');
             break;
-          case M6aRouterSnModelVersion.M6a_Plus:
-            img = require('@/assets/images/m6a_plus/img_m6aplus_add_01.svg');
-            break;
-          default:
-            break;
-        }
-      } else if (
-        step === Step.step3 &&
-        type &&
-        this.modelID === M6aRouterSnModelVersion.M6a
-      ) {
-        switch (type) {
-          case AddNodeType.wireless:
-            img = require('@/assets/images/img_m6a_wireless_add_03.svg');
-            break;
-          case AddNodeType.wired:
-            img = require('@/assets/images/img_m6a_wired_add_03.svg');
+          case M6aSeriesModelIDs.M6a_Plus:
+          case M6aSeriesModelIDs.M6c:
+            img = require('@/assets/images/add/m6a-4_lan_prots/img_add_01.svg');
             break;
           default:
             break;
         }
-      } else if (
-        step === Step.step3 &&
-        type &&
-        this.modelID === M6aRouterSnModelVersion.M6a_Plus
-      ) {
+      }
+      if (step === Step.step3 && type && this.isM6a) {
         switch (type) {
           case AddNodeType.wireless:
-            img = require('@/assets/images/m6a_plus/img_m6aplus_wireless_add_03.svg');
+            img = require('@/assets/images/add/img_wireless_add_03.svg');
             break;
           case AddNodeType.wired:
-            img = require('@/assets/images/m6a_plus/img_m6aplus_wired_add_03.svg');
+            img = require('@/assets/images/add/img_wired_add_03.svg');
+            break;
+          default:
+            break;
+        }
+      }
+      if (step === Step.step3 && type && !this.isM6a) {
+        switch (type) {
+          case AddNodeType.wireless:
+            img = require('@/assets/images/add/m6a-4_lan_prots/img_wireless_add_03.svg');
+            break;
+          case AddNodeType.wired:
+            img = require('@/assets/images/add/m6a-4_lan_prots/img_wired_add_03.svg');
             break;
           default:
             break;
@@ -472,11 +466,12 @@ export default {
     getM6aSeriesProductNetworkingImg() {
       let img = '';
       switch (this.modelID) {
-        case M6aRouterSnModelVersion.M6a:
-          img = require('@/assets/images/img_m6_networking.svg');
+        case M6aSeriesModelIDs.M6a:
+          img = require('@/assets/images/add/img_networking.svg');
           break;
-        case M6aRouterSnModelVersion.M6a_Plus:
-          img = require('@/assets/images/m6a_plus/img_m6aplus_networking.svg');
+        case M6aSeriesModelIDs.M6a_Plus:
+        case M6aSeriesModelIDs.M6c:
+          img = require('@/assets/images/add/m6a-4_lan_prots/img_networking.svg');
           break;
         default:
           break;
@@ -548,6 +543,7 @@ export default {
     opacity: 0;
   }
 }
+$img_folder: '../../../../../base/src/assets/images';
 .add-node {
   align-items: center;
   min-height: 600px;
@@ -565,7 +561,7 @@ export default {
   border-radius: 10px;
   &.has-bgc {
     display: block;
-    background: var(--primaryBackgroundColor);
+    background: var(--primary-bgc);
   }
 }
 .loading {
@@ -593,7 +589,7 @@ export default {
       display: inline-block;
       width: 5px;
       height: 5px;
-      background-color: var(--text-default-color);
+      background-color: var(--text_default-color);
       border-radius: 50%;
       margin-right: 10px;
     }
@@ -639,12 +635,15 @@ export default {
   }
   .tips__text {
     margin: 0 auto;
+    &.successed {
+      max-width: 400px;
+    }
     @media screen and(max-width:768px) {
       width: 100%;
     }
   }
   .tips__subtext {
-    color: var(--common-gery-color);
+    color: var(--common_gery-color);
     width: 100%;
     font-size: 12px;
     white-space: pre-line;
@@ -669,14 +668,14 @@ export default {
       }
       &.wireless__wrap {
         .inner {
-          background: url(../../../assets/images/img_wireless.png) no-repeat
+          background: url(#{$img_folder}/common/img_wireless.png) no-repeat
             bottom;
           background-size: contain;
         }
       }
       &.wired__wrap {
         .inner {
-          background: url(../../../assets/images/img_wired.png) no-repeat bottom;
+          background: url(#{$img_folder}/common/img_wired.png) no-repeat bottom;
           background-size: contain;
         }
       }
@@ -689,23 +688,23 @@ export default {
       padding: 30px;
       font-size: 16px;
       border-radius: 10px;
-      border: 3.5px solid var(--common-card-bgc);
+      border: 3.5px solid var(--common_card-bgc);
       background-image: linear-gradient(
         to bottom,
-        var(--common-card-bgc),
-        var(--common-card-bgc)
+        var(--common_card-bgc),
+        var(--common_card-bgc)
       );
       background-clip: padding-box, border-box;
       background-origin: padding-box, border-box;
-      box-shadow: var(--common-card-boxshadow);
+      box-shadow: var(--common_card-boxshadow);
       cursor: pointer;
       &:hover {
         border-color: transparent;
-        box-shadow: var(--common-card-hover-boxshadow);
+        box-shadow: var(--common_card_hover-boxshadow);
         background-image: linear-gradient(
             to bottom,
-            var(--common-card-bgc),
-            var(--common-card-bgc)
+            var(--common_card-bgc),
+            var(--common_card-bgc)
           ),
           linear-gradient(225deg, #ff6734 30%, #ee1d4f 40%, #d6001c 80%);
       }
@@ -722,41 +721,12 @@ export default {
 }
 .circle-animation {
   position: relative;
-  background: url(../../../assets/images/add_node_tip_bj.webp) no-repeat center;
+  background: url(#{$img_folder}/common/add_node_tip_bj.png) no-repeat center;
   background-size: 100%;
   width: 400px;
+  aspect-ratio: 10/9;
   margin: 0 auto;
   margin-bottom: 50px;
-  &::before {
-    content: '';
-    display: block;
-    padding-top: 82%;
-  }
-  .circle {
-    width: 200px;
-    height: 100px;
-    border-radius: 50%;
-    background: radial-gradient(
-      rgba(214, 0, 28, 0) 39%,
-      rgba(214, 0, 28, 0.29) 100%
-    );
-    transform: scale(1);
-    opacity: 0;
-    animation: ripple 1.4s linear 0.8s infinite;
-    position: absolute;
-    &.circle1 {
-      left: 50px;
-      top: 40px;
-    }
-    &.circle2 {
-      left: 150px;
-      top: 30px;
-    }
-    &.circle3 {
-      left: 80px;
-      top: 100px;
-    }
-  }
 }
 .steps-container {
   display: flex;
@@ -800,7 +770,7 @@ export default {
       .img-container {
         width: 100%;
         height: 300px;
-        background: var(--table-row-background-color);
+        background: var(--table_row-bgc);
         img {
           height: 100%;
           display: block;
@@ -814,6 +784,15 @@ export default {
       flex-direction: column;
       justify-content: center;
       margin-top: 15px;
+      padding-top: 15px;
+    }
+    .btn-default {
+      background-image: linear-gradient(
+          to right,
+          var(--primary-bgc),
+          var(--primary-bgc)
+        ),
+        var(--common_btn_default-bgimg);
     }
   }
 }
@@ -876,7 +855,7 @@ export default {
   .result-container__tips {
     font-size: 15px;
     text-align: center;
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     font-weight: bold;
     width: 360px;
     @media screen and (max-width: 768px) {
@@ -884,7 +863,7 @@ export default {
     }
   }
   .node-sn {
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     margin-top: 20px;
     font-size: 14px;
     text-align: center;
@@ -900,8 +879,8 @@ export default {
     padding: 15px 15px 20px;
     box-sizing: border-box;
     border-radius: 5px;
-    background: var(--flex-warp-has-menu-bgc);
-    color: var(--text-default-color);
+    background: var(--flexwarp_hasmenu-bgc);
+    color: var(--text_default-color);
 
     .tips__header {
       display: flex;
@@ -934,7 +913,7 @@ export default {
           display: inline-block;
           width: 5px;
           height: 5px;
-          background-color: var(--text-default-color);
+          background-color: var(--text_default-color);
           border-radius: 50%;
           margin-right: 10px;
         }
@@ -965,9 +944,9 @@ export default {
     .list-item {
       display: flex;
       font-size: 14px;
-      color: var(--text-default-color);
+      color: var(--text_default-color);
       .list-item__img {
-        background-color: var(--flex-warp-has-menu-bgc);
+        background-color: var(--flexwarp_hasmenu-bgc);
         margin-right: 15px;
         border-radius: 2px;
         width: 55%;
@@ -1023,6 +1002,9 @@ export default {
   }
 }
 @media screen and (max-width: 768px) {
+  .add-node {
+    min-height: unset;
+  }
   .page-content {
     padding: 20px;
   }
@@ -1039,22 +1021,6 @@ export default {
   }
   .circle-animation {
     width: 280px;
-    .circle {
-      width: 100px;
-      height: 50px;
-      &.circle1 {
-        left: 70px;
-        top: 60px;
-      }
-      &.circle2 {
-        left: 155px;
-        top: 50px;
-      }
-      &.circle3 {
-        left: 100px;
-        top: 110px;
-      }
-    }
   }
   .button-container {
     flex-direction: column-reverse;
@@ -1075,6 +1041,7 @@ export default {
   }
   .choose__add__type {
     .type__list {
+      width: 100%;
       flex-direction: column;
       > li {
         margin-right: 0;
@@ -1111,6 +1078,7 @@ export default {
         }
         .main-content {
           margin-top: 0;
+          padding-top: 10px;
         }
         .button-container {
           .btn {

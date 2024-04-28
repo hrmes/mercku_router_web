@@ -9,7 +9,7 @@
     </div>
     <div class="login__right">
       <div class="center-form"
-           :class="{'light':isLightClass,'dark':isDrakClass}">
+           :class="currentTheme">
         <div class="form">
           <div class="logo">
           </div>
@@ -43,15 +43,15 @@
             <div class="store">
               <div>
                 <img class="android-img"
-                     src="@/assets/images/icon/ic_android.png"
-                     alt="">
+                     :src="require('base/assets/images/icon/ic_android.png')" />
               </div>
               <span>Google Play</span>
             </div>
             <div class="store">
-              <div><img src="@/assets/images/icon/ic_apple.png"
-                     class="apple-img"
-                     alt=""></div>
+              <div>
+                <img class="apple-img"
+                     :src="require('base/assets/images/icon/ic_apple.png')" />
+              </div>
               <span>App Store</span>
             </div>
           </div>
@@ -82,7 +82,9 @@
 </template>
 
 <script>
-import { LoginImg } from '@/assets/images/v3/base64-img/img.js';
+import { LoginImg } from 'base/assets/images/base64-img/img.js';
+import { setCookie, getCookie, clearCookie } from 'base/util/cookie';
+
 
 export default {
   data() {
@@ -91,30 +93,39 @@ export default {
       initial: false,
       loading: false,
       password: '',
-      isDarkMode: false
+      isDarkMode: false,
+
+      lockCount: 5,
+      lockTime: 60,
+
+      isLocked: false,
+      lockTimer: null,
+
+      lockCountLeft: 5,
+      lockEndTime: 0
     };
   },
   // in m6 router, if router is initial
   // uhttpd will redirect to /wlan page directly
-  // mounted() {
-  //   this.loading = true;
-  //   this.$http
-  //     .isinitial()
-  //     .then(res => {
-  //       if (res.data.result.status) {
-  //         this.$http.login({ password: '' }).then(() => {
-  //           this.towlan();
-  //         });
-  //       } else {
-  //         this.initial = false;
-  //         this.loading = false;
-  //       }
-  //     })
-  //     .catch(() => {
-  //       this.initial = false;
-  //       this.loading = false;
-  //     });
-  // },
+  mounted() {
+    this.loading = true;
+    this.$http
+      .isinitial()
+      .then(res => {
+        if (res.data.result.status) {
+          this.$http.login({ password: '' }).then(() => {
+            this.towlan();
+          });
+        } else {
+          this.initial = false;
+          this.loading = false;
+        }
+      })
+      .catch(() => {
+        this.initial = false;
+        this.loading = false;
+      });
+  },
   computed: {
     isMobile() {
       return this.$store.state.isMobile;
@@ -128,12 +139,6 @@ export default {
     currentTheme() {
       return this.$store.state.theme;
     },
-    isLightClass() {
-      return this.currentTheme !== 'auto' && !this.isDarkMode;
-    },
-    isDrakClass() {
-      return this.currentTheme !== 'auto' && this.isDarkMode;
-    }
   },
   watch: {
     currentTheme: {
@@ -146,6 +151,10 @@ export default {
       },
       immediate: true
     }
+  },
+  created() {
+    clearCookie('session');
+    this.checkLockStatus();
   },
   methods: {
     towlan() {
@@ -165,19 +174,83 @@ export default {
             this.$store.state.mode = mode;
             localStorage.setItem('mode', mode);
 
-            const { sn } = res1.data.result;
-            const modelID = sn.charAt(9);
+            const { sn: meshId } = res1.data.result;
 
-            this.$store.state.modelID = modelID;
-            localStorage.setItem('modelID', modelID);
+            this.$store.state.meshId = meshId;
+            localStorage.setItem('meshId', meshId);
 
             this.$router.push({ path: '/dashboard' });
             this.$loading.close();
-          });
+          })
+            .finally(() => {
+              this.$loading.close();
+            });
         })
         .catch(() => {
           this.$loading.close();
         });
+    },
+    curLockCount(err) {
+      this.lockCountLeft -= 1;
+      setCookie('lockCountLeft', this.lockCountLeft, 1);
+
+      if (this.lockCountLeft === 0) {
+        this.lockEndTime = new Date().getTime() + 1000 * this.lockTime;
+        setCookie('lockEndTime', this.lockEndTime, 1);
+        this.$toast(this.$t('trans0665'));
+        this.doLockTimer();
+      } else {
+        this.$toast(this.$t(err.error.code));
+      }
+    },
+    checkLockStatus() {
+      const lockEndTime = getCookie('lockEndTime');
+      const lockCountLeft = getCookie('lockCountLeft');
+      if (
+        lockEndTime == null ||
+        Number.isNaN(lockEndTime) === true ||
+        lockEndTime < 0
+      ) {
+        setCookie('lockEndTime', 0, 1);
+        this.lockEndTime = 0;
+      } else {
+        this.lockEndTime = lockEndTime;
+      }
+      if (
+        lockCountLeft == null ||
+        Number.isNaN(lockCountLeft) === true ||
+        parseInt(lockCountLeft, 10) < 0
+      ) {
+        setCookie('lockCountLeft', this.lockCount, 1);
+        this.lockCountLeft = this.lockCount;
+      } else {
+        this.lockCountLeft = parseInt(lockCountLeft, 10);
+      }
+
+      const curTime = new Date().getTime();
+      if (this.lockCountLeft === 0 && curTime < this.lockEndTime) {
+        this.doLockTimer();
+      } else if (this.lockCountLeft === 0 && curTime > this.lockEndTime) {
+        this.lockCountLeft = this.lockCount;
+        this.lockEndTime = 0;
+        setCookie('lockCountLeft', this.lockCount, 1);
+        setCookie('lockEndTime', 0, 1);
+      }
+    },
+    doLockTimer() {
+      this.isLocked = true;
+      let curTime = new Date().getTime();
+      this.lockTimer = setInterval(() => {
+        curTime += 1000;
+        if (curTime > this.lockEndTime) {
+          this.isLocked = false;
+          this.password = '';
+          this.lockCountLeft = this.lockCount;
+          this.lockEndTime = 0;
+          clearInterval(this.lockTimer);
+          this.lockTimer = null;
+        }
+      }, 1000);
     }
   }
 };
@@ -201,7 +274,7 @@ export default {
       border-radius: 35px;
       transform-origin: bottom left;
       transform: translate(20%, 12%) rotate(-40deg);
-      background-color: var(--login-left_rotate-bgcolor);
+      background-color: var(--login_left_rotate-bgcolor);
     }
     .left-img {
       position: absolute;
@@ -230,7 +303,7 @@ export default {
     width: 400px;
     height: 500px;
     padding: 50px 0 30px;
-    background-color: var(--login-right_form-bgcolor);
+    background-color: var(--login_right_form-bgcolor);
     box-shadow: var();
     border-radius: 15px;
     .logo {
@@ -252,7 +325,7 @@ export default {
     height: 130px;
     border-radius: 10px;
     padding: 0 20px;
-    background-color: var(--login-right_form_download-bgcolor);
+    background-color: var(--login_right_form_download-bgcolor);
     .stores {
       display: flex;
       flex-direction: column;
@@ -264,7 +337,7 @@ export default {
         display: flex;
         margin-bottom: 14px;
         border-radius: 4px;
-        background-color: var(--download-tag-background-color);
+        background-color: var(--download_tag-bgc);
         &:last-child {
           margin: 0;
         }
@@ -275,10 +348,10 @@ export default {
           width: 14px;
           // height: 18px;
           &.android-img {
-            filter: var(--download-android-img-brightness);
+            filter: var(--download_android_img-brightness);
           }
           &.apple-img {
-            filter: var(--download-ios-img-brightness);
+            filter: var(--download_ios_img-brightness);
           }
         }
         span {
@@ -286,7 +359,7 @@ export default {
           display: inline-block;
           width: 150px;
           margin-left: 10px;
-          color: var(--text-default-color);
+          color: var(--text_default-color);
           &::before {
             content: '';
             position: absolute;
@@ -297,7 +370,7 @@ export default {
             width: 1px;
             height: 15px;
             margin-right: 10px;
-            border-left: 1px solid var(--download-tag-before-color);
+            border-left: 1px solid var(--download_tag_before-color);
           }
         }
       }
@@ -353,7 +426,7 @@ export default {
       margin-top: 30px;
       align-items: center;
       justify-content: space-between;
-      background: var(--grey-background-color);
+      background: var(--grey-bgc);
       .top-wrap {
         display: flex;
         align-items: center;
@@ -372,7 +445,7 @@ export default {
           text-align: center;
           font-size: 12px;
           margin-left: 15px;
-          color: var(--text-default-color);
+          color: var(--text_default-color);
         }
       }
 
@@ -391,10 +464,10 @@ export default {
         background-origin: padding-box, border-box;
         background-image: linear-gradient(
             to right,
-            var(--grey-background-color),
-            var(--grey-background-color)
+            var(--grey-bgc),
+            var(--grey-bgc)
           ),
-          var(--common-btn_default-bgimg);
+          var(--common_btn_default-bgimg);
         .down-button {
           display: inline-block;
           width: 100%;

@@ -363,7 +363,7 @@ export default {
       margin-bottom: 0;
       label {
         font-weight: 700;
-        color: var(--input-label-color);
+        color: var(--input_label-color);
       }
       .port-wrap {
         display: flex;
@@ -394,7 +394,7 @@ export default {
       display: flex;
       flex-direction: column;
       label {
-        color: var(--input-label-color);
+        color: var(--input_label-color);
         font-weight: 700;
         margin-bottom: 20px;
       }

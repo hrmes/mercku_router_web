@@ -217,17 +217,18 @@ export default {
   width: 100%;
   min-width: 120px;
   height: 48px;
-  border: 1.5px solid var(--time-picker-pannel-border-color);
+  background: var(--input-content-background);
+  border: 1.5px solid var(--time_picker_pannel_border-color);
   position: relative;
   border-radius: 10px;
   padding: 0 10px;
-  transition: border 0.3s ease-in-out;
+  transition: all 0.2s ease-in-out;
   &.open {
-    border-color: var(--input-focus-border-color);
+    border-color: var(--input_focus_border-color);
   }
   .combox {
     position: absolute;
-    background: var(--time-picker-combox-background-color);
+    background: var(--time_picker_combox-bgc);
     left: 50%;
     bottom: -4px;
     transform: translate(-50%, 100%);
@@ -235,7 +236,7 @@ export default {
     flex-direction: column;
     width: 102%;
     z-index: 1000;
-    box-shadow: var(--time-picker-combox-shadow);
+    box-shadow: var(--time_picker_combox-shadow);
     background-clip: padding-box;
     border-radius: 10px;
     overflow: hidden;
@@ -244,22 +245,22 @@ export default {
       display: flex;
     }
     .button-wrap {
-      border-top: 1px solid var(--time-picker-buttons-border-color);
+      border-top: 1px solid var(--time_picker_button_border-color);
       button {
         height: 38px;
         width: 50%;
         border: none;
-        background: var(--time-picker-button-background-color);
+        background: var(--time_picker_button-bgc);
         cursor: pointer;
         outline: none;
         &:hover {
           opacity: 0.7;
         }
         &:first-child {
-          color: var(--time-picker-button-cancel-color);
+          color: var(--time_picker_button_cancel-color);
         }
         &:last-child {
-          color: var(--time-picker-button-confirm-color);
+          color: var(--time_picker_button_confirm-color);
         }
       }
     }
@@ -267,12 +268,26 @@ export default {
       position: relative;
       flex: 1;
       height: 180px;
-      border-right: 1px solid var(--time-picker-popup-border-color);
+      border-right: 1px solid var(--time_picker_popup_border-color);
       box-sizing: border-box;
       ::-webkit-scrollbar {
         width: 0px;
       }
       ::-webkit-scrollbar-track {
+        background-color: transparent;
+      }
+      /* 针对Firefox浏览器的样式 */
+      /* Firefox不支持::-webkit-scrollbar，因此需要使用-moz-scrollbar */
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: transparent transparent;
+      }
+
+      *::-moz-scrollbar {
+        width: 0px;
+      }
+
+      *::-moz-scrollbar-track {
         background-color: transparent;
       }
       &::after {
@@ -282,8 +297,8 @@ export default {
         transform: translateY(-50%);
         width: 100%;
         height: 36px;
-        background: var(--primaryColor);
-        box-shadow: var(--button-box-shadow);
+        background: var(--primary-color);
+        box-shadow: var(--button-boxshadow);
         pointer-events: none;
         z-index: -1;
       }
@@ -307,16 +322,16 @@ export default {
         text-align: center;
         height: 36px;
         line-height: 36px;
-        color: var(--time-picker-li-color);
+        color: var(--time_picker_li-color);
         cursor: pointer;
         scroll-snap-align: center;
-        scroll-snap-stop: always;
+        // scroll-snap-stop: always;
         transition: color 0.1s linear;
         // &:hover {
-        //   background: var(--time-picker-popup-item-hover-background-color);
+        //   background: var(--time_picker_popup_item_hover-bgc);
         // }
         &.selected {
-          color: var(--primaryBackgroundColor);
+          color: var(--primary-bgc);
         }
       }
     }
@@ -336,10 +351,10 @@ export default {
       padding: 0;
       height: 30px;
       width: 0;
-      background: var(--time-picker-input-background-color);
-      color: var(--text-default-color);
+      background: var(--time_picker_input-bgc);
+      color: var(--text_default-color);
       &::-webkit-input-placeholder {
-        color: var(--input-placeholder-color);
+        color: var(--input_placeholder-color);
       }
     }
     .icon-inner {

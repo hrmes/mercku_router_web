@@ -12,7 +12,7 @@ export default function getMenu(role, mode = RouterMode.router) {
   const config = {
     show: true,
     auth: [Role.admin, Role.super],
-    mode: [RouterMode.router, RouterMode.bridge]
+    mode: [RouterMode.router, RouterMode.bridge, RouterMode.wirelessBridge]
   };
   // 第一种搭配策略
   const strategyA = {
@@ -99,18 +99,18 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0644',
         config: strategyA
       },
-      {
-        url: '/setting/led',
-        name: 'led',
-        text: 'trans0779',
-        config
-      },
-      {
-        url: '/setting/schedule',
-        name: 'schedule',
-        text: 'trans0962',
-        config
-      },
+      // {
+      //   url: '/setting/led',
+      //   name: 'led',
+      //   text: 'trans0779',
+      //   config
+      // },
+      // {
+      //   url: '/setting/schedule',
+      //   name: 'schedule',
+      //   text: 'trans0962',
+      //   config
+      // },
       {
         url: '/setting/wps',
         name: 'wps',
@@ -205,7 +205,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         config: {
           show: true,
           auth: [Role.super],
-          mode: [RouterMode.router, RouterMode.bridge]
+          mode: [RouterMode.router, RouterMode.bridge, RouterMode.wirelessBridge]
         },
         customers: {
           [Customers.mercku]: {

@@ -50,8 +50,7 @@
             </div>
             <div class="empty"
                  v-if="blacklist.length===0">
-              <img src="../../../assets/images/img_default_empty.webp"
-                   alt="" />
+              <img :src="require('base/assets/images/common/img_default_empty.png')" />
               <p>{{ $t('trans0278') }}</p>
             </div>
           </div>
@@ -60,7 +59,7 @@
       <m-modal :visible.sync="deviceModalVisible">
         <m-modal-header class="modal-header">
           <span>{{ $t('trans0235') }}</span>
-          <div class="btn-icon"
+          <div class="btn-icon close"
                @click.stop="() => (deviceModalVisible = false)">
             <i class="iconfont ic_close"></i>
           </div>
@@ -80,7 +79,7 @@
           <div class="table-body">
             <div class="device"
                  @click.stop="checkDevice(item)"
-                 v-for="(item, index) in devices"
+                 v-for="(item, index) in devicesOrdered"
                  :key="index">
               <div class="checkbox">
                 <m-checkbox :readonly="true"
@@ -99,8 +98,7 @@
             </div>
             <div class="empty"
                  v-if="devices.length===0">
-              <img src="../../../assets/images/img_default_empty.webp"
-                   alt="" />
+              <img :src="require('base/assets/images/common/img_default_empty.png')" />
               <p>{{ $t('trans0278') }}</p>
             </div>
           </div>
@@ -144,8 +142,42 @@ export default {
     isMobile() {
       return this.$store.state.isMobile;
     },
+    devicesOrdered() {
+      return this.devices.sort((a, b) => {
+        const wired = 'wired';
+        if (a.online_info.band === wired || b.online_info.band === wired) {
+          if (a.online_info.band === wired && b.online_info.band === wired) {
+            const isLetterOrNumberReg = /[0-9A-Za-z]+/i;
+            if (isLetterOrNumberReg.test(a.name) && !isLetterOrNumberReg.test(b.name)) {
+              return -1;
+            }
+            if (!isLetterOrNumberReg.test(a.name) && isLetterOrNumberReg.test(b.name)) {
+              return 1;
+            }
+            return a.name.localeCompare(b.name);
+          }
+          if (a.online_info.band === wired) {
+            return 1;
+          }
+          if (b.online_info.band === wired) {
+            return -1;
+          }
+          return 0;
+        }
+        return a.online_info.online_duration - b.online_info.online_duration;
+      });
+    },
     listOrdered() {
-      return this.blacklist.sort((a, b) => a.name > b.name);
+      return this.blacklist.sort((a, b) => {
+        const isLetterOrNumberReg = /[0-9A-Za-z]+/i;
+        if (isLetterOrNumberReg.test(a.name) && !isLetterOrNumberReg.test(b.name)) {
+          return -1;
+        }
+        if (!isLetterOrNumberReg.test(a.name) && isLetterOrNumberReg.test(b.name)) {
+          return 1;
+        }
+        return a.name.localeCompare(b.name);
+      });
     },
     someBlacklistChecked() {
       return this.blacklist.some(b => b.checked);
@@ -178,6 +210,15 @@ export default {
         }
       },
       deep: true
+    },
+    deviceModalVisible: {
+      handler(nv) {
+        if (!nv) {
+          this.devices.forEach(d => {
+            d.checked = false;
+          });
+        }
+      }
     }
   },
   methods: {
@@ -238,12 +279,27 @@ export default {
         this.$http.getLocalDevice()
       ])
         .then(([res1, res2]) => {
-          this.devices = res1.data.result
-            .map(d => ({
-              ...d,
-              checked: false
-            }))
-            .filter(d => d.ip !== res2.data.result.ip);
+          if (!this.deviceModalVisible) {
+            this.devices = res1.data.result
+              .map(d => ({
+                ...d,
+                checked: false
+              }))
+              .filter(d => d.ip !== res2.data.result.ip);
+          }
+          // let checkValue = false;
+          // let checkedDeviceMac = [];
+          // if (this.deviceModalVisible && this.checkAllDevicelist) checkValue = true;
+          // if (this.deviceModalVisible && !this.checkAllDevicelist) {
+          //   const checkedDevice = this.devices.filter(d => d.checked);
+          //   checkedDeviceMac = checkedDevice.map(c => c.mac);
+          // }
+          // this.devices = res1.data.result
+          //   .map(d => ({
+          //     ...d,
+          //     checked: checkedDeviceMac.includes(d.mac) ? true : checkValue
+          //   }))
+          //   .filter(d => d.ip !== res2.data.result.ip);
         })
         .finally(() => {
           this.deviceListTimer = setTimeout(() => {
@@ -304,7 +360,7 @@ export default {
       gap: 10px;
       width: 100%;
       padding: 20px 15px;
-      background: var(--table-row-background-color);
+      background: var(--table_row-bgc);
       border-radius: 10px;
       margin-bottom: 5px;
     }
@@ -337,7 +393,7 @@ export default {
       padding: 50px 0;
       margin: 0;
       text-align: center;
-      color: var(--text-default-color);
+      color: var(--text_default-color);
     }
   }
 }
@@ -359,7 +415,7 @@ export default {
   align-items: center;
   width: 660px;
   .btn-icon {
-    background: var(--button-close-bgc);
+    background: var(--button_close-bgc);
   }
 }
 .modal-body {
@@ -374,7 +430,7 @@ export default {
       cursor: pointer;
       transition: background 0.3s ease;
       &:hover {
-        background: var(--select-item-hover-background-color);
+        background: var(--select-item-hover-bgc);
       }
     }
   }
@@ -402,7 +458,7 @@ export default {
         grid-template-rows: 100%;
         grid-template-columns: 20px 1fr;
         width: 100%;
-        background: var(--table-row-background-color);
+        background: var(--table_row-bgc);
         border-radius: 10px;
         margin-bottom: 5px;
       }
@@ -415,7 +471,7 @@ export default {
         width: 100%;
         .mac {
           font-size: 12px;
-          color: var(--common-gery-color);
+          color: var(--common_gery-color);
         }
       }
       .empty {
@@ -432,7 +488,7 @@ export default {
         padding: 50px 0;
         margin: 0;
         text-align: center;
-        color: var(--text-default-color);
+        color: var(--text_default-color);
       }
     }
   }
@@ -463,7 +519,7 @@ export default {
         cursor: pointer;
         transition: background 0.3s ease;
         &:hover {
-          background: var(--select-item-hover-background-color);
+          background: var(--select-item-hover-bgc);
         }
       }
     }
