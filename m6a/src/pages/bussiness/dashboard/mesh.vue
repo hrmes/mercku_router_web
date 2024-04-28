@@ -244,7 +244,7 @@ import {
   Color,
   M6aRouterSnModelVersion
 } from 'base/util/constant';
-import meshEditMixin from '@/mixins/mesh-edit.js';
+import meshEditMixin from 'base/mixins/mesh-edit.js';
 import genData from './topo';
 
 const echarts = require('echarts/lib/echarts');

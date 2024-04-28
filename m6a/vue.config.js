@@ -116,7 +116,8 @@ module.exports = {
         terserOptions: {
           compress: {
             drop_console: true, // drop console
-            drop_debugger: true
+            drop_debugger: true,
+            comments: false // 删除注释
           }
         }
       })

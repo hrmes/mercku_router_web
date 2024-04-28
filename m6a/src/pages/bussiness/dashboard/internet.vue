@@ -212,7 +212,7 @@
 </template>
 <script>
 import { SpeedTestStatus, RouterMode, WanNetStatus } from 'base/util/constant';
-import speedTestMixin from '@/mixins/speed-test';
+import speedTestMixin from 'base/mixins/speed-test';
 import countTo from 'vue-count-to';
 
 export default {

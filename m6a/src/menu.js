@@ -383,45 +383,44 @@ export default function getMenu(role, mode = RouterMode.router) {
         }
       ]
     };
-
-    [setting, advance, upgrade].forEach(item => {
-      // 根据编译客户生成菜单
-      item.children.forEach(menu => {
-        menu.config = menu.config || config;
-        const customers = menu.customers || {};
-        const customerConfig = customers[customerId] || {};
-        menu.config = Object.assign({}, menu.config, customerConfig);
-      });
-
-      // 过滤不显示的菜单
-      item.children = item.children.filter(menu => {
-        let { show } = menu.config;
-        // 如果支持多级管理员，判断当前角色是否可以查看菜单
-        if (process.env.CUSTOMER_CONFIG.allow2LevelAdmin && show) {
-          show = menu.config.auth.includes(role);
-        }
-        return show;
-      });
-
-      // 根据模式选择对应的菜单项
-      item.children.forEach(menu => {
-        menu.disabled = false;
-        if (!menu.config.mode.includes(mode)) {
-          menu.disabled = true;
-        }
-      });
-
-      // 根据最后生成的菜单，去设置父级菜单的url值指向哪一个子级菜单
-      item.children.length &&
-        item.children.some(menu => {
-          if (!menu.disabled) {
-            item.url = menu.url;
-            return true;
-          }
-        });
-    });
   }
+  [setting, advance].forEach(item => {
+    // 根据编译客户生成菜单
+    item.children.forEach(menu => {
+      menu.config = menu.config || config;
+      const customers = menu.customers || {};
+      const customerConfig = customers[customerId] || {};
+      menu.config = Object.assign({}, menu.config, customerConfig);
+    });
 
+    // 过滤不显示的菜单
+    item.children = item.children.filter(menu => {
+      let { show } = menu.config;
+      // 如果支持多级管理员，判断当前角色是否可以查看菜单
+      if (process.env.CUSTOMER_CONFIG.allow2LevelAdmin && show) {
+        show = menu.config.auth.includes(role);
+      }
+      return show;
+    });
+
+    // 根据模式选择对应的菜单项
+    item.children.forEach(menu => {
+      menu.disabled = false;
+      if (!menu.config.mode.includes(mode)) {
+        menu.disabled = true;
+      }
+    });
+
+    // 根据最后生成的菜单，去设置父级菜单的url值指向哪一个子级菜单
+    item.children.length &&
+      item.children.some(menu => {
+        if (!menu.disabled) {
+          item.url = menu.url;
+          return true;
+        }
+        return false;
+      });
+  });
   console.log([dashboard, setting, advance, upgrade, theme]);
   return [dashboard, setting, advance, upgrade, theme];
 }
