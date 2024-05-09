@@ -69,9 +69,6 @@ export default {
         .then(res => {
           const { data: { result: { mode } } } = res;
           this.mode = mode;
-        })
-        .finally(() => {
-          this.$loading.close();
         });
     },
     submit() {
@@ -99,9 +96,6 @@ export default {
       this.$http.updateMeshPowerSupplyMode({ mode: this.mode })
         .then(() => {
           this.$toast(this.$t('trans0040'), 3000, 'success');
-        })
-        .finally(() => {
-          this.$loading.close();
         });
     }
   }

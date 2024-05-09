@@ -293,7 +293,6 @@ export default {
         .catch(() => {
           // password is not empty, go to login page
           this.$router.push({ path: '/login' });
-          this.$loading.close();
         });
     },
     getMesh() {
@@ -364,9 +363,6 @@ export default {
             }
           });
           this.regionsList = regions;
-        })
-        .finally(() => {
-          this.$loading.close();
         });
     },
     step0() {

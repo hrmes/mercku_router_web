@@ -82,11 +82,6 @@ export default {
             text: r.name,
             value: parseInt(r.code, 10)
           }));
-
-          this.$loading.close();
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     }
   },

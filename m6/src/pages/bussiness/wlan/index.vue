@@ -264,7 +264,6 @@ export default {
         .catch(() => {
           // password is not empty, go to login page
           this.$router.push({ path: '/login' });
-          this.$loading.close();
         });
     },
     getMesh() {
@@ -279,9 +278,6 @@ export default {
           this.wifiForm.ssid5g = b5g.ssid;
           this.wifiForm.password5g = b5g.password;
           this.wifiForm.smart_connect = wifi.smart_connect;
-        })
-        .finally(() => {
-          this.$loading.close();
         });
     },
     onSsid24gChange() {

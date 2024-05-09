@@ -337,11 +337,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
-      console.log('from:', from.path);
-      console.log('to:', to.path);
-      const fromPath = from.path;
-      console.log('from path is:', fromPath);
-      if (fromPath.includes('login')) {
+      if (from.path.includes('login')) {
         // add a flag
         vm.needCheckUpgradable = true;
       }

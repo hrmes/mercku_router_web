@@ -231,9 +231,6 @@ export default {
         })
         .catch(() => {
           this.$store.state.changeMode = false;
-        })
-        .finally(() => {
-          this.$loading.close();
         });
     },
     // checkMeshApclient(pageType) {

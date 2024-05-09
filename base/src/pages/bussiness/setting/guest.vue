@@ -500,7 +500,6 @@ export default {
       this.$http
         .meshGuestUpdate(this.formParams)
         .then(() => {
-          this.$loading.close();
           this.$reconnect({
             onsuccess: () => {
               if (enabled) {
@@ -519,9 +518,6 @@ export default {
             },
             timeout: 60
           });
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     submit() {

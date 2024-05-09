@@ -117,15 +117,10 @@ export default {
   },
   methods: {
     getDDNS() {
-      this.$loading.open();
       this.$http
         .getDDNS()
         .then(res => {
-          this.$loading.close();
           this.ddns = res.data.result;
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     submit() {
@@ -134,11 +129,7 @@ export default {
         this.$http
           .updateDDNS(this.ddns)
           .then(() => {
-            this.$loading.close();
             this.$toast(this.$t('trans0040'), 2000, 'success');
-          })
-          .catch(() => {
-            this.$loading.close();
           });
       }
     }

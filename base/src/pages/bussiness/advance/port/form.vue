@@ -344,8 +344,6 @@ export default {
           this.closeForm();
         } catch (error) {
           console.error(error);
-        } finally {
-          this.$loading.close();
         }
       }
     },

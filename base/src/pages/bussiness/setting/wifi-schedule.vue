@@ -146,7 +146,6 @@ export default {
           schedule
         })
         .then(() => {
-          this.$loading.close();
           this.originEnabled = this.form.enabled;
           if (this.form.enabled) {
             this.isSameTimezoneOffset().then(result => {
@@ -157,9 +156,6 @@ export default {
           } else {
             this.$toast(this.$t('trans0040'), 2000, 'success');
           }
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     getWIFITimeLimit() {
@@ -181,10 +177,6 @@ export default {
               s.checked = true;
             }
           });
-          this.$loading.close();
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     }
   },

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Vue from 'vue';
 
 axios.defaults.timeout = 60000;
 const defaultUrl = '/app';
@@ -31,9 +32,13 @@ class Http {
       method: 'post',
       data
     };
-    return axios(options).catch(err => {
-      this.exHandler(err, options);
-    });
+    return axios(options)
+      .catch(err => {
+        this.exHandler(err, options);
+      })
+      .finally(() => {
+        Vue.prototype.$loading.close();
+      });
   }
 }
 

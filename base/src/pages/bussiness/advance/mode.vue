@@ -57,10 +57,6 @@ export default {
         .getMeshMode()
         .then(res => {
           this.mode = res.data.result.mode;
-          this.$loading.close();
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     updateMode() {
@@ -74,7 +70,6 @@ export default {
             this.$http
               .updateMeshMode({ mode: this.mode })
               .then(() => {
-                this.$loading.close();
                 this.$reconnect({
                   timeout: 120,
                   onsuccess: () => {
@@ -89,9 +84,6 @@ export default {
                     this.$router.push({ path: '/unconnect' });
                   }
                 });
-              })
-              .catch(() => {
-                this.$loading.close();
               });
           }
         }

@@ -29,7 +29,7 @@
                          type="password"
                          v-model="password" />
               </div>
-              <div class="form-item">
+              <div class="form-item last">
                 <button class="btn"
                         v-defaultbutton
                         @click.stop="login()">{{this.$t('trans0001')}}</button>
@@ -169,7 +169,6 @@ export default {
           this.$store.state.role = role;
           localStorage.setItem('role', role);
           this.$http.getMeshMode().then(res1 => {
-            this.$loading.close();
             const { mode } = res1.data.result;
             this.$store.state.mode = mode;
             localStorage.setItem('mode', mode);
@@ -180,14 +179,7 @@ export default {
             localStorage.setItem('meshId', meshId);
 
             this.$router.push({ path: '/dashboard' });
-            this.$loading.close();
-          })
-            .finally(() => {
-              this.$loading.close();
-            });
-        })
-        .catch(() => {
-          this.$loading.close();
+          });
         });
     },
     curLockCount(err) {

@@ -300,11 +300,9 @@ export default {
       this.$http
         .timeLimitUpdate({ ...params })
         .then(() => {
-          this.$loading.close();
           this.$toast(this.$t('trans0040'), 1500, 'success');
         })
         .catch(() => {
-          this.$loading.close();
           this.timeLimitList = this.timeLimitList.map(item => ({
             ...item,
             enabled: !row.enabled
@@ -323,11 +321,7 @@ export default {
           if (this.limit && this.limit.time_limit) {
             this.limit.time_limit = this.timeLimitList;
           }
-          this.$loading.close();
           this.$toast(this.$t('trans0040'), 2000, 'success');
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     submit() {
@@ -343,7 +337,6 @@ export default {
         this.$http
           .addTimeLimit({ ...this.form })
           .then(() => {
-            this.$loading.close();
             this.getList();
             this.modalShow = false;
             this.isSameTimezoneOffset().then(result => {
@@ -351,9 +344,6 @@ export default {
                 this.$toast(this.$t('trans0040'), 2000, 'success');
               }
             });
-          })
-          .catch(() => {
-            this.$loading.close();
           });
       } else {
         this.msgShow = true;
@@ -375,7 +365,6 @@ export default {
             id: this.selectedRow.id
           })
           .then(() => {
-            this.$loading.close();
             // this.getList();
             this.timeLimitList = this.timeLimitList.map(v => {
               if (v.id === this.selectedRow.id) {
@@ -395,9 +384,6 @@ export default {
                 }
               });
             }
-          })
-          .catch(() => {
-            this.$loading.close();
           });
       } else {
         this.msgShow = true;

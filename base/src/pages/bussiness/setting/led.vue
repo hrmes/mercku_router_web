@@ -62,7 +62,6 @@ export default {
       this.$http
         .updateLEDTimeLimit(this.form)
         .then(() => {
-          this.$loading.close();
           if (this.form.enabled) {
             this.isSameTimezoneOffset().then(result => {
               if (result.same || !result.redirect) {
@@ -70,9 +69,6 @@ export default {
               }
             });
           }
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     getLED() {
@@ -81,10 +77,6 @@ export default {
         .getLEDTimeLimit()
         .then(res => {
           this.form = res.data.result;
-          this.$loading.close();
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     }
   },

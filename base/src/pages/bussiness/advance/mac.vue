@@ -122,10 +122,6 @@ export default {
           };
           this.isDefault = !this.mac.current;
           if (this.mac.current && this.mac.default === this.mac.current) this.isDefault = true;
-          this.$loading.close();
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     updateMac() {
@@ -148,7 +144,6 @@ export default {
             this.$http
               .updateWanMac({ mac })
               .then(() => {
-                this.$loading.close();
                 this.$reconnect({
                   timeout: 60,
                   onsuccess: () => {
@@ -160,9 +155,6 @@ export default {
                     this.$router.push({ path: '/unconnect' });
                   }
                 });
-              })
-              .catch(() => {
-                this.$loading.close();
               });
           }
         }

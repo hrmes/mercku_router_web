@@ -76,8 +76,6 @@ export default {
         if (showFirst) this.wpsBand = '2g';
       } catch (error) {
         console.error(error);
-      } finally {
-        this.$loading.close();
       }
     },
     submit: debounce(function updateWps() {
@@ -86,9 +84,6 @@ export default {
         .updateMeshWps({ band: this.wpsBand, wps_enabled: true })
         .then(() => {
           this.$toast(this.$t('trans0040'), 3000, 'success');
-        })
-        .finally(() => {
-          this.$loading.close();
         });
     }, 500)
   }

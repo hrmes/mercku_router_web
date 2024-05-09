@@ -66,6 +66,9 @@ Array.prototype.push.apply(routes.routes, [
 
 const router = new Router(routes);
 router.beforeEach((to, from, next) => {
+  if (!to.meta.noMountedLoading) {
+    Vue.prototype.$loading.open();
+  }
   if (to.name !== from.name) {
     store.commit('clearToken'); // 取消请求
   }

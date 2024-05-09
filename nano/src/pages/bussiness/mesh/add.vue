@@ -374,7 +374,6 @@ export default {
           if (timeout % 3 === 0) {
             this.$http.getNewMeshNodeInfo().then(res => {
               if (res.data.result?.sn) {
-                this.$loading.close();
                 this.snAdded = res.data.result.sn;
                 this.pageStatus = PageStatus.add_success;
                 clearInterval(this.checkTimer);

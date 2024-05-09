@@ -166,7 +166,6 @@ export default {
       this.$http
         .meshRsvdipGet()
         .then(res => {
-          this.$loading.close();
           this.rsvdips = res.data.result.map(v => ({
             ...v,
             checked: false,
@@ -177,9 +176,6 @@ export default {
           } else {
             this.empty = true;
           }
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     editHandle(item) {
@@ -198,11 +194,9 @@ export default {
       this.$http
         .meshRsvdipUpdate({ ...item, enabled: v })
         .then(() => {
-          this.$loading.close();
           this.$toast(this.$t('trans0040'), 2000, 'success');
         })
         .catch(() => {
-          this.$loading.close();
           this.getList();
         });
     },
@@ -238,10 +232,6 @@ export default {
                 this.filterList(rsvdipIds);
                 // this.getList();
                 this.$toast(this.$t('trans0040'), 3000, 'success');
-                this.$loading.close();
-              })
-              .catch(() => {
-                this.$loading.close();
               });
           }
         }

@@ -90,8 +90,6 @@ export default {
         this.mode = mode;
       } catch (error) {
         console.error(error);
-      } finally {
-        this.$loading.close();
       }
     },
     submit: debounce(function updateMeshFanMode() {
@@ -101,9 +99,6 @@ export default {
         .updateMeshFanMode({ mode: this.mode })
         .then(() => {
           this.$toast(this.$t('trans0040'), 3000, 'success');
-        })
-        .finally(() => {
-          this.$loading.close();
         });
     }, 500)
   }

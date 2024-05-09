@@ -122,8 +122,8 @@ export default {
         const speed = res.data.result;
         this.form = {
           ...speed,
-          up: this.b_to_Kb(speed.up),
-          down: this.b_to_Kb(speed.down)
+          up: this.bps_to_Kbps(speed.up),
+          down: this.bps_to_Kbps(speed.down)
         };
       });
     },
@@ -153,14 +153,10 @@ export default {
             speed_limit: params
           })
           .then(() => {
-            this.$loading.close();
             this.$store.state.modules.limits[this.mac].speed_limit = params;
             this.$toast(this.$t('trans0040'), 2000, 'success');
             this.modalClose();
             this.$emit('refreshDeviceList');
-          })
-          .catch(() => {
-            this.$loading.close();
           });
       }
     }

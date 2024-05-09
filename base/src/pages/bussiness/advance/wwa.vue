@@ -94,11 +94,7 @@ export default {
         this.$http
           .updateWWA(data)
           .then(() => {
-            this.$loading.close();
             this.$toast(this.$t('trans0040'), 2000, 'success');
-          })
-          .catch(() => {
-            this.$loading.close();
           });
       }
     }

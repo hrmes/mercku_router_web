@@ -112,7 +112,6 @@ export default {
   },
   methods: {
     getBackup() {
-      this.$loading.open();
       this.isDownloading = true;
       this.$http
         .getRouterConfigBackup()
@@ -130,9 +129,6 @@ export default {
         .catch(() => {
           this.isDownloading = false;
           this.$toast(this.$t('trans1023'), 2000, 'error');
-        })
-        .finally(() => {
-          this.$loading.close();
         });
     },
     onChange() {
@@ -196,7 +192,6 @@ export default {
       this.$http
         .restoreRouterConfig()
         .then(res => {
-          this.$loading.close();
           if (res.status) {
             this.upgraded = true;
             this.$reconnect({
@@ -209,9 +204,6 @@ export default {
               }
             });
           }
-        })
-        .finally(() => {
-          this.$loading.close();
         });
     }
   }

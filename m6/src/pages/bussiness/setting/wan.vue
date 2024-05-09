@@ -535,9 +535,6 @@ export default {
               [this.vlan] = this.netInfo.vlan;
             }
           }
-        })
-        .finally(() => {
-          this.$loading.close();
         });
     },
     save(params) {

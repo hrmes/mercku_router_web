@@ -101,9 +101,6 @@ export default {
           })
           .catch(() => {
             this?.createIntervalTask?.();
-          })
-          .finally(() => {
-            this.$loading.close();
           });
       }
     },

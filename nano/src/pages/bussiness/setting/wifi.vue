@@ -492,9 +492,6 @@ export default {
                   },
                   timeout: 30
                 });
-              })
-              .finally(() => {
-                this.$loading.close();
               });
           }
         }
@@ -549,11 +546,6 @@ export default {
 
           // wifi Tx_power
           this.form.wifiTxPower = wifi.tx_power || 'high';
-
-          this.$loading.close();
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     mapBandData(formBand, channel) {

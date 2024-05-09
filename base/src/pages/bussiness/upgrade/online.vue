@@ -201,7 +201,6 @@ export default {
       this.$loading.open();
       Promise.all([this.$http.firmwareList(), this.$http.getMeshNode()])
         .then(resArr => {
-          this.$loading.close();
           const nodes = resArr[0].data.result;
           const gw = resArr[1].data.result.filter(node => node.is_gw)[0];
 
@@ -245,7 +244,6 @@ export default {
           }
         })
         .catch(err => {
-          this.$loading.close();
           this.requestResult.complete = true;
           if (err && err.error) {
             this.requestResult.error = true;
@@ -270,11 +268,7 @@ export default {
             this.$http
               .upgradeMeshNode({ node_ids: nodeChecked.map(n => n.sn) })
               .then(() => {
-                this.$loading.close();
                 this.processDialogVisible = true;
-              })
-              .catch(() => {
-                this.$loading.close();
               });
           }
         }

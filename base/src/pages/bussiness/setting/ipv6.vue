@@ -353,7 +353,6 @@ export default {
       this.$http
         .getMeshInfoWanNetIpv6()
         .then(res => {
-          this.$loading.close();
           const { result } = res.data;
           this.enabled = result.enabled;
           this.isSetup = this.enabled;
@@ -387,9 +386,6 @@ export default {
             this.staticForm.gateway = staticInfo.gateway.ip;
             this.staticForm.dns = staticInfo.dns?.[0]?.ip ?? '';
           }
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     updateMeshConfigWanNetIpv6(params) {

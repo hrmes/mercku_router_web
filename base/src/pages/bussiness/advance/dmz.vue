@@ -66,15 +66,10 @@ export default {
   },
   methods: {
     getDMZ() {
-      this.$loading.open();
       this.$http
         .getDMZ()
         .then(res => {
-          this.$loading.close();
           this.dmz = res.data.result;
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     submit() {
@@ -83,11 +78,7 @@ export default {
         this.$http
           .updateDMZ(this.dmz)
           .then(() => {
-            this.$loading.close();
             this.$toast(this.$t('trans0040'), 2000, 'success');
-          })
-          .catch(() => {
-            this.$loading.close();
           });
       }
     }

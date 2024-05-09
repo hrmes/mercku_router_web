@@ -310,7 +310,6 @@ export default {
             this.$http
               .upgradeMeshNode({ node_ids: nodeIds, local: true })
               .then(() => {
-                this.$loading.close();
                 this.upgraded = true;
                 this.$upgrade({
                   ontimeout: () => {
@@ -322,7 +321,6 @@ export default {
               })
               .catch(err => {
                 if (err.response.data.error.code === 600402) this.upgraded = true;
-                this.$loading.close();
               });
           }
         }

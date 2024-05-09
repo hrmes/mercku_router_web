@@ -2,22 +2,31 @@
  * MVU => Minimum Viable Unit, 意为最小可用单元
  * 该文件为最小可用单元的路由配置
  */
+
+// common page
 import login from 'pages/login/index.vue';
+import wlan from 'pages/bussiness/wlan/index.vue';
+import unconnect from 'base/pages/error/unconnect/index.vue';
+
+// dashboard page
 import dashboard from 'pages/bussiness/dashboard/index.vue';
 import device from 'pages/bussiness/dashboard/device.vue';
 import mesh from 'pages/bussiness/dashboard/mesh.vue';
-import internet from 'pages/bussiness/dashboard/internet.vue';
-import wan from 'pages/bussiness/setting/wan.vue';
-import wlan from 'pages/bussiness/wlan/index.vue';
-import wifi from 'pages/bussiness/setting/wifi.vue';
-import unconnect from 'pages/error/unconnect/index.vue';
-import online from 'pages/bussiness/upgrade/online.vue';
-import superConfig from 'pages/bussiness/setting/super.vue';
+import internet from 'base/pages/bussiness/dashboard/internet.vue';
 
-import auto from 'base/pages/bussiness/upgrade/auto.vue';
-import offline from 'base/pages/bussiness/upgrade/offline.vue';
+// setting page
+import wifi from 'pages/bussiness/setting/wifi.vue';
+import wan from 'pages/bussiness/setting/wan.vue';
 import safe from 'base/pages/bussiness/setting/safe.vue';
+import superConfig from 'base/pages/bussiness/setting/super.vue';
+
+// advance page
 import mode from 'base/pages/bussiness/advance/mode.vue';
+
+// upgrade page
+import online from 'base/pages/bussiness/upgrade/online.vue';
+import offline from 'base/pages/bussiness/upgrade/offline.vue';
+import auto from 'base/pages/bussiness/upgrade/auto.vue';
 
 const mvuRoutes = [
   {

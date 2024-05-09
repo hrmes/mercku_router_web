@@ -32,10 +32,6 @@ export default {
         .getMeshWifiStatus()
         .then(res => {
           this.enabled = res.data.result.enabled;
-          this.$loading.close();
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     updateWifiStatus() {
@@ -43,11 +39,7 @@ export default {
       this.$http
         .updateMeshWifiStatus({ enabled: this.enabled })
         .then(() => {
-          this.$loading.close();
           this.$toast(this.$t('trans0040'), 2000, 'success');
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     }
   }

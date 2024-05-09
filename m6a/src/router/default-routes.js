@@ -1,59 +1,69 @@
+// common page
 import login from 'pages/login/index.vue';
+import wlan from 'pages/bussiness/wlan/index.vue';
+import unconnect from 'base/pages/error/unconnect/index.vue';
+// dashboard page
 import dashboard from 'pages/bussiness/dashboard/index.vue';
 import device from 'pages/bussiness/dashboard/device.vue';
 import mesh from 'pages/bussiness/dashboard/mesh.vue';
-import internet from 'pages/bussiness/dashboard/internet.vue';
-import wan from 'pages/bussiness/setting/wan.vue';
-import wlan from 'pages/bussiness/wlan/index.vue';
-import wifi from 'pages/bussiness/setting/wifi.vue';
-import guest from 'pages/bussiness/setting/guest.vue';
-import unconnect from 'pages/error/unconnect/index.vue';
-import online from 'pages/bussiness/upgrade/online.vue';
+import internet from 'base/pages/bussiness/dashboard/internet.vue';
+import limit from 'base/pages/bussiness/dashboard/limit/index.vue';
+import timeLimit from 'base/pages/bussiness/dashboard/limit/time.vue';
+import urlLimit from 'base/pages/bussiness/dashboard/limit/blacklist.vue';
 import meshAdd from 'pages/bussiness/mesh/add.vue';
-import diagnosis from 'pages/bussiness/advance/diagnosis.vue';
-import superConfig from 'pages/bussiness/setting/super.vue';
-import telnet from 'pages/bussiness/advance/telnet.vue';
-import tr069 from 'pages/bussiness/advance/tr069.vue';
-import limit from 'pages/bussiness/dashboard/limit/index.vue';
-import timeLimit from 'pages/bussiness/dashboard/limit/time.vue';
-import urlLimit from 'pages/bussiness/dashboard/limit/blacklist.vue';
-import vpn from 'pages/bussiness/advance/vpn/index.vue';
-import vpnForm from 'pages/bussiness/advance/vpn/form.vue';
-import frozenConfig from 'pages/bussiness/advance/frozen-config/index.vue';
 
-import auto from 'base/pages/bussiness/upgrade/auto.vue';
-import offline from 'base/pages/bussiness/upgrade/offline.vue';
-import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
-import ddns from 'base/pages/bussiness/advance/ddns.vue';
-import timezone from 'base/pages/bussiness/setting/timezone.vue';
-import blacklist from 'base/pages/bussiness/setting/blacklist.vue';
-import safe from 'base/pages/bussiness/setting/safe.vue';
-import upnp from 'base/pages/bussiness/setting/upnp.vue';
+// setting page
+// import wan from 'pages/bussiness/setting/wan.vue';
+// import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
+// import safe from 'base/pages/bussiness/setting/safe.vue';
+// import superConfig from 'base/pages/bussiness/setting/super.vue';
+// import blacklist from 'base/pages/bussiness/setting/blacklist.vue';
+// import timezone from 'base/pages/bussiness/setting/timezone.vue';
+// import region from 'base/pages/bussiness/setting/region.vue';
+// import guest from 'base/pages/bussiness/setting/guest.vue';
+// import upnp from 'base/pages/bussiness/setting/upnp.vue';
+// import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
+// import led from 'base/pages/bussiness/setting/led.vue';
+
+// advance page
 import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
 import dmz from 'base/pages/bussiness/advance/dmz.vue';
-import firewall from 'base/pages/bussiness/advance/firewall.vue';
-import log from 'base/pages/bussiness/advance/log.vue';
-import mode from 'base/pages/bussiness/advance/mode.vue';
-import region from 'base/pages/bussiness/setting/region.vue';
 import dhcp from 'base/pages/bussiness/advance/dhcp.vue';
-import mac from 'base/pages/bussiness/advance/mac.vue';
-import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import rsvdip from 'base/pages/bussiness/advance/rsvdip/index.vue';
-import rsvdipForm from 'base/pages/bussiness/advance/rsvdip/form.vue';
-import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
-import led from 'base/pages/bussiness/setting/led.vue';
+import mac from 'base/pages/bussiness/advance/mac.vue';
+import ddns from 'base/pages/bussiness/advance/ddns.vue';
+import vpn from 'pages/bussiness/advance/vpn/index.vue';
+import mode from 'base/pages/bussiness/advance/mode.vue';
+import diagnosis from 'base/pages/bussiness/advance/diagnosis.vue';
+import log from 'base/pages/bussiness/advance/log.vue';
+import frozenConfig from 'pages/bussiness/advance/frozen-config/index.vue';
+import firewall from 'base/pages/bussiness/advance/firewall.vue';
+import wwa from 'base/pages/bussiness/advance/wwa.vue';
+import tr069 from 'base/pages/bussiness/advance/tr069.vue';
+import telnet from 'base/pages/bussiness/advance/telnet.vue';
 import backup from 'base/pages/bussiness/advance/backup.vue';
+
+// upgrade page
+// import online from 'base/pages/bussiness/upgrade/online.vue';
+// import offline from 'base/pages/bussiness/upgrade/offline.vue';
+// import auto from 'base/pages/bussiness/upgrade/auto.vue';
 
 const defaultRoutes = [
   {
     path: '/login',
     name: 'login',
-    component: login
+    component: login,
+    meta: {
+      noMountedLoading: true
+    }
   },
   {
     path: '/dashboard',
     name: 'dashboard',
-    component: dashboard
+    component: dashboard,
+    meta: {
+      noMountedLoading: true
+    }
   },
   {
     path: '/wlan',
@@ -63,7 +73,10 @@ const defaultRoutes = [
   {
     path: '/unconnect',
     name: 'unconnect',
-    component: unconnect
+    component: unconnect,
+    meta: {
+      noMountedLoading: true
+    }
   },
   {
     path: '/dashboard/device/:id?',
@@ -72,7 +85,8 @@ const defaultRoutes = [
     meta: {
       text: 'trans0235',
       layout: 'primary',
-      parentPath: '/dashboard'
+      parentPath: '/dashboard',
+      noMountedLoading: true
     }
   },
   {
@@ -82,7 +96,8 @@ const defaultRoutes = [
     meta: {
       text: 'trans0312',
       layout: 'primary',
-      parentPath: '/dashboard'
+      parentPath: '/dashboard',
+      noMountedLoading: true
     }
   },
   {
@@ -92,7 +107,8 @@ const defaultRoutes = [
     meta: {
       text: 'trans0366',
       layout: 'primary',
-      parentPath: '/dashboard'
+      parentPath: '/dashboard',
+      noMountedLoading: true
     }
   },
   {
@@ -101,7 +117,8 @@ const defaultRoutes = [
     component: meshAdd,
     meta: {
       text: 'trans1117',
-      layout: 'primary'
+      layout: 'primary',
+      noMountedLoading: true
     }
   },
   {
@@ -131,9 +148,18 @@ const defaultRoutes = [
     ]
   },
   {
+    path: '/setting/wifi',
+    name: 'wifi',
+    component: () => import('pages/bussiness/setting/wifi.vue'),
+    meta: {
+      layout: 'primary',
+      hasAside: true
+    }
+  },
+  {
     path: '/setting/wan',
     name: 'wan',
-    component: wan,
+    component: () => import('pages/bussiness/setting/wan.vue'),
     meta: {
       layout: 'primary',
       hasAside: true
@@ -142,16 +168,7 @@ const defaultRoutes = [
   {
     path: '/setting/ipv6',
     name: 'ipv6',
-    component: ipv6,
-    meta: {
-      layout: 'primary',
-      hasAside: true
-    }
-  },
-  {
-    path: '/setting/wifi',
-    name: 'wifi',
-    component: wifi,
+    component: () => import('base/pages/bussiness/setting/ipv6.vue'),
     meta: {
       layout: 'primary',
       hasAside: true
@@ -160,34 +177,27 @@ const defaultRoutes = [
   {
     path: '/setting/safe',
     name: 'safe',
-    component: safe,
+    component: () => import('base/pages/bussiness/setting/safe.vue'),
     meta: {
       layout: 'primary',
-      hasAside: true
+      hasAside: true,
+      noMountedLoading: true
     }
   },
   {
     path: '/setting/super',
     name: 'super',
-    component: superConfig,
+    component: () => import('base/pages/bussiness/setting/super.vue'),
     meta: {
       layout: 'primary',
-      hasAside: true
+      hasAside: true,
+      noMountedLoading: true
     }
   },
   {
-    path: '/setting/region',
-    name: 'region',
-    component: region,
-    meta: {
-      layout: 'primary',
-      hasAside: true
-    }
-  },
-  {
-    path: '/setting/guest',
-    name: 'guest',
-    component: guest,
+    path: '/setting/blacklist',
+    name: 'blacklist',
+    component: () => import('base/pages/bussiness/setting/blacklist.vue'),
     meta: {
       layout: 'primary',
       hasAside: true
@@ -196,16 +206,25 @@ const defaultRoutes = [
   {
     path: '/setting/timezone',
     name: 'timezone',
-    component: timezone,
+    component: () => import('base/pages/bussiness/setting/timezone.vue'),
     meta: {
       layout: 'primary',
       hasAside: true
     }
   },
   {
-    path: '/setting/blacklist',
-    name: 'blacklist',
-    component: blacklist,
+    path: '/setting/region',
+    name: 'region',
+    component: () => import('base/pages/bussiness/setting/region.vue'),
+    meta: {
+      layout: 'primary',
+      hasAside: true
+    }
+  },
+  {
+    path: '/setting/guest',
+    name: 'guest',
+    component: () => import('base/pages/bussiness/setting/guest.vue'),
     meta: {
       layout: 'primary',
       hasAside: true
@@ -214,16 +233,7 @@ const defaultRoutes = [
   {
     path: '/setting/upnp',
     name: 'upnp',
-    component: upnp,
-    meta: {
-      layout: 'primary',
-      hasAside: true
-    }
-  },
-  {
-    path: '/setting/led',
-    name: 'led',
-    component: led,
+    component: () => import('base/pages/bussiness/setting/upnp.vue'),
     meta: {
       layout: 'primary',
       hasAside: true
@@ -232,7 +242,16 @@ const defaultRoutes = [
   {
     path: '/setting/schedule',
     name: 'schedule',
-    component: wifiSchedule,
+    component: () => import('base/pages/bussiness/setting/wifi-schedule.vue'),
+    meta: {
+      layout: 'primary',
+      hasAside: true
+    }
+  },
+  {
+    path: '/setting/led',
+    name: 'led',
+    component: () => import('base/pages/bussiness/setting/led.vue'),
     meta: {
       layout: 'primary',
       hasAside: true
@@ -251,15 +270,6 @@ const defaultRoutes = [
     path: '/advance/rsvdip',
     name: 'advance-rsvdip',
     component: rsvdip,
-    meta: {
-      layout: 'primary',
-      hasAside: true
-    }
-  },
-  {
-    path: '/advance/rsvdip/form/:id?',
-    name: 'advance-rsvdip-form',
-    component: rsvdipForm,
     meta: {
       layout: 'primary',
       hasAside: true
@@ -347,15 +357,6 @@ const defaultRoutes = [
     }
   },
   {
-    path: '/advance/vpn/form/:id?',
-    name: 'advance-vpn-form',
-    component: vpnForm,
-    meta: {
-      layout: 'primary',
-      hasAside: true
-    }
-  },
-  {
     path: '/advance/tr069',
     name: 'advance.tr069',
     component: tr069,
@@ -397,31 +398,34 @@ const defaultRoutes = [
     component: backup,
     meta: {
       layout: 'primary',
-      hasAside: true
-    }
-  },
-  {
-    path: '/upgrade/online',
-    name: 'online',
-    component: online,
-    meta: {
-      layout: 'primary',
-      hasAside: true
+      hasAside: true,
+      noMountedLoading: true
     }
   },
   {
     path: '/upgrade/offline',
     name: 'offline',
-    component: offline,
+    component: () => import('base/pages/bussiness/upgrade/offline.vue'),
+    meta: {
+      layout: 'primary',
+      hasAside: true,
+      noMountedLoading: true
+    }
+  },
+  {
+    path: '/upgrade/online',
+    name: 'online',
+    component: () => import('base/pages/bussiness/upgrade/online.vue'),
     meta: {
       layout: 'primary',
       hasAside: true
     }
   },
+
   {
     path: '/upgrade/auto',
     name: 'auto',
-    component: auto,
+    component: () => import('base/pages/bussiness/upgrade/auto.vue'),
     meta: {
       layout: 'primary',
       hasAside: true

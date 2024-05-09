@@ -112,14 +112,10 @@ export default {
         })
         .then(res => {
           if (res.data.result.status === TaskStatus.done) {
-            this.$loading.close();
             this.output = res.data.result.output;
           } else {
             setTimeout(this.diagnosis, 3000);
           }
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     start() {

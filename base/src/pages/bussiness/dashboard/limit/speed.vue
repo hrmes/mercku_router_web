@@ -130,12 +130,8 @@ export default {
               speed_limit: params
             })
             .then(() => {
-              this.$loading.close();
               this.$store.state.modules.limits[this.mac].speed_limit = params;
               this.$toast(this.$t('trans0040'), 2000, 'success');
-            })
-            .catch(() => {
-              this.$loading.close();
             });
         }
       } else {

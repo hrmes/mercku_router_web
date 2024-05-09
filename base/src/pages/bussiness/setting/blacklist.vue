@@ -256,10 +256,6 @@ export default {
             );
             this.devices = this.devices.filter(d => !macs.includes(d.mac));
             this.$toast(this.$t('trans0040'), 2000, 'success');
-            this.$loading.close();
-          })
-          .catch(() => {
-            this.$loading.close();
           });
       }
     },
@@ -312,14 +308,10 @@ export default {
       this.$http
         .getBlacklist()
         .then(res => {
-          this.$loading.close();
           this.blacklist = res.data.result.map(b => ({
             ...b,
             checked: false
           }));
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     removeBlacklist() {
@@ -332,11 +324,7 @@ export default {
             this.blacklist = this.blacklist.filter(d => d.mac !== mac);
           });
           this.checkAllBlacklist = false;
-          this.$loading.close();
           this.$toast(this.$t('trans0040'), 2000, 'success');
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     checkAllDevices(val) {

@@ -187,7 +187,6 @@ export default {
         })
         .finally(() => {
           this.showLogWrapper = true;
-          this.$loading.close();
         });
     },
     getIncremental(preArray, nowStr) {
@@ -236,9 +235,6 @@ export default {
           } else {
             this.getlogs();
           }
-        })
-        .finally(() => {
-          this.$loading.close();
         });
     },
     updateSetting() {
@@ -258,10 +254,6 @@ export default {
               this.getlogs();
             }
             this.$toast(this.$t('trans0040'), 2000, 'success');
-            this.$loading.close();
-          })
-          .catch(() => {
-            this.$loading.close();
           });
       }
     },

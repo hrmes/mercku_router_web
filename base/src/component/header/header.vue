@@ -358,7 +358,9 @@ export default {
         this.ThemechangeVisiable = true;
       } else if (!menu.disabled) {
         this.$router.push({ path: menu.url });
-        this.mobileNavVisible = !this.mobileNavVisible;
+        setTimeout(() => {
+          this.mobileNavVisible = !this.mobileNavVisible;
+        }, 100);
       }
     },
     trigerMobileNav() {
@@ -524,8 +526,6 @@ export default {
   padding: 0 30px;
   color: var(--text_default-color);
   .logo-wrap {
-    width: 185px;
-    height: 30px;
     .offical {
       color: var(--header_official-color);
       text-decoration: none;

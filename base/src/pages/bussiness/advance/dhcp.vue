@@ -263,11 +263,9 @@ export default {
       );
     },
     getLanInfo() {
-      this.$loading.open();
       this.$http
         .meshInfolanNetGet()
         .then(res => {
-          this.$loading.close();
           this.lanInfo = res.data.result;
           this.curIp = this.lanInfo.netinfo.ip;
           this.form = {
@@ -277,9 +275,6 @@ export default {
             ip_end: this.lanInfo.dhcp_server.ip_end,
             lease: this.lanInfo.dhcp_server.lease
           };
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     submit() {
@@ -294,7 +289,6 @@ export default {
               this.$http
                 .meshLanUpdate(this.formParams)
                 .then(() => {
-                  this.$loading.close();
                   this.$reconnect({
                     timeout: 30,
                     onsuccess: () => {
@@ -305,9 +299,6 @@ export default {
                       this.$router.push({ path: '/unconnect' });
                     }
                   });
-                })
-                .catch(() => {
-                  this.$loading.close();
                 });
             }
           }

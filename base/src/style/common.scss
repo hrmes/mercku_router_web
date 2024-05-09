@@ -208,6 +208,43 @@ input::-webkit-input-placeholder {
       }
     }
   }
+  .form-item {
+    margin-bottom: 30px;
+    position: relative;
+    &.last {
+      margin-bottom: 0;
+    }
+    .error-message {
+      color: var(--input_error_text-color);
+      font-size: 12px;
+      display: block;
+      padding-top: 4px;
+      line-height: 1;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      &.static {
+        position: static;
+      }
+    }
+    &.form-item-error {
+      .input-wrapper {
+        input {
+          border: 2px solid var(--input_error_text-color);
+        }
+        animation: errorshake 0.3s forwards;
+      }
+      .select-container {
+        .select {
+          border: 2px solid var(--input_error_text-color);
+          animation: errorshake 0.3s forwards;
+        }
+        .icon-container {
+          border-left: 2px solid var(--input_error_text-color);
+        }
+      }
+    }
+  }
 }
 
 .form-header {

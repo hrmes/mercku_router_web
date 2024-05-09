@@ -121,7 +121,6 @@ export default {
       this.$http
         .setMeshAutoUpgrade(autoUpgrade)
         .then(() => {
-          this.$loading.close();
           if (this.auto_upgrade.enabled) {
             this.isSameTimezoneOffset().then(result => {
               if (result.same || !result.redirect) {
@@ -131,9 +130,6 @@ export default {
           } else {
             this.$toast(this.$t('trans0040'), 2000, 'success');
           }
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     getMeshAutoUpgrade() {
@@ -141,15 +137,11 @@ export default {
       this.$http
         .getMeshAutoUpgrade()
         .then(res => {
-          this.$loading.close();
           const { result } = res.data;
           this.auto_upgrade.enabled = result.enabled;
           [this.auto_upgrade.schedule] = result.schedule;
           this.auto_upgrade.time = result.time;
           this.enabledInitialized = this.auto_upgrade.enabled;
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     submit() {

@@ -169,12 +169,10 @@ export default {
           if (this.blacklistLimit && this.blacklistLimit.parent_control) {
             this.blacklistLimit.parent_control.mode = this.form.mode;
           }
-          this.$loading.close();
           this.$toast(this.$t('trans0040'), 2000, 'success');
         })
         .catch(() => {
           this.mode = !v;
-          this.$loading.close();
         });
     },
     delRow(row) {
@@ -192,11 +190,7 @@ export default {
             this.blacklistLimit.parent_control.blacklist =
               this.parentControlLimitList;
           }
-          this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     submit() {
@@ -209,14 +203,10 @@ export default {
           })
           .then(() => {
             this.parentControlLimitList.push(this.host);
-            this.$loading.close();
             this.modalShow = false;
             this.$toast(this.$t('trans0040'), 2000, 'success');
             this.blacklistLimit.parent_control.blacklist =
               this.parentControlLimitList;
-          })
-          .catch(() => {
-            this.$loading.close();
           });
       }
     }

@@ -286,7 +286,6 @@ export default {
       .catch(() => {
         // password is not empty, go to login page
         this.$router.push({ path: '/login' });
-        this.$loading.close();
       });
     this.$http
       .getMeshMeta()
@@ -302,7 +301,6 @@ export default {
       })
       .then(() => {
         this.getRegionInitData();
-        this.$loading.close();
       });
   },
   methods: {
@@ -342,10 +340,6 @@ export default {
             text: r.name,
             value: parseInt(r.code, 10)
           }));
-          this.$loading.close();
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     step0() {

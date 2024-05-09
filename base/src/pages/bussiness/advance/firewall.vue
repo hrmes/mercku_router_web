@@ -156,9 +156,7 @@ export default {
       this.ping.ip_limit.ip_list.splice(index, 1);
     },
     getFirewall() {
-      this.$loading.open();
       this.$http.getFirewall().then(res => {
-        this.$loading.close();
         const data = res.data.result;
         const { wan } = data;
         this.wan = wan;
@@ -197,11 +195,7 @@ export default {
         })
         .then(() => {
           this.pingEnabledInitialized = this.wan.ping.enabled;
-          this.$loading.close();
           this.$toast(this.$t('trans0040'), 2000, 'success');
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     }
   }

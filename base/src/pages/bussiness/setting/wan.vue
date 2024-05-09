@@ -508,9 +508,6 @@ export default {
               };
             }
           }
-        })
-        .finally(() => {
-          this.$loading.close();
         });
     },
     save(params) {

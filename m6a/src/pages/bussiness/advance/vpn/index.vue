@@ -360,10 +360,6 @@ export default {
 
             return { ...v, checked: false, open: false };
           });
-          this.$loading.close();
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     change(v) {

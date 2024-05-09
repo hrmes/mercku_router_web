@@ -218,9 +218,6 @@ export default {
             this.currentUpperInfo.show = true;
             console.log('upperApform', this.upperApForm);
           }
-        })
-        .finally(() => {
-          this.$loading.close();
         });
     },
     updateMode() {
@@ -273,9 +270,6 @@ export default {
         })
         .catch(() => {
           this.$store.state.changeMode = false;
-        })
-        .finally(() => {
-          this.$loading.close();
         });
     },
     checkWanStatus() {

@@ -133,11 +133,9 @@ export default {
           enabled: v
         })
         .then(() => {
-          this.$loading.close();
           this.$toast(this.$t('trans0040'), 2000, 'success');
         })
         .catch(() => {
-          this.$loading.close();
           this.remoteShell.telnet = !v;
         });
     },
@@ -148,11 +146,9 @@ export default {
           enabled: v
         })
         .then(() => {
-          this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })
         .catch(() => {
-          this.$loading.close();
           this.remoteShell.ssh = !v;
         });
     },
@@ -162,11 +158,7 @@ export default {
         this.$http
           .updateTFTP(this.tftp)
           .then(() => {
-            this.$loading.close();
             this.$toast(this.$t('trans0040'), 3000, 'success');
-          })
-          .catch(() => {
-            this.$loading.close();
           });
       }
     }

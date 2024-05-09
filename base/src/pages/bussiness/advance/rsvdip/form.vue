@@ -174,9 +174,6 @@ export default {
             this.$toast(this.$t('trans0040'), 2000, 'success');
             this.$emit('refreshList');
             this.closeForm();
-          })
-          .finally(() => {
-            this.$loading.close();
           });
       }
     },

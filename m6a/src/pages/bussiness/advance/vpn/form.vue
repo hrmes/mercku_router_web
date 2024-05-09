@@ -447,9 +447,6 @@ export default {
           this.$emit('refreshList');
           this.closeForm();
           this.$toast(this.$t('trans0040'), 2000, 'success');
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     submit() {
@@ -476,7 +473,6 @@ export default {
               })
               .catch(() => {
                 this.$toast(this.$t('trans0341'));
-                this.$loading.close();
               });
           } else {
             this.submitForm(fetchMethod);

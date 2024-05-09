@@ -119,7 +119,6 @@ export default {
           this.$store.role = role;
           localStorage.setItem('role', role);
           this.$http.getMeshMode().then(res1 => {
-            this.$loading.close();
             const { mode } = res1.data.result;
             this.$store.mode = mode;
             localStorage.setItem('mode', mode);
@@ -127,7 +126,6 @@ export default {
           });
         })
         .catch(err => {
-          this.$loading.close();
           this.$toast(this.$t(err.error.code));
         });
     }

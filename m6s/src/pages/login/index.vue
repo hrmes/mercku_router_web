@@ -187,13 +187,9 @@ export default {
               localStorage.setItem('mode', mode);
 
               this.$router.push({ path: '/dashboard' });
-            })
-            .finally(() => {
-              this.$loading.close();
             });
         })
         .catch(error => {
-          this.$loading.close();
           this.curLockCount(error);
         });
     },

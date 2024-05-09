@@ -483,7 +483,6 @@ export default {
             this.$http
               .deleteMeshNode({ node: { sn: router.sn, mac: router.mac } })
               .then(() => {
-                this.$loading.close();
                 this.showTable = false;
                 this.$toast(this.$t('trans0040'), 2000, 'success');
                 this.routers = this.routers.filter(r => r.sn !== router.sn);
@@ -517,9 +516,6 @@ export default {
                   this.$toast(this.$t('trans0040'), 2000, 'success');
                   this.routers = this.routers.filter(r => r.sn !== router.sn);
                 }
-              })
-              .finally(() => {
-                this.$loading.close();
               });
           }
         }

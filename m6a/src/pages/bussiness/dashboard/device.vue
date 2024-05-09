@@ -526,12 +526,8 @@ export default {
             this.$http
               .meshDevicesOfflineDel({ macs })
               .then(() => {
-                this.$loading.close();
                 this.$toast(this.$t('trans0040'), 2000, 'success');
                 this.getDeviceList();
-              })
-              .catch(() => {
-                this.$loading.close();
               });
           }
         }
@@ -764,10 +760,6 @@ export default {
                   v => v.mac !== row.mac
                 );
                 this.$toast(this.$t('trans0040'), 2000, 'success');
-                this.$loading.close();
-              })
-              .catch(() => {
-                this.$loading.close();
               });
           }
         }

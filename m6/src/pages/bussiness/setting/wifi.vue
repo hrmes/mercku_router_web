@@ -438,9 +438,6 @@ export default {
                   },
                   timeout: 60
                 });
-              })
-              .finally(() => {
-                this.$loading.close();
               });
           }
         }
@@ -491,11 +488,6 @@ export default {
           // smart_connect
           this.form.smart_connect = wifi.smart_connect;
           this.form.compatibility_mode = wifi.compatibility_mode;
-
-          this.$loading.close();
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     },
     mapBandData(formBand, channel) {

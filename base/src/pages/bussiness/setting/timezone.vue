@@ -64,7 +64,6 @@ export default {
         const timezone = res.data.result;
         this.form.timezone = `${timezone.offset}:${timezone.position}`;
         this.getTimezoneText();
-        this.$loading.close();
       });
     },
     submit() {
@@ -77,12 +76,8 @@ export default {
       this.$http
         .setTimezone(data)
         .then(() => {
-          this.$loading.close();
           this.$toast(this.$t('trans0040'), 2000, 'success');
           this.getTimezoneText();
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     }
   }

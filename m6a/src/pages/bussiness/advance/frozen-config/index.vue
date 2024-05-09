@@ -158,9 +158,6 @@ export default {
         .then(res => {
           this.enabled = res.data.result.enabled;
           this.frozenConfigList = res.data.result.configs;
-        })
-        .finally(() => {
-          this.$loading.close();
         });
     },
     save() {
@@ -171,9 +168,6 @@ export default {
         .then(() => {
           this.$toast(this.$t('trans0040'), 2000, 'success');
           this.getRouterFrozenCofig();
-        })
-        .finally(() => {
-          this.$loading.close();
         });
     }
   },

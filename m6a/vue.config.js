@@ -3,6 +3,8 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 const UUID = require('uuid');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
 
 // 这里给默认值的原因是vscode里面，eslint会自动从命令行启动进行检查
 // 没有customer id报错，导致eslint不能加载webpack配置文件
@@ -30,7 +32,6 @@ const host = CUSTOMER_CONFIG.host || 'http://mywifi.mercku.tech';
 
 module.exports = {
   publicPath: '/',
-  // baseUrl: '/',
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: true,
@@ -91,7 +92,7 @@ module.exports = {
     }
   },
   configureWebpack: config => {
-    config.plugins.push(
+    const DefaultPlugins = [
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: process.env.NODE_ENV,
@@ -107,39 +108,49 @@ module.exports = {
           })(),
           IS_MVU: process.env.IS_MVU
         }
-      })
-    );
-    const plugins = [
-      new CleanWebpackPlugin(),
-      new TerserPlugin({
-        cache: true,
-        parallel: true,
-        sourceMap: true, // Must be set to true if using source-maps in production
-        terserOptions: {
-          compress: {
-            // drop_console: false, // 打包时删除console，默认false。此处不需要配置，如果配置了，则会清空所有console
-            // drop_debugger: true, // 打包时删除 debugger，默认true。
-            pure_funcs: ['console.log', 'console.warn'] // 删除console
-          }
-        }
-      })
-      // new CompressionPlugin({
-      //   // 文件开启Gzip，也可以通过服务端(如：nginx)(https://github.com/webpack-contrib/compression-web
-      //   // pack-plugin)
-      //   filename: '[path].gz[query]',
-      //   algorithm: 'gzip',
-      //   test: productionGzipExtensions,
-      //   threshold: 10240,
-      //   minRatio: 0.8
-      // }),
-      // //	Webpack包文件分析器(https://github.com/webpack-contrib/webpack-bundle-analyzer)
-      // new BundleAnalyzerPlugin()
+      }),
+      //	Webpack包文件分析器(https://github.com/webpack-contrib/webpack-bundle-analyzer)
+      new BundleAnalyzerPlugin()
     ];
     if (process.env.NODE_ENV === 'production') {
-      config.plugins = [...config.plugins, ...plugins];
+      const ProductionPlugins = [
+        new CleanWebpackPlugin(),
+        new TerserPlugin({
+          cache: true,
+          parallel: true,
+          sourceMap: true, // Must be set to true if using source-maps in production
+          terserOptions: {
+            compress: {
+              // drop_console: false, // 打包时删除console，默认false。此处不需要配置，如果配置了，则会清空所有console
+              // drop_debugger: true, // 打包时删除 debugger，默认true。
+              pure_funcs: ['console.log', 'console.warn'] // 删除console
+            }
+          }
+        })
+        // new CompressionPlugin({
+        //   // 文件开启Gzip，也可以通过服务端(如：nginx)(https://github.com/webpack-contrib/compression-web
+        //   // pack-plugin)
+        //   filename: '[path].gz[query]',
+        //   algorithm: 'gzip',
+        //   test: productionGzipExtensions,
+        //   threshold: 10240,
+        //   minRatio: 0.8
+        // }),
+        //   //	Webpack包文件分析器(https://github.com/webpack-contrib/webpack-bundle-analyzer)
+        // new BundleAnalyzerPlugin()
+      ];
+      config.plugins = [
+        ...config.plugins,
+        ...DefaultPlugins,
+        ...ProductionPlugins
+      ];
+    } else {
+      config.plugins = [...config.plugins, ...DefaultPlugins];
     }
   },
   chainWebpack: config => {
+    config.plugins.delete('preload');
+    config.plugins.delete('prefetch');
     config.resolve.alias
       .set('vue$', 'vue/dist/vue.esm.js')
       .set('components', resolve('src/component'))
@@ -164,7 +175,7 @@ module.exports = {
   css: {
     loaderOptions: {
       sass: {
-        // @/ is an alias to src/
+        // base/ is an alias to base/src/
         data: `@import "base/style/customer/${CUSTOMER_ID}/theme.scss";`
       }
     }

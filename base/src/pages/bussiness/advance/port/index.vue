@@ -193,9 +193,6 @@ export default {
           } else {
             this.empty = true;
           }
-        })
-        .finally(() => {
-          this.$loading.close();
         });
     },
     editHandle(item) {
@@ -214,11 +211,9 @@ export default {
       this.$http
         .meshPortfwUpdate({ ...item, enabled: item.enabled })
         .then(() => {
-          this.$loading.close();
           this.$toast(this.$t('trans0040'), 2000, 'success');
         })
         .catch(() => {
-          this.$loading.close();
           this.getList();
         });
     },
@@ -253,10 +248,6 @@ export default {
               .then(() => {
                 this.filterList(portfwIds);
                 this.$toast(this.$t('trans0040'), 2000, 'success');
-                this.$loading.close();
-              })
-              .catch(() => {
-                this.$loading.close();
               });
           }
         }

@@ -73,8 +73,6 @@ export default {
         }
       } catch (error) {
         console.error('An error occurred:', error);
-      } finally {
-        this.$loading.close();
       }
     },
     getSyslog() {
@@ -123,14 +121,10 @@ export default {
       this.$http
         .getSyslogEnabled()
         .then(res => {
-          this.$loading.close();
           this.enabled = res.data.result.enabled;
           if (this.enabled) {
             this.getSyslog();
           }
-        })
-        .catch(() => {
-          this.$loading.close();
         });
     }
   }
