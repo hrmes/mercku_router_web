@@ -9,11 +9,12 @@
         <div class="row-1">
           <div class="card">
             <m-form-item class="last">
-              <m-select :label="$t('trans0273')"
-                        v-model="form.timezone"
+              <m-select v-model="form.timezone"
+                        :label="$t('trans0273')"
                         :options="timezones"
-                        :needProcessing="true"
-                        :isDrawerStyle="true"></m-select>
+                        needProcessing
+                        isDrawerStyle
+                        filterable></m-select>
             </m-form-item>
           </div>
         </div>
@@ -33,7 +34,6 @@ export default {
   data() {
     return {
       timezones: [],
-      timezoneText: '',
       form: {
         timezone: ''
       }
@@ -41,7 +41,7 @@ export default {
   },
   created() {
     let array = [];
-    array = require(`../../../timezones/${this.$i18n.locale}.json`);
+    array = require(`base/timezones/${this.$i18n.locale}.json`);
     this.timezones = array.map(t => ({
       text: `(${t.timezoneDetail}) ${t.coutryName}`,
       mainTitle: t.timezoneDetail,
@@ -51,19 +51,11 @@ export default {
     this.getTimezone();
   },
   methods: {
-    getTimezoneText() {
-      this.timezones.forEach(t => {
-        if (t.value === this.form.timezone) {
-          this.timezoneText = t.text;
-        }
-      });
-    },
     getTimezone() {
       this.$loading.open();
       this.$http.getTimezone().then(res => {
         const timezone = res.data.result;
         this.form.timezone = `${timezone.offset}:${timezone.position}`;
-        this.getTimezoneText();
       });
     },
     submit() {
@@ -77,7 +69,6 @@ export default {
         .setTimezone(data)
         .then(() => {
           this.$toast(this.$t('trans0040'), 2000, 'success');
-          this.getTimezoneText();
         });
     }
   }

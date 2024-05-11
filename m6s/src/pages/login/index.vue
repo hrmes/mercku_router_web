@@ -75,7 +75,6 @@
                :href="appDownloadUrl">{{$t('trans0262')}}</a>
           </div>
         </div>
-
       </div>
     </div>
   </div>
