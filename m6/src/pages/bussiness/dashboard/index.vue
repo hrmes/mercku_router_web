@@ -224,7 +224,7 @@
 </template>
 <script>
 import marked from 'marked';
-import { WanNetStatus, RouterMode } from 'base/util/constant';
+import { WanNetStatus, RouterMode, ModelsMap } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
 import meshEditMixin from 'base/mixins/mesh-edit.js';
 import routerModelMixin from 'base/mixins/router-model.js';
@@ -275,13 +275,7 @@ export default {
   },
   computed: {
     modelName() {
-      const modelId = this.$store.state.meshId.slice(0, 2);
-      const modelVersion = this.$store.state.meshId.charAt(9);
-      const productInfo = this.productsInfo(modelId, modelVersion);
-      if (productInfo) {
-        return productInfo.shortName;
-      }
-      return '';
+      return process.env.CUSTOMER_CONFIG.routers[`${ModelsMap[process.env.MODEL_CONFIG.id]}`].shortName;
     },
     isMobile() {
       return this.$store.state.isMobile;

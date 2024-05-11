@@ -85,12 +85,12 @@ export default function getMenu(role, mode = RouterMode.router) {
           }
         }
       },
-      {
-        text: 'trans0020',
-        name: 'blacklist',
-        url: '/setting/blacklist',
-        config: strategyA
-      },
+      // {
+      //   text: 'trans0020',
+      //   name: 'blacklist',
+      //   url: '/setting/blacklist',
+      //   config: strategyA
+      // },
       {
         text: 'trans0272',
         name: 'timezone',
@@ -115,12 +115,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0644',
         config: strategyA
       },
-      {
-        url: '/setting/led',
-        name: 'led',
-        text: 'trans0779',
-        config
-      },
+      // {
+      //   url: '/setting/led',
+      //   name: 'led',
+      //   text: 'trans0779',
+      //   config
+      // },
       {
         url: '/setting/schedule',
         name: 'schedule',
@@ -195,12 +195,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0419',
         config: strategyA
       },
-      {
-        url: '/advance/log',
-        name: 'advance-log',
-        text: 'trans0421',
-        config
-      },
+      // {
+      //   url: '/advance/log',
+      //   name: 'advance-log',
+      //   text: 'trans0421',
+      //   config
+      // },
       {
         url: '/advance/firewall',
         name: 'advance-firewall',
@@ -244,13 +244,13 @@ export default function getMenu(role, mode = RouterMode.router) {
           auth: [Role.super],
           mode: [RouterMode.router]
         }
-      },
-      {
-        url: '/advance/backup',
-        name: 'advance.backup',
-        text: 'trans1019',
-        config
       }
+      // {
+      //   url: '/advance/backup',
+      //   name: 'advance.backup',
+      //   text: 'trans1019',
+      //   config
+      // }
     ]
   };
   const upgrade = {

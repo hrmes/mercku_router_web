@@ -297,29 +297,29 @@
                 <li class="control"
                     v-if='isMobileRow(row.expand) && isRouter'>
                   <div class="limit-inner">
-                    <span class="limit-icon"
+                    <!-- <span class="limit-icon"
                           @click="()=>forward2limit(row,'time')">
                       <i class="time-limit iconfont ic_limit_time_off"
                          :class="{'active':isTimeLimit(row)}"></i>
                       <span class="hover-popover">{{$t('trans0075')}}</span>
-                    </span>
+                    </span> -->
                     <span class="limit-icon"
                           @click="()=>forward2limit(row,'speed')">
                       <i class="speed-limit iconfont ic_limit_speed_off"
                          :class="{'active':isSpeedLimit(row)}"></i>
                       <span class="hover-popover">{{$t('trans0014')}}</span>
                     </span>
-                    <span class="limit-icon"
+                    <!-- <span class="limit-icon"
                           @click="()=>forward2limit(row,'url')">
                       <i class="url-limit iconfont ic_limit_website_off"
                          :class="{'active':isBlacklsitLimit(row)}"></i>
                       <span class="hover-popover">{{$t('trans0076')}}</span>
-                    </span>
-                    <span class="limit-icon"
+                    </span> -->
+                    <!-- <span class="limit-icon"
                           @click="()=>addToBlackList(row)">
                       <i class="add-block iconfont ic_blocklist"></i>
                       <span class="hover-popover">{{$t('trans0016')}}</span>
-                    </span>
+                    </span> -->
                   </div>
                 </li>
               </template>

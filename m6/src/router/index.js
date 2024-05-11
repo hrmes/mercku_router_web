@@ -12,8 +12,8 @@ import device from 'pages/bussiness/dashboard/device.vue';
 import mesh from 'pages/bussiness/dashboard/mesh.vue';
 import internet from 'base/pages/bussiness/dashboard/internet.vue';
 import limit from 'base/pages/bussiness/dashboard/limit/index.vue';
-import timeLimit from 'base/pages/bussiness/dashboard/limit/time.vue';
-import urlLimit from 'base/pages/bussiness/dashboard/limit/blacklist.vue';
+// import timeLimit from 'base/pages/bussiness/dashboard/limit/time.vue';
+// import urlLimit from 'base/pages/bussiness/dashboard/limit/blacklist.vue';
 import meshAdd from 'pages/bussiness/mesh/add.vue';
 
 // setting page
@@ -27,8 +27,8 @@ import timezone from 'base/pages/bussiness/setting/timezone.vue';
 import region from 'base/pages/bussiness/setting/region.vue';
 import guest from 'base/pages/bussiness/setting/guest.vue';
 import upnp from 'base/pages/bussiness/setting/upnp.vue';
-import led from 'base/pages/bussiness/setting/led.vue';
 import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
+// import led from 'base/pages/bussiness/setting/led.vue';
 
 // advance page
 import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
@@ -40,11 +40,11 @@ import ddns from 'base/pages/bussiness/advance/ddns.vue';
 import vpn from 'pages/bussiness/advance/vpn/index.vue';
 import mode from 'base/pages/bussiness/advance/mode.vue';
 import diagnosis from 'base/pages/bussiness/advance/diagnosis.vue';
-import log from 'base/pages/bussiness/advance/log.vue';
+// import log from 'base/pages/bussiness/advance/log.vue';
 import firewall from 'base/pages/bussiness/advance/firewall.vue';
 import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import tr069 from 'base/pages/bussiness/advance/tr069.vue';
-import backup from 'base/pages/bussiness/advance/backup.vue';
+// import backup from 'base/pages/bussiness/advance/backup.vue';
 
 // upgrade page
 import online from 'base/pages/bussiness/upgrade/online.vue';
@@ -148,24 +148,24 @@ const routes = {
       component: limit,
       redirect: '/limit/:mac/time',
       children: [
-        {
-          path: '/limit/:mac/time',
-          name: 'device-limit-time',
-          component: timeLimit,
-          meta: {
-            text: 'trans0075',
-            parentPath: '/dashboard/device/primary'
-          }
-        },
-        {
-          path: '/limit/:mac/url',
-          name: 'device-limit-url',
-          component: urlLimit,
-          meta: {
-            text: 'trans0076',
-            parentPath: '/dashboard/device/primary'
-          }
-        }
+        // {
+        //   path: '/limit/:mac/time',
+        //   name: 'device-limit-time',
+        //   component: timeLimit,
+        //   meta: {
+        //     text: 'trans0075',
+        //     parentPath: '/dashboard/device/primary'
+        //   }
+        // },
+        // {
+        //   path: '/limit/:mac/url',
+        //   name: 'device-limit-url',
+        //   component: urlLimit,
+        //   meta: {
+        //     text: 'trans0076',
+        //     parentPath: '/dashboard/device/primary'
+        //   }
+        // }
       ]
     },
     {
@@ -258,15 +258,15 @@ const routes = {
         hasAside: true
       }
     },
-    {
-      path: '/setting/led',
-      name: 'led',
-      component: led,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
+    // {
+    //   path: '/setting/led',
+    //   name: 'led',
+    //   component: led,
+    //   meta: {
+    //     layout: 'primary',
+    //     hasAside: true
+    //   }
+    // },
     {
       path: '/setting/schedule',
       name: 'schedule',
@@ -339,15 +339,15 @@ const routes = {
         hasAside: true
       }
     },
-    {
-      path: '/advance/log',
-      name: 'advance-log',
-      component: log,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
+    // {
+    //   path: '/advance/log',
+    //   name: 'advance-log',
+    //   component: log,
+    //   meta: {
+    //     layout: 'primary',
+    //     hasAside: true
+    //   }
+    // },
     {
       path: '/advance/diagnosis',
       name: 'advance-diagnosis',
@@ -393,15 +393,15 @@ const routes = {
         hasAside: true
       }
     },
-    {
-      path: '/advance/backup',
-      name: 'advance.backup',
-      component: backup,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
+    // {
+    //   path: '/advance/backup',
+    //   name: 'advance.backup',
+    //   component: backup,
+    //   meta: {
+    //     layout: 'primary',
+    //     hasAside: true
+    //   }
+    // },
     {
       path: '/upgrade/online',
       name: 'online',

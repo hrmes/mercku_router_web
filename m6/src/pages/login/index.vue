@@ -174,11 +174,6 @@ export default {
             this.$store.state.mode = mode;
             localStorage.setItem('mode', mode);
 
-            const { sn: meshId = '060052102001032' } = res1.data.result;
-
-            this.$store.state.meshId = meshId;
-            localStorage.setItem('meshId', meshId);
-
             this.$router.push({ path: '/dashboard' });
             this.$loading.close();
           })
