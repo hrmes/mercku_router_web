@@ -52,7 +52,7 @@ export default {
   },
   data() {
     return {
-      ipArr: ['', '', '', '',],
+      ipArr: ['', '', '', ''],
       oldIpInput: ['', '', '', ''],
       activeIndex: -1,
       clipboardText: ''
@@ -113,7 +113,7 @@ export default {
         this.ipArr[index] = this.oldIpInput[index];
         return false;
       }
-      const isEmptyArray = this.ipArr.every(item => item === "");
+      const isEmptyArray = this.ipArr.every(item => item === '');
       if (isEmptyArray) {
         this.$emit('input', '');
       } else {
@@ -141,7 +141,7 @@ export default {
     handlePaste(startIndex) {
       const { clipboardText } = this;
       const tempArr = clipboardText.split('.');
-      let i = 0
+      let i = 0;
       for (i; i < tempArr.length && i < this.ipArr.length; i++) {
         this.ipArr[i] = tempArr[i];
         if (!this.handleInput(i)) { break; }
@@ -153,8 +153,7 @@ export default {
         if (!this.ipArr[index]) {
           this.handleFocus(index - 1);
         }
-      })
-
+      });
     }
   }
 };

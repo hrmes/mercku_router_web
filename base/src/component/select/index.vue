@@ -5,10 +5,17 @@
     <label for="">{{label}}</label>
     <div class="select"
          @click="open()">
-      <input class="select-text"
-             :value="selected.text"
-             readonly
+      <input v-if="filterable && opened"
+             class="select-text filterable"
+             v-model="filterText"
+             :placeholder="selected.text||$t('trans0321')"
              :disabled="disabled"
+             :title="selected.text" />
+      <input v-else
+             class="select-text"
+             :value="selected.text"
+             :disabled="disabled"
+             readonly
              :title="selected.text" />
       <div class="icon-container">
         <span class="icon"
@@ -16,13 +23,13 @@
       </div>
       <!-- 过渡样式默认为淡入淡出 -->
       <!-- 如果是上下抽屉样式时，过渡效果切换为上下移动淡入淡出 -->
-      <transition :name="isDrawerStyle&&isMobile? 'slide-up' : 'fade'">
+      <transition :name="isDrawerStyle && isMobile? 'slide-up' : 'fade'">
         <ul key="popup-list"
             class="select-popup reset-ul"
             :class="{'popup-top':popupTop,'drawer':isDrawerStyle}"
             v-show="opened">
-          <div class="drawer-header"
-               v-if="isDrawerStyle"
+          <div v-if="isDrawerStyle"
+               class="drawer-header"
                @click.stop="">
             <span class="btn-icon close"
                   v-if="isMobile"
@@ -30,12 +37,12 @@
               <i class="iconfont  ic_close"></i>
             </span>
           </div>
-          <template v-if="options.length">
+          <template v-if="filteredOptions.length">
             <li class="select-popup__item"
                 :class="{ 'selected': selected === option }"
                 :key="option.value"
                 @click.stop="select(option)"
-                v-for="option in options"
+                v-for="option in filteredOptions"
                 :title="option.text">
               <div v-if="needProcessing">
                 <div class="main-title">{{option.mainTitle}}</div>
@@ -53,7 +60,7 @@
       <!-- 抽屉样式下拉选项的遮罩 -->
       <transition name="fade">
         <div class="mask"
-             v-if="isDrawerStyle&&opened"
+             v-if="isDrawerStyle && opened"
              key="mask"></div>
       </transition>
     </div>
@@ -97,17 +104,26 @@ export default {
     isDrawerStyle: {
       type: Boolean,
       default: false
-    }
+    },
+    filterable: {
+      type: Boolean,
+      default: false
+    },
   },
   data() {
     return {
       selected: this.getOptionByValue(this.value),
-      opened: false
+      opened: false,
+      filterText: ''
     };
   },
   computed: {
     isMobile() {
       return this.$store.state.isMobile;
+    },
+    filteredOptions() {
+      return (this.options.filter(option => String(option.text).toLowerCase()
+        .includes(this.filterText.toLowerCase()))) || [];
     }
   },
   watch: {
@@ -139,12 +155,15 @@ export default {
       });
     },
     select(option) {
-      this.selected = option;
       this.opened = false;
+      this.selected = option;
       this.$emit('input', this.selected.value);
       if (this.value !== this.selected.value) {
         this.change();
       }
+      setTimeout(() => {
+        this.filterText = ''; // 过渡效果结束后清空 filterText
+      }, 320);
     },
     change() {
       this.$emit('change', this.selected.value, this.value);
@@ -154,12 +173,19 @@ export default {
         this.opened = !this.opened;
         if (this.opened) {
           this.scrollToSelect();
+        } else {
+          setTimeout(() => {
+            this.filterText = ''; // 过渡效果结束后清空 filterText
+          }, 320);
         }
       }
     },
     close() {
       this.opened = false;
-    }
+      setTimeout(() => {
+        this.filterText = ''; // 过渡效果结束后清空 filterText
+      }, 320);
+    },
   }
 };
 </script>
