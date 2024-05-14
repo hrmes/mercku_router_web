@@ -565,11 +565,12 @@ export default {
     },
     submit() {
       if (this.vlan.enabled && !this.$refs.vlanForm.validate()) return;
-      const form = { type: this.netType };
-      if (this.vlan.id) {
-        form.vlan = [this.vlan];
-      } else {
-        form.vlan = [];
+      const form = { type: this.netType, vlan: [] };
+      if (this.vlan.enabled) {
+        form.vlan.push({
+          ...this.vlan,
+          id: Number(this.vlan.id)
+        });
       }
       switch (this.netType) {
         case WanType.dhcp:

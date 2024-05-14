@@ -331,6 +331,7 @@ export default {
   .footer__right__QR-container {
     position: relative;
     margin-left: 20px;
+    user-select: none;
     cursor: pointer;
     > img {
       width: 22px;

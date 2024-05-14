@@ -699,8 +699,9 @@ export default {
                   item => item.name === VlanName.ipPhone
                 ) || cloneDeep(IpPhoneVlanDefault);
               this.iptvVlan =
-                this.netInfo.vlan.find(item => item.name === VlanName.iptv) ||
-                cloneDeep(IptvVlanDefault);
+                this.netInfo.vlan.find(
+                  item => item.name === VlanName.iptv
+                ) || cloneDeep(IptvVlanDefault);
             }
             if (this.isDhcp) {
               if (this.netInfo.dhcp && this.netInfo.dhcp.dns && this.netInfo.dhcp.dns.length > 0) {
