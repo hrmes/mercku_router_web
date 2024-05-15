@@ -35,8 +35,9 @@
                   :model="form"
                   :rules="rules">
             <div class="form-header">
-              <span
-                    class="form-header__title">{{ form.smart_connect?'Wi-Fi':$t('trans0677') }}</span>
+              <span class="form-header__title">
+                {{ form.smart_connect?'Wi-Fi':$t('trans0677') }}
+              </span>
             </div>
             <m-form-item key="b24gssid"
                          prop="b24g.ssid">
@@ -193,7 +194,6 @@ import {
   getStringByte,
   isValidPassword,
   isFieldHasComma,
-  isFieldHasSpaces
 } from 'base/util/util';
 import { EncryptMethod, Bands, ChannelMode, RouterMode } from 'base/util/constant';
 import encryptMix from 'base/mixins/encrypt-methods';

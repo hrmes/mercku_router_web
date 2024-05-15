@@ -7,7 +7,7 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="seccess-info card">
+          <div class="wan-info card">
             <div>
               <label class="with-colon">{{$t('trans0317')}}:</label>
               <span>
@@ -851,7 +851,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.seccess-info {
+.wan-info {
   display: flex;
   flex-direction: column;
   width: 360px;
@@ -874,7 +874,7 @@ export default {
   }
 }
 @media screen and(max-width:768px) {
-  .seccess-info {
+  .wan-info {
     width: 100%;
     padding: 0;
     padding-bottom: 30px;
