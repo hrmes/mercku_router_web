@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 /**
  *
  *
@@ -19,9 +18,47 @@ import { Color, Bands } from 'base/util/constant';
 // 大于-70均认为优秀
 const isGood = rssi => rssi >= -65;
 
+function filterValidNeighbors(neighbors) {
+  const isValidNeighbor = n => {
+    if (!Object.prototype.hasOwnProperty.call(n, 'sn')) {
+      console.log(`neighbors: ${n.sn} sn缺失`);
+      return false;
+    }
+    if (!Object.prototype.hasOwnProperty.call(n, 'rssi')) {
+      console.log(`neighbors: ${n.sn} rssi缺失`);
+      return false;
+    }
+    if (!Object.prototype.hasOwnProperty.call(n, 'backhaul_type')) {
+      console.log(`neighbors: ${n.sn} backhaul_type缺失`);
+      return false;
+    }
+    // 检查是否存在 sn 且值为字符串，长度为15，且只包含数字
+    if (typeof n.sn !== 'string' || n.sn.length !== 15 || !/^\d+$/.test(n.sn)) {
+      console.log(`neighbors: ${n.sn} sn有误`);
+      return false;
+    }
+    // 检查 backhaul_type 是否为合法值
+    const validBackhaulTypes = [
+      'wireless_2g',
+      'wireless_5g',
+      'wired',
+      'unknown'
+    ];
+    if (!validBackhaulTypes.includes(n.backhaul_type)) {
+      console.log(`neighbors: ${n.sn} backhaul_type值有误`);
+      return false;
+    }
+    // 如果所有条件都满足，说明对象结构是合法的
+    return true;
+  };
+
+  // 使用 filter 函数过滤出符合条件的对象数组
+  return neighbors.filter(n => isValidNeighbor(n));
+}
 // 补充关系，a-b,b-a
 function addConnection(source) {
   return source.map(s => {
+    s.neighbors = filterValidNeighbors(s.neighbors);
     if (s.neighbors) {
       s.neighbors.forEach(n => {
         const rssi1 = n.rssi;
@@ -189,7 +226,7 @@ function genLines(gateway, green, red, nodes, fullLine) {
   }
 
   const lines = [];
-  if (gateway && gateway.neighbors) {
+  if (gateway && gateway.neighbors.length) {
     gateway.neighbors.forEach(n => {
       const node = nodes.find(s => s.sn === n.sn);
       if (!exist(node, gateway)) {
@@ -254,6 +291,7 @@ function findOfflineNode(array, offline) {
 function genData(array, fullLine = false) {
   if (!array[0].is_gw) {
     // 将网关放在数组第一个，始终保证网关是绘图的起始 node
+    // eslint-disable-next-line no-nested-ternary
     array.sort((a, b) => (a.is_gw ? -1 : b.is_gw ? 1 : 0));
   }
 
