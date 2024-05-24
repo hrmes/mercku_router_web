@@ -1,41 +1,35 @@
-@function hsv2rgb($h, $s, $v) {
-  $s: $s / 100;
-  $v: $v / 100;
+// 断点列表
+$breakpoints: (
+  'phone': (
+    320px,
+    480px
+  ),
+  'pad': (
+    481px,
+    768px
+  ),
+  'notebook': (
+    769px,
+    1024px
+  ),
+  'desktop': (
+    1025px,
+    1200px
+  ),
+  'tv': 1201px
+);
 
-  $r: 0;
-  $g: 0;
-  $b: 0;
-  $_h: floor($h / 60);
-  $i: $_h % 6;
-  $f: $_h - $i;
-  $p: $v * (1 - $s);
-  $q: $v * (1 - $f * $s);
-  $t: $v * (1 - (1 - $f) * $s);
-
-  @if $i == 0 {
-    $r: $v;
-    $g: $t;
-    $b: $p;
-  } @else if $i == 1 {
-    $r: $q;
-    $g: $v;
-    $b: $p;
-  } @else if $i == 2 {
-    $r: $p;
-    $g: $v;
-    $b: $t;
-  } @else if $i == 3 {
-    $r: $p;
-    $g: $q;
-    $b: $v;
-  } @else if $i == 4 {
-    $r: $t;
-    $g: $p;
-    $b: $v;
-  } @else if $i == 5 {
-    $r: $v;
-    $g: $p;
-    $b: $q;
+@mixin respond-to($breakname) {
+  $bp: map-get($breakpoints, $breakname);
+  @if type-of($bp) == 'list' {
+    $min: nth($breakpoints, 1);
+    $max: nth($breakpoints, 2);
+    @media (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  } @else {
+    @media (min-width: $bp) {
+      @content;
+    }
   }
-  @return rgb(round($r * 255), round($g * 255), round($b * 255));
 }

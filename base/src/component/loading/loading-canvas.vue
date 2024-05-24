@@ -10,7 +10,7 @@ export default {
     },
     color: {
       type: String,
-      default: '#d6001c'
+      default: process.env.CUSTOMER_CONFIG.loading.color
     },
     size: {
       type: Number,
