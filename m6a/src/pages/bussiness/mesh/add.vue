@@ -20,7 +20,6 @@
                  @click="updateChooseTypeVisible(false,'wired')">
               <div class="inner">
                 <span>{{$t('trans1096')}}</span>
-
               </div>
             </div>
             <p class="tips__text tips__subtext">{{$t('trans1097')}}</p>
@@ -37,8 +36,7 @@
                v-show="isStep(0)">
             <div class="main-content">
               <div class="img-container">
-                <img :src="getM6aSeriesProductAddNodeImg(0)"
-                     alt="">
+                <img :src="getM6aSeriesProductAddNodeImg(0)" />
               </div>
               <p class="step-item__tip">{{transText('trans0693')}}</p>
               <p class="step-item__tip step-item__tip--gray">{{$t('trans0698')}}</p>

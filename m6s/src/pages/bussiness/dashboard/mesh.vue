@@ -47,7 +47,7 @@
                v-if="showTable">
             <div class="card-top">
               <div class="card-top__header">
-                <span class="model-name info-label">{{modelName}}</span>
+                <span class="model-name info-label">{{ModelName}}</span>
                 <span class="gateway-label info-label"
                       v-if="isGateway">{{$t('trans0153')}}</span>
                 <span class="gateway-label info-label"
@@ -67,7 +67,9 @@
                      :class="$store.state.deviceColor"></div>
                 <div class="mesh-router__info">
                   <div class="row-1">
-                    <div class="line-icon"></div>
+                    <div class="line-icon"
+                         :class="{
+                          'm6a_sfp':modelID===M6sRouterSnModelVersion.M6s_SFP,}"></div>
                     <div class="text">{{selectedNodeInfo.name}}</div>
                   </div>
                   <div class="row-2">
@@ -271,7 +273,7 @@
 <script>
 import marked from 'marked';
 import { formatMac } from 'base/util/util';
-import { RouterStatus, Color } from 'base/util/constant';
+import { RouterStatus, Color, Models, M6sRouterSnModelVersion } from 'base/util/constant';
 import meshEditMixin from 'base/mixins/mesh-edit.js';
 import genData from './topo';
 
@@ -283,6 +285,7 @@ export default {
   mixins: [meshEditMixin],
   data() {
     return {
+      M6sRouterSnModelVersion,
       helpModalVisible: false,
       rssiModalVisible: false,
       RouterStatus,
@@ -331,6 +334,21 @@ export default {
     }
   },
   computed: {
+    ModelName() {
+      let name;
+      switch (process.env.MODEL_CONFIG.id) {
+        case Models.M6s_SFP:
+          name = process.env.CUSTOMER_CONFIG.routers.M6s_SFP.shortName;
+          break;
+        default:
+          name = process.env.CUSTOMER_CONFIG.routers.M6s.shortName;
+          break;
+      }
+      return name;
+    },
+    modelID() {
+      return this.selectedNodeInfo?.sn?.charAt(9) || '';
+    },
     pageName() {
       return this.$t(this.$route.meta.text);
     },
@@ -348,9 +366,6 @@ export default {
     },
     currentTheme() {
       return this.$store.state.theme;
-    },
-    modelName() {
-      return process.env.CUSTOMER_CONFIG.routers.M6s.shortName;
     },
     listOrdered() {
       return this.selectedNodeInfo.stations.sort((a, b) => {
@@ -1206,11 +1221,15 @@ $img_folder: '../../../../../base/src/assets/images';
                 height: 40px;
                 margin-right: 5px;
                 @include aspect(1, 1);
-
                 background: url(../../../assets/images/icon/ic_homepage.svg)
                   center no-repeat;
                 background-size: contain;
                 filter: var(--img-brightness);
+                &.m6a_sfp {
+                  background: url(../../../assets/images/icon/ic_homepage_sfp.svg)
+                    center no-repeat;
+                  background-size: contain;
+                }
               }
               .text {
                 flex: 1;

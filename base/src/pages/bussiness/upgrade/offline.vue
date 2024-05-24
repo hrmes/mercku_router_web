@@ -186,9 +186,9 @@ export default {
     isHomewayProduct() {
       let result = false;
       switch (process.env.MODEL_CONFIG.id) {
-        case Models.homeway_230v:
-        case Models.homeway_POE1:
-        case Models.homeway_POE2:
+        case Models.Homeway_230v:
+        case Models.Homeway_POE1:
+        case Models.Homeway_POE2:
           result = true;
           break;
         default:

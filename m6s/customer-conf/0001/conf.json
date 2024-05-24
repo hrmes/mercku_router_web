@@ -13,6 +13,10 @@
     "M6s": {
       "name": "M6s Wi-Fi6 Router",
       "shortName": "M6s"
+    },
+    "M6s_SFP": {
+      "name": "M6s SFP Wi-Fi6 Router",
+      "shortName": "M6s SFP"
     }
   },
   "deviceColors": ["black", "white"],

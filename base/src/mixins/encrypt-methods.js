@@ -4,7 +4,7 @@ export default {
   data() {
     let encryptMethods = [];
     switch (process.env.MODEL_CONFIG.id) {
-      case Models.m2:
+      case Models.M2:
         encryptMethods = [
           {
             value: EncryptMethod.wpawpa2,
@@ -24,34 +24,10 @@ export default {
           }
         ];
         break;
-      case Models.m6:
-        encryptMethods = [
-          {
-            value: EncryptMethod.wpa2wpa3,
-            text: this.$t('trans0573')
-          },
-          {
-            value: EncryptMethod.wpawpa2,
-            text: this.$t('trans0557')
-          },
-          {
-            value: EncryptMethod.wpa3,
-            text: this.$t('trans0572')
-          },
-          {
-            value: EncryptMethod.wpa2,
-            text: this.$t('trans0556')
-          },
-          {
-            value: EncryptMethod.open,
-            text: this.$t('trans0554')
-          }
-        ];
-        break;
-      case Models.m6a:
-      case Models.homeway_230v:
-      case Models.homeway_POE1:
-      case Models.homeway_POE2:
+      case Models.M6a:
+      case Models.Homeway_230v:
+      case Models.Homeway_POE1:
+      case Models.Homeway_POE2:
         encryptMethods = [
           {
             value: EncryptMethod.open,
@@ -67,8 +43,10 @@ export default {
           }
         ];
         break;
-      case Models.m6s:
-      case Models.m6s_nano:
+      case Models.M6:
+      case Models.M6s:
+      case Models.M6s_SFP:
+      case Models.M6s_Nano:
         encryptMethods = [
           {
             value: EncryptMethod.wpawpa2,

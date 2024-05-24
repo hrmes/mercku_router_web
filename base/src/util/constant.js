@@ -63,10 +63,25 @@ export const RouterSnModel = {
   M6s: '11',
   M6s_Nano: '13'
 };
+export const Models = {
+  M2: 'M2R2',
+  M6: 'M6R0',
+  M6a: 'M8',
+  Homeway_230v: 'M9R0',
+  Homeway_POE1: 'M9R1',
+  Homeway_POE2: 'M9R2',
+  M6s: 'M11R1',
+  M6s_SFP: 'M11R2',
+  M6s_Nano: 'M13R0'
+};
 export const M6aRouterSnModelVersion = {
   M6a: '0',
   M6a_Plus: '1',
   M6c: '2'
+};
+export const M6sRouterSnModelVersion = {
+  M6s: '1',
+  M6s_SFP: '2'
 };
 export const SpeedTestStatus = {
   testing: 'testing',
@@ -136,16 +151,6 @@ export const Weeks = {
   fri: 'Fri',
   sat: 'Sat',
   sun: 'Sun'
-};
-export const Models = {
-  m2: 'M2R2',
-  m6: 'M6R0',
-  m6a: 'M8',
-  homeway_230v: 'M9R0',
-  homeway_POE1: 'M9R1',
-  homeway_POE2: 'M9R2',
-  m6s: 'M11R1',
-  m6s_nano: 'M13R0'
 };
 export const HomewayFanModel = {
   game: 'game',

@@ -225,9 +225,10 @@
 </template>
 <script>
 import marked from 'marked';
-import { WanNetStatus, RouterMode } from 'base/util/constant';
+import { WanNetStatus, RouterMode, Models } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
 import editMeshMixin from 'base/mixins/mesh-edit.js';
+
 
 export default {
   mixins: [editMeshMixin],
@@ -275,7 +276,16 @@ export default {
   },
   computed: {
     ModelName() {
-      return process.env.CUSTOMER_CONFIG.routers.M6s.shortName;
+      let name;
+      switch (process.env.MODEL_CONFIG.id) {
+        case Models.M6s_SFP:
+          name = process.env.CUSTOMER_CONFIG.routers.M6s_SFP.shortName;
+          break;
+        default:
+          name = process.env.CUSTOMER_CONFIG.routers.M6s.shortName;
+          break;
+      }
+      return name;
     },
     isMobile() {
       return this.$store.state.isMobile;

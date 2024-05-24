@@ -70,7 +70,6 @@
       min-width: initial;
     }
   }
-
 }
 
 .btn-default {
@@ -79,7 +78,11 @@
   border: 2px solid transparent;
   background-clip: padding-box, border-box;
   background-origin: padding-box, border-box;
-  background-image: linear-gradient(to right, var(--dashboard_icon-bgc), var(--dashboard_icon-bgc)),
+  background-image: linear-gradient(
+      to right,
+      var(--dashboard_icon-bgc),
+      var(--dashboard_icon-bgc)
+    ),
     linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
   transition: all 0.1s ease-in-out;
 }
@@ -198,7 +201,7 @@
     border: 6px solid transparent;
     border-top-color: var(--table_action_popover-bgc);
   }
-
+  &.disabled,
   &.close {
     background-color: var(--button_close-bgc);
 
@@ -225,7 +228,6 @@
     .icon-hover-popover {
       display: block;
     }
-
   }
 
   &.disabled {

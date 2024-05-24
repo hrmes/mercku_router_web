@@ -12,8 +12,12 @@ import picM6sGateway from '@/assets/images/topo/ic_m6s_gw_green.png';
 import picM6sWifi6Good from '@/assets/images/topo/ic_m6s_normal.png';
 import picM6sWifi6Bad from '@/assets/images/topo/ic_m6s_bad.png';
 import picM6sWifi6Offline from '@/assets/images/topo/ic_m6s_offline.png';
+import picM6sSFPGateway from '@/assets/images/topo/ic_m6s_sfp_gw_green.png';
+import picM6sSFPWifi6Good from '@/assets/images/topo/ic_m6s_sfp_normal.png';
+import picM6sSFPWifi6Bad from '@/assets/images/topo/ic_m6s_sfp_bad.png';
+import picM6sSFPWifi6Offline from '@/assets/images/topo/ic_m6s_sfp_offline.png';
 
-import { Color, Bands } from 'base/util/constant';
+import { Color, Bands, M6sRouterSnModelVersion } from 'base/util/constant';
 
 // 大于-70均认为优秀
 const isGood = rssi => rssi >= -65;
@@ -127,17 +131,32 @@ function findRedNode(green, nodes) {
 function genNodes(gateway, green, red, offline) {
   const picModelColorMap = {
     [CONSTANTS.RouterSnModel.M6s]: {
-      [Color.good]: picM6sWifi6Good,
-      [Color.bad]: picM6sWifi6Bad,
-      [Color.offline]: picM6sWifi6Offline
+      [M6sRouterSnModelVersion.M6s]: {
+        [Color.good]: picM6sWifi6Good,
+        [Color.bad]: picM6sWifi6Bad,
+        [Color.offline]: picM6sWifi6Offline
+      },
+      [M6sRouterSnModelVersion.M6s_SFP]: {
+        [Color.good]: picM6sSFPWifi6Good,
+        [Color.bad]: picM6sSFPWifi6Bad,
+        [Color.offline]: picM6sSFPWifi6Offline
+      }
     }
   };
 
   function genNode(node, color, symbolSize = 70) {
     let symbol = 'image://';
+    const modelVersion = node.sn.charAt(9);
 
     if (node.is_gw) {
-      symbol = `${symbol}${picM6sGateway}`;
+      switch (modelVersion) {
+        case M6sRouterSnModelVersion.M6s_SFP:
+          symbol = `${symbol}${picM6sSFPGateway}`;
+          break;
+        default:
+          symbol = `${symbol}${picM6sGateway}`;
+          break;
+      }
     } else {
       const id = (node.model && node.model.id) || node.sn.slice(0, 2);
       const modelConfig = picModelColorMap[id];
