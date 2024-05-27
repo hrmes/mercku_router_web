@@ -7,7 +7,7 @@ import {
 
 function getM6aProductsInfo() {
   let info;
-  const { modelID } = localStorage.getItem('modelID');
+  const modelID = localStorage.getItem('modelID');
   switch (modelID) {
     case M6aRouterSnModelVersion.M6a:
       info = process.env.CUSTOMER_CONFIG.routers.M6a;
@@ -72,7 +72,7 @@ export default {
         case RouterSnModel.M6s:
           if (modelID === M6sRouterSnModelVersion.M6s) {
             image = require('../assets/images/model/img_m6s.svg');
-          } else if (modelID === M6aRouterSnModelVersion.M6s_SFP) {
+          } else if (modelID === M6sRouterSnModelVersion.M6s_SFP) {
             image = require('../assets/images/model/img_m6s_sfp.svg');
           }
           break;
