@@ -85,7 +85,6 @@
 import { LoginImg } from 'base/assets/images/base64-img/img.js';
 import { setCookie, getCookie, clearCookie } from 'base/util/cookie';
 
-
 export default {
   data() {
     return {
@@ -301,16 +300,16 @@ export default {
     text-align: center;
     position: relative;
     width: 400px;
-    height: 500px;
+    min-height: 500px;
     padding: 50px 0 30px;
     background-color: var(--login_right_form-bgcolor);
     box-shadow: var();
     border-radius: 15px;
     .logo {
-      width: 280px;
-      height: 38px;
+      // width: 280px;
+      // height: 38px;
       margin: 0 auto;
-      margin-bottom: 50px;
+      margin-bottom: 30px;
     }
     .btn {
       width: 340px;
@@ -477,7 +476,7 @@ export default {
           border-radius: 30px;
           user-select: none;
           text-decoration: none;
-          color: #ff677b;
+          color: var(--button_icon_hover-color);
         }
       }
     }

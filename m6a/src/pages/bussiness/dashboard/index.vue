@@ -157,8 +157,8 @@
          v-if="isMobile"
          @click="jumpApp">
       <div class="wrapper">
-        <div class="icon mercku">
-          <img :src="require('base/assets/images/customer/mercku/ic_launcher.png')" />
+        <div class="icon">
+          <img :src="require(`base/assets/images/customer/${ispFolderName}/ic_launcher.png`)" />
         </div>
         <div class="text-container">{{$t('trans1118')}}</div>
       </div>
@@ -274,6 +274,9 @@ export default {
     };
   },
   computed: {
+    ispFolderName() {
+      return process.env.CUSTOMER_CONFIG.title.toLowerCase();
+    },
     modelName() {
       const modelId = this.$store.state.meshId.slice(0, 2);
       const modelVersion = this.$store.state.meshId.charAt(9);

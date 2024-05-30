@@ -5,7 +5,8 @@
   </div>
 </template>
 <script>
-import lottie from 'lottie-web';
+import { loadAnimation } from 'lottie-web-light';
+import colorGradientMixin from 'base/mixins/color-gradient';
 
 const Type = {
   loading: 'loading',
@@ -15,6 +16,7 @@ const Type = {
 
 export default {
   name: 'loading-lottie',
+  mixins: [colorGradientMixin],
   props: {
     loadingType: { type: String, default: 'loading' },
     id: { type: String, default: 'lottie' },
@@ -28,39 +30,39 @@ export default {
     window.requestAnimationFrame(this.loadImg);
   },
   computed: {
-    ispFolderName() {
-      return process.env.CUSTOMER_CONFIG.title.toLowerCase();
+    color() {
+      return process.env.CUSTOMER_CONFIG.loading.color;
     },
     animJson() {
       let result;
       switch (this.loadingType) {
-        case Type.loading:
-          result = require(`../../assets/lottie/${this.ispFolderName}/loading.json`);
-          break;
         case Type.speedTest:
-          result = require(`../../assets/lottie/${this.ispFolderName}/speed-test.json`);
+          result = require('../../assets/lottie/loading/speed-test.json');
           break;
         case Type.addNode:
-          result = require(`../../assets/lottie/${this.ispFolderName}/add-node.json`);
+          result = require('../../assets/lottie/loading/add-node.json');
           break;
         default:
+          result = require('../../assets/lottie/loading/loading.json');
           break;
       }
       return result;
-    }
+    },
   },
   methods: {
     loadImg() {
-      const { id } = this;
-      console.log('id is', id);
-      lottie.loadAnimation({
-        container: document.getElementById(id),
+      loadAnimation({
+        container: document.getElementById(this.id),
         renderer: 'svg',
         loop: true,
         autoplay: true,
         animationData: this.animJson
       });
-    }
+      this.pathElements.forEach((p, index) => {
+        p.style.fill = this.colorArr[index];
+        p.style.stroke = this.colorArr[index];
+      });
+    },
   }
 };
 </script>

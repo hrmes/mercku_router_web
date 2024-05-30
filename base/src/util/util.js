@@ -1,4 +1,4 @@
-import intl from 'intl';
+import { NumberFormat } from 'intl';
 import semver from 'semver';
 import * as CONSTANTS from './constant';
 
@@ -29,7 +29,7 @@ export const toLocaleNumber = (
     //   minimumFractionDigits,
     //   maximumFractionDigits
     // });
-    return intl.NumberFormat.call(null, locale, {
+    return NumberFormat.call(null, locale, {
       minimumFractionDigits,
       maximumFractionDigits
     }).format(number);

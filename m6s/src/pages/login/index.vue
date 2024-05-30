@@ -308,16 +308,16 @@ export default {
     text-align: center;
     position: relative;
     width: 400px;
-    height: 500px;
+    // height: 500px;
     padding: 50px 0 30px;
     background-color: var(--login_right_form-bgcolor);
     box-shadow: var();
     border-radius: 15px;
     .logo {
-      width: 280px;
-      height: 38px;
+      // width: 280px;
+      // height: 38px;
       margin: 0 auto;
-      margin-bottom: 50px;
+      margin-bottom: 30px;
     }
     .btn {
       width: 340px;
@@ -489,7 +489,6 @@ export default {
       }
     }
     .center-form {
-      // width: 80%;
       background-color: transparent;
       padding: 0 20px;
       flex: 1;
@@ -498,7 +497,6 @@ export default {
       justify-content: center;
       transform: translateY(0);
       .logo {
-        width: 220px;
         margin-bottom: 30px;
       }
       .btn {

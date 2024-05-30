@@ -6,6 +6,8 @@
       }
     }
     .logo-wrap {
+      width: 185px;
+      height: 30px;
       &.light {
         .logo-wrap__logo {
           background: url(../../../assets/images/customer/mercku/mercku_logo_text_light.png)
@@ -79,8 +81,12 @@
 
   /************************* 登陆页面*********************/
   &.login {
-    // background-color: var(--header-nav-hide-bgc);
     .center-form {
+      .logo {
+        width: 280px;
+        height: 38px;
+        margin-bottom: 50px;
+      }
       &.light {
         .logo {
           background: url(../../../assets/images/customer/mercku/mercku_logo_text_light.png)
