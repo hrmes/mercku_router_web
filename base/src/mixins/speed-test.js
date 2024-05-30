@@ -1,4 +1,4 @@
-import lottie from 'lottie-web';
+import { loadAnimation } from 'lottie-web-light';
 
 const LottiePaths = {
   light: require('base/assets/lottie/speedtest/light.json'),
@@ -41,7 +41,7 @@ export default {
         if (this.speedLottie) {
           this.speedLottie.destroy(); // 销毁先前的动画实例
         }
-        this.speedLottie = lottie.loadAnimation({
+        this.speedLottie = loadAnimation({
           container: document.getElementById('animation-container'),
           renderer: 'svg',
           loop: false,
@@ -58,7 +58,7 @@ export default {
         this.speedLottie.destroy();
         this.speedLottie = null;
       }
-      this.speedLottie = lottie.loadAnimation({
+      this.speedLottie = loadAnimation({
         container: document.getElementById('animation-container'),
         renderer: 'svg',
         loop: false,

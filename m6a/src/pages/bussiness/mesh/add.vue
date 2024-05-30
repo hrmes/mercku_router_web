@@ -701,12 +701,7 @@ $img_folder: '../../../../../base/src/assets/images';
       &:hover {
         border-color: transparent;
         box-shadow: var(--common_card_hover-boxshadow);
-        background-image: linear-gradient(
-            to bottom,
-            var(--common_card-bgc),
-            var(--common_card-bgc)
-          ),
-          linear-gradient(225deg, #ff6734 30%, #ee1d4f 40%, #d6001c 80%);
+        background-image: var(--step_item_current_num-bgimg);
       }
       .inner {
         width: 100%;

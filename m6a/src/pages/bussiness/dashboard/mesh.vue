@@ -590,9 +590,23 @@ export default {
     },
     drawTopo(routers) {
       // const oldRouters = this.routers;
+      // 生成数据
       const data = genData(routers);
 
-      data.nodes.forEach(n => {
+      // 更新路由器数据
+      this.updateRouters(data.nodes, routers);
+
+      // 更新选中节点信息
+      this.selectedNodeInfo = this.routers.find(node => node.sn === this.selectedSN);
+
+      // 设置图表选项
+      const option = this.getChartOption(data);
+
+      // 设置图表
+      this.chart.setOption(option);
+    },
+    updateRouters(nodes, routers) {
+      nodes.forEach(n => {
         this.routers = routers.map(r => {
           if (n.sn === r.sn) {
             this.$set(r, 'image', n.symbol.replace('image://', ''));
@@ -601,21 +615,9 @@ export default {
           return r;
         });
       });
-
-      // eslint-disable-next-line prefer-destructuring
-      this.selectedNodeInfo = this.routers.filter(
-        node => node.sn === this.selectedSN
-      )[0];
-      // 维持设备之前的附加属性
-      // if (oldRouters.length > 0) {
-      //   oldRouters.forEach(or => {
-      //     const device = this.routers.find(nr => nr.sn === or.sn);
-      //     if (device) {
-      //       device.expand = or.expand;
-      //     }
-      //   });
-      // }
-      const option = {
+    },
+    getChartOption(data) {
+      return {
         series: [
           {
             type: 'graph',
@@ -709,7 +711,6 @@ export default {
           }
         ]
       };
-      this.chart.setOption(option);
     },
     createIntervalTask() {
       this.getMeshNode();

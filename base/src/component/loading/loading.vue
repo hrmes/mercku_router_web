@@ -2,9 +2,10 @@
 <template>
   <transition name="loading">
     <div v-if="visible"
-         class="loading-container">
+         class="loading-container"
+         id="loading-wrap">
       <div class="loading-wrap">
-        <div id="loadingImg" />
+        <div id="loadingImg"></div>
       </div>
       <div v-if="title"
            class="title">{{title}}</div>
@@ -15,14 +16,17 @@
   </transition>
 </template>
 <script>
-import lottie from 'lottie-web';
+import { loadAnimation } from 'lottie-web-light';
+import colorGradientMixin from 'base/mixins/color-gradient';
+
 
 export default {
+  mixins: [colorGradientMixin],
   data() {
     return {
       visible: false,
       template: '',
-      title: ''
+      title: '',
     };
   },
   mounted() {
@@ -31,20 +35,23 @@ export default {
   },
   computed: {
     animJson() {
-      const name = process.env.CUSTOMER_CONFIG.title.toLowerCase();
-      return require(`../../assets/lottie/${name}/loading.json`);
-    }
+      return require('../../assets/lottie/loading/loading.json');
+    },
   },
   methods: {
     loadImg() {
-      lottie.loadAnimation({
+      loadAnimation({
         container: document.getElementById('loadingImg'),
         renderer: 'svg',
         loop: true,
         autoplay: true,
         animationData: this.animJson
       });
-    }
+      this.pathElements.forEach((p, index) => {
+        p.style.fill = this.colorArr[index];
+        p.style.stroke = this.colorArr[index];
+      });
+    },
   }
 };
 </script>
@@ -74,15 +81,6 @@ export default {
   .loading-wrap {
     width: 240px;
     height: 240px;
-    // position: absolute;
-    // left: 0;
-    // right: 0;
-    // top: 0;
-    // bottom: 0;
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
-    // z-index: 9999;
   }
   .title {
     font-size: 24px;

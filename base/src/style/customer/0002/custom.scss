@@ -1,0 +1,139 @@
+.customized {
+  &.header {
+    &.is-login-nav {
+      .right-wrap {
+        width: auto;
+      }
+    }
+    .logo-wrap {
+      width: 168px;
+      height: 36px;
+      &.light {
+        .logo-wrap__logo {
+          background: url(../../../assets/images/customer/aptus/logo_nav_light@2x.png)
+            center no-repeat;
+          background-size: 100%;
+        }
+      }
+      &.dark {
+        .logo-wrap__logo {
+          background: url(../../../assets/images/customer/aptus/logo_nav_dark@2x.png)
+            center no-repeat;
+          background-size: 100%;
+        }
+      }
+      @media screen and (max-width: 768px) {
+        // width: 60px;
+        // height: 20px;
+        &.light,
+        &.dark {
+          .logo-wrap__logo {
+            background: url(../../../assets/images/customer/aptus/logo_nav_mobile_light@2x.png)
+              center no-repeat;
+            background-size: contain;
+          }
+        }
+      }
+      @media not all and (prefers-color-scheme: dark) and (prefers-color-scheme: light) {
+        .logo-wrap__logo {
+          background: url(../../../assets/images/customer/aptus/logo_nav_light@2x.png)
+            center no-repeat;
+          background-size: 100%;
+        }
+        @media screen and (max-width: 768px) {
+          .logo-wrap__logo {
+            background: url(../../../assets/images/customer/aptus/logo_nav_mobile_light@2x.png)
+              center no-repeat;
+            background-size: contain;
+          }
+        }
+      }
+      @media (prefers-color-scheme: light) {
+        .logo-wrap__logo {
+          background: url(../../../assets/images/customer/aptus/logo_nav_light@2x.png)
+            center no-repeat;
+          background-size: 100%;
+        }
+        @media screen and (max-width: 768px) {
+          .logo-wrap__logo {
+            background: url(../../../assets/images/customer/aptus/logo_nav_mobile_light@2x.png)
+              center no-repeat;
+            background-size: contain;
+          }
+        }
+      }
+      @media (prefers-color-scheme: dark) {
+        .logo-wrap__logo {
+          background: url(../../../assets/images/customer/aptus/logo_nav_dark@2x.png)
+            center no-repeat;
+          background-size: 100%;
+        }
+        @media screen and (max-width: 768px) {
+          .logo-wrap__logo {
+            background: url(../../../assets/images/customer/aptus/logo_nav_mobile_dark@2x.png)
+              center no-repeat;
+            background-size: contain;
+          }
+        }
+      }
+    }
+  }
+
+  /************************* 登陆页面*********************/
+  &.login {
+    .center-form {
+      .logo {
+        width: 168px;
+        height: 68px;
+      }
+      &.light {
+        .logo {
+          background: url(../../../assets/images/customer/aptus/logo_login_light@2x.png)
+            no-repeat center;
+          background-size: contain;
+        }
+      }
+      &.dark {
+        .logo {
+          background: url(../../../assets/images/customer/aptus/logo_login_dark@2x.png)
+            no-repeat center;
+          background-size: contain;
+        }
+      }
+      @media not all and (prefers-color-scheme: dark) and (prefers-color-scheme: light) {
+        .logo {
+          background: url(../../../assets/images/customer/aptus/logo_login_light@2x.png)
+            no-repeat center;
+          background-size: contain;
+        }
+      }
+      @media (prefers-color-scheme: light) {
+        .logo {
+          background: url(../../../assets/images/customer/aptus/logo_login_light@2x.png)
+            no-repeat center;
+          background-size: contain;
+        }
+      }
+      @media (prefers-color-scheme: dark) {
+        .logo {
+          background: url(../../../assets/images/customer/aptus/logo_login_dark@2x.png)
+            no-repeat center;
+          background-size: contain;
+        }
+      }
+    }
+    .app-logo {
+      background: url(../../../assets/images/customer/aptus/ic_launcher.png)
+        no-repeat center;
+      background-size: 100%;
+    }
+    .download {
+      .qr {
+        background: url(../../../assets/images/customer/mercku/qr.png) no-repeat
+          center;
+        background-size: 100%;
+      }
+    }
+  }
+  /**************************end登陆页面******************/
+}
