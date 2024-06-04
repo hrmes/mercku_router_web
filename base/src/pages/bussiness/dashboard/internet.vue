@@ -67,7 +67,7 @@
                   </div>
                 </div>
               </div>
-              <div v-if="wanIsPPPoE"
+              <div v-if="disableSpeedtest"
                    class="pppoe__wrap">
                 <img :src="require('base/assets/images/common/img_pppoe.png')" />
                 <p>{{$t('trans1232')}}</p>
@@ -220,10 +220,11 @@
   </div>
 </template>
 <script>
-import { SpeedTestStatus, RouterMode, WanNetStatus, WanType } from 'base/util/constant';
+import { SpeedTestStatus, RouterMode, WanNetStatus, WanType, Models } from 'base/util/constant';
 import { formatBandWidth } from 'base/util/util';
 import speedTestMixin from 'base/mixins/speed-test';
 
+const NeedDisableSpeedtestModels = [Models.M6a]; // M6a系列上网方式为PPPOE时，测速不准确，暂时做隐藏
 export default {
   mixins: [speedTestMixin],
   data() {
@@ -282,8 +283,9 @@ export default {
     isRouter() {
       return RouterMode.router === this.$store.state.mode;
     },
-    wanIsPPPoE() {
-      return this.netInfo.type === WanType.pppoe;
+    disableSpeedtest() { // M6a系列上网方式为PPPOE时，测速不准确，暂时做隐藏
+      return NeedDisableSpeedtestModels.includes(process.env.MODEL_CONFIG.id) &&
+        this.netInfo.type === WanType.pppoe;
     },
     uptimeArr() {
       const arr = [60, 60, 24, 30, 12];
