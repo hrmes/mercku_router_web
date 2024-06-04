@@ -1,4 +1,4 @@
-import { Role, RouterMode, Customers } from 'base/util/constant';
+import { Role, RouterMode, Customers, Models } from 'base/util/constant';
 
 const customerId = process.env.CUSTOMER_CONFIG.id;
 const modelId = process.env.MODEL_CONFIG.id;
@@ -116,6 +116,20 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'wps',
         text: 'trans1168',
         config
+      },
+      {
+        url: '/setting/sfp',
+        name: 'sfp',
+        text: 'SFP',
+        config: {
+          show: false,
+          mode: [
+            RouterMode.router,
+            RouterMode.bridge,
+            RouterMode.wirelessBridge
+          ],
+          model: [Models.M6s_SFP]
+        }
       }
     ]
   };
@@ -205,7 +219,11 @@ export default function getMenu(role, mode = RouterMode.router) {
         config: {
           show: true,
           auth: [Role.super],
-          mode: [RouterMode.router, RouterMode.bridge, RouterMode.wirelessBridge]
+          mode: [
+            RouterMode.router,
+            RouterMode.bridge,
+            RouterMode.wirelessBridge
+          ]
         },
         customers: {
           [Customers.mercku]: {
@@ -275,6 +293,11 @@ export default function getMenu(role, mode = RouterMode.router) {
     // 过滤不显示的菜单
     item.children = item.children.filter(menu => {
       let { show } = menu.config;
+      const { model = [] } = menu.config;
+
+      if (model && model.length) {
+        show = model.includes(modelId);
+      }
       // 如果支持多级管理员，判断当前角色是否可以查看菜单
       if (process.env.CUSTOMER_CONFIG.allow2LevelAdmin && show) {
         show = menu.config.auth.includes(role);
