@@ -44,7 +44,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0142',
         name: 'wan',
         url: '/setting/wan',
-        config: strategyA
+        config: strategyA,
+        customers: {
+          [Customers.vistabeam]: {
+            auth: [Role.super]
+          }
+        }
       },
       {
         text: 'trans0620',
@@ -185,7 +190,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/dhcp',
         name: 'advance-dhcp',
         text: 'trans0417',
-        config: strategyA
+        config: strategyA,
+        customers: {
+          [Customers.vistabeam]: {
+            auth: [Role.super]
+          }
+        }
       },
       {
         url: '/advance/rsvdip',
@@ -201,6 +211,9 @@ export default function getMenu(role, mode = RouterMode.router) {
         customers: {
           [Customers.junet]: {
             show: false
+          },
+          [Customers.vistabeam]: {
+            auth: [Role.super]
           }
         }
       },
@@ -227,6 +240,9 @@ export default function getMenu(role, mode = RouterMode.router) {
           },
           [Customers.startca]: {
             show: false
+          },
+          [Customers.vistabeam]: {
+            auth: [Role.super]
           }
         }
       },
@@ -250,6 +266,9 @@ export default function getMenu(role, mode = RouterMode.router) {
         customers: {
           [Customers.realnett]: {
             auth: [Role.super]
+          },
+          [Customers.vistabeam]: {
+            auth: [Role.super]
           }
         }
       },
@@ -260,6 +279,9 @@ export default function getMenu(role, mode = RouterMode.router) {
         config: strategyA,
         customers: {
           [Customers.realnett]: {
+            auth: [Role.super]
+          },
+          [Customers.vistabeam]: {
             auth: [Role.super]
           }
         }
