@@ -20,7 +20,7 @@ import router from './router';
 
 require('base/style/common.scss');
 require('base/style/theme-mode.scss');
-require('@/style/router-model.scss');
+require('base/style/router-model.scss');
 // 不同客户特别的样式表
 require(`base/style/customer/${process.env.CUSTOMER_CONFIG.id}/custom.scss`);
 

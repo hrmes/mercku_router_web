@@ -1,9 +1,9 @@
 {
-  "id": "0002",
-  "title": "Aptus",
+  "id": "0004",
+  "title": "BBnet",
   "host": "http://mywifi.mercku.tech",
   "accept": ".ma",
-  "favicon": "customer-conf/0002/favicon.ico",
+  "favicon": "customer-conf/0004/favicon.ico",
   "policy": "",
   "allow2LevelAdmin": false,
   "languages": ["zh-CN", "en-US", "de-DE", "fi-FI", "bg-BG", "fr-FR"],
@@ -12,20 +12,22 @@
   "routers": {
     "M6a": {
       "name": "M6a Wi-Fi6 Router",
-      "shortName": "M6a"
+      "shortName": "M6a",
+      "deviceColors": ["black", "white", "grey", "red"]
     },
     "M6a_Plus": {
       "name": "M6a Plus Wi-Fi6 Router",
-      "shortName": "M6a Plus"
+      "shortName": "M6a Plus",
+      "deviceColors": ["black", "white", "grey", "red"]
     },
     "M6c": {
       "name": "M6c Wi-Fi6 Router",
-      "shortName": "M6c"
+      "shortName": "M6c",
+      "deviceColors": ["black", "white", "grey", "red"]
     }
   },
-  "deviceColors": ["black", "white", "grey", "red"],
   "loading": {
-    "color": "#7c1870"
+    "color": "#cb0103"
   },
   "website": {
     "url": "https://www.mercku.com",

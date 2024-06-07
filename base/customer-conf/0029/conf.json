@@ -1,0 +1,28 @@
+{
+  "id": "0029",
+  "title": "JUNET",
+  "host": "http://mywifi.mercku.tech",
+  "__host": "http://mywifi.mercku.tech",
+  "accept": ".jun",
+  "favicon": "customer-conf/0029/favicon.ico",
+  "policy": "https://www.junet.se/integritet/",
+  "allow2LevelAdmin": true,
+  "languages": ["en-US", "sv-SE"],
+  "defaultLanguage": "en-US",
+  "wifi": "JUNET-WIFI",
+  "routers": {
+    "M6": {
+      "name": "W6 Wi-Fi6 Router",
+      "shortName": "W6",
+      "deviceColors": ["black", "white", "grey", "red"]
+    }
+  },
+  "loading": {
+    "color": "#00b4e4"
+  },
+  "website": {
+    "url": "https://www.junet.se",
+    "text": "www.junet.se"
+  },
+  "appDownloadUrl": "https://onelink.to/bjy4dw"
+}

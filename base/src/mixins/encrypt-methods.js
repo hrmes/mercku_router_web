@@ -66,7 +66,7 @@ export default {
         break;
       case Models.M6s:
       case Models.M6s_Nano:
-      case Models['M6s_PoE++']:
+      case Models.M6s_PoE_pp:
         encryptMethods = [
           {
             value: EncryptMethod.wpawpa2,

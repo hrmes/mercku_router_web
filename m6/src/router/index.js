@@ -7,9 +7,9 @@ import wlan from 'pages/bussiness/wlan/index.vue';
 import unconnect from 'base/pages/error/unconnect/index.vue';
 
 // dashboard page
-import dashboard from 'pages/bussiness/dashboard/index.vue';
+import dashboard from 'base/pages/bussiness/dashboard/index.vue';
 import device from 'pages/bussiness/dashboard/device.vue';
-import mesh from 'pages/bussiness/dashboard/mesh.vue';
+import mesh from 'base/pages/bussiness/dashboard/mesh.vue';
 import internet from 'base/pages/bussiness/dashboard/internet.vue';
 import limit from 'base/pages/bussiness/dashboard/limit/index.vue';
 // import timeLimit from 'base/pages/bussiness/dashboard/limit/time.vue';

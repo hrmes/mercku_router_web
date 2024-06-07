@@ -167,14 +167,14 @@ export default {
       return this.localNodes.length > 0;
     },
     productName() {
-      const product = this.productsInfo(this.fwInfo.model.id, this.fwInfo.model.version.id);
+      const product = this.Products[this.fwInfo.model.id];
       if (product) {
         return product.name;
       }
       return '';
     },
     modelName() {
-      const product = this.productsInfo(this.fwInfo.model.id, this.fwInfo.model.version.id);
+      const product = this.Products[this.fwInfo.model.id];
       if (product) {
         return product.shortName;
       }

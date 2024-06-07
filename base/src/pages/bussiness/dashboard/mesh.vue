@@ -22,7 +22,26 @@
                 <i class="iconfont ic_connection_quality"
                    @click.stop="showRssiModal"></i>
               </p>
-              <div class="legend-tx_power">
+              <div v-if="isM6"
+                   class="switch-wrap">
+                <div class="switch-item">
+                  <m-switch v-model="mesh24g"
+                            @change="(val)=>updateMeshBand(val)"></m-switch>
+                  <label>
+                    <span>{{$t('trans0562')}}</span>
+                    <div class="tool">
+                      <m-popover position="top left"
+                                 :title="this.$t('trans0562')"
+                                 :content="this.$t('trans0558')">
+                        <i class="iconfont ic_help"
+                           style="font-size:12px"></i>
+                      </m-popover>
+                    </div>
+                  </label>
+                </div>
+              </div>
+              <div v-else
+                   class="legend-tx_power">
                 <span>{{$t('trans1102')}}:</span>
                 <m-loading v-if="!tx_power"
                            :id="'txpowerLoading'"
@@ -138,7 +157,7 @@
               </div>
               <ul class="card-bottom__main reset-ul"
                   v-if="selectedNodeInfo.stations.length">
-                <li v-for="sta in sortedStationsList"
+                <li v-for="sta in listOrdered"
                     :key="sta.ip">
                   <div class="col-1">
                     <span class="local-device"
@@ -274,17 +293,18 @@
 <script>
 import marked from 'marked';
 import { formatMac } from 'base/util/util';
-import { RouterStatus, Color, RouterHasModelDistinctionMap, SnABJMapName, ModelIds } from 'base/util/constant';
+import { Bands, RouterStatus, Color, RouterHasModelDistinctionMap, SnABJMapName, ModelIds } from 'base/util/constant';
 import meshEditMixin from 'base/mixins/mesh-edit.js';
-import { Products, getNodeImage } from 'base/mixins/router-model';
+import { getNodeImage } from 'base/mixins/router-model';
 import genData from 'base/util/topo';
 
 const echarts = require('echarts/lib/echarts');
 require('echarts/lib/chart/graph');
 
 const GUEST = 'guest'; // 是否是访客
+const M6_MODEL_ID = 'M6R0';
 export default {
-  mixins: [meshEditMixin, getNodeImage, Products],
+  mixins: [meshEditMixin, getNodeImage],
   data() {
     return {
       RouterHasModelDistinctionMap,
@@ -312,8 +332,8 @@ export default {
         medium: this.$t('trans1090'),
         low: this.$t('trans1091')
       },
+      mesh24g: false,
       tx_power: '',
-      txPowerTimer: null,
       isDarkMode: false,
       showTable: false,
       selectedSN: '',
@@ -328,6 +348,11 @@ export default {
         this.checkThemeMode(event.matches);
       });
     // 获取当前设备信息
+    if (this.isM6) {
+      this.getMeshBand();
+    } else {
+      this.getTxpower();
+    }
     try {
       const selfInfo = await this.$http.getLocalDevice();
       this.localDeviceIP = selfInfo.data.result.ip;
@@ -336,6 +361,9 @@ export default {
     }
   },
   computed: {
+    isM6() {
+      return process.env.MODEL_CONFIG.id === M6_MODEL_ID;
+    },
     modelID() {
       return this.selectedNodeInfo?.model?.id || '';
     },
@@ -763,8 +791,8 @@ export default {
           stations: []
         },
         {
-          sn: '110052421200008',
-          name: 'M6s-SFP-0008',
+          sn: '160052421000008',
+          name: 'M6s-PoE++-0008',
           mac: {
             lan: 'f8272e17cb25',
             wan: 'f8272e17cb26',
@@ -775,9 +803,9 @@ export default {
           },
           is_gw: false,
           model: {
-            id: '11',
+            id: '16',
             version: {
-              id: '2'
+              id: '0'
             }
           },
           version: {
@@ -1336,13 +1364,10 @@ export default {
     },
     createIntervalTask() {
       this.getMeshNode();
-      this.getTxpower();
     },
     clearIntervalTask() {
       clearTimeout(this.meshNodeTimer);
       this.meshNodeTimer = null;
-      clearTimeout(this.txPowerTimer);
-      this.txPowerTimer = null;
     },
     getMeshNode() {
       clearTimeout(this.meshNodeTimer);
@@ -1371,25 +1396,69 @@ export default {
         });
     },
     getTxpower() {
-      clearTimeout(this.txPowerTimer);
-      this.txPowerTimer = null;
-      this.$http
-        .getMeshMeta()
+      this.$http.getMeshMeta()
         .then(res => {
           this.tx_power = res.data.result.tx_power;
-          if (this.pageActive) {
-            this.txPowerTimer = setTimeout(() => {
-              this.getTxpower();
-            }, 10000);
-          }
         })
         .catch(() => {
           if (this.pageActive) {
-            this.txPowerTimer = setTimeout(() => {
+            setTimeout(() => {
               this.getTxpower();
             }, 10000);
           }
         });
+    },
+    // ↓M6 独有修改穿墙能力功能
+    getMeshBand() {
+      this.$http.getMeshBand()
+        .then(res => {
+          this.mesh24g = res.data.result['2.4G'];
+        })
+        .catch(() => {
+          if (this.pageActive) {
+            setTimeout(() => {
+              this.getMeshBand();
+            }, 10000);
+          }
+        });
+    },
+    updateMeshBand(val) {
+      this.$dialog.confirm({
+        okText: this.$t('trans0024'),
+        cancelText: this.$t('trans0025'),
+        message: this.$t('trans0229'),
+        callback: {
+          ok: () => {
+            this.$loading.open();
+            this.$http
+              .updateMeshBand({
+                bands: {
+                  '5G': true,
+                  '2.4G': val
+                }
+              })
+              .then(() => {
+                this.$loading.close();
+                this.$reconnect({
+                  onsuccess: () => {
+                    this.$toast(this.$t('trans0040'), 3000, 'success');
+                  },
+                  ontimeout: () => {
+                    this.$router.push({ path: '/unconnect' });
+                  },
+                  timeout: 60
+                });
+              })
+              .catch(() => {
+                this.mesh24g = !val;
+                this.$loading.close();
+              });
+          },
+          cancel: () => {
+            this.mesh24g = !this.mesh24g;
+          }
+        }
+      });
     },
     checkThemeMode(isDarkMode) {
       if (isDarkMode) {
@@ -1685,7 +1754,7 @@ $img_folder: '../../../../../base/src/assets/images';
           .legend-title {
             font-size: 12px;
             color: var(--text_default-color);
-            margin: 0;
+            margin: 0 0 10px;
             display: flex;
             align-items: center;
             .iconfont {
@@ -1698,11 +1767,25 @@ $img_folder: '../../../../../base/src/assets/images';
               }
             }
           }
+          .switch-wrap {
+            margin-bottom: 10px;
+            .switch-item {
+              display: flex;
+              align-items: center;
+              width: fit-content;
+              label {
+                display: flex;
+                align-items: center;
+                > span {
+                  margin-right: 10px;
+                }
+              }
+            }
+          }
           .legend-tx_power {
             display: flex;
             align-items: center;
             font-size: 12px;
-            margin-top: 10px;
             .value {
               width: 20px;
               text-align: right;
@@ -2047,6 +2130,12 @@ $img_folder: '../../../../../base/src/assets/images';
                 &:first-child {
                   margin-left: 0;
                 }
+              }
+            }
+            .switch-wrap {
+              order: 1;
+              .switch-item {
+                max-width: 100%;
               }
             }
             .legend-tx_power {

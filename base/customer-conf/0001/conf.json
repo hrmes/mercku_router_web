@@ -34,9 +34,9 @@
       "shortName": "M6s",
       "deviceColors": ["black", "white"]
     },
-    "M6s_SFP": {
-      "name": "M6s SFP Wi-Fi6 Router",
-      "shortName": "M6s SFP",
+    "M6s_PoE_pp": {
+      "name": "M6s PoE++ Wi-Fi6 Router",
+      "shortName": "M6s PoE++",
       "deviceColors": ["black", "white"]
     },
     "M6s_Nano": {

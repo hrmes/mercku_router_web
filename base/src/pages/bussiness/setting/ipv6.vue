@@ -182,7 +182,7 @@ import { Models, IP, IPv6DefaultPlaceholder, WanNetStatus, WanType } from 'base/
 
 const defaultPrefixLength = 64;
 const { IPv6 } = IP;
-const NoPPPoeList = [Models.M6s, Models.M6s_Nano, Models['M6s_PoE++']];
+const NoPPPoeList = [Models.M6s, Models.M6s_Nano, Models.M6s_PoE_pp];
 export default {
   data() {
     return {
