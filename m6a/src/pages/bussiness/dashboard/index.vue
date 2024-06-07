@@ -227,7 +227,7 @@
 import marked from 'marked';
 import {
   WanNetStatus,
-  M6aRouterSnModelVersion,
+  RouterHasModelDistinctionMap,
   RouterMode
 } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
@@ -280,10 +280,10 @@ export default {
     ModelName() {
       let modelName = '';
       switch (this.$store.state.modelID) {
-        case M6aRouterSnModelVersion.M6a_Plus:
+        case RouterHasModelDistinctionMap.M6a_Plus:
           modelName = 'M6a Plus';
           break;
-        case M6aRouterSnModelVersion.M6c:
+        case RouterHasModelDistinctionMap.M6c:
           modelName = 'M6c';
           break;
         default:

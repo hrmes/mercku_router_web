@@ -68,7 +68,7 @@
   </transition>
 </template>
 <script>
-import RouterModel from 'base/mixins/router-model';
+import { getNodeImage } from 'base/mixins/router-model';
 import mSpinner from 'base/component/spinner/index.vue';
 import mLoading from 'base/component/loading/loading-canvas.vue';
 import { compareVersion } from 'base/util/util';
@@ -94,11 +94,11 @@ export default {
       Statuses,
       status: '',
       node: {
-        sn: '060000000000000',
+        sn: '',
         name: '',
         is_gw: false,
         version: {
-          current: '1.0.0'
+          current: ''
         }
       },
       preStatus: '',
@@ -111,7 +111,7 @@ export default {
     mSpinner,
     mLoading
   },
-  mixins: [RouterModel],
+  mixins: [getNodeImage],
   computed: {
     installTimeout() {
       return this.status === Statuses.install_timeout;

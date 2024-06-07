@@ -73,8 +73,8 @@
                   <div class="row-1">
                     <div class="line-icon"
                          :class="{
-                          'm6a_plus':modelID===M6aRouterSnModelVersion.M6a_Plus,
-                          'm6c':modelID===M6aRouterSnModelVersion.M6c}"></div>
+                          'm6a_plus':modelID===RouterHasModelDistinctionMap.M6a_Plus,
+                          'm6c':modelID===RouterHasModelDistinctionMap.M6c}"></div>
                     <div class="text">{{selectedNodeInfo.name}}</div>
                   </div>
                   <div class="row-2">
@@ -263,10 +263,10 @@ import { formatMac } from 'base/util/util';
 import {
   RouterStatus,
   Color,
-  M6aRouterSnModelVersion
+  RouterHasModelDistinctionMap
 } from 'base/util/constant';
 import meshEditMixin from 'base/mixins/mesh-edit.js';
-import genData from './topo';
+import genData from 'base/util/topo';
 
 const echarts = require('echarts/lib/echarts');
 require('echarts/lib/chart/graph');
@@ -279,7 +279,7 @@ export default {
       rssiModalVisible: false,
       RouterStatus,
       formatMac,
-      M6aRouterSnModelVersion,
+      RouterHasModelDistinctionMap,
       pageActive: true,
       meshNodeTimer: null,
       chart: null,
@@ -350,10 +350,10 @@ export default {
       const routerConfig = process.env.CUSTOMER_CONFIG.routers;
       let model;
       switch (modelID) {
-        case M6aRouterSnModelVersion.M6a_Plus:
+        case RouterHasModelDistinctionMap.M6a_Plus:
           model = 'M6a_Plus';
           break;
-        case M6aRouterSnModelVersion.M6c:
+        case RouterHasModelDistinctionMap.M6c:
           model = 'M6c';
           break;
         default:

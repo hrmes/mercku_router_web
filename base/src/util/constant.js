@@ -1,18 +1,7 @@
 export const IPv6DefaultPlaceholder = '----:----:----:----:----:----:----:----';
 
 export const Customers = {
-  mercku: '0001',
-  cik: '0002',
-  startca: '0003',
-  inverto: '0004',
-  orion: '0005',
-  realnett: '0006',
-  altima: '0007',
-  fibrestream: '0013',
-  skymesh: '0014',
-  pentanet: '0019',
-  homeway: '0025',
-  junet: '0029'
+  mercku: '0001'
 };
 export const IP = {
   IPv4: 'ipv4',
@@ -53,33 +42,44 @@ export const WanNetStatus = {
   linked: 'linked',
   unlinked: 'unlinked'
 };
-export const RouterSnModel = {
+export const RouterSnAB2Model = {
   AC: '00',
-  M2: '01',
-  Bee: '02',
   M6: '06',
   M6a: '08',
-  Homeway: '09',
   M6s: '11',
   M6s_Nano: '13'
 };
 export const Models = {
-  M2: 'M2R2',
   M6: 'M6R0',
   M6a: 'M8',
-  Homeway_230v: 'M9R0',
-  Homeway_POE1: 'M9R1',
-  Homeway_POE2: 'M9R2',
   M6s: 'M11R1',
   M6s_SFP: 'M11R2',
   M6s_Nano: 'M13R0'
 };
-export const M6aRouterSnModelVersion = {
+export const ModelIds = {
+  M6R0: 'M6',
+  M8: 'M6a',
+  M11R1: 'M6s',
+  M11R2: 'M6s_SFP',
+  M13R0: 'M6s_Nano'
+};
+export const SnABJMapName = {
+  '06': { 0: 'M6' },
+  '08': { 0: 'M6a', 1: 'M6a_Plus', 2: 'M6c' },
+  11: { 0: 'M6s', 1: 'M6s', 2: 'M6s_SFP' },
+  13: { 0: 'M6s_Nano' }
+};
+// export const ModelIdJMapName = {
+//   M6R0: { 0: 'M6' },
+//   M8: { 0: 'M6a', 1: 'M6a_Plus', 2: 'M6c' },
+//   M11R1: { 0: 'M6s', 1: 'M6s', 2: 'M6s_SFP' },
+//   M11R2: { 0: 'M6s', 1: 'M6s', 2: 'M6s_SFP' },
+//   M13R0: { 0: 'M6s Nano' }
+// };
+export const RouterHasModelDistinctionMap = {
   M6a: '0',
   M6a_Plus: '1',
-  M6c: '2'
-};
-export const M6sRouterSnModelVersion = {
+  M6c: '2',
   M6s: '1',
   M6s_SFP: '2'
 };

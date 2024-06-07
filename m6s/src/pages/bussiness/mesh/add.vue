@@ -226,7 +226,6 @@
   </div>
 </template>
 <script>
-import RouterModel from 'base/mixins/router-model';
 import debounce from 'lodash/debounce';
 import { AddNodeType, Models } from 'base/util/constant';
 
@@ -244,7 +243,6 @@ const Step = {
 };
 
 export default {
-  mixins: [RouterModel],
   data() {
     return {
       scrollbar: document.querySelector('.scrollbar-wrap'),

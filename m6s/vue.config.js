@@ -16,7 +16,7 @@ if (process.env.CUSTOMER_ID) {
   CUSTOMER_ID = '0001';
 }
 
-const CUSTOMER_CONFIG = require(`./customer-conf/${CUSTOMER_ID}/conf.json`);
+const CUSTOMER_CONFIG = require(`../base/customer-conf/${CUSTOMER_ID}/conf.json`);
 console.log(process.env.MODEL);
 console.log(
   `get CUSTOMER_CONFIG for ${CUSTOMER_ID}:\n`,
@@ -24,6 +24,7 @@ console.log(
 );
 const { title } = CUSTOMER_CONFIG;
 const { favicon } = CUSTOMER_CONFIG;
+console.log(`favicon`, favicon);
 
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -41,7 +42,7 @@ module.exports = {
     index: {
       entry: 'src/main.js',
       template: 'index.ejs',
-      favicon,
+      favicon: `../base/${favicon}`,
       filename: 'index.html',
       title,
       chunks: ['chunk-vendors', 'chunk-common', 'index'],

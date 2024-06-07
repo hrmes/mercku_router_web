@@ -45,7 +45,7 @@
         </div>
         <div class="wrapper">
           <div class="router__img"
-               :class="$store.state.deviceColor"></div>
+               :class="[$store.state.deviceColor,productImgName]"></div>
           <div key="mesh-shadow"
                class="background-shadow"></div>
         </div>
@@ -141,7 +141,7 @@
           </span>
         </div>
         <div class="row-2">
-          <div class="model">{{ModelName}}</div>
+          <div class="model">{{productName}}</div>
           <div class="gateway">{{$t('trans0153')}}</div>
         </div>
         <div class="row-3">
@@ -183,7 +183,7 @@
             <div class="color-select">
               <h4 class="label">{{$t('trans1214')}}</h4>
               <ul class="color-select__wrapper reset-ul">
-                <li v-for="(color,index) in availableDeviceColors"
+                <li v-for="(color,index) in gwAvailableDeviceColors"
                     :key="index"
                     class="limit-icon">
                   <div class="color"
@@ -225,7 +225,7 @@
 </template>
 <script>
 import marked from 'marked';
-import { WanNetStatus, RouterMode, Models } from 'base/util/constant';
+import { WanNetStatus, RouterMode, ModelIds } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
 import editMeshMixin from 'base/mixins/mesh-edit.js';
 
@@ -275,17 +275,14 @@ export default {
     };
   },
   computed: {
-    ModelName() {
-      let name;
-      switch (process.env.MODEL_CONFIG.id) {
-        case Models.M6s_SFP:
-          name = process.env.CUSTOMER_CONFIG.routers.M6s_SFP.shortName;
-          break;
-        default:
-          name = process.env.CUSTOMER_CONFIG.routers.M6s.shortName;
-          break;
-      }
-      return name;
+    productName() {
+      const productInfo = process.env.CUSTOMER_CONFIG.routers[
+        ModelIds[process.env.MODEL_CONFIG.id]
+      ];
+      return productInfo?.shortName || 'Unknown';
+    },
+    productImgName() {
+      return ModelIds[process.env.MODEL_CONFIG.id];
     },
     isMobile() {
       return this.$store.state.isMobile;

@@ -276,7 +276,7 @@ import marked from 'marked';
 import { formatMac } from 'base/util/util';
 import { RouterStatus, Color } from 'base/util/constant';
 import meshEditMixin from 'base/mixins/mesh-edit.js';
-import genData from './topo';
+import genData from 'base/util/topo';
 
 const echarts = require('echarts/lib/echarts');
 require('echarts/lib/chart/graph');

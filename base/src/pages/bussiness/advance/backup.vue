@@ -56,13 +56,11 @@
 <script>
 import { UploadStatus } from 'base/util/constant';
 import { getFileExtendName } from 'base/util/util';
-import RouterModel from 'base/mixins/router-model';
 
 const backUp = 'backup';
 const fileName = 'configs';
 
 export default {
-  mixins: [RouterModel],
   data() {
     return {
       fileSuffix: '.dat',

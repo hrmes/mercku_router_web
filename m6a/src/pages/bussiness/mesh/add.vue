@@ -229,9 +229,8 @@
   </div>
 </template>
 <script>
-import RouterModel from 'base/mixins/router-model';
 import debounce from 'lodash/debounce';
-import { AddNodeType, M6aRouterSnModelVersion } from 'base/util/constant';
+import { AddNodeType, RouterHasModelDistinctionMap } from 'base/util/constant';
 
 const PageStatus = {
   scanning: 'scanning',
@@ -246,7 +245,6 @@ const Step = {
 };
 
 export default {
-  mixins: [RouterModel],
   data() {
     return {
       scrollbar: document.querySelector('.scrollbar-wrap'),
@@ -295,13 +293,13 @@ export default {
       return this.$store.state.modelID || localStorage.getItem('modelID');
     },
     isM6a() {
-      return this.modelID === M6aRouterSnModelVersion.M6a;
+      return this.modelID === RouterHasModelDistinctionMap.M6a;
     },
     isM6aPlus() {
-      return this.modelID === M6aRouterSnModelVersion.M6a_Plus;
+      return this.modelID === RouterHasModelDistinctionMap.M6a_Plus;
     },
     isM6c() {
-      return this.modelID === M6aRouterSnModelVersion.M6c;
+      return this.modelID === RouterHasModelDistinctionMap.M6c;
     },
     isMobile() {
       return this.$store.state.isMobile;
@@ -423,11 +421,11 @@ export default {
       let img = '';
       if (step === Step.step1) {
         switch (this.modelID) {
-          case M6aRouterSnModelVersion.M6a:
+          case RouterHasModelDistinctionMap.M6a:
             img = require('@/assets/images/add/img_add_01.svg');
             break;
-          case M6aRouterSnModelVersion.M6a_Plus:
-          case M6aRouterSnModelVersion.M6c:
+          case RouterHasModelDistinctionMap.M6a_Plus:
+          case RouterHasModelDistinctionMap.M6c:
             img = require('@/assets/images/add/m6a-4_lan_prots/img_add_01.svg');
             break;
           default:
@@ -463,11 +461,11 @@ export default {
     getM6aSeriesProductNetworkingImg() {
       let img = '';
       switch (this.modelID) {
-        case M6aRouterSnModelVersion.M6a:
+        case RouterHasModelDistinctionMap.M6a:
           img = require('@/assets/images/add/img_networking.svg');
           break;
-        case M6aRouterSnModelVersion.M6a_Plus:
-        case M6aRouterSnModelVersion.M6c:
+        case RouterHasModelDistinctionMap.M6a_Plus:
+        case RouterHasModelDistinctionMap.M6c:
           img = require('@/assets/images/add/m6a-4_lan_prots/img_networking.svg');
           break;
         default:

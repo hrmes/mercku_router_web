@@ -47,7 +47,7 @@
                v-if="showTable">
             <div class="card-top">
               <div class="card-top__header">
-                <span class="model-name info-label">{{ModelName}}</span>
+                <span class="model-name info-label">{{productName}}</span>
                 <span class="gateway-label info-label"
                       v-if="isGateway">{{$t('trans0153')}}</span>
                 <span class="gateway-label info-label"
@@ -64,12 +64,13 @@
               </div>
               <div class="card-top__main">
                 <div class="router__img"
-                     :class="$store.state.deviceColor"></div>
+                     :class="[isGateway?$store.state.deviceColor:'',
+                              productImgName]"></div>
                 <div class="mesh-router__info">
                   <div class="row-1">
-                    <div class="line-icon"
-                         :class="{
-                          'm6a_sfp':modelID===M6sRouterSnModelVersion.M6s_SFP,}"></div>
+                    <div class="line-icon">
+                      <img :src="lineIconSrc" />
+                    </div>
                     <div class="text">{{selectedNodeInfo.name}}</div>
                   </div>
                   <div class="row-2">
@@ -187,11 +188,11 @@
                                :label="$t('trans0108')"
                                v-model="form.name"></m-editable-select>
           </m-form-item>
-          <m-form-item prop="color">
+          <!-- <m-form-item prop="color">
             <div class="color-select">
               <h4 class="label">{{$t('trans1214')}}</h4>
               <ul class="color-select__wrapper reset-ul">
-                <li v-for="(color,index) in availableDeviceColors"
+                <li v-for="(color,index) in nodeAvailableDeviceColors(selectedSN)"
                     :key="index"
                     class="limit-icon">
                   <div class="color"
@@ -203,7 +204,7 @@
                 </li>
               </ul>
             </div>
-          </m-form-item>
+          </m-form-item> -->
         </m-form>
         <div class="btn-inner">
           <button @click="closeMeshEditModal"
@@ -273,19 +274,20 @@
 <script>
 import marked from 'marked';
 import { formatMac } from 'base/util/util';
-import { RouterStatus, Color, Models, M6sRouterSnModelVersion } from 'base/util/constant';
+import { RouterStatus, Color, RouterHasModelDistinctionMap, SnABJMapName, ModelIds } from 'base/util/constant';
 import meshEditMixin from 'base/mixins/mesh-edit.js';
-import genData from './topo';
+import { Products, getNodeImage } from 'base/mixins/router-model';
+import genData from 'base/util/topo';
 
 const echarts = require('echarts/lib/echarts');
 require('echarts/lib/chart/graph');
 
 const GUEST = 'guest'; // 是否是访客
 export default {
-  mixins: [meshEditMixin],
+  mixins: [meshEditMixin, getNodeImage, Products],
   data() {
     return {
-      M6sRouterSnModelVersion,
+      RouterHasModelDistinctionMap,
       helpModalVisible: false,
       rssiModalVisible: false,
       RouterStatus,
@@ -334,20 +336,26 @@ export default {
     }
   },
   computed: {
-    ModelName() {
-      let name;
-      switch (process.env.MODEL_CONFIG.id) {
-        case Models.M6s_SFP:
-          name = process.env.CUSTOMER_CONFIG.routers.M6s_SFP.shortName;
-          break;
-        default:
-          name = process.env.CUSTOMER_CONFIG.routers.M6s.shortName;
-          break;
-      }
-      return name;
-    },
     modelID() {
-      return this.selectedNodeInfo?.sn?.charAt(9) || '';
+      return this.selectedNodeInfo?.model?.id || '';
+    },
+    modelVersion() {
+      return this.selectedNodeInfo?.model?.version?.id || '';
+    },
+    productName() {
+      const productInfo = process.env.CUSTOMER_CONFIG.routers[
+        SnABJMapName?.[this.modelID]?.[this.modelVersion]
+      ];
+      return productInfo?.shortName || 'Unknown';
+    },
+    productImgName() {
+      if (SnABJMapName?.[this.modelID]?.[this.modelVersion]) {
+        return SnABJMapName[this.modelID][this.modelVersion];
+      }
+      return ModelIds[process.env.MODEL_CONFIG.id];
+    },
+    lineIconSrc() {
+      return this.getNodeImage(this.selectedNodeInfo, 'mesh');
     },
     pageName() {
       return this.$t(this.$route.meta.text);
@@ -568,7 +576,6 @@ export default {
           ...this.routers.filter(route => route.sn === sn)[0],
           color
         };
-        console.log(this.selectedNodeInfo);
         this.showTable = true;
 
         // 立即重新绘制图表，并在下一个更新周期前调整大小
@@ -593,6 +600,595 @@ export default {
     },
     drawTopo(routers) {
       // const oldRouters = this.routers;
+      routers = [
+        {
+          sn: '110072343100003',
+          mac: {
+            lan: 'f8272e130f4c',
+            wan: 'f8272e130f4b',
+            '2.4G': 'f8272e130f4d',
+            '5G': 'f8272e130f4e',
+            'guest-2.4G': 'f8272e130f4d',
+            'guest-5G': 'f8272e130f4e'
+          },
+          is_gw: true,
+          status: 'online',
+          neighbors: [
+            {
+              sn: '060072343000017',
+              rssi: -59,
+              backhaul_type: 'wireless_5g'
+            }
+          ],
+          stations: [
+            {
+              mac: '000ec6ac8edf',
+              name: 'LAPTOP-HS5J1QO1',
+              connected_network: {
+                type: 'primary',
+                band: 'wired'
+              },
+              ip: '192.168.127.149',
+              online_info: {
+                current_connected: true,
+                realtime_speed: {
+                  up: 236,
+                  down: 17
+                },
+                traffic: {
+                  ul: 672948,
+                  dl: 382503
+                },
+                ssid: '',
+                band: 'wired',
+                online_duration: 301,
+                negotiation_rate: 0,
+                rssi: 0,
+                channel: 0
+              }
+            }
+          ],
+          uptime: 493,
+          ip: '192.168.127.1',
+          lan: {
+            ip: '192.168.127.1',
+            mask: '255.255.255.0',
+            gateway: '10.70.0.1',
+            dns: [
+              '10.70.0.1'
+            ]
+          },
+          wan: {
+            ip: '10.70.102.118',
+            mask: '255.255.0.0',
+            gateway: '10.70.0.1',
+            dns: [
+              '10.70.0.1'
+            ]
+          },
+          channel: {
+            '2.4g': 13,
+            '5g': 140,
+            mesh: 140
+          },
+          model: {
+            id: '11',
+            version: {
+              id: '1'
+            }
+          },
+          cpu: 11,
+          memory: {
+            total: 491896,
+            used: 161688
+          },
+          version: {
+            current: '1.0.1',
+            latest: '1.0.1'
+          },
+          name: 'M6s-0003'
+        },
+        {
+          sn: '130052345000017',
+          name: 'M6s-Nano-0017',
+          mac: {
+            lan: 'f8272e1322fb',
+            wan: 'f8272e1322fc',
+            '2.4G': 'f8272e1322fd',
+            '5G': 'f8272e132301',
+            'guest-2.4G': 'f8272e1322fd',
+            'guest-5G': 'f8272e132301'
+          },
+          is_gw: false,
+          model: {
+            id: '13',
+            version: {
+              id: '0'
+            }
+          },
+          version: {
+            current: '3.3.3',
+            latest: '3.3.3'
+          },
+          status: 'offline',
+          stations: []
+        },
+        {
+          sn: '180052345000027',
+          name: 'M6s-Nano-0027',
+          mac: {
+            lan: 'f8272e13235f',
+            wan: 'f8272e132360',
+            '2.4G': 'f8272e132361',
+            '5G': 'f8272e132365',
+            'guest-2.4G': 'f8272e132361',
+            'guest-5G': 'f8272e132365'
+          },
+          is_gw: false,
+          model: {
+            id: '18',
+            version: {
+              id: '0'
+            }
+          },
+          version: {
+            current: '3.3.3',
+            latest: '3.3.3'
+          },
+          status: 'offline',
+          stations: []
+        },
+        {
+          sn: '110052421200008',
+          name: 'M6s-SFP-0008',
+          mac: {
+            lan: 'f8272e17cb25',
+            wan: 'f8272e17cb26',
+            '2.4G': 'f8272e17cb27',
+            '5G': 'f8272e17cb2b',
+            'guest-2.4G': 'f8272e17cb27',
+            'guest-5G': 'f8272e17cb2b'
+          },
+          is_gw: false,
+          model: {
+            id: '11',
+            version: {
+              id: '2'
+            }
+          },
+          version: {
+            current: '3.3.2',
+            latest: '3.3.2'
+          },
+          status: 'offline',
+          stations: []
+        },
+        {
+          sn: '080072343100007',
+          name: 'M6s-0007',
+          mac: {
+            lan: 'f8272e130f5d',
+            wan: 'f8272e130f5d',
+            '2.4G': 'f8272e130f5e',
+            '5G': 'f8272e130f62',
+            'guest-2.4G': 'f8272e130f5e',
+            'guest-5G': 'f8272e130f62'
+          },
+          is_gw: false,
+          status: 'online',
+          neighbors: [
+            {
+              sn: '080072343200017',
+              rssi: -59,
+              backhaul_type: 'wireless_5g'
+            }
+          ],
+          stations: [
+            {
+              mac: '92b054fc0832',
+              name: '92:B0:54:FC:08:32',
+              connected_network: {
+                type: 'primary',
+                band: '5g'
+              },
+              ip: '192.168.127.108',
+              online_info: {
+                current_connected: true,
+                realtime_speed: {
+                  up: 0,
+                  down: 0
+                },
+                traffic: {
+                  ul: 51296673,
+                  dl: 3216068
+                },
+                ssid: 'MERCKU-4GM6s_5G',
+                band: '5g',
+                online_duration: 3294,
+                negotiation_rate: 0,
+                rssi: -53,
+                channel: 0
+              }
+            },
+            {
+              mac: 'f01898206a2d',
+              name: 'Apples-MBP',
+              connected_network: {
+                type: 'primary',
+                band: '5g'
+              },
+              ip: '192.168.127.139',
+              online_info: {
+                current_connected: true,
+                realtime_speed: {
+                  up: 1122,
+                  down: 1528
+                },
+                traffic: {
+                  ul: 1780538804,
+                  dl: 196732180
+                },
+                ssid: 'MERCKU-4GM6s_5G',
+                band: '5g',
+                online_duration: 55160,
+                negotiation_rate: 0,
+                rssi: -53,
+                channel: 0
+              }
+            },
+            {
+              mac: '8cc681f95a42',
+              name: 'yuxiaoyu-ThinkPad',
+              connected_network: {
+                type: 'primary',
+                band: '5g'
+              },
+              ip: '192.168.127.106',
+              online_info: {
+                current_connected: true,
+                realtime_speed: {
+                  up: 307,
+                  down: 1330
+                },
+                traffic: {
+                  ul: 226894651,
+                  dl: 62028157
+                },
+                ssid: 'MERCKU-4GM6s_5G',
+                band: '5g',
+                online_duration: 10681,
+                negotiation_rate: 0,
+                rssi: -57,
+                channel: 0
+              }
+            },
+            {
+              mac: '4e3456b22e81',
+              name: '4E:34:56:B2:2E:81',
+              connected_network: {
+                type: 'primary',
+                band: '5g'
+              },
+              ip: '192.168.127.177',
+              online_info: {
+                current_connected: true,
+                realtime_speed: {
+                  up: 25350,
+                  down: 3343
+                },
+                traffic: {
+                  ul: 4695754,
+                  dl: 1205715
+                },
+                ssid: 'MERCKU-4GM6s_5G',
+                band: '5g',
+                online_duration: 1650,
+                negotiation_rate: 0,
+                rssi: -65,
+                channel: 0
+              }
+            },
+            {
+              mac: 'fe5c24fbac3e',
+              name: 'FE:5C:24:FB:AC:3E',
+              connected_network: {
+                type: 'primary',
+                band: '5g'
+              },
+              ip: '192.168.127.183',
+              online_info: {
+                current_connected: true,
+                realtime_speed: {
+                  up: 20940,
+                  down: 7167
+                },
+                traffic: {
+                  ul: 1123781,
+                  dl: 699315
+                },
+                ssid: 'MERCKU-4GM6s_5G',
+                band: '5g',
+                online_duration: 17,
+                negotiation_rate: 0,
+                rssi: -53,
+                channel: 0
+              }
+            }
+          ],
+          uptime: 1993519,
+          ip: '192.168.127.146',
+          channel: {
+            '2.4g': 6,
+            '5g': 40,
+            mesh: 40
+          },
+          model: {
+            id: '08',
+            version: {
+              id: '1'
+            }
+          },
+          cpu: 8,
+          memory: {
+            total: 491900,
+            used: 165692
+          },
+          version: {
+            current: '1.0.2',
+            latest: '1.0.2'
+          }
+        },
+        {
+          sn: '080072343200017',
+          mac: {
+            lan: 'f8272e130f84',
+            wan: 'f8272e130f85',
+            '2.4G': 'f8272e130f86',
+            '5G': 'f8272e130f8a',
+            'guest-2.4G': 'f8272e130f86',
+            'guest-5G': 'f8272e130f8a'
+          },
+          is_gw: false,
+          status: 'online',
+          neighbors: [],
+          stations: [
+            {
+              mac: '36c9e77465d8',
+              name: '36:c9:e7:74:65:d8',
+              connected_network: {
+                type: 'primary',
+                band: '5g'
+              },
+              ip: '192.168.127.127',
+              online_info: {
+                current_connected: true,
+                realtime_speed: {
+                  up: 0,
+                  down: 4
+                },
+                traffic: {
+                  ul: 1242869333,
+                  dl: 77809349
+                },
+                ssid: 'MERCKU-4GM6s_5G',
+                band: '5g',
+                online_duration: 8187,
+                negotiation_rate: 0,
+                rssi: -59,
+                channel: 0
+              }
+            }
+          ],
+          uptime: 1993516,
+          ip: '192.168.127.1',
+          lan: {
+            ip: '192.168.127.1',
+            mask: '255.255.255.0',
+            gateway: '192.168.1.1',
+            dns: [
+              '192.168.1.1'
+            ]
+          },
+          wan: {
+            ip: '192.168.1.100',
+            mask: '255.255.255.0',
+            gateway: '192.168.1.1',
+            dns: [
+              '192.168.1.1'
+            ]
+          },
+          channel: {
+            '2.4g': 6,
+            '5g': 64,
+            mesh: 64
+          },
+          model: {
+            id: '08',
+            version: {
+              id: '2'
+            }
+          },
+          cpu: 9,
+          memory: {
+            total: 491900,
+            used: 196404
+          },
+          version: {
+            current: '1.0.2',
+            latest: '1.0.2'
+          },
+          name: '挂测测试'
+        },
+        {
+          sn: '080072343000017',
+          mac: {
+            lan: 'f8272e130f84',
+            wan: 'f8272e130f85',
+            '2.4G': 'f8272e130f86',
+            '5G': 'f8272e130f8a',
+            'guest-2.4G': 'f8272e130f86',
+            'guest-5G': 'f8272e130f8a'
+          },
+          is_gw: false,
+          status: 'online',
+          neighbors: [],
+          stations: [
+            {
+              mac: '36c9e77465d8',
+              name: '36:c9:e7:74:65:d8',
+              connected_network: {
+                type: 'primary',
+                band: '5g'
+              },
+              ip: '192.168.127.127',
+              online_info: {
+                current_connected: true,
+                realtime_speed: {
+                  up: 0,
+                  down: 4
+                },
+                traffic: {
+                  ul: 1242869333,
+                  dl: 77809349
+                },
+                ssid: 'MERCKU-4GM6s_5G',
+                band: '5g',
+                online_duration: 8187,
+                negotiation_rate: 0,
+                rssi: -59,
+                channel: 0
+              }
+            }
+          ],
+          uptime: 1993516,
+          ip: '192.168.127.1',
+          lan: {
+            ip: '192.168.127.1',
+            mask: '255.255.255.0',
+            gateway: '192.168.1.1',
+            dns: [
+              '192.168.1.1'
+            ]
+          },
+          wan: {
+            ip: '192.168.1.100',
+            mask: '255.255.255.0',
+            gateway: '192.168.1.1',
+            dns: [
+              '192.168.1.1'
+            ]
+          },
+          channel: {
+            '2.4g': 6,
+            '5g': 64,
+            mesh: 64
+          },
+          model: {
+            id: '08',
+            version: {
+              id: '0'
+            }
+          },
+          cpu: 9,
+          memory: {
+            total: 491900,
+            used: 196404
+          },
+          version: {
+            current: '1.0.2',
+            latest: '1.0.2'
+          },
+          name: '挂测测试'
+        },
+        {
+          sn: '060072343000017',
+          mac: {
+            lan: 'f8272e130f84',
+            wan: 'f8272e130f85',
+            '2.4G': 'f8272e130f86',
+            '5G': 'f8272e130f8a',
+            'guest-2.4G': 'f8272e130f86',
+            'guest-5G': 'f8272e130f8a'
+          },
+          is_gw: false,
+          status: 'online',
+          neighbors: [
+            {
+              sn: '080072343200017',
+              rssi: -59,
+              backhaul_type: 'wireless_5g'
+            }
+          ],
+          stations: [
+            {
+              mac: '36c9e77465d8',
+              name: '36:c9:e7:74:65:d8',
+              connected_network: {
+                type: 'primary',
+                band: '5g'
+              },
+              ip: '192.168.127.127',
+              online_info: {
+                current_connected: true,
+                realtime_speed: {
+                  up: 0,
+                  down: 4
+                },
+                traffic: {
+                  ul: 1242869333,
+                  dl: 77809349
+                },
+                ssid: 'MERCKU-4GM6s_5G',
+                band: '5g',
+                online_duration: 8187,
+                negotiation_rate: 0,
+                rssi: -59,
+                channel: 0
+              }
+            }
+          ],
+          uptime: 1993516,
+          ip: '192.168.127.1',
+          lan: {
+            ip: '192.168.127.1',
+            mask: '255.255.255.0',
+            gateway: '192.168.1.1',
+            dns: [
+              '192.168.1.1'
+            ]
+          },
+          wan: {
+            ip: '192.168.1.100',
+            mask: '255.255.255.0',
+            gateway: '192.168.1.1',
+            dns: [
+              '192.168.1.1'
+            ]
+          },
+          channel: {
+            '2.4g': 6,
+            '5g': 64,
+            mesh: 64
+          },
+          model: {
+            id: '06',
+            version: {
+              id: '0'
+            }
+          },
+          cpu: 9,
+          memory: {
+            total: 491900,
+            used: 196404
+          },
+          version: {
+            current: '1.0.2',
+            latest: '1.0.2'
+          },
+          name: '挂测测试'
+        }
+      ];
+
       const data = genData(routers);
 
       data.nodes.forEach(n => {
@@ -731,7 +1327,6 @@ export default {
         .getMeshNode()
         .then(res => {
           const { result } = res.data;
-          console.log(result);
           if (!this.chart) {
             this.initChart();
           }
@@ -1221,14 +1816,10 @@ $img_folder: '../../../../../base/src/assets/images';
                 height: 40px;
                 margin-right: 5px;
                 @include aspect(1, 1);
-                background: url(../../../assets/images/icon/ic_homepage.svg)
-                  center no-repeat;
-                background-size: contain;
-                filter: var(--img-brightness);
-                &.m6a_sfp {
-                  background: url(../../../assets/images/icon/ic_homepage_sfp.svg)
-                    center no-repeat;
-                  background-size: contain;
+                > img {
+                  width: 100%;
+                  height: 100%;
+                  filter: var(--img-brightness);
                 }
               }
               .text {
