@@ -21,7 +21,7 @@
 
           <div class="mk-upgrade-node">
             <img class="mk-upgrade-node__img"
-                 :src="getRouterImage(node.sn)" />
+                 :src="getNodeImage(node.sn)" />
             <div class="mk-upgrade-node__name">{{node.name}}</div>
             <div class="mk-upgrade-node__sn">
               <label class="with-colon">{{translate('trans0252')}}:</label>

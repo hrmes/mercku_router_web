@@ -91,8 +91,8 @@ function getM6aProductsInfo() {
 export const getNodeImage = {
   methods: {
     getNodeImage(node, page = PageName.upgrade) {
-      const modelID = node.sn.slice(0, 2);
-      const modelVersion = node.sn.charAt(9);
+      const modelID = node?.sn?.slice(0, 2);
+      const modelVersion = node?.sn?.charAt(9);
       if (
         RouterModelImgMap[page]?.[modelID] &&
         typeof RouterModelImgMap[page]?.[modelID] === 'string'

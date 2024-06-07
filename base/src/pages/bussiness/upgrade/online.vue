@@ -42,7 +42,7 @@
                 <m-checkbox :readonly="true"
                             v-model="node.checked" />
                 <div class="img-container">
-                  <img :src="getRouterImage(node.sn)"
+                  <img :src="getNodeImage(node)"
                        alt="" />
                 </div>
                 <div class="info-container">
