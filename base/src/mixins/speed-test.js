@@ -1,4 +1,4 @@
-import lottie from 'lottie-web';
+import lottie from 'lottie-web-light';
 
 const LottiePaths = {
   light: require('base/assets/lottie/speedtest/light.json'),
