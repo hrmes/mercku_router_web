@@ -289,17 +289,17 @@ export default {
     tipsText() {
       return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
     },
-    modelID() {
-      return this.$store.state.modelID || localStorage.getItem('modelID');
+    modelVersion() {
+      return this.$store.state.modelVersion || localStorage.getItem('modelVersion');
     },
     isM6a() {
-      return this.modelID === RouterHasModelDistinctionMap.M6a;
+      return this.modelVersion === RouterHasModelDistinctionMap.M6a;
     },
     isM6aPlus() {
-      return this.modelID === RouterHasModelDistinctionMap.M6a_Plus;
+      return this.modelVersion === RouterHasModelDistinctionMap.M6a_Plus;
     },
     isM6c() {
-      return this.modelID === RouterHasModelDistinctionMap.M6c;
+      return this.modelVersion === RouterHasModelDistinctionMap.M6c;
     },
     isMobile() {
       return this.$store.state.isMobile;
@@ -420,7 +420,7 @@ export default {
     getM6aSeriesProductAddNodeImg(step, type) {
       let img = '';
       if (step === Step.step1) {
-        switch (this.modelID) {
+        switch (this.modelVersion) {
           case RouterHasModelDistinctionMap.M6a:
             img = require('@/assets/images/add/img_add_01.svg');
             break;
@@ -460,7 +460,7 @@ export default {
     },
     getM6aSeriesProductNetworkingImg() {
       let img = '';
-      switch (this.modelID) {
+      switch (this.modelVersion) {
         case RouterHasModelDistinctionMap.M6a:
           img = require('@/assets/images/add/img_networking.svg');
           break;

@@ -30,8 +30,7 @@
                   <div class="band"
                        :class="{'wired':isWired}">
                     {{bandMap[`${localDeviceInfo.online_info.band}`] }}</div>
-                  <div v-if="!isWired"
-                       class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
+                  <div class="uptime">{{transformDate(localDeviceInfo.online_info.online_duration)}}
                   </div>
                 </div>
               </div>
@@ -46,7 +45,7 @@
         </div>
         <div class="wrapper">
           <div class="router__img"
-               :class="$store.state.deviceColor"></div>
+               :class="[$store.state.deviceColor,productImgName]"></div>
           <div key="mesh-shadow"
                class="background-shadow"></div>
         </div>
@@ -64,7 +63,7 @@
         <div class="mobile-icon-wrapper"
              v-if="isMobile">
           <span class="btn-icon"
-                :class="{disabled:!meshGatewayInfo.name}"
+                :class="{disabled:!meshGatewayInfo.name, close:!meshGatewayInfo.name}"
                 @click.stop="editMesh(meshGatewayInfo)">
             <i class="iconfont ic_edit"></i>
           </span>
@@ -121,7 +120,7 @@
             <div v-else
                  class="bridge-mode-tip">
               <img v-if="!isMobile"
-                   :src="require('base/assets/images/common/img_bridge.png')" />
+                   :src="require('base/assets/images/common/img_bridge.png')">
               <span>{{$t('trans0984')}}</span>
             </div>
           </div>
@@ -129,11 +128,12 @@
       </div>
       <div class="functional">
         <div class="row-1">
-          <div class="mesh-name">
+          <div :title="meshGatewayInfo.name"
+               class="mesh-name">
             {{meshGatewayInfo.name?meshGatewayInfo.name:'-'}}
           </div>
           <span class="btn-icon"
-                :class="{disabled:!meshGatewayInfo.name, close:!meshGatewayInfo.name}"
+                :class="{disabled:!meshGatewayInfo.name}"
                 v-if="!isMobile"
                 @click.stop="editMesh(meshGatewayInfo)">
             <i class="iconfont ic_edit"></i>
@@ -141,7 +141,7 @@
           </span>
         </div>
         <div class="row-2">
-          <div class="model">{{ModelName}}</div>
+          <div class="model">{{productName}}</div>
           <div class="gateway">{{$t('trans0153')}}</div>
         </div>
         <div class="row-3">
@@ -183,12 +183,12 @@
             <div class="color-select">
               <h4 class="label">{{$t('trans1214')}}</h4>
               <ul class="color-select__wrapper reset-ul">
-                <li v-for="(color,index) in availableDeviceColors"
+                <li v-for="(color,index) in gwAvailableDeviceColors"
                     :key="index"
                     class="limit-icon">
                   <div class="color"
                        :class="{selected:selectedColorName===color.name,
-                              'light-color':color.name===RouterColor.white}"
+                                'light-color':color.name===RouterColor.white}"
                        :style="{backgroundImage:color.value}"
                        @click="changeDeviceColor(color)">
                   </div>
@@ -225,21 +225,19 @@
 </template>
 <script>
 import marked from 'marked';
-import {
-  WanNetStatus,
-  RouterHasModelDistinctionMap,
-  RouterMode
-} from 'base/util/constant';
+import { WanNetStatus, RouterMode, ModelIds, ModelIdJMapName } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
-import meshEditMixin from 'base/mixins/mesh-edit.js';
+import editMeshMixin from 'base/mixins/mesh-edit.js';
+
 
 export default {
-  mixins: [meshEditMixin],
+  mixins: [editMeshMixin],
   data() {
     return {
       netStatus: WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
       pageActive: true,
       deviceLoading: true,
+      meshLoading: true,
       ssid: '',
       deviceCount: '-',
       deviceCountTimer: null,
@@ -277,20 +275,24 @@ export default {
     };
   },
   computed: {
-    ModelName() {
-      let modelName = '';
-      switch (this.$store.state.modelID) {
-        case RouterHasModelDistinctionMap.M6a_Plus:
-          modelName = 'M6a Plus';
-          break;
-        case RouterHasModelDistinctionMap.M6c:
-          modelName = 'M6c';
-          break;
-        default:
-          modelName = 'M6a';
-          break;
+    productName() {
+      let productInfo;
+      if (this.$store.state?.modelVersion) {
+        console.log(this.$store.state.modelVersion);
+        productInfo = process.env.CUSTOMER_CONFIG.routers[
+          ModelIdJMapName?.[process.env.MODEL_CONFIG.id]?.[this.$store.state.modelVersion]
+        ];
+        console.log(productInfo);
+      } else {
+        productInfo = process.env.CUSTOMER_CONFIG.routers[
+          ModelIds[process.env.MODEL_CONFIG.id]
+        ];
       }
-      return modelName;
+
+      return productInfo?.shortName || 'Unknown';
+    },
+    productImgName() {
+      return ModelIds[process.env.MODEL_CONFIG.id];
     },
     isMobile() {
       return this.$store.state.isMobile;
@@ -326,11 +328,11 @@ export default {
     }
   },
   mounted() {
-    this.getMeshInfo();
     this.getWanNetInfo();
     this.createIntercvalTask();
     this.getWanStatus();
     this.getLocalDeviceInfo();
+    this.getMeshInfo();
   },
   watch: {
     '$store.mode': function watcher() {
@@ -399,8 +401,8 @@ export default {
     },
     showTips() {
       if (this.isConnected) {
-        this.$toast(this.$t('trans1190'), 1500, 'success');
-      } else if (!this.isTesting) {
+        this.$toast('Internet online', 1500, 'success');
+      } else {
         this.tipsModalVisible = true;
       }
     },
@@ -422,9 +424,16 @@ export default {
     },
     async getMeshInfo() {
       try {
+        this.meshLoading = true;
         const res1 = await this.$http.getMeshNode();
         const meshNodeList = res1.data.result;
-
+        if (meshNodeList.length === 0) {
+          console.log('retry gettig mesh name');
+          setTimeout(() => {
+            this.getMeshInfo();
+          }, 1500);
+          return;
+        }
         const gatewayInfo = meshNodeList.find(item => item.is_gw);
         if (gatewayInfo) {
           this.meshGatewayInfo.name = gatewayInfo.name;
@@ -432,6 +441,8 @@ export default {
         }
       } catch (error) {
         console.error('Error fetching mesh info:', error);
+      } finally {
+        this.meshLoading = false;
       }
     },
     async getDeviceCount() {
@@ -484,18 +495,15 @@ export default {
 
         const res1 = await this.$http.getLocalDevice();
         const selfInfo = res1.data.result;
-        console.log('selfInfo', selfInfo);
         this.localDeviceIP = selfInfo.ip;
 
         const params = { filters: [{ type: 'primary', status: ['online'] }] };
         const res2 = await this.$http.getDeviceList(params);
         const deviceList = res2.data.result;
-        console.log(deviceList);
 
         const localDeviceInfoArr = deviceList.filter(
           item => item.ip === selfInfo.ip
         );
-        console.log(localDeviceInfoArr);
 
         if (localDeviceInfoArr.length > 0) {
           [this.localDeviceInfo] = localDeviceInfoArr;
@@ -588,6 +596,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 h2,
+h4,
 h6 {
   padding: 0;
   margin: 0;
@@ -692,7 +701,7 @@ $img_folder: '../../../../../base/src/assets/images';
         display: grid;
         position: relative;
         width: 90%;
-        aspect-ratio: 1;
+        aspect-ratio: 1/1;
         max-width: 390px;
         min-width: 300px;
         max-height: 390px;
@@ -830,6 +839,14 @@ $img_folder: '../../../../../base/src/assets/images';
         box-shadow: none;
         .router__img {
           width: 100%;
+          min-width: 350px;
+          max-width: 440px;
+          position: relative;
+          @include aspect(1, 1);
+          z-index: 2;
+        }
+        img {
+          width: inherit;
           min-width: 350px;
           max-width: 440px;
           @include aspect(1, 1);
@@ -1032,7 +1049,7 @@ $img_folder: '../../../../../base/src/assets/images';
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          font-size: 32px;
+          font-size: 28px;
           font-weight: 600;
           text-align: center;
         }
@@ -1106,7 +1123,7 @@ $img_folder: '../../../../../base/src/assets/images';
           min-width: auto;
           min-height: auto;
           margin-top: 0;
-          @include aspect(1, 1);
+          aspect-ratio: auto;
         }
       }
       .mesh {
@@ -1120,10 +1137,18 @@ $img_folder: '../../../../../base/src/assets/images';
             min-height: auto;
             width: 195px;
           }
+          img {
+            max-width: auto;
+            max-height: auto;
+            min-width: auto;
+            min-height: auto;
+            width: 195px;
+          }
         }
         .background-shadow {
           width: 375px;
           height: 135px;
+          transform: translate(-50%, -60%);
         }
         .mobile-icon-wrapper {
           position: absolute;
@@ -1257,7 +1282,7 @@ $img_folder: '../../../../../base/src/assets/images';
             align-items: flex-start;
           }
           .speed-num {
-            font-size: 30px;
+            font-size: 32px;
           }
           .speed-unit {
             font-size: 18px;

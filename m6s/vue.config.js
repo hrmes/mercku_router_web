@@ -24,7 +24,6 @@ console.log(
 );
 const { title } = CUSTOMER_CONFIG;
 const { favicon } = CUSTOMER_CONFIG;
-console.log(`favicon`, favicon);
 
 function resolve(dir) {
   return path.join(__dirname, dir);

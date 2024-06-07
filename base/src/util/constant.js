@@ -69,13 +69,13 @@ export const SnABJMapName = {
   11: { 0: 'M6s', 1: 'M6s', 2: 'M6s_SFP' },
   13: { 0: 'M6s_Nano' }
 };
-// export const ModelIdJMapName = {
-//   M6R0: { 0: 'M6' },
-//   M8: { 0: 'M6a', 1: 'M6a_Plus', 2: 'M6c' },
-//   M11R1: { 0: 'M6s', 1: 'M6s', 2: 'M6s_SFP' },
-//   M11R2: { 0: 'M6s', 1: 'M6s', 2: 'M6s_SFP' },
-//   M13R0: { 0: 'M6s Nano' }
-// };
+export const ModelIdJMapName = {
+  M6R0: { 0: 'M6' },
+  M8: { 0: 'M6a', 1: 'M6a_Plus', 2: 'M6c' },
+  M11R1: { 0: 'M6s', 1: 'M6s', 2: 'M6s_SFP' },
+  M11R2: { 0: 'M6s', 1: 'M6s', 2: 'M6s_SFP' },
+  M13R0: { 0: 'M6s Nano' }
+};
 export const RouterHasModelDistinctionMap = {
   M6a: '0',
   M6a_Plus: '1',

@@ -39,7 +39,7 @@ module.exports = {
     index: {
       entry: 'src/main.js',
       template: 'index.ejs',
-      favicon,
+      favicon: `../base/${favicon}`,
       filename: 'index.html',
       title,
       chunks: ['chunk-vendors', 'chunk-common', 'index'],

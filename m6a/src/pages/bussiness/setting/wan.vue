@@ -271,9 +271,9 @@ import store from '@/store/index';
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
 }
-function checkPortNums(modelID) {
+function checkPortNums(modelVersion) {
   let ports = null;
-  switch (modelID) {
+  switch (modelVersion) {
     case RouterHasModelDistinctionMap.M6a:
       ports = [
         {
@@ -377,7 +377,7 @@ const VlanDefault = {
 const IpPhoneVlanDefault = {
   enabled: false,
   id: '',
-  ports: checkPortNums(store.state.modelID),
+  ports: checkPortNums(store.state.modelVersion),
   priority: 0,
   is_bridged: false,
   name: VlanName.ipPhone
@@ -385,7 +385,7 @@ const IpPhoneVlanDefault = {
 const IptvVlanDefault = {
   enabled: false,
   id: '',
-  ports: checkPortNums(store.state.modelID),
+  ports: checkPortNums(store.state.modelVersion),
   priority: 0,
   is_bridged: false,
   name: VlanName.iptv
