@@ -9,11 +9,12 @@
         <div class="row-1">
           <div class="card">
             <m-form-item class="last">
-              <m-select :label="$t('trans0273')"
-                        v-model="form.timezone"
+              <m-select v-model="form.timezone"
+                        :label="$t('trans0273')"
                         :options="timezones"
-                        :needProcessing="true"
-                        :isDrawerStyle="true"></m-select>
+                        needProcessing
+                        isDrawerStyle
+                        filterable></m-select>
             </m-form-item>
           </div>
         </div>
@@ -41,7 +42,7 @@ export default {
   },
   created() {
     let array = [];
-    array = require(`../../../timezones/${this.$i18n.locale}.json`);
+    array = require(`base/timezones/${this.$i18n.locale}.json`);
     this.timezones = array.map(t => ({
       text: `(${t.timezoneDetail}) ${t.coutryName}`,
       mainTitle: t.timezoneDetail,

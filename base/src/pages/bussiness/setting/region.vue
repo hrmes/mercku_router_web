@@ -11,8 +11,9 @@
             <m-form-item class="last">
               <m-select v-model="form.region.id"
                         :label="$t('trans0639')"
-                        :isDrawerStyle="true"
-                        :options="regions"></m-select>
+                        :options="regions"
+                        isDrawerStyle
+                        filterable></m-select>
               <p class="des-tips">{{$t('trans0646')}}</p>
             </m-form-item>
           </div>
@@ -76,7 +77,7 @@ export default {
           const region = res.data.result;
           this.form.region.id = parseInt(region.id, 10);
 
-          const allRegion = require(`../../../assets/regions/${this.$i18n.locale}.json`);
+          const allRegion = require(`base/assets/regions/${this.$i18n.locale}.json`);
 
           this.regions = allRegion.map(r => ({
             text: r.name,
