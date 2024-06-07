@@ -1,5 +1,5 @@
 import { getStringByte } from 'base/util/util';
-import { RouterColor } from 'base/util/constant';
+import { RouterColor, SnABJMapName, ModelIds } from 'base/util/constant';
 import store from '@/store/index';
 
 const DeviceColorList = [
@@ -65,9 +65,12 @@ export default {
     };
   },
   computed: {
-    availableDeviceColors() {
+    gwAvailableDeviceColors() {
+      const MODEL_ID = process.env.MODEL_CONFIG.id;
+      const productInfo =
+        process.env.CUSTOMER_CONFIG.routers[ModelIds[MODEL_ID]];
       return DeviceColorList.filter(color =>
-        process.env.CUSTOMER_CONFIG.deviceColors.includes(color.name)
+        productInfo.deviceColors.includes(color.name)
       );
     },
     lowerCaseModelId() {
@@ -75,6 +78,18 @@ export default {
     }
   },
   methods: {
+    nodeAvailableDeviceColors(sn) {
+      const modelID = sn?.slice(0, 2);
+      const modelVersion = sn?.charAt(9);
+      const productInfo =
+        process.env.CUSTOMER_CONFIG.routers[
+          SnABJMapName?.[modelID]?.[modelVersion]
+        ] || {};
+      console.log(productInfo);
+      return DeviceColorList.filter(color =>
+        productInfo?.deviceColors?.includes(color.name)
+      );
+    },
     closeMeshEditModal() {
       this.showMeshEditModal = false;
       this.selectedColorName = this.$store.state.deviceColor;

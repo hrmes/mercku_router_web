@@ -35,8 +35,7 @@
                v-show="isStep(0)">
             <div class="main-content">
               <div class="img-container">
-                <img src="~@/assets/images/add/img_add_01.svg"
-                     alt="">
+                <img :src="getAddNodeImg(0)" />
               </div>
               <p class="step-item__tip">{{transText('trans0693')}}</p>
               <p class="step-item__tip step-item__tip--gray">{{$t('trans0698')}}</p>
@@ -52,8 +51,7 @@
                v-show="isStep(1)">
             <div class="main-content">
               <div class="img-container">
-                <img src="~@/assets/images/add/img_add_02.svg"
-                     alt="">
+                <img src="~@/assets/images/add/img_add_02.svg" />
               </div>
               <p class="step-item__tip">{{$t('trans1005')}}</p>
             </div>
@@ -68,8 +66,7 @@
                v-show="isStep(2)">
             <div class="main-content">
               <div class="img-container">
-                <img :src="getM6sSeriesProductAddNodeImg(this.addNodeType)"
-                     alt="">
+                <img :src="getAddNodeImg(2,this.addNodeType)" />
               </div>
               <div v-if="addNodeType===AddNodeType.wired">
                 <p class="step-item__tip">{{$t('trans1194')}}</p>
@@ -165,8 +162,7 @@
           </div>
           <div class="mesh-add-tips-list__item list-item">
             <div class="list-item__img">
-              <img src="~@/assets/images/add/img_networking.svg"
-                   alt="" />
+              <img :src="getProductNetworkingImg()" />
             </div>
             <div class="list-item__text">
               <p>{{$t('trans0762')}}</p>
@@ -230,9 +226,8 @@
   </div>
 </template>
 <script>
-import RouterModel from 'base/mixins/router-model';
 import debounce from 'lodash/debounce';
-import { AddNodeType, ModelsMap } from 'base/util/constant';
+import { AddNodeType, Models } from 'base/util/constant';
 
 const PageStatus = {
   scanning: 'scanning',
@@ -241,8 +236,13 @@ const PageStatus = {
   add_fail: 'add_fail'
 };
 
+const Step = {
+  step1: 0,
+  step2: 1,
+  step3: 2
+};
+
 export default {
-  mixins: [RouterModel],
   data() {
     return {
       scrollbar: document.querySelector('.scrollbar-wrap'),
@@ -289,6 +289,12 @@ export default {
     },
     isMobile() {
       return this.$store.state.isMobile;
+    },
+    isM6s() {
+      return process.env.MODEL_CONFIG.id === Models.M6s;
+    },
+    isM6sSFP() {
+      return process.env.MODEL_CONFIG.id === Models.M6s_SFP;
     }
   },
   created() {
@@ -297,10 +303,21 @@ export default {
   methods: {
     transText(text) {
       let resultText = '';
-      resultText = this.$t(text).replaceAll(
-        '%s',
-        process.env.CUSTOMER_CONFIG.routers[`${ModelsMap[process.env.MODEL_CONFIG.id]}`].shortName
-      );
+      switch (process.env.MODEL_CONFIG.id) {
+        case Models.M6s_SFP:
+          resultText = this.$t(text).replaceAll(
+            '%s',
+            process.env.CUSTOMER_CONFIG.routers.M6s_SFP.shortName
+          );
+          break;
+        default:
+          resultText = this.$t(text).replaceAll(
+            '%s',
+            process.env.CUSTOMER_CONFIG.routers.M6s.shortName
+          );
+          break;
+      }
+
       return resultText;
     },
     transDeviceId(text) {
@@ -390,16 +407,52 @@ export default {
       this.stepsOption.steps[index].success = status;
       this.isMobile && this.scrollbarToTop();
     },
-    getM6sSeriesProductAddNodeImg(type) {
-      let img;
-      switch (type) {
-        case AddNodeType.wireless:
-          img = require('@/assets/images/add/img_wireless_add_03.svg');
-          break;
-        case AddNodeType.wired:
-          img = require('@/assets/images/add/img_wired_add_03.svg');
+    getAddNodeImg(step, type) {
+      let img = '';
+      if (step === Step.step1) {
+        switch (process.env.MODEL_CONFIG.id) {
+          case Models.M6s_SFP:
+            img = require('@/assets/images/add/sfp/img_add_01.svg');
+            break;
+          default:
+            img = require('@/assets/images/add/img_add_01.svg');
+            break;
+        }
+      }
+      if (step === Step.step3 && type && this.isM6s) {
+        switch (type) {
+          case AddNodeType.wireless:
+            img = require('@/assets/images/add/img_wireless_add_03.svg');
+            break;
+          case AddNodeType.wired:
+            img = require('@/assets/images/add/img_wired_add_03.svg');
+            break;
+          default:
+            break;
+        }
+      }
+      if (step === Step.step3 && type && this.isM6sSFP) {
+        switch (type) {
+          case AddNodeType.wireless:
+            img = require('@/assets/images/add/sfp/img_wireless_add_03.svg');
+            break;
+          case AddNodeType.wired:
+            img = require('@/assets/images/add/sfp/img_wired_add_03.svg');
+            break;
+          default:
+            break;
+        }
+      }
+      return img;
+    },
+    getProductNetworkingImg() {
+      let img = '';
+      switch (process.env.MODEL_CONFIG.id) {
+        case Models.M6s_SFP:
+          img = require('@/assets/images/add/sfp/img_networking.svg');
           break;
         default:
+          img = require('@/assets/images/add/img_networking.svg');
           break;
       }
       return img;

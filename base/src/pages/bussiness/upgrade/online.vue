@@ -124,18 +124,16 @@
 <script>
 import marked from 'marked';
 import { compareVersion } from 'base/util/util';
-import { RouterSnModel } from 'base/util/constant';
-import RouterModel from 'base/mixins/router-model';
+import { getNodeImage } from 'base/mixins/router-model';
 import upgradeMixin from 'base/mixins/upgrade';
 
 import upgradeProcessDialog from './components/progress.vue';
 
 export default {
-  mixins: [RouterModel, upgradeMixin],
+  mixins: [getNodeImage, upgradeMixin],
   data() {
     return {
       nodes: [],
-      RouterSnModel,
       requestResult: {
         complete: false,
         error: null,

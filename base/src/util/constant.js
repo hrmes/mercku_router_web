@@ -43,36 +43,47 @@ export const WanNetStatus = {
   linked: 'linked',
   unlinked: 'unlinked'
 };
-export const RouterSnModel = {
+export const RouterSnAB2Model = {
   AC: '00',
-  M2: '01',
-  Bee: '02',
   M6: '06',
   M6a: '08',
-  Homeway: '09',
   M6s: '11',
   M6s_Nano: '13',
   'M6s_PoE++': '16'
 };
 export const Models = {
-  M2: 'M2R2',
   M6: 'M6R0',
   M6a: 'M8',
   M6s: 'M11R1',
-  M6s_Nano: 'M13R0',
-  'M6s_PoE++': 'M16R0'
+  M6s_SFP: 'M11R2',
+  M6s_Nano: 'M13R0'
 };
-export const ModelsMap = Object.entries(Models).reduce(
-  (model, [key, value]) => {
-    model[value] = key;
-    return model;
-  },
-  {}
-);
-export const M6aSeriesModelIDs = {
+export const ModelIds = {
+  M6R0: 'M6',
+  M8: 'M6a',
+  M11R1: 'M6s',
+  M11R2: 'M6s_SFP',
+  M13R0: 'M6s_Nano'
+};
+export const SnABJMapName = {
+  '06': { 0: 'M6' },
+  '08': { 0: 'M6a', 1: 'M6a_Plus', 2: 'M6c' },
+  11: { 0: 'M6s', 1: 'M6s', 2: 'M6s_SFP' },
+  13: { 0: 'M6s_Nano' }
+};
+export const ModelIdJMapName = {
+  M6R0: { 0: 'M6' },
+  M8: { 0: 'M6a', 1: 'M6a_Plus', 2: 'M6c' },
+  M11R1: { 0: 'M6s', 1: 'M6s', 2: 'M6s_SFP' },
+  M11R2: { 0: 'M6s', 1: 'M6s', 2: 'M6s_SFP' },
+  M13R0: { 0: 'M6s Nano' }
+};
+export const RouterHasModelDistinctionMap = {
   M6a: '0',
   M6a_Plus: '1',
-  M6c: '2'
+  M6c: '2',
+  M6s: '1',
+  M6s_SFP: '2'
 };
 export const M6aSeriesModelIDMap2Model = Object.entries(
   M6aSeriesModelIDs
@@ -149,7 +160,6 @@ export const Weeks = {
   sat: 'Sat',
   sun: 'Sun'
 };
-
 export const HomewayFanModel = {
   game: 'game',
   standard: 'standard',

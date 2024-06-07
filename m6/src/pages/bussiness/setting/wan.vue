@@ -215,9 +215,8 @@ import {
   getStringByte,
   isValidPassword
 } from 'base/util/util';
-import {
-  WanType,
-} from 'base/util/constant';
+import { WanType } from 'base/util/constant';
+
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
