@@ -9,8 +9,8 @@
         <div class="row-1">
           <div class="card">
             <m-form-item>
-              <m-radio-card-group v-model="mode"
-                                  :options="modesList"
+              <m-radio-card-group v-model="wanInterface"
+                                  :options="interfaceList"
                                   direction="vertical"></m-radio-card-group>
             </m-form-item>
             <m-form-item class="last">
@@ -34,20 +34,20 @@ import { debounce } from 'base/util/util';
 import sfpIcon from '@/assets/images/icon/ic_sfp_sfp.png';
 import wanIcon from '@/assets/images/icon/ic_sfp_wan.png';
 
-const AccessMode = {
-  wan: 'wan',
-  sfp: 'sfp'
+const InterfaceType = {
+  RJ45: 'RJ45',
+  SFP: 'SFP'
 };
 function getAccessModeImg(model) {
   let imgObj = null;
   switch (model) {
-    case AccessMode.wan:
+    case InterfaceType.RJ45:
       imgObj = {
         unselected: wanIcon,
         selected: wanIcon
       };
       break;
-    case AccessMode.sfp:
+    case InterfaceType.SFP:
       imgObj = {
         unselected: sfpIcon,
         selected: sfpIcon
@@ -62,37 +62,31 @@ function getAccessModeImg(model) {
 export default {
   data() {
     return {
-      mode: AccessMode.wan,
-      modesList: [
-        { value: AccessMode.wan, text: this.$t('trans1247'), img: getAccessModeImg(AccessMode.wan) },
-        { value: AccessMode.sfp, text: this.$t('trans1248'), img: getAccessModeImg(AccessMode.sfp) }]
+      wanInterface: InterfaceType.RJ45,
+      interfaceList: [
+        { value: InterfaceType.RJ45, text: this.$t('trans1247'), img: getAccessModeImg(InterfaceType.RJ45) },
+        { value: InterfaceType.SFP, text: this.$t('trans1248'), img: getAccessModeImg(InterfaceType.SFP) }]
     };
   },
   mounted() {
-    this.getMeshAccessMode();
+    this.getMeshWanIntf();
   },
   methods: {
-    async getMeshAccessMode() {
-      try {
-        this.$loading.open();
-        const response = await this.$http.getMeshAccessMode();
-        const {
-          data: {
-            result: { mode }
-          }
-        } = response;
-        this.mode = mode;
-      } catch (error) {
-        console.error(error);
-      } finally {
-        this.$loading.close();
-      }
+    getMeshWanIntf() {
+      this.$loading.open();
+      this.$http.getMeshWanIntf()
+        .then(res => {
+          this.wanInterface = res.data.result.interface;
+        })
+        .finally(() => {
+          this.$loading.close();
+        });
     },
-    submit: debounce(function updateMeshAccessMode() {
-      console.log(this.mode);
+    submit: debounce(function updateMeshWanIntf() {
+      console.log(this.wanInterface);
       this.$loading.open();
       this.$http
-        .updateMeshAccessMode({ mode: this.mode })
+        .updateMeshWanIntf({ interface: this.wanInterface })
         .then(() => {
           this.$toast(this.$t('trans0040'), 3000, 'success');
         })

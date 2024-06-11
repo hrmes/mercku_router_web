@@ -116,21 +116,21 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'wps',
         text: 'trans1168',
         config
+      },
+      {
+        url: '/setting/sfp',
+        name: 'sfp',
+        text: 'SFP',
+        config: {
+          show: false,
+          mode: [
+            RouterMode.router,
+            RouterMode.bridge,
+            RouterMode.wirelessBridge
+          ],
+          model: [Models.M6s_SFP]
+        }
       }
-      // {
-      //   url: '/setting/sfp',
-      //   name: 'sfp',
-      //   text: 'SFP',
-      //   config: {
-      //     show: false,
-      //     mode: [
-      //       RouterMode.router,
-      //       RouterMode.bridge,
-      //       RouterMode.wirelessBridge
-      //     ],
-      //     model: [Models.M6s_SFP]
-      //   }
-      // }
     ]
   };
   const advance = {

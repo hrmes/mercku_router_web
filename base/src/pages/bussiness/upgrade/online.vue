@@ -36,7 +36,6 @@
             <div v-for="node in nodes"
                  :key="node.sn"
                  class="node">
-
               <div class="message"
                    @click="check(node)">
                 <m-checkbox :readonly="true"
