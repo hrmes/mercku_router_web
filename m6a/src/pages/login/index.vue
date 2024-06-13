@@ -307,8 +307,6 @@ export default {
     box-shadow: var();
     border-radius: 15px;
     .logo {
-      // width: 280px;
-      // height: 38px;
       margin: 0 auto;
       margin-bottom: 30px;
     }

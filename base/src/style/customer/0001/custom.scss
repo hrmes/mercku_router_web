@@ -1,23 +1,18 @@
 .customized {
   &.header {
-    &.is-login-nav {
-      .right-wrap {
-        width: auto;
-      }
-    }
     .logo-wrap {
       width: 185px;
       height: 30px;
       &.light {
         .logo-wrap__logo {
-          background: url(../../../assets/images/customer/mercku/mercku_logo_text_light.png)
+          background: url(../../../assets/images/customer/mercku/logo-light.png)
             center no-repeat;
           background-size: 100%;
         }
       }
       &.dark {
         .logo-wrap__logo {
-          background: url(../../../assets/images/customer/mercku/mercku_logo_text_dark.png)
+          background: url(../../../assets/images/customer/mercku/logo-dark.png)
             center no-repeat;
           background-size: 100%;
         }
@@ -28,21 +23,21 @@
         &.light,
         &.dark {
           .logo-wrap__logo {
-            background: url(../../../assets/images/customer/mercku/mercku_logo.png)
-              center no-repeat;
+            background: url(../../../assets/images/customer/mercku/logo-mobile.png)
+              left no-repeat;
             background-size: contain;
           }
         }
       }
       @media not all and (prefers-color-scheme: dark) and (prefers-color-scheme: light) {
         .logo-wrap__logo {
-          background: url(../../../assets/images/customer/mercku/mercku_logo_text_light.png)
+          background: url(../../../assets/images/customer/mercku/logo-light.png)
             center no-repeat;
           background-size: 100%;
         }
         @media screen and (max-width: 768px) {
           .logo-wrap__logo {
-            background: url(../../../assets/images/customer/mercku/mercku_logo.png)
+            background: url(../../../assets/images/customer/mercku/logo-mobile.png)
               center no-repeat;
             background-size: contain;
           }
@@ -50,13 +45,13 @@
       }
       @media (prefers-color-scheme: light) {
         .logo-wrap__logo {
-          background: url(../../../assets/images/customer/mercku/mercku_logo_text_light.png)
+          background: url(../../../assets/images/customer/mercku/logo-light.png)
             center no-repeat;
           background-size: 100%;
         }
         @media screen and (max-width: 768px) {
           .logo-wrap__logo {
-            background: url(../../../assets/images/customer/mercku/mercku_logo.png)
+            background: url(../../../assets/images/customer/mercku/logo-mobile.png)
               center no-repeat;
             background-size: contain;
           }
@@ -64,13 +59,13 @@
       }
       @media (prefers-color-scheme: dark) {
         .logo-wrap__logo {
-          background: url(../../../assets/images/customer/mercku/mercku_logo_text_dark.png)
+          background: url(../../../assets/images/customer/mercku/logo-dark.png)
             center no-repeat;
           background-size: 100%;
         }
         @media screen and (max-width: 768px) {
           .logo-wrap__logo {
-            background: url(../../../assets/images/customer/mercku/mercku_logo.png)
+            background: url(../../../assets/images/customer/mercku/logo-mobile.png)
               center no-repeat;
             background-size: contain;
           }
@@ -85,39 +80,38 @@
       .logo {
         width: 280px;
         height: 38px;
-        margin-bottom: 50px;
       }
       &.light {
         .logo {
-          background: url(../../../assets/images/customer/mercku/mercku_logo_text_light.png)
+          background: url(../../../assets/images/customer/mercku/logo-light.png)
             no-repeat center;
           background-size: contain;
         }
       }
       &.dark {
         .logo {
-          background: url(../../../assets/images/customer/mercku/mercku_logo_text_dark.png)
+          background: url(../../../assets/images/customer/mercku/logo-dark.png)
             no-repeat center;
           background-size: contain;
         }
       }
       @media not all and (prefers-color-scheme: dark) and (prefers-color-scheme: light) {
         .logo {
-          background: url(../../../assets/images/customer/mercku/mercku_logo_text_light.png)
+          background: url(../../../assets/images/customer/mercku/logo-light.png)
             no-repeat center;
           background-size: contain;
         }
       }
       @media (prefers-color-scheme: light) {
         .logo {
-          background: url(../../../assets/images/customer/mercku/mercku_logo_text_light.png)
+          background: url(../../../assets/images/customer/mercku/logo-light.png)
             no-repeat center;
           background-size: contain;
         }
       }
       @media (prefers-color-scheme: dark) {
         .logo {
-          background: url(../../../assets/images/customer/mercku/mercku_logo_text_dark.png)
+          background: url(../../../assets/images/customer/mercku/logo-dark.png)
             no-repeat center;
           background-size: contain;
         }

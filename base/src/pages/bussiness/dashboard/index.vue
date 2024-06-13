@@ -274,6 +274,9 @@ export default {
     };
   },
   computed: {
+    ispFolderName() {
+      return process.env.CUSTOMER_CONFIG.title.toLowerCase();
+    },
     productName() {
       let productInfo;
       if (this.$store.state?.modelVersion) {

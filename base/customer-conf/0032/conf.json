@@ -1,0 +1,33 @@
+{
+  "id": "0032",
+  "title": "Viaero",
+  "host": "http://mywifi.mercku.tech",
+  "__host": "http://mywifi.mercku.tech",
+  "accept": ".ma",
+  "favicon": "customer-conf/0032/favicon.ico",
+  "policy": "https://www.viaero.com/privacy-policy",
+  "allow2LevelAdmin": true,
+  "languages": ["zh-CN", "en-US", "de-DE", "fi-FI", "bg-BG", "fr-FR"],
+  "defaultLanguage": "en-US",
+  "wifi": "Viaero Wi-Fi",
+  "routers": {
+    "M6a": {
+      "name": "M6a Wi-Fi6 Router",
+      "shortName": "M6a",
+      "deviceColors": ["black", "white", "grey", "red"]
+    },
+    "M6a_Plus": {
+      "name": "M6a Plus Wi-Fi6 Router",
+      "shortName": "M6a Plus",
+      "deviceColors": ["black", "white", "grey", "red"]
+    }
+  },
+  "loading": {
+    "color": "#0a6fcd"
+  },
+  "website": {
+    "url": "https://www.viaero.com",
+    "text": "www.viaero.com"
+  },
+  "appDownloadUrl": "https://onelink.to/bjy4dw"
+}
