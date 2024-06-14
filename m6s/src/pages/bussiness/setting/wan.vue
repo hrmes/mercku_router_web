@@ -159,6 +159,87 @@
               </m-form-item>
             </m-form>
           </div>
+          <div class="card form__vlan">
+            <m-form-item :class="{last:!vlan.enabled}">
+              <m-switch :label="$t('trans0683')"
+                        v-model="vlan.enabled"></m-switch>
+              <div class="des-tips">{{$t('trans0682')}}</div>
+            </m-form-item>
+            <!-- Internet VLAN ID -->
+            <m-form v-if="vlan.enabled"
+                    :model="vlan"
+                    ref="vlanForm">
+              <m-form-item prop="id"
+                           :rules="vlanIdRules"
+                           ref="vlanId">
+                <m-input :label="$t('trans0684')"
+                         type="text"
+                         placeholder="2-4094"
+                         v-model="vlan.id"></m-input>
+              </m-form-item>
+              <m-form-item>
+                <m-select :label="$t('trans0686')"
+                          v-model="vlan.priority"
+                          :options="priorities"></m-select>
+              </m-form-item>
+              <m-form-item>
+                <m-checkbox :text="$t('trans0685')"
+                            :rect='false'
+                            style="margin-right:10px"
+                            v-model="vlan.ports[0].tagged"></m-checkbox>
+              </m-form-item>
+            </m-form>
+            <template v-if="vlan.enabled">
+              <!-- IP-Phone VLAN ID -->
+              <m-form :model="ipPhoneVlan"
+                      ref="ipPhoneVlanForm">
+                <m-form-item>
+                  <m-switch v-model="ipPhoneVlan.enabled"
+                            label="IP-Phone VLAN ID"></m-switch>
+                </m-form-item>
+                <template v-if="ipPhoneVlan.enabled">
+                  <m-form-item prop="id"
+                               :rules="ipPhoneVlanIdRules"
+                               ref="ipPhoneVlanId">
+                    <m-input type="text"
+                             placeholder="2-4094"
+                             v-model="ipPhoneVlan.id">
+                    </m-input>
+                  </m-form-item>
+                  <m-form-item class="form__item">
+                    <m-select :label="$t('trans0686')"
+                              v-model="ipPhoneVlan.priority"
+                              :popupTop="!iptvVlan.enabled"
+                              :options="priorities"></m-select>
+                  </m-form-item>
+                </template>
+              </m-form>
+              <!-- IPTV VLAN ID -->
+              <m-form :model="iptvVlan"
+                      ref="iptvVlanForm">
+                <m-form-item :class="{'last':!iptvVlan.enabled}">
+                  <m-switch v-model="iptvVlan.enabled"
+                            label="IPTV VLAN ID"></m-switch>
+                </m-form-item>
+                <template v-if="iptvVlan.enabled">
+                  <m-form-item prop="id"
+                               :rules="iptvVlanIdRules"
+                               ref="iptvVlanId">
+                    <m-input type="text"
+                             placeholder="2-4094"
+                             v-model="iptvVlan.id">
+                    </m-input>
+                  </m-form-item>
+                  <m-form-item class="last">
+                    <m-select :label="$t('trans0686')"
+                              v-model="iptvVlan.priority"
+                              :popupTop="true"
+                              :options="priorities"></m-select>
+                  </m-form-item>
+                </template>
+              </m-form>
+            </template>
+          </div>
         </div>
       </div>
       <div class="page-content__bottom">
@@ -170,7 +251,6 @@
           </button>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -183,14 +263,133 @@ import {
   ipReg,
   isValidInteger
 } from 'base/util/util';
-import {
-  WanType,
-} from 'base/util/constant';
+import { WanType } from 'base/util/constant';
+import cloneDeep from 'lodash/cloneDeep';
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
 }
 
+const VlanName = {
+  internet: 'internet',
+  ipPhone: 'ip-phone',
+  iptv: 'iptv'
+};
+const VlanDefault = {
+  enabled: false,
+  id: 2,
+  ports: [
+    {
+      port: {
+        id: 4,
+        name: 'wan',
+        type: 'wan'
+      },
+      tagged: false
+    }
+  ],
+  priority: 0,
+  is_bridged: false,
+  name: VlanName.internet
+};
+const IpPhoneVlanDefault = {
+  enabled: false,
+  id: '',
+  ports: [
+    {
+      port: {
+        id: 4,
+        name: 'wan',
+        type: 'wan'
+      },
+      tagged: true
+    },
+    {
+      port: {
+        id: 0,
+        name: 'lan1',
+        type: 'lan'
+      },
+      tagged: true
+    },
+    {
+      port: {
+        id: 1,
+        name: 'lan2',
+        type: 'lan'
+      },
+      tagged: true
+    },
+    {
+      port: {
+        id: 2,
+        name: 'lan3',
+        type: 'lan'
+      },
+      tagged: true
+    },
+    {
+      port: {
+        id: 3,
+        name: 'lan4',
+        type: 'lan'
+      },
+      tagged: true
+    }
+  ],
+  priority: 0,
+  is_bridged: false,
+  name: VlanName.ipPhone
+};
+const IptvVlanDefault = {
+  enabled: false,
+  id: '',
+  ports: [
+    {
+      port: {
+        id: 4,
+        name: 'wan',
+        type: 'wan'
+      },
+      tagged: true
+    },
+    {
+      port: {
+        id: 0,
+        name: 'lan1',
+        type: 'lan'
+      },
+      tagged: true
+    },
+    {
+      port: {
+        id: 1,
+        name: 'lan2',
+        type: 'lan'
+      },
+      tagged: true
+    },
+    {
+      port: {
+        id: 2,
+        name: 'lan3',
+        type: 'lan'
+      },
+      tagged: true
+    },
+    {
+      port: {
+        id: 3,
+        name: 'lan4',
+        type: 'lan'
+      },
+      tagged: true
+    }
+  ],
+  priority: 0,
+  is_bridged: false,
+  name: VlanName.iptv
+};
 export default {
   data() {
     return {
@@ -215,6 +414,9 @@ export default {
       ],
       netType: WanType.dhcp,
       netInfo: {},
+      vlan: cloneDeep(VlanDefault),
+      ipPhoneVlan: cloneDeep(IpPhoneVlanDefault),
+      iptvVlan: cloneDeep(IptvVlanDefault),
       staticForm: {
         ip: '',
         mask: '',
@@ -441,12 +643,12 @@ export default {
         local.netinfo.ip = this.netInfo.netinfo.ip || '-';
         local.netinfo.mask = this.netInfo.netinfo.mask || '-';
         local.netinfo.gateway = this.netInfo.netinfo.gateway || '-';
-        local.netinfo.dns = this.netInfo.netinfo.dns || [];
+        local.netinfo.dns = this.netInfo.netinfo.dns;
       }
       return local;
     },
     dnsText() {
-      return this.localNetInfo.netinfo.dns.length
+      return this.localNetInfo.netinfo.dns.length > 0
         ? this.localNetInfo.netinfo.dns.join('/')
         : '-';
     }
@@ -482,8 +684,22 @@ export default {
           if (res.data.result) {
             this.netInfo = res.data.result;
             this.netType = this.netInfo.type;
+            if (this.netInfo?.vlan?.length) {
+              this.vlan =
+                this.netInfo.vlan.find(
+                  item => item.name === VlanName.internet
+                ) || cloneDeep(VlanDefault);
+              this.ipPhoneVlan =
+                this.netInfo.vlan.find(
+                  item => item.name === VlanName.ipPhone
+                ) || cloneDeep(IpPhoneVlanDefault);
+              this.iptvVlan =
+                this.netInfo.vlan.find(
+                  item => item.name === VlanName.iptv
+                ) || cloneDeep(IptvVlanDefault);
+            }
             if (this.isDhcp) {
-              if (this.netInfo.dhcp && this.netInfo.dhcp.dns.length) {
+              if (this.netInfo.dhcp && this.netInfo.dhcp.dns && this.netInfo.dhcp.dns.length > 0) {
                 this.autodns.dhcp = false;
                 [this.dhcpForm.dns1] = this.netInfo.dhcp.dns;
                 this.dhcpForm.dns2 = this.netInfo.dhcp.dns[1] || '';
@@ -492,7 +708,7 @@ export default {
             if (this.isPppoe) {
               this.pppoeForm.account = this.netInfo.pppoe.account;
               this.pppoeForm.password = this.netInfo.pppoe.password;
-              if (this.netInfo.pppoe.dns.length) {
+              if (this.netInfo.pppoe.dns) {
                 this.autodns.pppoe = false;
                 [this.pppoeForm.dns1] = this.netInfo.pppoe.dns;
                 this.pppoeForm.dns2 = this.netInfo.pppoe.dns[1] || '';
@@ -529,7 +745,7 @@ export default {
                 ontimeout: () => {
                   this.$router.push({ path: '/unconnect' });
                 },
-                timeout: 30
+                timeout: 60
               });
             });
           }
@@ -537,8 +753,45 @@ export default {
       });
     },
     submit() {
+      if (this.vlan.enabled) {
+        if (
+          !this.$refs.vlanForm.validate() ||
+          !this.$refs.ipPhoneVlanForm.validate() ||
+          !this.$refs.iptvVlanForm.validate()
+        ) {
+          return;
+        }
+        // 经过上面的判断，到这里已经可以确定如果有值的话必定是数字，所以可以用部分等于
+        if (
+          (this.ipPhoneVlan.id === this.vlan.id && this.ipPhoneVlan.enabled) ||
+          (this.iptvVlan.id === this.vlan.id && this.iptvVlan.enabled) ||
+          (this.ipPhoneVlan.id === this.iptvVlan.id &&
+            this.ipPhoneVlan.enabled &&
+            this.iptvVlan.enabled)
+        ) {
+          this.$toast(this.$t('trans1051'), 2000, 'error');
+          return;
+        }
+      }
       const form = { type: this.netType, vlan: [] };
-
+      if (this.vlan.enabled) {
+        form.vlan.push({
+          ...this.vlan,
+          id: Number(this.vlan.id)
+        });
+        if (this.ipPhoneVlan.enabled) {
+          form.vlan.push({
+            ...this.ipPhoneVlan,
+            id: Number(this.ipPhoneVlan.id)
+          });
+        }
+        if (this.iptvVlan.enabled) {
+          form.vlan.push({
+            ...this.iptvVlan,
+            id: Number(this.iptvVlan.id)
+          });
+        }
+      }
       switch (this.netType) {
         case WanType.dhcp:
           if (!this.$refs.dhcpForm.validate()) {
@@ -601,7 +854,7 @@ export default {
   padding: 15px;
   div {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     padding: 5px 0;
     font-size: 14px;
   }
@@ -613,7 +866,6 @@ export default {
   span {
     display: inline-block;
     width: 160px;
-    word-wrap: break-word;
   }
 }
 @media screen and(max-width:768px) {

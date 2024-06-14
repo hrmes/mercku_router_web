@@ -251,7 +251,6 @@
           </button>
         </div>
       </div>
-
     </div>
   </div>
 </template>
