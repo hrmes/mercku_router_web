@@ -45,7 +45,6 @@
       "deviceColors": ["black", "white"]
     }
   },
-  "deviceColors": ["black", "white"],
   "loading": {
     "color": "#d6001c"
   },
