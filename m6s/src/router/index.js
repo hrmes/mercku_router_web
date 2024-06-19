@@ -7,9 +7,9 @@ import wlan from 'pages/bussiness/wlan/index.vue';
 import unconnect from 'base/pages/error/unconnect/index.vue';
 
 // dashboard page
-import dashboard from 'pages/bussiness/dashboard/index.vue';
+import dashboard from 'base/pages/bussiness/dashboard/index.vue';
 import device from 'base/pages/bussiness/dashboard/device.vue';
-import mesh from 'pages/bussiness/dashboard/mesh.vue';
+import mesh from 'base/pages/bussiness/dashboard/mesh.vue';
 import internet from 'base/pages/bussiness/dashboard/internet.vue';
 import limit from 'base/pages/bussiness/dashboard/limit/index.vue';
 import timeLimit from 'base/pages/bussiness/dashboard/limit/time.vue';
@@ -28,7 +28,7 @@ import region from 'base/pages/bussiness/setting/region.vue';
 import guest from 'base/pages/bussiness/setting/guest.vue';
 import upnp from 'base/pages/bussiness/setting/upnp.vue';
 import wps from 'base/pages/bussiness/setting/wps.vue';
-// import sfp from 'pages/bussiness/setting/sfp.vue';
+import sfp from 'pages/bussiness/setting/sfp.vue';
 
 // advance page
 import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
@@ -268,15 +268,15 @@ const routes = {
         hasAside: true
       }
     },
-    // {
-    //   path: '/setting/sfp',
-    //   name: 'sfp',
-    //   component: sfp,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
+    {
+      path: '/setting/sfp',
+      name: 'sfp',
+      component: sfp,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
     {
       path: '/advance/portforwarding',
       name: 'advance-portforwarding',

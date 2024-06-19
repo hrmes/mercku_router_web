@@ -5,7 +5,7 @@
   </div>
 </template>
 <script>
-import lottie from 'lottie-web';
+import lottie from 'lottie-web-light';
 
 const Type = {
   loading: 'loading',

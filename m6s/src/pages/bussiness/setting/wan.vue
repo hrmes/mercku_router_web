@@ -7,7 +7,7 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="seccess-info card">
+          <div class="wan-info card">
             <div>
               <label class="with-colon">{{$t('trans0317')}}:</label>
               <span>
@@ -183,7 +183,8 @@ import {
   ipReg,
   isValidInteger
 } from 'base/util/util';
-import * as CONSTANTS from 'base/util/constant';
+import { WanType } from 'base/util/constant';
+
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
@@ -192,7 +193,6 @@ function checkDNS(value) {
 export default {
   data() {
     return {
-      CONSTANTS,
       netNote: {
         dhcp: this.$t('trans0147'),
         static: this.$t('trans0150'),
@@ -212,7 +212,7 @@ export default {
         { value: true, text: this.$t('trans0399') },
         { value: false, text: this.$t('trans0400') }
       ],
-      netType: CONSTANTS.WanType.dhcp,
+      netType: WanType.dhcp,
       netInfo: {},
       staticForm: {
         ip: '',
@@ -417,13 +417,13 @@ export default {
   },
   computed: {
     isPppoe() {
-      return this.netType === CONSTANTS.WanType.pppoe;
+      return this.netType === WanType.pppoe;
     },
     isStatic() {
-      return this.netType === CONSTANTS.WanType.static;
+      return this.netType === WanType.static;
     },
     isDhcp() {
-      return this.netType === CONSTANTS.WanType.dhcp;
+      return this.netType === WanType.dhcp;
     },
     localNetInfo() {
       const local = {
@@ -539,7 +539,7 @@ export default {
       const form = { type: this.netType, vlan: [] };
 
       switch (this.netType) {
-        case CONSTANTS.WanType.dhcp:
+        case WanType.dhcp:
           if (!this.$refs.dhcpForm.validate()) {
             return;
           }
@@ -551,7 +551,7 @@ export default {
           }
           this.save(form);
           break;
-        case CONSTANTS.WanType.pppoe:
+        case WanType.pppoe:
           if (!this.$refs.pppoeForm.validate()) {
             return;
           }
@@ -567,7 +567,7 @@ export default {
           }
           this.save(form);
           break;
-        case CONSTANTS.WanType.static:
+        case WanType.static:
           if (!this.$refs.staticForm.validate()) {
             return;
           }
@@ -592,7 +592,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.seccess-info {
+.wan-info {
   display: flex;
   flex-direction: column;
   width: 360px;
@@ -616,7 +616,7 @@ export default {
   }
 }
 @media screen and(max-width:768px) {
-  .seccess-info {
+  .wan-info {
     width: 100%;
     padding: 0;
     padding-bottom: 30px;

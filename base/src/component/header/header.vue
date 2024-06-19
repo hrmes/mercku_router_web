@@ -42,10 +42,13 @@
               <i v-if="!menu.children.length"
                  class="is-checked"></i>
             </div>
-            <transition name="nav-item-child__animation"
-                        v-on:before-enter="beforeEnter"
-                        v-on:enter="enter"
-                        v-on:leave="leave">
+            <transition name="collapse"
+                        @before-enter="beforeEnter"
+                        @enter="enter"
+                        @after-enter="afterEnter"
+                        @before-leave="beforeLeave"
+                        @leave="leave"
+                        @after-leave="afterLeave">
               <ul v-if="menu.children.length"
                   class="nav-item-child reset-ul"
                   v-show="menu.selected">
@@ -199,7 +202,6 @@
   </header>
 </template>
 <script>
-import Velocity from 'velocity-animate';
 import languageMixin from 'base/mixins/language';
 import { RouterMode } from 'base/util/constant';
 
@@ -306,16 +308,22 @@ export default {
     beforeEnter(el) {
       el.style.height = 0;
     },
-    enter(el, done) {
-      setTimeout(() => {
-        const height = el.childElementCount * 60;
-        Velocity(el, { height: `${height}px` }, { complete: done });
-      });
+    enter(el) {
+      el.style.height = `${el.scrollHeight}px`;
     },
-    leave(el, done) {
-      setTimeout(() => {
-        Velocity(el, { height: 0 }, { complete: done });
-      });
+    afterEnter(el) {
+      el.style.height = 'auto';
+    },
+    beforeLeave(el) {
+      el.style.height = `${el.scrollHeight}px`;
+    },
+    leave(el) {
+      // 强制重绘，让动画能正确执行
+      el.offsetHeight;
+      el.style.height = 0;
+    },
+    afterLeave(el) {
+      el.style.height = '';
     },
     showMobileMenu(menu) {
       // 如果点击的是修改主题，则仅展示切换主题的modal，但不进行选中状态的变化
@@ -757,6 +765,15 @@ export default {
           height: auto;
           flex-direction: column;
           align-items: center;
+          .collapse-enter-active,
+          .collapse-leave-active {
+            transition: height 0.4s ease;
+            overflow: hidden;
+          }
+          .collapse-enter,
+          .collapse-leave-to {
+            height: 0;
+          }
           .nav-item-content {
             justify-content: flex-start;
             align-items: center;
@@ -801,12 +818,6 @@ export default {
             background: var(--mobile_header_popup-bgc);
             box-shadow: none;
             width: 100%;
-            &.nav-item-child__animation-leave-active {
-              overflow: hidden;
-            }
-            &.nav-item-child__animation-enter-active {
-              overflow: hidden;
-            }
             .nav-child__text {
               display: flex;
               justify-content: space-between;

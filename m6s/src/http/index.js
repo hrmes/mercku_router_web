@@ -12,8 +12,8 @@ const methods = {
   updateMeshApclient: createMethod('mesh.mode.update'),
   getMeshLogsSetting: createMethod('mesh.logs.setting.get'),
   updateMeshLogsSetting: createMethod('mesh.logs.setting.update'),
-  // getMeshAccessMode: createMethod('mesh.access.mode.get'),
-  // updateMeshAccessMode: createMethod('mesh.access.mode.update'),
+  getMeshWanIntf: createMethod('mesh.wan.intf.get'),
+  updateMeshWanIntf: createMethod('mesh.wan.intf.update'),
   updateMeshEnabled: createMethod('mesh_mode_cfg')
 };
 

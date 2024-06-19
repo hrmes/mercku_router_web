@@ -7,7 +7,7 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="seccess-info card">
+          <div class="wan-info card">
             <div>
               <label class="with-colon">{{$t('trans0317')}}:</label>
               <span>
@@ -264,17 +264,17 @@ import {
   ipReg,
   isValidInteger
 } from 'base/util/util';
-import * as CONSTANTS from 'base/util/constant';
+import { RouterHasModelDistinctionMap, WanType } from 'base/util/constant';
 import cloneDeep from 'lodash/cloneDeep';
 import store from '@/store/index';
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
 }
-function checkPortNums(modelID) {
+function checkPortNums(modelVersion) {
   let ports = null;
-  switch (modelID) {
-    case CONSTANTS.M6aRouterSnModelVersion.M6a:
+  switch (modelVersion) {
+    case RouterHasModelDistinctionMap.M6a:
       ports = [
         {
           port: {
@@ -302,8 +302,8 @@ function checkPortNums(modelID) {
         }
       ];
       break;
-    case CONSTANTS.M6aRouterSnModelVersion.M6a_Plus:
-    case CONSTANTS.M6aRouterSnModelVersion.M6c:
+    case RouterHasModelDistinctionMap.M6a_Plus:
+    case RouterHasModelDistinctionMap.M6c:
       ports = [
         {
           port: {
@@ -377,7 +377,7 @@ const VlanDefault = {
 const IpPhoneVlanDefault = {
   enabled: false,
   id: '',
-  ports: checkPortNums(store.state.modelID),
+  ports: checkPortNums(store.state.modelVersion),
   priority: 0,
   is_bridged: false,
   name: VlanName.ipPhone
@@ -385,7 +385,7 @@ const IpPhoneVlanDefault = {
 const IptvVlanDefault = {
   enabled: false,
   id: '',
-  ports: checkPortNums(store.state.modelID),
+  ports: checkPortNums(store.state.modelVersion),
   priority: 0,
   is_bridged: false,
   name: VlanName.iptv
@@ -393,7 +393,7 @@ const IptvVlanDefault = {
 export default {
   data() {
     return {
-      CONSTANTS,
+
       netNote: {
         dhcp: this.$t('trans0147'),
         static: this.$t('trans0150'),
@@ -413,7 +413,7 @@ export default {
         { value: true, text: this.$t('trans0399') },
         { value: false, text: this.$t('trans0400') }
       ],
-      netType: CONSTANTS.WanType.dhcp,
+      netType: WanType.dhcp,
       netInfo: {},
       vlan: cloneDeep(VlanDefault),
       ipPhoneVlan: cloneDeep(IpPhoneVlanDefault),
@@ -621,13 +621,13 @@ export default {
   },
   computed: {
     isPppoe() {
-      return this.netType === CONSTANTS.WanType.pppoe;
+      return this.netType === WanType.pppoe;
     },
     isStatic() {
-      return this.netType === CONSTANTS.WanType.static;
+      return this.netType === WanType.static;
     },
     isDhcp() {
-      return this.netType === CONSTANTS.WanType.dhcp;
+      return this.netType === WanType.dhcp;
     },
     localNetInfo() {
       const local = {
@@ -793,7 +793,7 @@ export default {
         }
       }
       switch (this.netType) {
-        case CONSTANTS.WanType.dhcp:
+        case WanType.dhcp:
           if (!this.$refs.dhcpForm.validate()) {
             return;
           }
@@ -805,7 +805,7 @@ export default {
           }
           this.save(form);
           break;
-        case CONSTANTS.WanType.pppoe:
+        case WanType.pppoe:
           if (!this.$refs.pppoeForm.validate()) {
             return;
           }
@@ -821,7 +821,7 @@ export default {
           }
           this.save(form);
           break;
-        case CONSTANTS.WanType.static:
+        case WanType.static:
           if (!this.$refs.staticForm.validate()) {
             return;
           }
@@ -846,7 +846,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.seccess-info {
+.wan-info {
   display: flex;
   flex-direction: column;
   width: 360px;
@@ -869,7 +869,7 @@ export default {
   }
 }
 @media screen and(max-width:768px) {
-  .seccess-info {
+  .wan-info {
     width: 100%;
     padding: 0;
     padding-bottom: 30px;
