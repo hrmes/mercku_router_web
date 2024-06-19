@@ -151,6 +151,7 @@ export default {
       }
       .text-container {
         font-size: 12px;
+        margin-bottom: 0;
       }
     }
   }

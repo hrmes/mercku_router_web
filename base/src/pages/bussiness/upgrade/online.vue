@@ -42,7 +42,7 @@
                 <m-checkbox :readonly="true"
                             v-model="node.checked" />
                 <div class="img-container">
-                  <img :src="getRouterImage(node.sn)"
+                  <img :src="getNodeImage(node)"
                        alt="" />
                 </div>
                 <div class="info-container">
@@ -124,18 +124,16 @@
 <script>
 import marked from 'marked';
 import { compareVersion } from 'base/util/util';
-import { RouterSnModel } from 'base/util/constant';
-import RouterModel from 'base/mixins/router-model';
+import { getNodeImage } from 'base/mixins/router-model';
 import upgradeMixin from 'base/mixins/upgrade';
 
 import upgradeProcessDialog from './components/progress.vue';
 
 export default {
-  mixins: [RouterModel, upgradeMixin],
+  mixins: [getNodeImage, upgradeMixin],
   data() {
     return {
       nodes: [],
-      RouterSnModel,
       requestResult: {
         complete: false,
         error: null,

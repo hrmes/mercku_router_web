@@ -251,7 +251,6 @@
           </button>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -264,21 +263,17 @@ import {
   ipReg,
   isValidInteger
 } from 'base/util/util';
-import {
-  WanType,
-  M6aSeriesModelIDs,
-} from 'base/util/constant';
+import { RouterHasModelDistinctionMap, WanType } from 'base/util/constant';
 import cloneDeep from 'lodash/cloneDeep';
 import store from '@/store/index';
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
 }
-function checkPortNums(meshId) {
-  const modelId = meshId.charAt(9);
-  let ports;
-  switch (modelId) {
-    case M6aSeriesModelIDs.M6a:
+function checkPortNums(modelVersion) {
+  let ports = null;
+  switch (modelVersion) {
+    case RouterHasModelDistinctionMap.M6a:
       ports = [
         {
           port: {
@@ -306,8 +301,8 @@ function checkPortNums(meshId) {
         }
       ];
       break;
-    case M6aSeriesModelIDs.M6a_Plus:
-    case M6aSeriesModelIDs.M6c:
+    case RouterHasModelDistinctionMap.M6a_Plus:
+    case RouterHasModelDistinctionMap.M6c:
       ports = [
         {
           port: {
@@ -381,7 +376,7 @@ const VlanDefault = {
 const IpPhoneVlanDefault = {
   enabled: false,
   id: '',
-  ports: checkPortNums(store.state.meshId),
+  ports: checkPortNums(store.state.modelVersion),
   priority: 0,
   is_bridged: false,
   name: VlanName.ipPhone
@@ -389,7 +384,7 @@ const IpPhoneVlanDefault = {
 const IptvVlanDefault = {
   enabled: false,
   id: '',
-  ports: checkPortNums(store.state.meshId),
+  ports: checkPortNums(store.state.modelVersion),
   priority: 0,
   is_bridged: false,
   name: VlanName.iptv
@@ -397,7 +392,6 @@ const IptvVlanDefault = {
 export default {
   data() {
     return {
-      M6aSeriesModelIDs,
       netNote: {
         dhcp: this.$t('trans0147'),
         static: this.$t('trans0150'),

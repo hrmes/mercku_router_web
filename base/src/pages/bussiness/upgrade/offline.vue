@@ -64,8 +64,7 @@
                   <m-checkbox :readonly="true"
                               v-model="node.checked" />
                   <div class="img-container">
-                    <img :src="getRouterImage(node.sn)"
-                         alt="">
+                    <img :src="getNodeImage(node)" />
                   </div>
                   <div class="info-container">
                     <div class="node-name">
@@ -80,9 +79,7 @@
                       <span>{{ node.version.current }}</span>
                     </p>
                     <div class="badges">
-                      <m-tag v-if="node.isGW&&isHomewayProduct"
-                             class="AP">{{$t('trans1097')}}</m-tag>
-                      <m-tag v-else-if="node.isGW"
+                      <m-tag v-if="node.isGW"
                              class="gateway">{{ $t('trans0153') }}</m-tag>
                     </div>
                   </div>
@@ -121,14 +118,14 @@
   </div>
 </template>
 <script>
-import { UploadStatus, Models } from 'base/util/constant';
+import { UploadStatus } from 'base/util/constant';
 import { getFileExtendName } from 'base/util/util';
-import RouterModel from 'base/mixins/router-model';
+import { Products, getNodeImage } from 'base/mixins/router-model';
 import upgradeMixin from 'base/mixins/upgrade';
 
 
 export default {
-  mixins: [RouterModel, upgradeMixin],
+  mixins: [Products, getNodeImage, upgradeMixin],
   data() {
     return {
       files: [],
@@ -170,31 +167,18 @@ export default {
       return this.localNodes.length > 0;
     },
     productName() {
-      const product = this.productsInfo(this.fwInfo.model.id, this.fwInfo.model.version.id);
+      const product = this.Products[this.fwInfo.model.id];
       if (product) {
         return product.name;
       }
       return '';
     },
     modelName() {
-      const product = this.productsInfo(this.fwInfo.model.id, this.fwInfo.model.version.id);
+      const product = this.Products[this.fwInfo.model.id];
       if (product) {
         return product.shortName;
       }
       return '';
-    },
-    isHomewayProduct() {
-      let result = false;
-      switch (process.env.MODEL_CONFIG.id) {
-        case Models.Homeway_230v:
-        case Models.Homeway_POE1:
-        case Models.Homeway_POE2:
-          result = true;
-          break;
-        default:
-          break;
-      }
-      return result;
     },
     localNodesOrdered() {
       return this.localNodes.sort((a, b) => {

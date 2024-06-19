@@ -67,7 +67,7 @@
                      class="scan-result__content">
                   <div class="router">
                     <img class="router__img"
-                         :src="getRouterImage(nodes[0].sn)" />
+                         :src="getNodeImage(nodes[0].sn)" />
                     <div class="router__info">
                       <h6 class="router__found">{{$t('trans0658')}}</h6>
                       <p class="router__sn"
@@ -220,8 +220,9 @@
   </div>
 </template>
 <script>
-import RouterModel from 'base/mixins/router-model';
-import { ModelsMap, Bands } from 'base/util/constant';
+import { getNodeImage } from 'base/mixins/router-model';
+
+import { ModelIds, Bands } from 'base/util/constant';
 
 const PageStatus = {
   scanning: 'scanning',
@@ -232,7 +233,7 @@ const PageStatus = {
 };
 const checkWeakSignal = rssi => rssi < -65;
 export default {
-  mixins: [RouterModel],
+  mixins: [getNodeImage],
   data() {
     return {
       scrollbar: document.querySelector('.scrollbar-wrap'),
@@ -291,7 +292,7 @@ export default {
       let resultText = '';
       resultText = this.$t(text).replaceAll(
         '%s',
-        process.env.CUSTOMER_CONFIG.routers[`${ModelsMap[process.env.MODEL_CONFIG.id]}`].shortName
+        process.env.CUSTOMER_CONFIG.routers[`${ModelIds[process.env.MODEL_CONFIG.id]}`].shortName
       );
       return resultText;
     },

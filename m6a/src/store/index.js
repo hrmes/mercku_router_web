@@ -6,9 +6,9 @@ const lowerCaseModelId = process.env.MODEL_CONFIG.id.toLowerCase();
 
 export default new Vuex.Store({
   state: {
-    mode: localStorage.getItem('mode') || '',
-    role: localStorage.getItem('role') || '',
-    meshId: localStorage.getItem('meshId') || '',
+    mode: '' || localStorage.getItem('mode'),
+    role: '' || localStorage.getItem('role'),
+    modelVersion: '' || localStorage.getItem('modelVersion'),
     isMobile: true,
     hasTransition: true,
     isConnected: '',

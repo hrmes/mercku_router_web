@@ -6,8 +6,8 @@ const lowerCaseModelId = process.env.MODEL_CONFIG.id.toLowerCase();
 
 export default new Vuex.Store({
   state: {
-    mode: localStorage.getItem('mode'),
-    role: localStorage.getItem('role'),
+    mode: '' || localStorage.getItem('mode'),
+    role: '' || localStorage.getItem('role'),
     isMobile: true,
     hasTransition: true,
     isConnected: '',

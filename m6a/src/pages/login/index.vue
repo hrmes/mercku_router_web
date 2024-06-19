@@ -173,10 +173,11 @@ export default {
             this.$store.state.mode = mode;
             localStorage.setItem('mode', mode);
 
-            const { sn: meshId } = res1.data.result;
+            const { sn } = res1.data.result;
+            const modelVersion = sn.charAt(9);
 
-            this.$store.state.meshId = meshId;
-            localStorage.setItem('meshId', meshId);
+            this.$store.state.modelVersion = modelVersion;
+            localStorage.setItem('modelVersion', modelVersion);
 
             this.$router.push({ path: '/dashboard' });
             this.$loading.close();
@@ -306,8 +307,6 @@ export default {
     box-shadow: var();
     border-radius: 15px;
     .logo {
-      // width: 280px;
-      // height: 38px;
       margin: 0 auto;
       margin-bottom: 30px;
     }

@@ -20,7 +20,6 @@
                  @click="updateChooseTypeVisible(false,'wired')">
               <div class="inner">
                 <span>{{$t('trans1096')}}</span>
-
               </div>
             </div>
             <p class="tips__text tips__subtext">{{$t('trans1097')}}</p>
@@ -37,8 +36,7 @@
                v-show="isStep(0)">
             <div class="main-content">
               <div class="img-container">
-                <img :src="getM6aSeriesProductAddNodeImg(0)"
-                     alt="">
+                <img :src="getM6aSeriesProductAddNodeImg(0)" />
               </div>
               <p class="step-item__tip">{{transText('trans0693')}}</p>
               <p class="step-item__tip step-item__tip--gray">{{$t('trans0698')}}</p>
@@ -231,9 +229,8 @@
   </div>
 </template>
 <script>
-import RouterModel from 'base/mixins/router-model';
 import debounce from 'lodash/debounce';
-import { AddNodeType, M6aSeriesModelIDs } from 'base/util/constant';
+import { AddNodeType, RouterHasModelDistinctionMap } from 'base/util/constant';
 
 const PageStatus = {
   scanning: 'scanning',
@@ -248,7 +245,6 @@ const Step = {
 };
 
 export default {
-  mixins: [RouterModel],
   data() {
     return {
       scrollbar: document.querySelector('.scrollbar-wrap'),
@@ -293,18 +289,17 @@ export default {
     tipsText() {
       return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
     },
-    modelID() {
-      const meshId = this.$store.state.meshId || localStorage.getItem('meshId');
-      return meshId.charAt(9);
+    modelVersion() {
+      return this.$store.state.modelVersion || localStorage.getItem('modelVersion');
     },
     isM6a() {
-      return this.modelID === M6aSeriesModelIDs.M6a;
+      return this.modelVersion === RouterHasModelDistinctionMap.M6a;
     },
     isM6aPlus() {
-      return this.modelID === M6aSeriesModelIDs.M6a_Plus;
+      return this.modelVersion === RouterHasModelDistinctionMap.M6a_Plus;
     },
     isM6c() {
-      return this.modelID === M6aSeriesModelIDs.M6c;
+      return this.modelVersion === RouterHasModelDistinctionMap.M6c;
     },
     isMobile() {
       return this.$store.state.isMobile;
@@ -425,12 +420,12 @@ export default {
     getM6aSeriesProductAddNodeImg(step, type) {
       let img = '';
       if (step === Step.step1) {
-        switch (this.modelID) {
-          case M6aSeriesModelIDs.M6a:
+        switch (this.modelVersion) {
+          case RouterHasModelDistinctionMap.M6a:
             img = require('@/assets/images/add/img_add_01.svg');
             break;
-          case M6aSeriesModelIDs.M6a_Plus:
-          case M6aSeriesModelIDs.M6c:
+          case RouterHasModelDistinctionMap.M6a_Plus:
+          case RouterHasModelDistinctionMap.M6c:
             img = require('@/assets/images/add/m6a-4_lan_prots/img_add_01.svg');
             break;
           default:
@@ -465,12 +460,12 @@ export default {
     },
     getM6aSeriesProductNetworkingImg() {
       let img = '';
-      switch (this.modelID) {
-        case M6aSeriesModelIDs.M6a:
+      switch (this.modelVersion) {
+        case RouterHasModelDistinctionMap.M6a:
           img = require('@/assets/images/add/img_networking.svg');
           break;
-        case M6aSeriesModelIDs.M6a_Plus:
-        case M6aSeriesModelIDs.M6c:
+        case RouterHasModelDistinctionMap.M6a_Plus:
+        case RouterHasModelDistinctionMap.M6c:
           img = require('@/assets/images/add/m6a-4_lan_prots/img_networking.svg');
           break;
         default:
