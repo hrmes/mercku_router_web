@@ -159,6 +159,87 @@
               </m-form-item>
             </m-form>
           </div>
+          <div class="form__vlan card">
+            <m-form-item :class="{last:!vlan.enabled}">
+              <m-switch :label="$t('trans0683')"
+                        v-model="vlan.enabled"></m-switch>
+              <div class="des-tips">{{$t('trans0682')}}</div>
+            </m-form-item>
+            <!-- Internet VLAN ID -->
+            <m-form v-if="vlan.enabled"
+                    :model="vlan"
+                    ref="vlanForm">
+              <m-form-item prop="id"
+                           :rules="vlanIdRules"
+                           ref="vlanId">
+                <m-input :label="$t('trans0684')"
+                         type="text"
+                         placeholder="2-4094"
+                         v-model="vlan.id"></m-input>
+              </m-form-item>
+              <m-form-item>
+                <m-select :label="$t('trans0686')"
+                          v-model="vlan.priority"
+                          :options="priorities"></m-select>
+              </m-form-item>
+              <m-form-item>
+                <m-checkbox :text="$t('trans0685')"
+                            :rect='false'
+                            style="margin-right:10px"
+                            v-model="vlan.ports[0].tagged"></m-checkbox>
+              </m-form-item>
+            </m-form>
+            <template v-if="vlan.enabled">
+              <!-- IP-Phone VLAN ID -->
+              <m-form :model="ipPhoneVlan"
+                      ref="ipPhoneVlanForm">
+                <m-form-item>
+                  <m-switch v-model="ipPhoneVlan.enabled"
+                            label="IP-Phone VLAN ID"></m-switch>
+                </m-form-item>
+                <template v-if="ipPhoneVlan.enabled">
+                  <m-form-item prop="id"
+                               :rules="ipPhoneVlanIdRules"
+                               ref="ipPhoneVlanId">
+                    <m-input type="text"
+                             placeholder="2-4094"
+                             v-model="ipPhoneVlan.id">
+                    </m-input>
+                  </m-form-item>
+                  <m-form-item class="form__item">
+                    <m-select :label="$t('trans0686')"
+                              v-model="ipPhoneVlan.priority"
+                              :popupTop="!iptvVlan.enabled"
+                              :options="priorities"></m-select>
+                  </m-form-item>
+                </template>
+              </m-form>
+              <!-- IPTV VLAN ID -->
+              <m-form :model="iptvVlan"
+                      ref="iptvVlanForm">
+                <m-form-item :class="{'last':!iptvVlan.enabled}">
+                  <m-switch v-model="iptvVlan.enabled"
+                            label="IPTV VLAN ID"></m-switch>
+                </m-form-item>
+                <template v-if="iptvVlan.enabled">
+                  <m-form-item prop="id"
+                               :rules="iptvVlanIdRules"
+                               ref="iptvVlanId">
+                    <m-input type="text"
+                             placeholder="2-4094"
+                             v-model="iptvVlan.id">
+                    </m-input>
+                  </m-form-item>
+                  <m-form-item class="last">
+                    <m-select :label="$t('trans0686')"
+                              v-model="iptvVlan.priority"
+                              :popupTop="true"
+                              :options="priorities"></m-select>
+                  </m-form-item>
+                </template>
+              </m-form>
+            </template>
+          </div>
         </div>
       </div>
       <div class="page-content__bottom">
