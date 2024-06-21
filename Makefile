@@ -52,4 +52,5 @@ build: prd_depend
 dev:
 	cd $(MODEL) && make dev CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
 
+
 .PHONY: all install check_npm_version prd_depend dev_depend dev build
