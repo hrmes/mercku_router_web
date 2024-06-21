@@ -290,11 +290,9 @@ export default {
         message: this.$t('trans0213'),
         callback: {
           ok: () => {
-            this.$loading.open();
             this.$http
               .upgradeMeshNode({ node_ids: nodeIds, local: true })
               .then(() => {
-                this.$loading.close();
                 this.upgraded = true;
                 this.$upgrade({
                   ontimeout: () => {

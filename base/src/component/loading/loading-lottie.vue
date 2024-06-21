@@ -30,9 +30,6 @@ export default {
     window.requestAnimationFrame(this.loadImg);
   },
   computed: {
-    color() {
-      return process.env.CUSTOMER_CONFIG.loading.color;
-    },
     animJson() {
       let result;
       switch (this.loadingType) {

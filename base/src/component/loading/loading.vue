@@ -19,7 +19,6 @@
 import { loadAnimation } from 'lottie-web-light';
 import colorGradientMixin from 'base/mixins/color-gradient';
 
-
 export default {
   mixins: [colorGradientMixin],
   data() {

@@ -3,7 +3,8 @@
     <div class="upgrade-container"
          v-if="visible">
       <div class="inner">
-        <div class="loading-wrap">
+        <div class="loading-wrap"
+             id="loading-wrap">
           <div id="upgradeLoadingImg" />
         </div>
         <div v-if="title"
@@ -25,8 +26,10 @@
 </template>
 <script>
 import { loadAnimation } from 'lottie-web-light';
+import colorGradientMixin from 'base/mixins/color-gradient';
 
 export default {
+  mixins: [colorGradientMixin],
   data() {
     return {
       visible: false,
@@ -48,8 +51,7 @@ export default {
   },
   computed: {
     animJson() {
-      const { type } = process.env.CUSTOMER_CONFIG.loading;
-      return require(`../../assets/lottie/color-${type}/loading.json`);
+      return require('../../assets/lottie/loading/loading.json');
     }
   },
   methods: {
@@ -76,6 +78,10 @@ export default {
         loop: true,
         autoplay: true,
         animationData: this.animJson
+      });
+      this.pathElements.forEach((p, index) => {
+        p.style.fill = this.colorArr[index];
+        p.style.stroke = this.colorArr[index];
       });
     }
   }
