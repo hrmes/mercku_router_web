@@ -2,7 +2,8 @@ export const IPv6DefaultPlaceholder = '----:----:----:----:----:----:----:----';
 
 export const Customers = {
   mercku: '0001',
-  junet: '0029'
+  junet: '0029',
+  viaero: '0032'
 };
 export const IP = {
   IPv4: 'ipv4',
@@ -66,14 +67,14 @@ export const ModelIds = Object.entries(Models).reduce((model, [key, value]) => {
 export const SnABJMapName = {
   '06': { 0: 'M6' },
   '08': { 0: 'M6a', 1: 'M6a_Plus', 2: 'M6c' },
-  11: { 0: 'M6s', 1: 'M6s' },
+  11: { 1: 'M6s' },
   13: { 0: 'M6s_Nano' },
   16: { 0: 'M6s_PoE_pp' }
 };
 export const ModelIdJMapName = {
   M6R0: { 0: 'M6' },
   M8: { 0: 'M6a', 1: 'M6a_Plus', 2: 'M6c' },
-  M11R1: { 0: 'M6s', 1: 'M6s' },
+  M11R1: { 1: 'M6s' },
   M13R0: { 0: 'M6s Nano' },
   M16R0: { 0: 'M6s PoE_pp' }
 };

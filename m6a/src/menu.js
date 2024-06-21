@@ -56,7 +56,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0561',
         name: 'safe',
         url: '/setting/safe',
-        config
+        config,
+        customers: {
+          [Customers.viaero]: {
+            auth: [Role.admin]
+          }
+        }
       },
       {
         url: '/setting/super',
@@ -66,6 +71,10 @@ export default function getMenu(role, mode = RouterMode.router) {
         customers: {
           [Customers.mercku]: {
             show: false
+          },
+          [Customers.viaero]: {
+            show: true,
+            auth: [Role.super]
           }
         }
       },
