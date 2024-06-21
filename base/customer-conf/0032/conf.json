@@ -23,7 +23,8 @@
     },
     "M6c": {
       "name": "M6c Wi-Fi6 Router",
-      "shortName": "M6c"
+      "shortName": "M6c",
+      "deviceColors": ["black", "white", "grey", "red"]
     }
   },
   "loading": {
