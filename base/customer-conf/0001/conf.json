@@ -27,7 +27,8 @@
     },
     "M6c": {
       "name": "M6c Wi-Fi6 Router",
-      "shortName": "M6c"
+      "shortName": "M6c",
+      "deviceColors": ["black", "white", "grey", "red"]
     },
     "M6s": {
       "name": "M6s Wi-Fi6 Router",
@@ -39,13 +40,17 @@
       "shortName": "M6s SFP",
       "deviceColors": ["black", "white"]
     },
+    "M6s_PoE_pp": {
+      "name": "M6s PoE++ Wi-Fi6 Router",
+      "shortName": "M6s PoE++",
+      "deviceColors": ["black", "white"]
+    },
     "M6s_Nano": {
       "name": "M6s Nano Wi-Fi6 Router",
       "shortName": "M6s Nano",
       "deviceColors": ["black", "white"]
     }
   },
-  "deviceColors": ["black", "white"],
   "loading": {
     "color": "#d6001c"
   },

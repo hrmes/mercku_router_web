@@ -7,9 +7,7 @@
             'i18n-open':mobileI18nVisible
           }">
     <div class="logo-wrap"
-         :class="{'light':currentTheme!=='auto'&&!isDarkMode,
-                  'dark':currentTheme!=='auto'&&isDarkMode
-                  }">
+         :class="currentTheme">
       <a v-if="website && isLoginPage"
          class="offical"
          target="_blank"
@@ -23,7 +21,6 @@
            class="logo-wrap__logo"
            :class="{'is-wlan-page':isWlanPage}"></div>
     </div>
-
     <template v-if="isMobile">
       <div class="nav-wrap nav-wrap--mobile"
            v-show="mobileNavVisible">
@@ -83,31 +80,30 @@
           </li>
         </ul>
       </div>
+      <div class="nav-wrap nav-wrap--mobile"
+           v-show="mobileI18nVisible">
+        <ul class="i18n-mobile reset-ul">
+          <li :key="lang.value"
+              v-for="lang in Languages"
+              :class="{'selected':$i18n.locale === lang.value}"
+              @click="selectMobileLang(lang)">
+            {{lang.text}}
+            <i v-if="$i18n.locale === lang.value"
+               class="is-checked"></i>
+          </li>
+        </ul>
+      </div>
       <div class="right-wrap">
-        <div class="small-device">
-          <span @click="setMobileLangVisible()"
-                class="menu-icon language"
-                :class="[$i18n.locale]">
-            <i class="iconfont a-ic_languages_moblie"></i>
-          </span>
-          <ul class="i18n-mobile reset-ul"
-              v-show="mobileI18nVisible">
-            <li :key="lang.value"
-                v-for="lang in Languages"
-                :class="{'selected':$i18n.locale === lang.value}"
-                @click="selectMobileLang(lang)">
-              {{lang.text}}
-              <i v-if="$i18n.locale === lang.value"
-                 class="is-checked"></i>
-            </li>
-          </ul>
-
-          <span v-if="navVisible"
-                @click="trigerMobileNav()"
-                class="menu-icon menu">
-            <i class="iconfont ic_more_moblie"></i>
-          </span>
-        </div>
+        <span @click="setMobileLangVisible()"
+              class="menu-icon language"
+              :class="[$i18n.locale]">
+          <i class="iconfont a-ic_languages_moblie"></i>
+        </span>
+        <span v-if="navVisible"
+              @click="trigerMobileNav()"
+              class="menu-icon menu">
+          <i class="iconfont ic_more_moblie"></i>
+        </span>
       </div>
     </template>
     <div class="nav-wrap nav-wrap--laptop"
@@ -137,7 +133,6 @@
         </li>
       </ul>
     </div>
-
     <!-- theme change modal -->
     <m-modal class="theme-change-modal"
              :type="isMobile?'confirm':'info'"
@@ -444,7 +439,8 @@ export default {
       this.$store.state.theme = this.selectedTheme;
       document
         .querySelector('html')
-        .setAttribute('class', localStorage.getItem('theme'));
+        .setAttribute('class', this.selectedTheme);
+
       this.ThemechangeVisiable = false;
       if (this.mobileNavVisible) {
         this.mobileNavVisible = false;
@@ -533,8 +529,8 @@ export default {
   padding: 0 30px;
   color: var(--text_default-color);
   .logo-wrap {
-    width: 185px;
-    height: 30px;
+    width: 168px;
+    height: 36px;
     .offical {
       color: var(--header_official-color);
       text-decoration: none;
@@ -639,7 +635,7 @@ export default {
             -webkit-background-clip: text; /* Safari/Chrome */
             background-clip: text;
             color: transparent;
-            text-shadow: 0 3px 8px rgba(242, 46, 73, 0.3);
+            text-shadow: var(--header_selected_icon-textshadow);
           }
         }
         &:last-child {
@@ -739,10 +735,9 @@ export default {
     top: 0;
     padding: 0 20px;
     .logo-wrap {
-      display: block;
+      display: flex;
+      align-items: center;
       position: absolute;
-      width: 60px;
-      height: 20px;
       left: 20px;
       top: 50%;
       transform: translateY(-50%);
@@ -869,7 +864,7 @@ export default {
               -webkit-background-clip: text; /* Safari/Chrome */
               background-clip: text;
               color: transparent;
-              text-shadow: 0 3px 8px rgba(242, 46, 73, 0.3);
+              text-shadow: var(--header_selected_icon-textshadow);
             }
             .nav-item-content {
               .nav-item__text {
@@ -889,56 +884,55 @@ export default {
         display: block;
         overflow: auto;
       }
-    }
-    .right-wrap {
-      .small-device {
-        display: block;
-        position: absolute;
-        right: 20px;
-        top: 20px;
-        .i18n-mobile {
-          position: fixed;
-          top: 65px;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: var(--header-bgc);
-          color: var(--text_default-color);
-          padding: 0 30px;
-          z-index: 999;
-          font-size: 16px;
-          li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0;
-            list-style: none;
-            font-weight: 600;
-            &.selected {
-              color: var(--mobile_menu_selected-color);
-              .is-checked {
-                &::after {
-                  border-color: var(--mobile_menu_selected-color);
-                }
+      .i18n-mobile {
+        position: fixed;
+        top: 65px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--header-bgc);
+        color: var(--text_default-color);
+        padding: 0 30px;
+        z-index: 999;
+        font-size: 16px;
+        li {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 16px 0;
+          list-style: none;
+          font-weight: 600;
+          &.selected {
+            color: var(--mobile_menu_selected-color);
+            .is-checked {
+              &::after {
+                border-color: var(--mobile_menu_selected-color);
               }
             }
-            &:first-child {
-              border: 0;
-            }
+          }
+          &:first-child {
+            border: 0;
           }
         }
-        .menu-icon {
-          display: inline-block;
-          width: 20px;
-          height: 20px;
-          line-height: 20px;
-          text-align: center;
-          .iconfont {
-            font-size: 20px;
-          }
-          &.menu {
-            margin-left: 35px;
-          }
+      }
+    }
+    .right-wrap {
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+
+      .menu-icon {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        text-align: center;
+        .iconfont {
+          font-size: 20px;
+        }
+        &.menu {
+          margin-left: 35px;
         }
       }
     }

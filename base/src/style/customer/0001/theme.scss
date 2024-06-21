@@ -77,8 +77,8 @@
   --button_default_text-color: var(--primary-color);
   --button_default-bgimg: linear-gradient(
       to right,
-      var(--dashboard_icon-bgc),
-      var(--dashboard_icon-bgc)
+      var(--common_card-bgc),
+      var(--common_card-bgc)
     ),
     linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
   --button_text_text-color: #333;
@@ -128,6 +128,7 @@
     #ee1d4f 55%,
     #d6001c
   );
+  --header_selected_icon-textshadow: 0 3px 8px rgba(242, 46, 73, 0.3);
   --header-bgc: #f7f7f7;
   --header-color: #fff;
   --header_nav_iconfont-color: #979797;
@@ -173,6 +174,16 @@
   --step_item-color: #999999;
   --step_item_text-color: var(--text_default-color);
   --step_item_current-color: #e25668;
+  --step_item_current_num-bgimg: linear-gradient(
+      to bottom,
+      var(--common_card-bgc),
+      var(--common_card-bgc)
+    ),
+    linear-gradient(to top, #ed8e77, #ed485e 100%);
+  --step_item_after_num-bgimg: linear-gradient(to top, #ed8e77, #ed485e 100%),
+    linear-gradient(to top, #ed8e77, #ed485e 100%);
+  --step_item_after_num-boxshadow: 0 4px 10px -5px #ed8875;
+  --step_item_steped-bgimg: linear-gradient(to left, #ed8e77, #ed485e 100%);
   // switch
   --switch-bgc: #b8b7b8;
   --switch_off_icon-color: #bdbdbd;
@@ -335,8 +346,8 @@
   --button_default_text-color: #ff677b;
   --button_default-bgimg: linear-gradient(
       to right,
-      var(--dashboard_icon-bgc),
-      var(--dashboard_icon-bgc)
+      var(--common_card-bgc),
+      var(--common_card-bgc)
     ),
     linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
   --button_text_text-color: #fff;
@@ -386,6 +397,7 @@
     #ec4f5b 55%,
     #e62342
   );
+  --header_selected_icon-textshadow: 0 3px 8px rgba(242, 46, 73, 0.3);
   --header-bgc: #262626;
   --header-color: #fff;
   --header_nav_iconfont-color: #ffffff;
@@ -431,6 +443,16 @@
   --step_item-color: #999999;
   --step_item_text-color: var(--text_default-color);
   --step_item_current-color: #ff677b;
+  --step_item_current_num-bgimg: linear-gradient(
+      to bottom,
+      var(--common_card-bgc),
+      var(--common_card-bgc)
+    ),
+    linear-gradient(to top, #ed8e77, #ed485e 100%);
+  --step_item_after_num-bgimg: linear-gradient(to top, #ed8e77, #ed485e 100%),
+    linear-gradient(to top, #ed8e77, #ed485e 100%);
+  --step_item_after_num-boxshadow: 0 4px 10px -5px #ed8875;
+  --step_item_steped-bgimg: linear-gradient(to left, #ed8e77, #ed485e 100%);
   // switch
   --switch-bgc: #7e7e7e;
   --switch_off_icon-color: #7e7e7e;

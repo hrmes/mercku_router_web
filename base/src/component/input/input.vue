@@ -35,6 +35,7 @@
                v-model="inputValue"
                :placeholder="placeholder"
                :type="inputType"
+               :maxlength="maxlength"
                :class="{'has-icon':isPwdInput,margin:addonBefore}">
       </div>
       <div class="icon-container"
@@ -63,6 +64,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    maxlength: {
+      type: String,
+      default: ''
     },
     label: {
       type: String,

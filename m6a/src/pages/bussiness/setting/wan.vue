@@ -251,7 +251,6 @@
           </button>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -393,7 +392,6 @@ const IptvVlanDefault = {
 export default {
   data() {
     return {
-
       netNote: {
         dhcp: this.$t('trans0147'),
         static: this.$t('trans0150'),
@@ -644,12 +642,12 @@ export default {
         local.netinfo.ip = this.netInfo.netinfo.ip || '-';
         local.netinfo.mask = this.netInfo.netinfo.mask || '-';
         local.netinfo.gateway = this.netInfo.netinfo.gateway || '-';
-        local.netinfo.dns = this.netInfo.netinfo.dns || [];
+        local.netinfo.dns = this.netInfo.netinfo.dns;
       }
       return local;
     },
     dnsText() {
-      return this.localNetInfo.netinfo.dns.length
+      return this.localNetInfo.netinfo.dns.length > 0
         ? this.localNetInfo.netinfo.dns.join('/')
         : '-';
     }
@@ -695,11 +693,12 @@ export default {
                   item => item.name === VlanName.ipPhone
                 ) || cloneDeep(IpPhoneVlanDefault);
               this.iptvVlan =
-                this.netInfo.vlan.find(item => item.name === VlanName.iptv) ||
-                cloneDeep(IptvVlanDefault);
+                this.netInfo.vlan.find(
+                  item => item.name === VlanName.iptv
+                ) || cloneDeep(IptvVlanDefault);
             }
             if (this.isDhcp) {
-              if (this.netInfo.dhcp && this.netInfo.dhcp?.dns && this.netInfo.dhcp?.dns.length) {
+              if (this.netInfo.dhcp && this.netInfo.dhcp.dns && this.netInfo.dhcp.dns.length > 0) {
                 this.autodns.dhcp = false;
                 [this.dhcpForm.dns1] = this.netInfo.dhcp.dns;
                 this.dhcpForm.dns2 = this.netInfo.dhcp.dns[1] || '';
@@ -763,9 +762,9 @@ export default {
         }
         // 经过上面的判断，到这里已经可以确定如果有值的话必定是数字，所以可以用部分等于
         if (
-          (this.ipPhoneVlan.id == this.vlan.id && this.ipPhoneVlan.enabled) ||
-          (this.iptvVlan.id == this.vlan.id && this.iptvVlan.enabled) ||
-          (this.ipPhoneVlan.id == this.iptvVlan.id &&
+          (this.ipPhoneVlan.id === this.vlan.id && this.ipPhoneVlan.enabled) ||
+          (this.iptvVlan.id === this.vlan.id && this.iptvVlan.enabled) ||
+          (this.ipPhoneVlan.id === this.iptvVlan.id &&
             this.ipPhoneVlan.enabled &&
             this.iptvVlan.enabled)
         ) {

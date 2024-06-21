@@ -59,7 +59,7 @@ input::-webkit-credentials-auto-fill-button {
 }
 
 .add-mesh-tip {
-  color: #fff;
+  color: var(--upgrade_text-color);
   display: block;
   margin-top: 10px;
 }

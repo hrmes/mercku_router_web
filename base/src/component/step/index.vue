@@ -30,7 +30,11 @@ export default {
   props: { option: { type: Object } },
   computed: {
     width() {
-      return `${(this.option.current * 100) / (this.length - 1)}%`;
+      // eslint-disable-next-line no-nested-ternary
+      const multiplier = this.option.current === 0
+        ? 0 : this.option.current === this.length - 1
+          ? 2 : 1;
+      return `${(this.option.current * 2 + multiplier) * 0.5 / (this.length) * 100}%`;
     },
     length() {
       return this.option.steps.length;
@@ -86,7 +90,7 @@ export default {
     border-radius: 20px;
     .steped {
       transition: width 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
-      background-image: linear-gradient(to left, #ed8e77, #ed485e 100%);
+      background-image: var(--step_item_steped-bgimg);
       height: 8px;
     }
   }
@@ -97,10 +101,8 @@ export default {
     position: relative;
     z-index: 1;
     .step {
-      display: flex;
-      justify-content: center;
-      align-items: center;
       position: relative;
+      display: flex;
       justify-content: center;
       align-items: center;
       &:first-child {
@@ -155,21 +157,15 @@ export default {
         .step-number {
           color: var(--step_item_current-color);
           border-color: transparent;
-          background-image: linear-gradient(
-              to bottom,
-              var(--common_card-bgc),
-              var(--common_card-bgc)
-            ),
-            linear-gradient(to top, #ed8e77, #ed485e 100%);
+          background-image: var(--step_item_current_num-bgimg);
         }
       }
       &.fail {
         .step-number {
           border-color: transparent;
-          background-image: linear-gradient(to top, #ed8e77, #ed485e 100%),
-            linear-gradient(to top, #ed8e77, #ed485e 100%);
+          background-image: var(--step_item_after_num-bgimg);
           color: #fff;
-          box-shadow: 0 4px 10px -5px #ed8875;
+          box-shadow: var(--step_item_after_num-boxshadow);
           &::before {
             content: '×';
             display: block;
@@ -186,10 +182,9 @@ export default {
       &.success {
         .step-number {
           border-color: transparent;
-          background-image: linear-gradient(to top, #ed8e77, #ed485e 100%),
-            linear-gradient(to top, #ed8e77, #ed485e 100%);
+          background-image: var(--step_item_after_num-bgimg);
           color: #fff;
-          box-shadow: 0 4px 10px -5px #ed8875;
+          box-shadow: var(--step_item_after_num-boxshadow);
         }
       }
     }

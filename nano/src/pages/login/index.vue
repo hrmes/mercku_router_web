@@ -9,7 +9,7 @@
     </div>
     <div class="login__right">
       <div class="center-form"
-           :class="{'light':isLightClass,'dark':isDrakClass}">
+           :class="currentTheme">
         <div class="form">
           <div class="logo">
           </div>
@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { LoginImg } from '@/assets/images/base64-img/img.js';
+import { LoginImg } from 'base/assets/images/base64-img/img.js';
 import { setCookie, getCookie, clearCookie } from 'base/util/cookie';
 
 export default {
@@ -138,12 +138,6 @@ export default {
     currentTheme() {
       return this.$store.state.theme;
     },
-    isLightClass() {
-      return this.currentTheme !== 'auto' && !this.isDarkMode;
-    },
-    isDrakClass() {
-      return this.currentTheme !== 'auto' && this.isDarkMode;
-    }
   },
   watch: {
     currentTheme: {

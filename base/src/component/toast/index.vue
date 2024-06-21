@@ -43,29 +43,24 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@media screen and(max-width: 768px) {
-  .toast-container {
-    width: fit-content;
-    max-width: 70%;
-    min-width: 215px;
-    white-space: normal !important;
-    padding: 10px !important;
-  }
-}
 .toast-container {
   position: fixed;
   top: 65px;
   left: 50%;
-  z-index: 99999;
   transform: translate(-50%, 10%);
+  z-index: 99999;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
   color: var(--text-deafult-color);
-  padding: 10px 16px;
+  padding: 10px 15px;
   border-radius: 4px;
   white-space: nowrap;
   text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  > span {
+    flex-grow: 1;
+  }
   &.error {
     background: var(--toast_error-bgc);
     box-shadow: var(--toast_error-shadow);
@@ -115,6 +110,14 @@ export default {
   &.toast-leave-to {
     opacity: 0;
     transform: translate(-50%, -100%);
+  }
+}
+@media screen and(max-width: 768px) {
+  .toast-container {
+    max-width: 90vw;
+    min-width: 280px;
+    transform: translate(-50%, 0%);
+    white-space: normal;
   }
 }
 </style>

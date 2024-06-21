@@ -9,7 +9,7 @@ CUR_NPM_VER_PATCH := $(shell echo $(CUR_NPM_VER) | cut -f3 -d.)
 IS_NPM_OK := $(shell [ $(CUR_NPM_VER_MAJOR) -gt $(MIN_NPM_VER_MAJOR) -o \( $(CUR_NPM_VER_MAJOR) -eq $(MIN_NPM_VER_MAJOR) -a \( $(CUR_NPM_VER_MINOR) -gt $(MIN_NPM_VER_MINOR) -o \( $(CUR_NPM_VER_MINOR) -eq $(MIN_NPM_VER_MINOR) -a $(CUR_NPM_VER_PATCH) -ge $(MIN_NPM_VER_PATCH) \)  \) \) ] && echo true)
 
 CUSTOMER_LIST = 0001
-MODEL_LIST = M8=m6a M11R1=m6s M11R2=m6s M13R0=nano
+MODEL_LIST = M8=m6a M11R1=m6s M11R2=m6s M13R0=nano M16R0
 
 ifndef CUSTOMER_ID
 $(error CUSTOMER_ID required)
@@ -47,10 +47,8 @@ dev_depend: package.json check_npm_version
 
 build: prd_depend
 	cd $(MODEL) && make CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
-	ln -sf $(MODEL)/dist dist
 
 dev:
 	cd $(MODEL) && make dev CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
-
 
 .PHONY: all install check_npm_version prd_depend dev_depend dev build

@@ -149,7 +149,7 @@
 </template>
 <script>
 import { Bands } from 'base/util/constant';
-import { WlanImg } from '@/assets/images/base64-img/img.js';
+import { WlanImg } from 'base/assets/images/base64-img/img.js';
 import {
   getStringByte,
   isValidPassword,
@@ -324,13 +324,10 @@ export default {
       // 开关变化后
       if (v) {
         this.wifiForm.ssid5g = this.wifiForm.ssid24g;
-        this.wifiForm.password24g = '';
-        this.wifiForm.password5g = this.wifiForm.password24g;
       } else {
         this.wifiForm.ssid5g = `${this.wifiForm.ssid24g}_5G`;
-        this.wifiForm.password24g = '';
-        this.wifiForm.password5g = '';
       }
+      this.wifiForm.password5g = this.wifiForm.password24g;
     },
     getRegionInitData() {
       this.$http
@@ -364,7 +361,7 @@ export default {
         this.isLoading = true;
         // 提交表单
         this.$http
-          .updateMeshConfig({
+          .updateRouterInitialize({
             config: {
               wifi: {
                 bands: {

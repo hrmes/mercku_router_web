@@ -4,7 +4,10 @@
          v-show="visible">
       <div class="dialog-content">
         <div v-if="title"
-             class="dialog-title">{{title}}</div>
+             class="dialog-title">
+          <img :src="require('base/assets/images/icon/ic_hint.png')" />
+          {{title}}
+        </div>
         <div class="dialog-message">
           <p v-for="(m,index) in dialogMessage"
              :key="index">{{m}}</p>
@@ -124,12 +127,21 @@ export default {
       }
     }
     .dialog-title {
+      display: flex;
+      justify-content: center;
+
+      align-items: center;
       font-size: 16px;
       line-height: 1;
       color: var(--dialog_title-color);
       font-weight: bold;
       text-align: center;
       margin-bottom: 10px;
+      > img {
+        width: 20px;
+        height: 20px;
+        margin-right: 8px;
+      }
     }
     .dialog-message {
       color: var(--dialog_content-color);

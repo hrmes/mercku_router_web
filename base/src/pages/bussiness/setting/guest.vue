@@ -161,21 +161,16 @@
   </div>
 </template>
 <script>
-import encryptMix from 'base/mixins/encrypt-methods';
 import { EncryptMethod } from 'base/util/constant';
-import {
-  getStringByte,
-  isValidPassword,
-  isFieldHasComma,
-  isFieldHasSpaces
-} from 'base/util/util';
+import encryptMix from 'base/mixins/encrypt-methods';
+import wifiRuleMixin from 'base/mixins/wifi-rules.js';
 
 const Bands = {
   b24g: '2.4G',
   b5g: '5G'
 };
 export default {
-  mixins: [encryptMix],
+  mixins: [encryptMix, wifiRuleMixin],
   data() {
     return {
       Bands,
@@ -221,79 +216,10 @@ export default {
         }
       },
       rules: {
-        'b24g.ssid': [
-          {
-            rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0237')
-          },
-          {
-            rule: value => getStringByte(value.trim()) <= 20,
-            message: this.$t('trans0261')
-          },
-          {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0451')
-          },
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
-          }
-        ],
-        'b24g.password': [
-          {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
-          },
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
-          },
-          {
-            rule: value => isValidPassword(value),
-            message: this.$t('trans0169')
-          }
-        ],
-        'b5g.ssid': [
-          {
-            rule: value => !/^\s*$/g.test(value.trim()),
-            message: this.$t('trans0237')
-          },
-          {
-            rule: value => getStringByte(value.trim()) <= 20,
-            message: this.$t('trans0261')
-          },
-          {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0451')
-          },
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
-          }
-          // {
-          //   rule: value => {
-          //     if (!this.form.smart_connect) {
-          //       return value.trim() !== this.form.b24g.ssid.trim();
-          //     }
-          //     return true;
-          //   },
-          //   message: this.$t('trans0660')
-          // }
-        ],
-        'b5g.password': [
-          {
-            rule: value => isFieldHasComma(value),
-            message: this.$t('trans0452')
-          },
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
-          },
-          {
-            rule: value => isValidPassword(value),
-            message: this.$t('trans0169')
-          }
-        ]
+        'b24g.ssid': this.getAdvanceSSIDRule(),
+        'b24g.password': this.getAdvancePasswordRule(),
+        'b5g.ssid': this.getAdvanceSSIDRule(),
+        'b5g.password': this.getAdvancePasswordRule(),
       }
     };
   },
@@ -525,6 +451,10 @@ export default {
         });
     },
     submit() {
+      if (this.form.smart_connect) {
+        this.form.b5g = this.form.b24g;
+      }
+      console.log(this.form);
       if (!this.form.smart_connect && this.form.b24g.ssid.trim() === this.form.b5g.ssid.trim()) {
         this.$toast(this.$t('trans0660'), 3000, 'error');
         return;

@@ -9,7 +9,7 @@
     </div>
     <div class="login__right">
       <div class="center-form"
-           :class="{'light':isLightClass,'dark':isDrakClass}">
+           :class="currentTheme">
         <div class="form">
           <div class="logo">
           </div>
@@ -82,7 +82,7 @@
 </template>
 
 <script>
-import { LoginImg } from '@/assets/images/base64-img/img.js';
+import { LoginImg } from 'base/assets/images/base64-img/img.js';
 import { setCookie, getCookie, clearCookie } from 'base/util/cookie';
 
 export default {
@@ -138,12 +138,6 @@ export default {
     currentTheme() {
       return this.$store.state.theme;
     },
-    isLightClass() {
-      return this.currentTheme !== 'auto' && !this.isDarkMode;
-    },
-    isDrakClass() {
-      return this.currentTheme !== 'auto' && this.isDarkMode;
-    }
   },
   watch: {
     currentTheme: {
@@ -314,16 +308,16 @@ export default {
     text-align: center;
     position: relative;
     width: 400px;
-    height: 500px;
+    // height: 500px;
     padding: 50px 0 30px;
     background-color: var(--login_right_form-bgcolor);
     box-shadow: var();
     border-radius: 15px;
     .logo {
-      width: 280px;
-      height: 38px;
+      // width: 280px;
+      // height: 38px;
       margin: 0 auto;
-      margin-bottom: 50px;
+      margin-bottom: 30px;
     }
     .btn {
       width: 340px;
@@ -495,7 +489,6 @@ export default {
       }
     }
     .center-form {
-      // width: 80%;
       background-color: transparent;
       padding: 0 20px;
       flex: 1;
@@ -504,7 +497,6 @@ export default {
       justify-content: center;
       transform: translateY(0);
       .logo {
-        width: 220px;
         margin-bottom: 30px;
       }
       .btn {

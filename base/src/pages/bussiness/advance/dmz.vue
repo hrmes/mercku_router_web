@@ -70,10 +70,9 @@ export default {
       this.$http
         .getDMZ()
         .then(res => {
-          this.$loading.close();
           this.dmz = res.data.result;
         })
-        .catch(() => {
+        .finally(() => {
           this.$loading.close();
         });
     },
@@ -83,10 +82,9 @@ export default {
         this.$http
           .updateDMZ(this.dmz)
           .then(() => {
-            this.$loading.close();
             this.$toast(this.$t('trans0040'), 2000, 'success');
           })
-          .catch(() => {
+          .finally(() => {
             this.$loading.close();
           });
       }

@@ -70,7 +70,8 @@ export default {
       mode: FanMode.sleep,
       modesList: [
         { value: FanMode.game, text: this.$t('trans1224'), img: getFanModeImg(FanMode.game) },
-        { value: FanMode.sleep, text: this.$t('trans1225'), img: getFanModeImg(FanMode.sleep) }]
+        { value: FanMode.sleep, text: this.$t('trans1225'), img: getFanModeImg(FanMode.sleep) }
+      ]
     };
   },
   mounted() {

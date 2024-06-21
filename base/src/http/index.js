@@ -43,6 +43,7 @@ const commonMethods = {
   loginout: createMethod('router.logout'),
   isinitial: createMethod('router.is_initial'),
   updateMeshConfig: createMethod('mesh.config.update'),
+  updateRouterInitialize: createMethod('router.initialize'),
   getWanStatus: createMethod('mesh.wan.status.get'),
   getTimezone: createMethod('mesh.info.timezone.get'),
   setTimezone: createMethod('mesh.config.timezone.update'),

@@ -126,10 +126,6 @@ export default {
         {
           text: this.$t('trans1131'),
           value: 'bridge'
-        },
-        {
-          text: this.$t('trans1130'),
-          value: 'wireless_bridge'
         }
       ],
       currentUpperInfo: {

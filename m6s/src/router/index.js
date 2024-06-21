@@ -268,6 +268,15 @@ const routes = {
         hasAside: true
       }
     },
+    // {
+    //   path: '/setting/sfp',
+    //   name: 'sfp',
+    //   component: sfp,
+    //   meta: {
+    //     layout: 'primary',
+    //     hasAside: true
+    //   }
+    // },
     {
       path: '/setting/sfp',
       name: 'sfp',

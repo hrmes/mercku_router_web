@@ -50,26 +50,13 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0620',
         name: 'ipv6',
         url: '/setting/ipv6',
-        config: strategyA,
-        customers: {
-          [Customers.realnett]: {
-            show: false
-          }
-        }
+        config: strategyA
       },
       {
         text: 'trans0561',
         name: 'safe',
         url: '/setting/safe',
-        config,
-        customers: {
-          [Customers.realnett]: {
-            auth: [Role.admin]
-          },
-          [Customers.pentanet]: {
-            auth: [Role.admin]
-          }
-        }
+        config
       },
       {
         url: '/setting/super',
@@ -79,23 +66,15 @@ export default function getMenu(role, mode = RouterMode.router) {
         customers: {
           [Customers.mercku]: {
             show: false
-          },
-          [Customers.realnett]: {
-            show: true,
-            auth: [Role.super]
-          },
-          [Customers.pentanet]: {
-            show: true,
-            auth: [Role.super]
           }
         }
       },
-      {
-        text: 'trans0020',
-        name: 'blacklist',
-        url: '/setting/blacklist',
-        config: strategyA
-      },
+      // {
+      //   text: 'trans0020',
+      //   name: 'blacklist',
+      //   url: '/setting/blacklist',
+      //   config: strategyA
+      // },
       {
         text: 'trans0272',
         name: 'timezone',
@@ -120,12 +99,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0644',
         config: strategyA
       },
-      {
-        url: '/setting/led',
-        name: 'led',
-        text: 'trans0779',
-        config
-      },
+      // {
+      //   url: '/setting/led',
+      //   name: 'led',
+      //   text: 'trans0779',
+      //   config
+      // },
       {
         url: '/setting/schedule',
         name: 'schedule',
@@ -187,15 +166,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         url: '/advance/mode',
         name: 'advance-mode',
         text: 'trans0539',
-        config,
-        customers: {
-          [Customers.cik]: {
-            show: false
-          },
-          [Customers.startca]: {
-            show: false
-          }
-        }
+        config
       },
       {
         url: '/advance/diagnosis',
@@ -203,42 +174,29 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0419',
         config: strategyA
       },
-      {
-        url: '/advance/log',
-        name: 'advance-log',
-        text: 'trans0421',
-        config
-      },
-      {
-        url: '/advance/frozenCofig',
-        name: 'advance-frozen-cofig',
-        text: 'trans1186',
-        config
-      },
+      // {
+      //   url: '/advance/log',
+      //   name: 'advance-log',
+      //   text: 'trans0421',
+      //   config
+      // },
+      // {
+      //   url: '/advance/frozenCofig',
+      //   name: 'advance-frozen-cofig',
+      //   text: 'trans1186',
+      //   config
+      // },
       {
         url: '/advance/firewall',
         name: 'advance-firewall',
         text: 'trans0424',
-        config: strategyA,
-        customers: {
-          [Customers.realnett]: {
-            auth: [Role.super]
-          }
-        }
+        config: strategyA
       },
       {
         url: '/advance/wwa',
         name: 'advance.wwa',
         text: 'trans0511',
-        config: strategyA,
-        customers: {
-          [Customers.realnett]: {
-            auth: [Role.super]
-          },
-          [Customers.pentanet]: {
-            auth: [Role.super]
-          }
-        }
+        config: strategyA
       },
       {
         url: '/advance/tr069',
@@ -267,13 +225,13 @@ export default function getMenu(role, mode = RouterMode.router) {
           auth: [Role.super],
           mode: [RouterMode.router]
         }
-      },
-      {
-        url: '/advance/backup',
-        name: 'advance.backup',
-        text: 'trans1019',
-        config
       }
+      // {
+      //   url: '/advance/backup',
+      //   name: 'advance.backup',
+      //   text: 'trans1019',
+      //   config
+      // }
     ]
   };
   const upgrade = {

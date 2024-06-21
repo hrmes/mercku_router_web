@@ -24,7 +24,7 @@
 
 </template>
 <script>
-import lottie from 'lottie-web-light';
+import { loadAnimation } from 'lottie-web-light';
 
 export default {
   data() {
@@ -48,8 +48,8 @@ export default {
   },
   computed: {
     animJson() {
-      const name = process.env.CUSTOMER_CONFIG.title.toLowerCase();
-      return require(`../../assets/lottie/${name}/loading.json`);
+      const { type } = process.env.CUSTOMER_CONFIG.loading;
+      return require(`../../assets/lottie/color-${type}/loading.json`);
     }
   },
   methods: {
@@ -70,7 +70,7 @@ export default {
       clearTimeout(this.timer);
     },
     loadImg() {
-      lottie.loadAnimation({
+      loadAnimation({
         container: document.getElementById('upgradeLoadingImg'),
         renderer: 'svg',
         loop: true,

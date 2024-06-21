@@ -42,7 +42,7 @@ export default {
   },
   created() {
     let array = [];
-    array = require(`base/timezones/${this.$i18n.locale}.json`);
+    array = require(`base/assets/timezones/${this.$i18n.locale}.json`);
     this.timezones = array.map(t => ({
       text: `(${t.timezoneDetail}) ${t.coutryName}`,
       mainTitle: t.timezoneDetail,

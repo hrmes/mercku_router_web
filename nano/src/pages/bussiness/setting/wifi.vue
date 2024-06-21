@@ -209,7 +209,7 @@ import {
   isFieldHasComma,
   isFieldHasSpaces
 } from 'base/util/util';
-import { EncryptMethod, Bands, channelMode, RouterMode } from 'base/util/constant';
+import { EncryptMethod, Bands, ChannelMode, RouterMode } from 'base/util/constant';
 import encryptMix from 'base/mixins/encrypt-methods';
 
 export default {
@@ -379,8 +379,8 @@ export default {
     'form.channel.b5gChannel.bandwidth': {
       handler(nv) {
         if (nv === 20) {
-          const isExit = this.channels.b5g.find(c => c.value === 165);
-          if (!isExit) this.channels.b5g.push({ text: 165, value: 165 });
+          const hasChannel165 = this.channels.b5g.find(c => c.value === 165);
+          if (!hasChannel165) this.channels.b5g.push({ text: 165, value: 165 });
         } else {
           this.channels.b5g = this.channels.b5g.filter(c => c.value !== 165);
           if (this.form.channel.b5gChannel.number === 165) {
@@ -536,8 +536,8 @@ export default {
           this.form.channel.b5gChannel.number = b5g.channel.number;
           this.form.channel.b5gChannel.bandwidth = b5g.channel.bandwidth;
           if (
-            b24g.channel.mode === channelMode.auto &&
-            b5g.channel.mode === channelMode.auto
+            b24g.channel.mode === ChannelMode.auto &&
+            b5g.channel.mode === ChannelMode.auto
           ) {
             this.isAutoChannel = true;
           }
@@ -562,9 +562,11 @@ export default {
         ssid: formBand.ssid,
         password: formBand.password,
         encrypt: formBand.encrypt,
-        channel: this.isAutoChannel
-          ? { mode: channelMode.auto, bandwidth: channel.bandwidth }
-          : { number: channel.number, bandwidth: channel.bandwidth }
+        channel: {
+          mode: this.isAutoChannel ? ChannelMode.auto : ChannelMode.manual,
+          number: channel.number,
+          bandwidth: channel.bandwidth
+        }
       };
     },
     mapChannelNumbers(numbers) {

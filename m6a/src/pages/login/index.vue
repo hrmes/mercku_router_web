@@ -9,7 +9,7 @@
     </div>
     <div class="login__right">
       <div class="center-form"
-           :class="{'light':isLightClass,'dark':isDrakClass}">
+           :class="currentTheme">
         <div class="form">
           <div class="logo">
           </div>
@@ -82,7 +82,8 @@
 </template>
 
 <script>
-import { LoginImg } from '@/assets/images/base64-img/img.js';
+import { LoginImg } from 'base/assets/images/base64-img/img.js';
+import { setCookie, getCookie, clearCookie } from 'base/util/cookie';
 
 export default {
   data() {
@@ -91,30 +92,39 @@ export default {
       initial: false,
       loading: false,
       password: '',
-      isDarkMode: false
+      isDarkMode: false,
+
+      lockCount: 5,
+      lockTime: 60,
+
+      isLocked: false,
+      lockTimer: null,
+
+      lockCountLeft: 5,
+      lockEndTime: 0
     };
   },
   // in m6 router, if router is initial
   // uhttpd will redirect to /wlan page directly
-  // mounted() {
-  //   this.loading = true;
-  //   this.$http
-  //     .isinitial()
-  //     .then(res => {
-  //       if (res.data.result.status) {
-  //         this.$http.login({ password: '' }).then(() => {
-  //           this.towlan();
-  //         });
-  //       } else {
-  //         this.initial = false;
-  //         this.loading = false;
-  //       }
-  //     })
-  //     .catch(() => {
-  //       this.initial = false;
-  //       this.loading = false;
-  //     });
-  // },
+  mounted() {
+    this.loading = true;
+    this.$http
+      .isinitial()
+      .then(res => {
+        if (res.data.result.status) {
+          this.$http.login({ password: '' }).then(() => {
+            this.towlan();
+          });
+        } else {
+          this.initial = false;
+          this.loading = false;
+        }
+      })
+      .catch(() => {
+        this.initial = false;
+        this.loading = false;
+      });
+  },
   computed: {
     isMobile() {
       return this.$store.state.isMobile;
@@ -128,12 +138,6 @@ export default {
     currentTheme() {
       return this.$store.state.theme;
     },
-    isLightClass() {
-      return this.currentTheme !== 'auto' && !this.isDarkMode;
-    },
-    isDrakClass() {
-      return this.currentTheme !== 'auto' && this.isDarkMode;
-    }
   },
   watch: {
     currentTheme: {
@@ -146,6 +150,10 @@ export default {
       },
       immediate: true
     }
+  },
+  created() {
+    clearCookie('session');
+    this.checkLockStatus();
   },
   methods: {
     towlan() {
@@ -173,11 +181,76 @@ export default {
 
             this.$router.push({ path: '/dashboard' });
             this.$loading.close();
-          });
+          })
+            .finally(() => {
+              this.$loading.close();
+            });
         })
         .catch(() => {
           this.$loading.close();
         });
+    },
+    curLockCount(err) {
+      this.lockCountLeft -= 1;
+      setCookie('lockCountLeft', this.lockCountLeft, 1);
+
+      if (this.lockCountLeft === 0) {
+        this.lockEndTime = new Date().getTime() + 1000 * this.lockTime;
+        setCookie('lockEndTime', this.lockEndTime, 1);
+        this.$toast(this.$t('trans0665'));
+        this.doLockTimer();
+      } else {
+        this.$toast(this.$t(err.error.code));
+      }
+    },
+    checkLockStatus() {
+      const lockEndTime = getCookie('lockEndTime');
+      const lockCountLeft = getCookie('lockCountLeft');
+      if (
+        lockEndTime == null ||
+        Number.isNaN(lockEndTime) === true ||
+        lockEndTime < 0
+      ) {
+        setCookie('lockEndTime', 0, 1);
+        this.lockEndTime = 0;
+      } else {
+        this.lockEndTime = lockEndTime;
+      }
+      if (
+        lockCountLeft == null ||
+        Number.isNaN(lockCountLeft) === true ||
+        parseInt(lockCountLeft, 10) < 0
+      ) {
+        setCookie('lockCountLeft', this.lockCount, 1);
+        this.lockCountLeft = this.lockCount;
+      } else {
+        this.lockCountLeft = parseInt(lockCountLeft, 10);
+      }
+
+      const curTime = new Date().getTime();
+      if (this.lockCountLeft === 0 && curTime < this.lockEndTime) {
+        this.doLockTimer();
+      } else if (this.lockCountLeft === 0 && curTime > this.lockEndTime) {
+        this.lockCountLeft = this.lockCount;
+        this.lockEndTime = 0;
+        setCookie('lockCountLeft', this.lockCount, 1);
+        setCookie('lockEndTime', 0, 1);
+      }
+    },
+    doLockTimer() {
+      this.isLocked = true;
+      let curTime = new Date().getTime();
+      this.lockTimer = setInterval(() => {
+        curTime += 1000;
+        if (curTime > this.lockEndTime) {
+          this.isLocked = false;
+          this.password = '';
+          this.lockCountLeft = this.lockCount;
+          this.lockEndTime = 0;
+          clearInterval(this.lockTimer);
+          this.lockTimer = null;
+        }
+      }, 1000);
     }
   }
 };
@@ -228,16 +301,14 @@ export default {
     text-align: center;
     position: relative;
     width: 400px;
-    height: 500px;
+    min-height: 500px;
     padding: 50px 0 30px;
     background-color: var(--login_right_form-bgcolor);
     box-shadow: var();
     border-radius: 15px;
     .logo {
-      width: 280px;
-      height: 38px;
       margin: 0 auto;
-      margin-bottom: 50px;
+      margin-bottom: 30px;
     }
     .btn {
       width: 340px;
@@ -404,7 +475,7 @@ export default {
           border-radius: 30px;
           user-select: none;
           text-decoration: none;
-          color: #ff677b;
+          color: var(--button_icon_hover-color);
         }
       }
     }

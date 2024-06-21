@@ -43,21 +43,15 @@
               @click.stop="showPolicy()">
           {{$t('trans0139')}}
         </span>
-        <img class="power-by"
-             v-if="isShowPowerBy"
-             :src="require('base/assets/images/common/img-power-by.png')" />
       </div>
 
       <div class="footer__right__QR-container"
            v-if="!isLoginPage && !isMobile">
         <img src="../../assets/images/icon/ic_qr_small.png" />
         <div class="jump-app-info">
-          <div class="icon mercku">
-            <img src="@/assets/images/customer/mercku/ic_launcher.png" />
-          </div>
-          <div class="text-container">{{$t('trans1118')}}</div>
+          <div class="text-container">{{transText('trans1118')}}</div>
           <div class="icon qr">
-            <img src="@/assets/images/customer/mercku/qr.png" />
+            <img :src="require(`base/assets/images/customer/${ispFolderName}/qr.png`)" />
           </div>
         </div>
       </div>
@@ -87,7 +81,6 @@
 <script>
 import languageMixin from 'base/mixins/language';
 
-const MerckuCustomerId = '0001';
 export default {
   mixins: [languageMixin],
   props: {
@@ -108,6 +101,12 @@ export default {
     return { policyVisiable: false };
   },
   methods: {
+    transText(text) {
+      return this.$t(text).replaceAll(
+        '%s',
+        process.env.CUSTOMER_CONFIG.title
+      );
+    },
     showPolicy() {
       if (process.env.CUSTOMER_CONFIG.policy) {
         window.open(process.env.CUSTOMER_CONFIG.policy);
@@ -150,12 +149,12 @@ export default {
         .replace('%d', now.getFullYear())
         .replace('%s', process.env.CUSTOMER_CONFIG.title);
     },
+    ispFolderName() {
+      return process.env.CUSTOMER_CONFIG.title.toLowerCase();
+    },
     isMobile() {
       return this.$store.state.isMobile;
     },
-    isShowPowerBy() {
-      return process.env.CUSTOMER_CONFIG.id !== MerckuCustomerId;
-    }
   }
 };
 </script>
@@ -332,6 +331,7 @@ export default {
   .footer__right__QR-container {
     position: relative;
     margin-left: 20px;
+    user-select: none;
     cursor: pointer;
     > img {
       width: 22px;
@@ -364,9 +364,6 @@ export default {
         img {
           width: 100%;
           height: 100%;
-        }
-        &.mercku {
-          display: none;
         }
         &.qr {
           display: block;

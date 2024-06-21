@@ -120,7 +120,7 @@
             <div v-else
                  class="bridge-mode-tip">
               <img v-if="!isMobile"
-                   :src="require('base/assets/images/common/img_bridge.png')">
+                   :src="require('base/assets/images/common/img_bridge.png')" />
               <span>{{$t('trans0984')}}</span>
             </div>
           </div>
@@ -128,12 +128,12 @@
       </div>
       <div class="functional">
         <div class="row-1">
-          <div :title="meshGatewayInfo.name"
-               class="mesh-name">
+          <div class="mesh-name"
+               :title="meshGatewayInfo.name">
             {{meshGatewayInfo.name?meshGatewayInfo.name:'-'}}
           </div>
           <span class="btn-icon"
-                :class="{disabled:!meshGatewayInfo.name}"
+                :class="{disabled:!meshGatewayInfo.name, close:!meshGatewayInfo.name}"
                 v-if="!isMobile"
                 @click.stop="editMesh(meshGatewayInfo)">
             <i class="iconfont ic_edit"></i>
@@ -157,9 +157,8 @@
          v-if="isMobile"
          @click="jumpApp">
       <div class="wrapper">
-        <div class="icon mercku">
-          <img src="@/assets/images/customer/mercku/ic_launcher.png"
-               alt="">
+        <div class="icon">
+          <img :src="require(`base/assets/images/customer/${ispFolderName}/ic_launcher.png`)" />
         </div>
         <div class="text-container">{{$t('trans1118')}}</div>
       </div>
@@ -227,11 +226,11 @@
 import marked from 'marked';
 import { WanNetStatus, RouterMode, ModelIds, ModelIdJMapName } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
-import editMeshMixin from 'base/mixins/mesh-edit.js';
+import meshEditMixin from 'base/mixins/mesh-edit.js';
 
 
 export default {
-  mixins: [editMeshMixin],
+  mixins: [meshEditMixin],
   data() {
     return {
       netStatus: WanNetStatus.unlinked, // unlinked: 未连网线，linked: 连网线但不通，connected: 外网正常连接
@@ -275,6 +274,9 @@ export default {
     };
   },
   computed: {
+    ispFolderName() {
+      return process.env.CUSTOMER_CONFIG.title.toLowerCase();
+    },
     productName() {
       let productInfo;
       if (this.$store.state?.modelVersion) {
@@ -401,8 +403,8 @@ export default {
     },
     showTips() {
       if (this.isConnected) {
-        this.$toast('Internet online', 1500, 'success');
-      } else {
+        this.$toast(this.$t('trans1190'), 1500, 'success');
+      } else if (!this.isTesting) {
         this.tipsModalVisible = true;
       }
     },
@@ -594,6 +596,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 h2,
 h4,
@@ -621,22 +624,8 @@ h6 {
     clip-path: circle(125%);
   }
 }
-@mixin aspect($width: 1, $height: 1) {
-  aspect-ratio: $width / $height;
+@import '../../../../../base/src/style/mixin.scss';
 
-  @supports not (aspect-ratio: $width / $height) {
-    &::before {
-      content: '';
-      float: left;
-      padding-top: calc((#{$height} / #{$width}) * 100%);
-    }
-    &::after {
-      content: '';
-      display: block;
-      clear: both;
-    }
-  }
-}
 $img_folder: '../../../../../base/src/assets/images';
 
 [transition-style='out:circle:center'] {

@@ -18,7 +18,7 @@ import meshAdd from 'pages/bussiness/mesh/add.vue';
 
 // setting page
 import wifi from 'pages/bussiness/setting/wifi.vue';
-import wan from 'pages/bussiness/setting/wan.vue';
+import wan from 'base/pages/bussiness/setting/wan.vue';
 import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
 import safe from 'base/pages/bussiness/setting/safe.vue';
 import superConfig from 'base/pages/bussiness/setting/super.vue';

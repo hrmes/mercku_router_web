@@ -265,6 +265,7 @@ export default {
               version: this.fwInfo.version,
               model: this.modelName
             };
+            console.log(this.packageInfo);
             uploader.status = UploadStatus.success;
             this.uploadStatus = UploadStatus.success;
           });

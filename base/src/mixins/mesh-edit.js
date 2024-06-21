@@ -1,5 +1,11 @@
 import { getStringByte } from 'base/util/util';
-import { RouterColor, SnABJMapName, ModelIds } from 'base/util/constant';
+import {
+  RouterColor,
+  SnABJMapName,
+  ModelIdJMapName,
+  ModelIds,
+  RouterHasModelDistinctionMap
+} from 'base/util/constant';
 import store from '@/store/index';
 
 const DeviceColorList = [
@@ -67,11 +73,24 @@ export default {
   computed: {
     gwAvailableDeviceColors() {
       const MODEL_ID = process.env.MODEL_CONFIG.id;
-      const productInfo =
-        process.env.CUSTOMER_CONFIG.routers[ModelIds[MODEL_ID]];
+      const MODEL_NAME = ModelIds[MODEL_ID];
+      const ModelIdJMapNameList = ModelIdJMapName[MODEL_ID];
+      let productInfo;
+
+      if (Object.keys(RouterHasModelDistinctionMap).includes(MODEL_NAME)) {
+        productInfo =
+          process.env.CUSTOMER_CONFIG.routers[
+            ModelIdJMapNameList[this.$store.state.modelVersion]
+          ];
+      } else {
+        productInfo = process.env.CUSTOMER_CONFIG.routers[ModelIds[MODEL_ID]];
+      }
       return DeviceColorList.filter(color =>
         productInfo.deviceColors.includes(color.name)
       );
+    },
+    lowerCaseModelId() {
+      return process.env.MODEL_CONFIG.id.toLowerCase();
     }
   },
   methods: {
@@ -103,7 +122,10 @@ export default {
           .then(() => {
             router.name = name;
             this.$store.state.deviceColor = this.selectedColorName;
-            localStorage.setItem('deviceColor', this.selectedColorName);
+            localStorage.setItem(
+              `${this.lowerCaseModelId}_deviceColor`,
+              this.selectedColorName
+            );
             this?.createIntervalTask?.();
             this.$toast(this.$t('trans0040'), 2000, 'success');
             this.showMeshEditModal = false;

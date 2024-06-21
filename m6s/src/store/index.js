@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 Vue.use(Vuex);
+const lowerCaseModelId = process.env.MODEL_CONFIG.id.toLowerCase();
 
 export default new Vuex.Store({
   state: {
@@ -13,7 +14,8 @@ export default new Vuex.Store({
     theme: localStorage.getItem('theme') || 'light',
     changeMode: true,
     cancelTokenArr: [], // 取消请求token数组
-    deviceColor: localStorage.getItem('deviceColor') || 'black',
+    deviceColor:
+      localStorage.getItem(`${lowerCaseModelId}_deviceColor`) || 'black',
     modules: {
       limits: {},
       portfw: {},

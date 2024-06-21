@@ -149,7 +149,7 @@
 </template>
 <script>
 import { Bands } from 'base/util/constant';
-import { WlanImg } from '@/assets/images/base64-img/img.js';
+import { WlanImg } from 'base/assets/images/base64-img/img.js';
 import {
   getStringByte,
   isValidPassword,
@@ -275,36 +275,47 @@ export default {
     }
   },
   mounted() {
-    this.$loading.open();
-    this.$http
-      .login(
-        { password: '' },
-        {
-          hideToast: true
-        }
-      )
-      .catch(() => {
-        // password is not empty, go to login page
-        this.$router.push({ path: '/login' });
-        this.$loading.close();
-      });
-    this.$http
-      .getMeshMeta()
-      .then(res => {
-        const wifi = res.data.result;
-        const b24g = wifi.bands[Bands.b24g];
-        const b5g = wifi.bands[Bands.b5g];
-        this.wifiForm.ssid24g = b24g.ssid;
-        this.wifiForm.password24g = b24g.password;
-        this.wifiForm.ssid5g = b5g.ssid;
-        this.wifiForm.password5g = b5g.password;
-        this.wifiForm.smart_connect = wifi.smart_connect;
-      })
-      .then(() => {
-        this.getRegionInitData();
-      });
+    this.authorize();
   },
   methods: {
+    authorize() {
+      this.$loading.open();
+      this.$http
+        .login(
+          { password: '' },
+          {
+            hideToast: true
+          }
+        )
+        .then(() => {
+          this.getMesh();
+        })
+        .catch(() => {
+          // password is not empty, go to login page
+          this.$router.push({ path: '/login' });
+          this.$loading.close();
+        });
+    },
+    getMesh() {
+      this.$http
+        .getMeshMeta()
+        .then(res => {
+          const wifi = res.data.result;
+          const b24g = wifi.bands[Bands.b24g];
+          const b5g = wifi.bands[Bands.b5g];
+          this.wifiForm.ssid24g = b24g.ssid;
+          this.wifiForm.password24g = b24g.password;
+          this.wifiForm.ssid5g = b5g.ssid;
+          this.wifiForm.password5g = b5g.password;
+          this.wifiForm.smart_connect = wifi.smart_connect;
+        })
+        .then(() => {
+          this.getRegionInitData();
+        })
+        .catch(() => {
+          this.$loading.open();
+        });
+    },
     onSsid24gChange() {
       if (this.$refs.ssid5g && this.wifiForm.ssid5g) {
         this.$refs.ssid5g.extraValidate(
@@ -323,13 +334,10 @@ export default {
       // 开关变化后
       if (v) {
         this.wifiForm.ssid5g = this.wifiForm.ssid24g;
-        this.wifiForm.password24g = '';
-        this.wifiForm.password5g = this.wifiForm.password24g;
       } else {
         this.wifiForm.ssid5g = `${this.wifiForm.ssid24g}_5G`;
-        this.wifiForm.password24g = '';
-        this.wifiForm.password5g = '';
       }
+      this.wifiForm.password5g = this.wifiForm.password24g;
     },
     getRegionInitData() {
       Promise.all([this.$http.getRegion(), this.$http.getSupportRegions()])
@@ -356,9 +364,8 @@ export default {
             }
           });
           this.regionsList = regions;
-          this.$loading.close();
         })
-        .catch(() => {
+        .finally(() => {
           this.$loading.close();
         });
     },
@@ -374,7 +381,7 @@ export default {
         this.isLoading = true;
         // 提交表单
         this.$http
-          .updateMeshConfig({
+          .updateRouterInitialize({
             config: {
               wifi: {
                 bands: {
@@ -415,6 +422,9 @@ export default {
               },
               showLoading: false
             });
+          })
+          .finally(() => {
+            this.isLoading = false;
           });
       }
     }

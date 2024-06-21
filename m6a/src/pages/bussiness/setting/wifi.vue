@@ -34,12 +34,21 @@
                   key="b24gform"
                   :model="form"
                   :rules="rules">
-            <m-form-item key="b24genabled"
+            <div class="form-header">
+              <span class="form-header__title">
+                {{
+                  form.smart_connect?
+                  'Wi-Fi':
+                  $t('trans0677')
+                }}
+              </span>
+            </div>
+            <!-- <m-form-item key="b24genabled"
                          prop="b24g.enabled">
               <m-switch v-model="form.b24g.enabled"
                         disabled
                         :label="form.smart_connect?'Wi-Fi':$t('trans0677')"></m-switch>
-            </m-form-item>
+            </m-form-item> -->
             <m-form-item key="b24gssid"
                          prop="b24g.ssid">
               <m-input v-model="form.b24g.ssid"
@@ -78,18 +87,21 @@
             </m-form-item>
           </m-form>
           <!-- wifi 5g -->
-          <m-form v-if="!form.smart_connect"
+          <m-form v-show="!form.smart_connect"
                   class="form card"
                   ref="b5gForm"
                   key="b5gform"
                   :model="form"
                   :rules="rules">
-            <m-form-item key="b5genabled"
+            <div class="form-header">
+              <span class="form-header__title">{{ $t('trans0679') }}</span>
+            </div>
+            <!-- <m-form-item key="b5genabled"
                          prop="b5g.enabled">
               <m-switch v-model="form.b5g.enabled"
                         disabled
                         :label="$t('trans0679')"></m-switch>
-            </m-form-item>
+            </m-form-item> -->
             <m-form-item key="b5gssid"
                          prop="b5g.ssid">
               <m-input v-model="form.b5g.ssid"
@@ -149,11 +161,11 @@
                         :options="channels.b5g"></m-select>
             </m-form-item>
             <!-- DFS -->
-            <m-form-item key="dfs">
+            <!-- <m-form-item key="dfs">
               <m-switch v-model="form.dfs"
                         :label="$t('trans1231')"
                         @change="onDFSChange" />
-            </m-form-item>
+            </m-form-item> -->
             <!-- AUTO Channel -->
             <m-form-item key="autochannel"
                          class="check-info">
@@ -216,7 +228,7 @@ import {
   isFieldHasComma,
   isFieldHasSpaces
 } from 'base/util/util';
-import { EncryptMethod, Bands, channelMode } from 'base/util/constant';
+import { EncryptMethod, Bands, ChannelMode } from 'base/util/constant';
 import encryptMix from 'base/mixins/encrypt-methods';
 
 export default {
@@ -226,7 +238,7 @@ export default {
       form: {
         smart_connect: true,
         compatibility_mode: false,
-        dfs: true,
+        // dfs: true,
         b24g: {
           ssid: '',
           password: '',
@@ -458,7 +470,7 @@ export default {
               smart_connect: this.form.smart_connect,
               compatibility_mode: this.form.compatibility_mode,
               tx_power: this.form.wifiTxPower,
-              dfs: this.form.dfs,
+              // dfs: this.form.dfs,
               bands: { [Bands.b24g]: b24g, [Bands.b5g]: b5g }
             };
             console.log(wifi);
@@ -519,8 +531,8 @@ export default {
           this.form.channel.b5gChannel.number = b5g.channel.number;
           this.form.channel.b5gChannel.bandwidth = b5g.channel.bandwidth;
           if (
-            b24g.channel.mode === channelMode.auto &&
-            b5g.channel.mode === channelMode.auto
+            b24g.channel.mode === ChannelMode.auto &&
+            b5g.channel.mode === ChannelMode.auto
           ) {
             this.isAutoChannel = true;
           }
@@ -529,7 +541,7 @@ export default {
           this.form.smart_connect = wifi.smart_connect;
           this.form.compatibility_mode = wifi.compatibility_mode;
           // DFS
-          this.form.dfs = wifi.dfs || true;
+          // this.form.dfs = wifi.dfs || true;
 
           // wifi Tx_power
           this.form.wifiTxPower = wifi.tx_power || 'high';
@@ -547,9 +559,11 @@ export default {
         ssid: formBand.ssid,
         password: formBand.password,
         encrypt: formBand.encrypt,
-        channel: this.isAutoChannel
-          ? { mode: channelMode.auto, bandwidth: channel.bandwidth }
-          : { number: channel.number, bandwidth: channel.bandwidth }
+        channel: {
+          mode: this.isAutoChannel ? ChannelMode.auto : ChannelMode.manual,
+          number: channel.number,
+          bandwidth: channel.bandwidth
+        }
       };
     },
     mapChannelNumbers(numbers) {
@@ -558,24 +572,24 @@ export default {
         text: number
       }));
     },
-    onDFSChange(val) {
-      if (!val) {
-        this.$dialog.confirm({
-          okText: this.$t('trans0024'),
-          cancelText: this.$t('trans0025'),
-          title: this.$t('trans1233'),
-          message: this.$t('trans1234'),
-          callback: {
-            ok: () => {
-              this.form.dfs = false;
-            },
-            cancel: () => {
-              this.form.dfs = true;
-            }
-          }
-        });
-      }
-    }
+    // onDFSChange(val) {
+    //   if (!val) {
+    //     this.$dialog.confirm({
+    //       okText: this.$t('trans0024'),
+    //       cancelText: this.$t('trans0025'),
+    //       title: this.$t('trans1233'),
+    //       message: this.$t('trans1234'),
+    //       callback: {
+    //         ok: () => {
+    //           this.form.dfs = false;
+    //         },
+    //         cancel: () => {
+    //           this.form.dfs = true;
+    //         }
+    //       }
+    //     });
+    //   }
+    // }
   }
 };
 </script>
