@@ -1,7 +1,7 @@
 {
   "id": "0032",
   "title": "Viaero",
-  "host": "http://mywifi.mercku.tech",
+  "host": "http://mywifi.viaero.tech",
   "__host": "http://mywifi.mercku.tech",
   "accept": ".via",
   "favicon": "customer-conf/0032/favicon.ico",
@@ -11,10 +11,19 @@
   "defaultLanguage": "en-US",
   "wifi": "Viaero Wi-Fi",
   "routers": {
+    "M6a": {
+      "name": "M6a Wi-Fi6 Router",
+      "shortName": "M6a",
+      "deviceColors": ["black", "white", "grey", "red"]
+    },
     "M6a_Plus": {
       "name": "M6a Plus Wi-Fi6 Router",
       "shortName": "M6a Plus",
       "deviceColors": ["black", "white", "grey", "red"]
+    },
+    "M6c": {
+      "name": "M6c Wi-Fi6 Router",
+      "shortName": "M6c"
     }
   },
   "loading": {
