@@ -45,7 +45,7 @@ import diagnosis from 'base/pages/bussiness/advance/diagnosis.vue';
 import firewall from 'base/pages/bussiness/advance/firewall.vue';
 import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import tr069 from 'base/pages/bussiness/advance/tr069.vue';
-import telnet from 'base/pages/bussiness/advance/telnet.vue';
+// import telnet from 'base/pages/bussiness/advance/telnet.vue';
 // import backup from 'base/pages/bussiness/advance/backup.vue';
 
 // upgrade page
@@ -386,15 +386,15 @@ const routes = {
         hasAside: true
       }
     },
-    {
-      path: '/advance/telnet',
-      name: 'advance.telnet',
-      component: telnet,
-      meta: {
-        layout: 'primary',
-        hasAside: true
-      }
-    },
+    // {
+    //   path: '/advance/telnet',
+    //   name: 'advance.telnet',
+    //   component: telnet,
+    //   meta: {
+    //     layout: 'primary',
+    //     hasAside: true
+    //   }
+    // },
     {
       path: '/advance/mode',
       name: 'advance-mode',

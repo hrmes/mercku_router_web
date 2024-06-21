@@ -73,8 +73,7 @@ export default function getMenu(role, mode = RouterMode.router) {
             show: false
           },
           [Customers.viaero]: {
-            show: true,
-            auth: [Role.super]
+            show: false
           }
         }
       },
@@ -219,22 +218,19 @@ export default function getMenu(role, mode = RouterMode.router) {
         customers: {
           [Customers.mercku]: {
             show: true
-          },
-          [Customers.realnett]: {
-            show: false
           }
         }
-      },
-      {
-        url: '/advance/telnet',
-        name: 'advance.telnet',
-        text: 'trans0497',
-        config: {
-          show: false,
-          auth: [Role.super],
-          mode: [RouterMode.router]
-        }
       }
+      // {
+      //   url: '/advance/telnet',
+      //   name: 'advance.telnet',
+      //   text: 'trans0497',
+      //   config: {
+      //     show: false,
+      //     auth: [Role.super],
+      //     mode: [RouterMode.router]
+      //   }
+      // }
       // {
       //   url: '/advance/backup',
       //   name: 'advance.backup',
