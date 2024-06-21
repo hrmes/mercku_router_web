@@ -15,7 +15,11 @@
   --footer_popup_shadow-color: rgba(0, 0, 0, 0.12);
   --footer_menu_text-color: #333;
 
-  --scrollbar_wrap-bgc__isNotLogin: linear-gradient(to bottom, #f7f7f7 58%, #e8e8e8 89%);
+  --scrollbar_wrap-bgc__isNotLogin: linear-gradient(
+    to bottom,
+    #f7f7f7 58%,
+    #e8e8e8 89%
+  );
   --scrollbar_wrap-bgc__isLogin: linear-gradient(316deg, #e4e4e4, #fafafa 47%);
   --scrollbar_wrap_track-color: #f1f1f1;
   --scrollbar_wrap_thumb-color: #c1c1c1;
@@ -46,7 +50,12 @@
   --common_sub_card-bgc: #fafafa;
   --common_gery-color: #808080;
   --common_hr-color: #eaeaea;
-  --common_btn_default-bgimg: linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
+  --common_btn_default-bgimg: linear-gradient(
+    104deg,
+    #d6001c,
+    #ee1d4f 42%,
+    #ff6734
+  );
 
   --primary-color: #d6001c;
   --warning-color: #f12b2b;
@@ -54,7 +63,6 @@
   --text_default-color: #333;
   --text_gery-color: #737373;
   --img-brightness: brightness(0);
-  --img-disabled-brightness: brightness(1.2);
   --grey-bgc: #f7f7f7;
   --flexwarp_hasmenu-bgc: #f7f7f7;
   --hr-color: #ebebeb;
@@ -67,6 +75,12 @@
   --button_hover-opcity: 0.7;
   --button_disabled-opcity: 0.4;
   --button_default_text-color: var(--primary-color);
+  --button_default-bgimg: linear-gradient(
+      to right,
+      var(--dashboard_icon-bgc),
+      var(--dashboard_icon-bgc)
+    ),
+    linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
   --button_text_text-color: #333;
   --button_text_hover-color: #999;
   --button_text_primary_text-color: var(--primary-color);
@@ -81,7 +95,12 @@
   // checkbox
   --checkbox_border-color: #999;
   --checkbox-bgc: transparent;
-  --checkbox_checked-bgc: linear-gradient(315deg, #ff6734, #ee1d4f 55%, #d6001c);
+  --checkbox_checked-bgc: linear-gradient(
+    315deg,
+    #ff6734,
+    #ee1d4f 55%,
+    #d6001c
+  );
   --checkbox_disabled-bgc: #e6e6e6;
   // dialog
   --dialog_shadow-bgc: rgba(0, 0, 0, 0.3);
@@ -102,12 +121,13 @@
   --select_item_selected-color: var(--primary-color);
   --select_disabled-bgc: #f1f1f1;
   --select_disabled-opacity: 0.8;
-  --select-content-background: #fff;
   // header
-  --header_selected-bgc: linear-gradient(225deg,
-      #ff6734 30%,
-      #ee1d4f 55%,
-      #d6001c);
+  --header_selected-bgc: linear-gradient(
+    225deg,
+    #ff6734 30%,
+    #ee1d4f 55%,
+    #d6001c
+  );
   --header-bgc: #f7f7f7;
   --header-color: #fff;
   --header_nav_iconfont-color: #979797;
@@ -130,7 +150,6 @@
   --input_disabled-bgc: #f1f1f1;
   --input_disabled-opacity: 0.8;
   --input_placeholder-color: #bdbdbd;
-  --input-content-background: #fff;
   // modal
   --modal_mask-bgc: rgba(0, 0, 0, 0.7);
   --modal_header-bgc: #ebebeb;
@@ -168,7 +187,6 @@
   --time_picker_pannel_border-color: #d9d9d9;
   --time_picker_combox-bgc: #fff;
   --time_picker_combox-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.12);
-  ;
   --time_picker_button_border-color: #ebebeb;
   --time_picker_button-bgc: #fff;
   --time_picker_button_cancel-color: #333;
@@ -179,7 +197,6 @@
   // toast
   --toast_error-bgc: #ffc7c7;
   --toast_error-shadow: 0 10px 10px -5px rgba(255, 59, 59, 0.15);
-  ;
   --toast_success-bgc: #c0e9d3;
   --toast_success-shadow: 0 10px 10px -5px rgba(41, 185, 108, 0.12);
   // upgrade
@@ -209,7 +226,7 @@
   --download_ios_img-brightness: var(--img-brightness);
   --download_android_img-brightness: brightness(1);
   //logout
-  --logout_btn-bgc: #e6e6e6;
+  --logout_btn-bgc: #fff;
   --logout_btn-boxshadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
   //dashboard
   --dashboard_unlinked-color: rgba(51, 51, 51, 0.3);
@@ -283,9 +300,7 @@
   --mesh_table_offline_tips-bgc: #8c4040;
 
   --mobile_menu_selected-color: #ff677b;
-
   --back_wrapper_btn-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.5);
-
 
   --common_card-boxshadow: 0 50px 40px -20px rgba(0, 0, 0, 0.4);
   --common_card_hover-boxshadow: 0 50px 40px -20px rgba(226, 54, 77, 0.2);
@@ -293,10 +308,12 @@
   --common_sub_card-bgc: #262626;
   --common_gery-color: rgba(255, 255, 255, 0.6);
   --common_hr-color: #464646;
-  --common_btn_default-bgimg: linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
-
-
-
+  --common_btn_default-bgimg: linear-gradient(
+    104deg,
+    #d6001c,
+    #ee1d4f 42%,
+    #ff6734
+  );
 
   --primary-color: #ff334e;
   --warning-color: #ff4d64;
@@ -316,6 +333,12 @@
   --button_hover-opcity: 0.8;
   --button_disabled-opcity: 0.5;
   --button_default_text-color: #ff677b;
+  --button_default-bgimg: linear-gradient(
+      to right,
+      var(--dashboard_icon-bgc),
+      var(--dashboard_icon-bgc)
+    ),
+    linear-gradient(104deg, #d6001c, #ee1d4f 42%, #ff6734);
   --button_text_text-color: #fff;
   --button_text_hover-color: rgba(255, 255, 255, 0.6);
   --button_text_primary_text-color: var(--primary-color);
@@ -330,7 +353,12 @@
   // checkbox
   --checkbox_border-color: #fff;
   --checkbox-bgc: transparent;
-  --checkbox_checked-bgc: linear-gradient(315deg, #ff7242, #ee1d4f 55%, #f0112e);
+  --checkbox_checked-bgc: linear-gradient(
+    315deg,
+    #ff7242,
+    #ee1d4f 55%,
+    #f0112e
+  );
   --checkbox_disabled-bgc: #666;
   // dialog
   --dialog_shadow-bgc: rgba(0, 0, 0, 0.3);
@@ -351,12 +379,13 @@
   --select_item_selected-color: var(--primary-color);
   --select_disabled-bgc: rgba(255, 255, 255, 0.2);
   --select_disabled-opacity: 0.8;
-  --select-content-background: transparent;
   // header
-  --header_selected-bgc: linear-gradient(225deg,
-      #fb6d53 30%,
-      #ec4f5b 55%,
-      #e62342);
+  --header_selected-bgc: linear-gradient(
+    225deg,
+    #fb6d53 30%,
+    #ec4f5b 55%,
+    #e62342
+  );
   --header-bgc: #262626;
   --header-color: #fff;
   --header_nav_iconfont-color: #ffffff;
@@ -379,7 +408,6 @@
   --input_disabled-bgc: rgba(255, 255, 255, 0.2);
   --input_disabled-opacity: 0.8;
   --input_placeholder-color: rgba(255, 255, 255, 0.6);
-  --input-content-background: transparent;
   // modal
   --modal_mask-bgc: rgba(0, 0, 0, 0.8);
   --modal_header-bgc: #383838;
@@ -417,7 +445,6 @@
   --time_picker_pannel_border-color: #b3b3b3;
   --time_picker_combox-bgc: #4d4d4d;
   --time_picker_combox-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.2);
-  ;
   --time_picker_button_border-color: rgba(255, 255, 255, 0.2);
   --time_picker_button-bgc: #4d4d4d;
   --time_picker_button_cancel-color: var(--text_default-color);
@@ -483,7 +510,12 @@
   --table_body_hr-color: #2a2a2a;
   //aside
   --aside_selected_text-color: #fff;
-  --asdie_selected-bgc: linear-gradient(-50deg, #fb6d53 10%, #ec4f5b 45%, #e62342 100%);
+  --asdie_selected-bgc: linear-gradient(
+    -50deg,
+    #fb6d53 10%,
+    #ec4f5b 45%,
+    #e62342 100%
+  );
   --aside_hover-bgc: rgba(255, 255, 255, 0.2);
   --aside_disabled-color: rgba(255, 255, 255, 0.3);
   --aside_after-bgc: #fb6d53;
