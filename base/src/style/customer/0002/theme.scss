@@ -70,6 +70,12 @@
   --button_hover-opcity: 0.7;
   --button_disabled-opcity: 0.4;
   --button_default_text-color: var(--primary-color);
+  --button_default-bgimg: linear-gradient(
+      to right,
+      var(--common_card-bgc),
+      var(--common_card-bgc)
+    ),
+    linear-gradient(104deg, #871471, #7c1870 42%, #cd0177);
   --button_text_text-color: #333;
   --button_text_hover-color: #999;
   --button_text_primary_text-color: var(--primary-color);
@@ -318,6 +324,12 @@
   --button_hover-opcity: 0.8;
   --button_disabled-opcity: 0.5;
   --button_default_text-color: var(--primary-color);
+  --button_default-bgimg: linear-gradient(
+      to right,
+      var(--common_card-bgc),
+      var(--common_card-bgc)
+    ),
+    linear-gradient(104deg, #bb47a4, #b24da7 42%, #e23ca7);
   --button_text_text-color: #fff;
   --button_text_hover-color: rgba(255, 255, 255, 0.6);
   --button_text_primary_text-color: var(--primary-color);

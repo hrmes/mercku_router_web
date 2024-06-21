@@ -63,7 +63,6 @@ export default {
   },
   mounted() {
     this.getDMZ();
-    this.$loading.open();
   },
   methods: {
     getDMZ() {
@@ -71,11 +70,10 @@ export default {
       this.$http
         .getDMZ()
         .then(res => {
-          // this.$loading.close();
           this.dmz = res.data.result;
         })
-        .catch(() => {
-          // this.$loading.close();
+        .finally(() => {
+          this.$loading.close();
         });
     },
     submit() {
@@ -84,10 +82,9 @@ export default {
         this.$http
           .updateDMZ(this.dmz)
           .then(() => {
-            this.$loading.close();
             this.$toast(this.$t('trans0040'), 2000, 'success');
           })
-          .catch(() => {
+          .finally(() => {
             this.$loading.close();
           });
       }

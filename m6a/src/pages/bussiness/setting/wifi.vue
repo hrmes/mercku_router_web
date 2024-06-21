@@ -34,12 +34,21 @@
                   key="b24gform"
                   :model="form"
                   :rules="rules">
-            <m-form-item key="b24genabled"
+            <div class="form-header">
+              <span class="form-header__title">
+                {{
+                  form.smart_connect?
+                  'Wi-Fi':
+                  $t('trans0677')
+                }}
+              </span>
+            </div>
+            <!-- <m-form-item key="b24genabled"
                          prop="b24g.enabled">
               <m-switch v-model="form.b24g.enabled"
                         disabled
                         :label="form.smart_connect?'Wi-Fi':$t('trans0677')"></m-switch>
-            </m-form-item>
+            </m-form-item> -->
             <m-form-item key="b24gssid"
                          prop="b24g.ssid">
               <m-input v-model="form.b24g.ssid"
@@ -84,12 +93,15 @@
                   key="b5gform"
                   :model="form"
                   :rules="rules">
-            <m-form-item key="b5genabled"
+            <div class="form-header">
+              <span class="form-header__title">{{ $t('trans0679') }}</span>
+            </div>
+            <!-- <m-form-item key="b5genabled"
                          prop="b5g.enabled">
               <m-switch v-model="form.b5g.enabled"
                         disabled
                         :label="$t('trans0679')"></m-switch>
-            </m-form-item>
+            </m-form-item> -->
             <m-form-item key="b5gssid"
                          prop="b5g.ssid">
               <m-input v-model="form.b5g.ssid"
