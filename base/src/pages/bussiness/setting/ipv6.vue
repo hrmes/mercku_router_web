@@ -181,7 +181,7 @@ import { isValidInteger, isIP } from 'base/util/util';
 import { Models, IP, IPv6DefaultPlaceholder, WanNetStatus, WanType } from 'base/util/constant';
 
 const defaultPrefixLength = 64;
-const NoPPPoeList = [Models.M6s, Models.M6s_SFP, Models.M6s_Nano];
+const NoPPPoeList = [Models.M6s, Models.M6s_SFP, Models.M6s_Nano, Models.M6s_PoE_pp];
 const { IPv6 } = IP;
 export default {
   data() {

@@ -54,6 +54,7 @@ export const Models = {
   M6: 'M6R0',
   M6a: 'M8',
   M6s: 'M11R1',
+  M6s_SFP: 'M11R2',
   M6s_Nano: 'M13R0',
   M6s_PoE_pp: 'M16R0'
 };
@@ -72,7 +73,8 @@ export const SnABJMapName = {
 export const ModelIdJMapName = {
   M6R0: { 0: 'M6' },
   M8: { 0: 'M6a', 1: 'M6a_Plus', 2: 'M6c' },
-  M11R1: { 0: 'M6s', 1: 'M6s', 2: 'M6s_SFP' },
+  M11R1: { 1: 'M6s' },
+  M11R2: { 2: 'M6s_SFP' },
   M13R0: { 0: 'M6s Nano' },
   M16R0: { 0: 'M6s PoE_pp' }
 };

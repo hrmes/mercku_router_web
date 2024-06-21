@@ -13,10 +13,10 @@
   "routers": {
     "M6": {
       "name": "W6 Wi-Fi6 Router",
-      "shortName": "W6",
-      "deviceColors": ["black", "white", "grey", "red"]
+      "shortName": "W6"
     }
   },
+  "deviceColors": ["black", "white", "grey", "red"],
   "loading": {
     "color": "#00b4e4"
   },

@@ -221,7 +221,6 @@
 </template>
 <script>
 import { getNodeImage } from 'base/mixins/router-model';
-
 import { ModelIds, Bands } from 'base/util/constant';
 
 const PageStatus = {

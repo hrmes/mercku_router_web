@@ -43,6 +43,11 @@ import picNanoGateway from 'base/assets/images/topo/ic_nano_gw_green.png';
 import picNanoGood from 'base/assets/images/topo/ic_nano_normal.png';
 import picNanoBad from 'base/assets/images/topo/ic_nano_bad.png';
 import picNanoOffline from 'base/assets/images/topo/ic_nano_offline.png';
+// M6s PoE
+import picM6sPOEGateway from 'base/assets/images/topo/ic_m6s_poe_gw_green.png';
+import picM6sPOEGood from 'base/assets/images/topo/ic_m6s_poe_normal.png';
+import picM6sPOEBad from 'base/assets/images/topo/ic_m6s_poe_bad.png';
+import picM6sPOEOffline from 'base/assets/images/topo/ic_m6s_poe_offline.png';
 
 import {
   Color,
@@ -101,6 +106,12 @@ const picModelColorMap = {
     [Color.good]: picNanoGood,
     [Color.bad]: picNanoBad,
     [Color.offline]: picNanoOffline
+  },
+  [RouterSnAB2Model.M6s_PoE_pp]: {
+    gw: picM6sPOEGateway,
+    [Color.good]: picM6sPOEGood,
+    [Color.bad]: picM6sPOEBad,
+    [Color.offline]: picM6sPOEOffline
   },
   default: {
     gw: picDefaultGateway,

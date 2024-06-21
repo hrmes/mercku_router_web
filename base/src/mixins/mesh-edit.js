@@ -73,11 +73,10 @@ export default {
   computed: {
     gwAvailableDeviceColors() {
       const MODEL_ID = process.env.MODEL_CONFIG.id;
-      const MODEL_NAME = ModelIds[MODEL_ID];
       const ModelIdJMapNameList = ModelIdJMapName[MODEL_ID];
       let productInfo;
 
-      if (Object.keys(RouterHasModelDistinctionMap).includes(MODEL_NAME)) {
+      if (Object.keys(ModelIdJMapNameList).length > 1) {
         productInfo =
           process.env.CUSTOMER_CONFIG.routers[
             ModelIdJMapNameList[this.$store.state.modelVersion]

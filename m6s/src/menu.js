@@ -99,18 +99,18 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0644',
         config: strategyA
       },
-      // {
-      //   url: '/setting/led',
-      //   name: 'led',
-      //   text: 'trans0779',
-      //   config
-      // },
-      // {
-      //   url: '/setting/schedule',
-      //   name: 'schedule',
-      //   text: 'trans0962',
-      //   config
-      // },
+      {
+        url: '/setting/led',
+        name: 'led',
+        text: 'trans0779',
+        config
+      },
+      {
+        url: '/setting/schedule',
+        name: 'schedule',
+        text: 'trans0962',
+        config
+      },
       {
         url: '/setting/wps',
         name: 'wps',
@@ -131,20 +131,6 @@ export default function getMenu(role, mode = RouterMode.router) {
           model: [Models.M6s_SFP]
         }
       }
-      // {
-      //   url: '/setting/sfp',
-      //   name: 'sfp',
-      //   text: 'SFP',
-      //   config: {
-      //     show: false,
-      //     mode: [
-      //       RouterMode.router,
-      //       RouterMode.bridge,
-      //       RouterMode.wirelessBridge
-      //     ],
-      //     model: [Models.M6s_SFP]
-      //   }
-      // }
     ]
   };
   const advance = {

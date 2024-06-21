@@ -1,8 +1,6 @@
 // import upgradeM2 from 'base/assets/images/model/upgrade/img_m2.png';
 // import upgradeBee from 'base/assets/images/model/upgrade/img_bee.png';
 // import upgradeWwax from 'base/assets/images/model/upgrade/img_homeway.png';
-// import upgradeM6sSFP from 'base/assets/images/model/upgrade/img_m6s-sfp.svg';
-// import meshM6sSFP from 'base/assets/images/model/mesh/ic_m6s-sfp.svg';
 
 // Upgrade router model imgs
 import upgradeM6 from 'base/assets/images/model/upgrade/img_m6.png';
@@ -10,6 +8,7 @@ import upgradeM6a from 'base/assets/images/model/upgrade/img_m6a.png';
 import upgradeM6aPlus from 'base/assets/images/model/upgrade/img_m6a-plus.png';
 import upgradeM6c from 'base/assets/images/model/upgrade/img_m6c.png';
 import upgradeM6s from 'base/assets/images/model/upgrade/img_m6s.svg';
+import upgradeM6sSFP from 'base/assets/images/model/upgrade/img_m6s-sfp.svg';
 import upgradeM6sPOE from 'base/assets/images/model/upgrade/img_m6s-poe.svg';
 import upgradeM6sNano from 'base/assets/images/model/upgrade/img_nano.svg';
 //  Mesh router model line icon
@@ -18,11 +17,13 @@ import meshM6a from 'base/assets/images/model/mesh/ic_m6a.png';
 import meshM6aPlus from 'base/assets/images/model/mesh/ic_m6a-plus.png';
 import meshM6c from 'base/assets/images/model/mesh/ic_m6c.png';
 import meshM6s from 'base/assets/images/model/mesh/ic_m6s.svg';
+import meshM6sSFP from 'base/assets/images/model/mesh/ic_m6s-sfp.svg';
 import meshM6sPOE from 'base/assets/images/model/mesh/ic_m6s-poe.svg';
 import meshM6sNano from 'base/assets/images/model/mesh/ic_nano.svg';
 import meshUnknowRouter from 'base/assets/images/model/mesh/ic_unknow.svg';
 
 import {
+  Models,
   RouterSnAB2Model,
   RouterHasModelDistinctionMap
 } from 'base/util/constant.js';
@@ -35,7 +36,10 @@ const RouterModelImgMap = {
       [RouterHasModelDistinctionMap.M6a_Plus]: upgradeM6aPlus,
       [RouterHasModelDistinctionMap.M6c]: upgradeM6c
     },
-    [RouterSnAB2Model.M6s]: upgradeM6s,
+    [RouterSnAB2Model.M6s]: {
+      [RouterHasModelDistinctionMap.M6s]: upgradeM6s,
+      [RouterHasModelDistinctionMap.M6s_SFP]: upgradeM6sSFP
+    },
     [RouterSnAB2Model.M6s_Nano]: upgradeM6sNano,
     [RouterSnAB2Model.M6s_PoE_pp]: upgradeM6sPOE,
     default: upgradeM6
@@ -47,7 +51,10 @@ const RouterModelImgMap = {
       [RouterHasModelDistinctionMap.M6a_Plus]: meshM6aPlus,
       [RouterHasModelDistinctionMap.M6c]: meshM6c
     },
-    [RouterSnAB2Model.M6s]: meshM6s,
+    [RouterSnAB2Model.M6s]: {
+      [RouterHasModelDistinctionMap.M6s]: meshM6s,
+      [RouterHasModelDistinctionMap.M6s_SFP]: meshM6sSFP
+    },
     [RouterSnAB2Model.M6s_Nano]: meshM6sNano,
     [RouterSnAB2Model.M6s_PoE_pp]: meshM6sPOE,
     default: meshUnknowRouter
@@ -60,7 +67,7 @@ const PageName = {
 
 function getM6aProductsInfo() {
   let info;
-  const modelVersion = localStorage.getItem('modelID');
+  const modelVersion = localStorage.getItem('modelVersion');
   switch (modelVersion) {
     case RouterHasModelDistinctionMap.M6a:
       info = process.env.CUSTOMER_CONFIG.routers.M6a;
@@ -76,18 +83,18 @@ function getM6aProductsInfo() {
   }
   return info;
 }
-// function getM6sProductsInfo() {
-//   let info;
-//   switch (process.env.MODEL_CONFIG.id) {
-//     case Models.M6s_SFP:
-//       info = process.env.CUSTOMER_CONFIG.routers.M6s_SFP;
-//       break;
-//     default:
-//       info = process.env.CUSTOMER_CONFIG.routers.M6s;
-//       break;
-//   }
-//   return info;
-// }
+function getM6sProductsInfo() {
+  let info;
+  switch (process.env.MODEL_CONFIG.id) {
+    case Models.M6s_SFP:
+      info = process.env.CUSTOMER_CONFIG.routers.M6s_SFP;
+      break;
+    default:
+      info = process.env.CUSTOMER_CONFIG.routers.M6s;
+      break;
+  }
+  return info;
+}
 export const getNodeImage = {
   methods: {
     getNodeImage(node, page = PageName.upgrade) {
@@ -116,7 +123,7 @@ export const Products = {
       Products: {
         [RouterSnAB2Model.M6]: process.env.CUSTOMER_CONFIG.routers.M6,
         [RouterSnAB2Model.M6a]: getM6aProductsInfo(),
-        [RouterSnAB2Model.M6s]: process.env.CUSTOMER_CONFIG.routers.M6s,
+        [RouterSnAB2Model.M6s]: getM6sProductsInfo(),
         [RouterSnAB2Model.M6s_Nano]:
           process.env.CUSTOMER_CONFIG.routers.M6s_Nano,
         [RouterSnAB2Model.M6s_PoE_pp]:
