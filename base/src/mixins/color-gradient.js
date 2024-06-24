@@ -1,7 +1,6 @@
 export default {
   computed: {
     color() {
-      console.log(process.env.CUSTOMER_CONFIG.loading.color);
       return process.env.CUSTOMER_CONFIG.loading.color;
     },
     pathElements() {

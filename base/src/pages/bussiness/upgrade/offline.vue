@@ -1,7 +1,8 @@
 <template>
   <div class="page">
-    <div v-if="$store.state.isMobile"
-         class="page-header">{{ $t('trans0204') }}</div>
+    <div v-if="$store.state.isMobile" class="page-header">
+      {{ $t('trans0204') }}
+    </div>
     <div class="page-content">
       <div class="page-content__main">
         <div class="form">
@@ -9,10 +10,13 @@
             <p>
               1.
               <span>{{ $t('trans0332') }}&nbsp;</span>
-              <a class="btn-text text-primary"
-                 :href="transWebsite('trans0338')"
-                 target="_blank">
-                {{ transWebsite('trans0338') }}</a>
+              <a
+                class="btn-text text-primary"
+                :href="transWebsite('trans0338')"
+                target="_blank"
+              >
+                {{ transWebsite('trans0338') }}</a
+              >
               <span>&nbsp;{{ $t('trans0377') }}</span>
             </p>
             <p>
@@ -25,44 +29,50 @@
             </p>
           </div>
           <div class="upload">
-            <m-upload ref="uploader"
-                      dragable
-                      :onChange="onChange"
-                      :onCancel="onCancel"
-                      :beforeUpload="beforeUpload"
-                      :request="upload"
-                      :packageInfo="packageInfo"
-                      :label="$t('trans0339')"
-                      :accept="accept" />
+            <m-upload
+              ref="uploader"
+              dragable
+              :onChange="onChange"
+              :onCancel="onCancel"
+              :beforeUpload="beforeUpload"
+              :request="upload"
+              :packageInfo="packageInfo"
+              :label="$t('trans0339')"
+              :accept="accept"
+            />
           </div>
-          <div class="nodes-wrapper"
-               v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes"
-               ref="renodes">
-            <div class="retitle"
-                 :class="{
-                 'retitle--fixed': isRetitleFixed
-               }"
-                 ref="retitle">
+          <div
+            class="nodes-wrapper"
+            v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes"
+            ref="renodes"
+          >
+            <div
+              class="retitle"
+              :class="{
+                'retitle--fixed': isRetitleFixed
+              }"
+              ref="retitle"
+            >
               {{ $t('trans0333') }}
-              <div v-if="$store.state.isMobile"
-                   class="retitle__btn-wrap">
-                <button @click="upgrade()"
-                        class="btn btn-small retitle__btn">
+              <div v-if="$store.state.isMobile" class="retitle__btn-wrap">
+                <button @click="upgrade()" class="btn btn-small retitle__btn">
                   {{ $t('trans0225') }}
                 </button>
               </div>
             </div>
-            <div class="nodes-info"
-                 :style="{
-            'margin-top': isRetitleFixed ? `${nodesInfoMarginTop}px` : 0
-          }">
-              <div v-for="node in localNodesOrdered"
-                   :key="node.sn"
-                   class="node">
-                <div class="message"
-                     @click="check(node)">
-                  <m-checkbox :readonly="true"
-                              v-model="node.checked" />
+            <div
+              class="nodes-info"
+              :style="{
+                'margin-top': isRetitleFixed ? `${nodesInfoMarginTop}px` : 0
+              }"
+            >
+              <div
+                v-for="node in localNodesOrdered"
+                :key="node.sn"
+                class="node"
+              >
+                <div class="message" @click="check(node)">
+                  <m-checkbox :readonly="true" v-model="node.checked" />
                   <div class="img-container">
                     <img :src="getNodeImage(node)" />
                   </div>
@@ -79,21 +89,23 @@
                       <span>{{ node.version.current }}</span>
                     </p>
                     <div class="badges">
-                      <m-tag v-if="node.isGW"
-                             class="gateway">{{ $t('trans0153') }}</m-tag>
+                      <m-tag v-if="node.isGW" class="gateway">{{
+                        $t('trans0153')
+                      }}</m-tag>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="description-wrapper"
-               v-if="
+          <div
+            class="description-wrapper"
+            v-if="
               uploadStatus === UploadStatus.success && !hasUpgradablityNodes
-            ">
+            "
+          >
             <p>
-              <img src="../../../assets/images/icon/ic_hint.png"
-                   alt="" />
+              <img src="../../../assets/images/icon/ic_hint.png" alt="" />
               {{ $t('trans0336') }}
             </p>
             <p>{{ $t('trans0337') }}</p>
@@ -101,15 +113,16 @@
           </div>
         </div>
       </div>
-      <div class="page-content__bottom"
-           v-if="
-           !$store.state.isMobile
-           && uploadStatus === UploadStatus.success
-           && hasUpgradablityNodes
-           ">
+      <div
+        class="page-content__bottom"
+        v-if="
+          !$store.state.isMobile &&
+          uploadStatus === UploadStatus.success &&
+          hasUpgradablityNodes
+        "
+      >
         <div class="form-button__wrapper">
-          <button class="btn"
-                  @click="upgrade()">
+          <button class="btn" @click="upgrade()">
             {{ $t('trans0225') }}
           </button>
         </div>
@@ -123,7 +136,6 @@ import { getFileExtendName } from 'base/util/util';
 import { Products, getNodeImage } from 'base/mixins/router-model';
 import upgradeMixin from 'base/mixins/upgrade';
 
-
 export default {
   mixins: [Products, getNodeImage, upgradeMixin],
   data() {
@@ -136,7 +148,7 @@ export default {
       cancelToken: null,
       packageInfo: {},
       fwInfo: {},
-      upgraded: false,
+      upgraded: false
     };
   },
   beforeRouteLeave(to, from, next) {
@@ -292,20 +304,19 @@ export default {
           ok: () => {
             this.$http
               .upgradeMeshNode({ node_ids: nodeIds, local: true })
-              .then(() => {
-                this.upgraded = true;
-                this.$upgrade({
-                  ontimeout: () => {
-                    this.$router.push({ path: '/unconnect' });
-                  },
-                  timeout: 180,
-                  progressVisible: true
-                });
-              })
+              .then(() => {})
               .catch(err => {
-                if (err.response.data.error.code === 600402) this.upgraded = true;
-                this.$loading.close();
+                if (err.response.data.error.code === 600402)
+                  this.upgraded = true;
               });
+            this.upgraded = true;
+            this.$upgrade({
+              ontimeout: () => {
+                this.$router.push({ path: '/unconnect' });
+              },
+              timeout: 180,
+              progressVisible: true
+            });
           }
         }
       });

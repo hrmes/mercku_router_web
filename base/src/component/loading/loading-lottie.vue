@@ -44,7 +44,7 @@ export default {
           break;
       }
       return result;
-    },
+    }
   },
   methods: {
     loadImg() {
@@ -59,7 +59,7 @@ export default {
         p.style.fill = this.colorArr[index];
         p.style.stroke = this.colorArr[index];
       });
-    },
+    }
   }
 };
 </script>
