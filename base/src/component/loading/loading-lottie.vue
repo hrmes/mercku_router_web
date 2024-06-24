@@ -30,9 +30,6 @@ export default {
     window.requestAnimationFrame(this.loadImg);
   },
   computed: {
-    color() {
-      return process.env.CUSTOMER_CONFIG.loading.color;
-    },
     animJson() {
       let result;
       switch (this.loadingType) {
@@ -47,7 +44,7 @@ export default {
           break;
       }
       return result;
-    },
+    }
   },
   methods: {
     loadImg() {
@@ -62,7 +59,7 @@ export default {
         p.style.fill = this.colorArr[index];
         p.style.stroke = this.colorArr[index];
       });
-    },
+    }
   }
 };
 </script>

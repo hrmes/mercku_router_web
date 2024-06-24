@@ -1,17 +1,12 @@
 // loading.vue
 <template>
   <transition name="loading">
-    <div v-if="visible"
-         class="loading-container"
-         id="loading-wrap">
+    <div v-if="visible" class="loading-container" id="loading-wrap">
       <div class="loading-wrap">
         <div id="loadingImg"></div>
       </div>
-      <div v-if="title"
-           class="title">{{title}}</div>
-      <div v-if="template"
-           class="template"
-           v-html="template"></div>
+      <div v-if="title" class="title">{{ title }}</div>
+      <div v-if="template" class="template" v-html="template"></div>
     </div>
   </transition>
 </template>
@@ -19,14 +14,13 @@
 import { loadAnimation } from 'lottie-web-light';
 import colorGradientMixin from 'base/mixins/color-gradient';
 
-
 export default {
   mixins: [colorGradientMixin],
   data() {
     return {
       visible: false,
       template: '',
-      title: '',
+      title: ''
     };
   },
   mounted() {
@@ -36,7 +30,7 @@ export default {
   computed: {
     animJson() {
       return require('../../assets/lottie/loading/loading.json');
-    },
+    }
   },
   methods: {
     loadImg() {
@@ -50,8 +44,10 @@ export default {
       this.pathElements.forEach((p, index) => {
         p.style.fill = this.colorArr[index];
         p.style.stroke = this.colorArr[index];
+        console.log(p.style.fill);
+        console.log(p.style.stroke);
       });
-    },
+    }
   }
 };
 </script>
