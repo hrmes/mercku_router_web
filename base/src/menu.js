@@ -234,7 +234,7 @@ export default function getMenu(role, mode = RouterMode.router) {
         text: 'trans0499',
         config: {
           show: true,
-          auth: [Role.super],
+          auth: [Role.super, Role.admin],
           mode: [RouterMode.router, RouterMode.bridge]
         },
         customers: {
