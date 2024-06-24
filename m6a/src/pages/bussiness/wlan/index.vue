@@ -2,53 +2,57 @@
   <div class="wlan">
     <div class="step-content">
       <div class="row-1">
-        <div class="col-1"
-             v-if="!isMobile">
-          <img :src="WlanImg">
+        <div class="col-1" v-if="!isMobile">
+          <img :src="WlanImg" />
         </div>
         <div class="col-2">
-          <div class="step-item step-item1"
-               v-if="stepOption.current===0">
-            <m-form ref="wifiForm"
-                    :model="wifiForm"
-                    :rules="wifiFormRules">
-              <p class="step-tips">{{$t('trans0167').toUpperCase()}}</p>
+          <div class="step-item step-item1" v-if="stepOption.current === 0">
+            <m-form ref="wifiForm" :model="wifiForm" :rules="wifiFormRules">
+              <p class="step-tips">{{ $t('trans0167').toUpperCase() }}</p>
               <div class="card-wrapper">
                 <m-form-item prop="smart_connect">
-                  <m-switch :label="$t('trans0397')"
-                            @change="changeSmartConnect"
-                            v-model="wifiForm.smart_connect" />
-                  <div class="tip-label">{{$t('trans0398')}}</div>
+                  <m-switch
+                    :label="$t('trans0397')"
+                    @change="changeSmartConnect"
+                    v-model="wifiForm.smart_connect"
+                  />
+                  <div class="tip-label">{{ $t('trans0398') }}</div>
                 </m-form-item>
               </div>
               <div class="card-wrapper">
                 <m-form-item prop="region">
                   <div class="region-grid">
-                    <m-select :label="$t('trans0639')"
-                              v-model="region_id"
-                              :options="regionsList" />
+                    <m-select
+                      :label="$t('trans0639')"
+                      v-model="region_id"
+                      :options="regionsList"
+                    />
                   </div>
-                  <div class="tip-label">{{$t('trans0646')}}</div>
+                  <div class="tip-label">{{ $t('trans0646') }}</div>
                 </m-form-item>
               </div>
               <div class="card-wrapper">
                 <div class="form-header">
                   <span class="form-header__title">
-                    {{ wifiForm.smart_connect?'Wi-Fi':$t('trans0677')}}
+                    {{ wifiForm.smart_connect ? 'Wi-Fi' : $t('trans0677') }}
                   </span>
                 </div>
                 <div class="form-content">
                   <m-form-item prop="ssid24g">
-                    <m-input :label="$t('trans0168')"
-                             :placeholder="$t('trans0321')"
-                             v-model="wifiForm.ssid24g"
-                             :onBlur="onSsid24gChange" />
+                    <m-input
+                      :label="$t('trans0168')"
+                      :placeholder="$t('trans0321')"
+                      v-model="wifiForm.ssid24g"
+                      :onBlur="onSsid24gChange"
+                    />
                   </m-form-item>
                   <m-form-item prop="password24g">
-                    <m-input :label="$t('trans0172')"
-                             type="password"
-                             :placeholder="$t('trans0321')"
-                             v-model="wifiForm.password24g" />
+                    <m-input
+                      :label="$t('trans0172')"
+                      type="password"
+                      :placeholder="$t('trans0321')"
+                      v-model="wifiForm.password24g"
+                    />
                   </m-form-item>
                 </div>
               </div>
@@ -56,76 +60,77 @@
                 <template v-if="!wifiForm.smart_connect">
                   <div class="card-wrapper">
                     <div class="form-header">
-                      <span class="form-header__title">{{$t('trans0679')}}</span>
+                      <span class="form-header__title">{{
+                        $t('trans0679')
+                      }}</span>
                     </div>
                     <div class="form-content">
-                      <m-form-item class="form-item"
-                                   prop="ssid5g"
-                                   ref="ssid5g">
-                        <m-input :label="$t('trans0168')"
-                                 :placeholder="$t('trans0321')"
-                                 v-model="wifiForm.ssid5g" />
+                      <m-form-item class="form-item" prop="ssid5g" ref="ssid5g">
+                        <m-input
+                          :label="$t('trans0168')"
+                          :placeholder="$t('trans0321')"
+                          v-model="wifiForm.ssid5g"
+                        />
                       </m-form-item>
-                      <m-form-item class="form-item"
-                                   prop="password5g">
-                        <m-input :label="$t('trans0172')"
-                                 type="password"
-                                 :placeholder="$t('trans0321')"
-                                 v-model="wifiForm.password5g" />
+                      <m-form-item class="form-item" prop="password5g">
+                        <m-input
+                          :label="$t('trans0172')"
+                          type="password"
+                          :placeholder="$t('trans0321')"
+                          v-model="wifiForm.password5g"
+                        />
                       </m-form-item>
                     </div>
-
                   </div>
                 </template>
               </transition>
             </m-form>
           </div>
-          <div class="step-item step-item2"
-               v-if="stepOption.current===1">
-            <m-lottie-loading class="configing-loading"
-                              :size="160"
-                              id="config-loading" />
-            <p class="cutdown">{{$t('trans0294')}}{{countdown}}s</p>
-            <div class="tip"
-                 style="margin-top:5px;">
-              {{$t('trans0171')}}
+          <div class="step-item step-item2" v-if="stepOption.current === 1">
+            <m-lottie-loading
+              class="configing-loading"
+              :size="160"
+              id="config-loading"
+            />
+            <p class="cutdown">{{ $t('trans0294') }}{{ countdown }}s</p>
+            <div class="tip" style="margin-top:5px;">
+              {{ $t('trans0171') }}
             </div>
             <div class="info-container">
               <div class="info info-pw">
                 <div class="info__row">
-                  <div class="info__title">{{$t('trans0561')}}:</div>
-                  <div class="info__value">{{wifiForm.password24g}}</div>
+                  <div class="info__title">{{ $t('trans0561') }}:</div>
+                  <div class="info__value">{{ wifiForm.password24g }}</div>
                 </div>
               </div>
             </div>
-            <div class="tip tip-setting">{{tipsText}}</div>
+            <div class="tip tip-setting">{{ tipsText }}</div>
             <div class="info-container wifi-24g">
-              <div class="form-header"
-                   v-if="wifiForm.smart_connect">
-                <span class="form-header__title">{{$t('trans0168')}}:</span>
+              <div class="form-header" v-if="wifiForm.smart_connect">
+                <span class="form-header__title">{{ $t('trans0168') }}:</span>
               </div>
               <div class="info">
                 <div class="info__row">
-                  <div v-if="!wifiForm.smart_connect"
-                       class="info__title">{{$t('trans0923')}}:</div>
-                  <div class="info__value">{{wifiForm.ssid24g}}</div>
+                  <div v-if="!wifiForm.smart_connect" class="info__title">
+                    {{ $t('trans0923') }}:
+                  </div>
+                  <div class="info__value">{{ wifiForm.ssid24g }}</div>
                 </div>
                 <div class="info__row">
-                  <div class="info__title">{{$t('trans0172')}}:</div>
-                  <div class="info__value">{{wifiForm.password24g}}</div>
+                  <div class="info__title">{{ $t('trans0172') }}:</div>
+                  <div class="info__value">{{ wifiForm.password24g }}</div>
                 </div>
               </div>
             </div>
-            <div v-if="!wifiForm.smart_connect"
-                 class="info-container wifi-5g">
+            <div v-if="!wifiForm.smart_connect" class="info-container wifi-5g">
               <div class="info">
                 <div class="info__row">
-                  <div class="info__title">{{$t('trans0924')}}:</div>
-                  <div class="info__value">{{wifiForm.ssid5g}}</div>
+                  <div class="info__title">{{ $t('trans0924') }}:</div>
+                  <div class="info__value">{{ wifiForm.ssid5g }}</div>
                 </div>
                 <div class="info__row">
-                  <div class="info__title">{{$t('trans0172')}}:</div>
-                  <div class="info__value">{{wifiForm.password5g}}</div>
+                  <div class="info__title">{{ $t('trans0172') }}:</div>
+                  <div class="info__value">{{ wifiForm.password5g }}</div>
                 </div>
               </div>
             </div>
@@ -133,15 +138,13 @@
         </div>
       </div>
       <div class="row-2">
-        <div class="button-container"
-             v-if="stepOption.current===0">
+        <div class="button-container" v-if="stepOption.current === 0">
           <div v-if="isLoading">
-            <m-loading :size="28"
-                       id="btnLoading"></m-loading>
+            <m-loading :size="28" id="btnLoading"></m-loading>
           </div>
-          <button v-else
-                  @click="step1()"
-                  class="btn">{{ $t('trans0055')}}</button>
+          <button v-else @click="step1()" class="btn">
+            {{ $t('trans0055') }}
+          </button>
         </div>
       </div>
     </div>
@@ -381,7 +384,7 @@ export default {
         this.isLoading = true;
         // 提交表单
         this.$http
-          .updateRouterInitialize({
+          .updateMeshConfig({
             config: {
               wifi: {
                 bands: {
