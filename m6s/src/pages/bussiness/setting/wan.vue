@@ -1,7 +1,6 @@
 <template>
   <div class="page">
-    <div v-if="$store.state.isMobile"
-         class="page-header">
+    <div v-if="$store.state.isMobile" class="page-header">
       {{ $t('trans0142') }}
     </div>
     <div class="page-content">
@@ -9,7 +8,7 @@
         <div class="row-1">
           <div class="wan-info card">
             <div>
-              <label class="with-colon">{{$t('trans0317')}}:</label>
+              <label class="with-colon">{{ $t('trans0317') }}:</label>
               <span>
                 {{ networkArr[localNetInfo.type] }}
               </span>
@@ -39,202 +38,240 @@
         <div class="row-2">
           <div class="net-type card">
             <m-form-item>
-              <m-select :label="$t('trans0317')"
-                        v-model="netType"
-                        :options="options"></m-select>
+              <m-select
+                :label="$t('trans0317')"
+                v-model="netType"
+                :options="options"
+              ></m-select>
               <div class="des-tips">{{ netNote[netType] }}</div>
             </m-form-item>
-            <m-form key="dhcp-form"
-                    v-if="isDhcp"
-                    ref="dhcpForm"
-                    :model="dhcpForm"
-                    :rules="dhcpRules">
-              <m-form-item :class="{last:autodns.dhcp}">
-                <m-select :label="$t('trans0401')"
-                          v-model="autodns.dhcp"
-                          :options="dnsOptions"></m-select>
+            <m-form
+              key="dhcp-form"
+              v-if="isDhcp"
+              ref="dhcpForm"
+              :model="dhcpForm"
+              :rules="dhcpRules"
+            >
+              <m-form-item :class="{ last: autodns.dhcp }">
+                <m-select
+                  :label="$t('trans0401')"
+                  v-model="autodns.dhcp"
+                  :options="dnsOptions"
+                ></m-select>
               </m-form-item>
-              <div class="form__dns"
-                   v-if="!autodns.dhcp">
-                <m-form-item prop="dns1"
-                             ref="dns">
-                  <m-input :label="$t('trans0236')"
-                           type="text"
-                           placeholder="0.0.0.0"
-                           v-model="dhcpForm.dns1" />
+              <div class="form__dns" v-if="!autodns.dhcp">
+                <m-form-item prop="dns1" ref="dns">
+                  <m-input
+                    :label="$t('trans0236')"
+                    type="text"
+                    placeholder="0.0.0.0"
+                    v-model="dhcpForm.dns1"
+                  />
                 </m-form-item>
-                <m-form-item class="last"
-                             prop="dns2"
-                             ref="backupdns">
-                  <m-input :label="$t('trans0320')"
-                           type="text"
-                           placeholder="0.0.0.0"
-                           v-model="dhcpForm.dns2" />
+                <m-form-item class="last" prop="dns2" ref="backupdns">
+                  <m-input
+                    :label="$t('trans0320')"
+                    type="text"
+                    placeholder="0.0.0.0"
+                    v-model="dhcpForm.dns2"
+                  />
                 </m-form-item>
               </div>
             </m-form>
-            <m-form key="pppoe-form"
-                    v-else-if="isPppoe"
-                    ref="pppoeForm"
-                    :model="pppoeForm"
-                    :rules="pppoeRules">
+            <m-form
+              key="pppoe-form"
+              v-else-if="isPppoe"
+              ref="pppoeForm"
+              :model="pppoeForm"
+              :rules="pppoeRules"
+            >
               <m-form-item prop="account">
-                <m-input :label="$t('trans0155')"
-                         type="text"
-                         :placeholder="`${$t('trans0321')}`"
-                         v-model="pppoeForm.account"></m-input>
+                <m-input
+                  :label="$t('trans0155')"
+                  type="text"
+                  :placeholder="`${$t('trans0321')}`"
+                  v-model="pppoeForm.account"
+                ></m-input>
               </m-form-item>
               <m-form-item prop="password">
-                <m-input :label="$t('trans0156')"
-                         type="password"
-                         :placeholder="`${$t('trans0321')}`"
-                         v-model="pppoeForm.password" />
+                <m-input
+                  :label="$t('trans0156')"
+                  type="password"
+                  :placeholder="`${$t('trans0321')}`"
+                  v-model="pppoeForm.password"
+                />
               </m-form-item>
-              <m-form-item :class="{'last':autodns.pppoe}">
-                <m-select :label="$t('trans0401')"
-                          v-model="autodns.pppoe"
-                          :options="dnsOptions"></m-select>
+              <m-form-item :class="{ last: autodns.pppoe }">
+                <m-select
+                  :label="$t('trans0401')"
+                  v-model="autodns.pppoe"
+                  :options="dnsOptions"
+                ></m-select>
               </m-form-item>
-              <div class="form__dns"
-                   v-if="!autodns.pppoe">
-                <m-form-item prop="dns1"
-                             ref="dns">
-                  <m-input :label="$t('trans0236')"
-                           type="text"
-                           placeholder="0.0.0.0"
-                           v-model="pppoeForm.dns1" />
+              <div class="form__dns" v-if="!autodns.pppoe">
+                <m-form-item prop="dns1" ref="dns">
+                  <m-input
+                    :label="$t('trans0236')"
+                    type="text"
+                    placeholder="0.0.0.0"
+                    v-model="pppoeForm.dns1"
+                  />
                 </m-form-item>
-                <m-form-item prop="dns2"
-                             ref="backupdns"
-                             class="last">
-                  <m-input :label="$t('trans0320')"
-                           type="text"
-                           placeholder="0.0.0.0"
-                           v-model="pppoeForm.dns2" />
+                <m-form-item prop="dns2" ref="backupdns" class="last">
+                  <m-input
+                    :label="$t('trans0320')"
+                    type="text"
+                    placeholder="0.0.0.0"
+                    v-model="pppoeForm.dns2"
+                  />
                 </m-form-item>
               </div>
             </m-form>
-            <m-form key="static-form"
-                    v-else-if="isStatic"
-                    ref="staticForm"
-                    :model="staticForm"
-                    :rules="staticRules">
-              <m-form-item prop="ip"
-                           ref="ip">
-                <m-input :label="$t('trans0151')"
-                         type="text"
-                         placeholder="0.0.0.0"
-                         v-model="staticForm.ip"
-                         :onBlur="ipChange" />
+            <m-form
+              key="static-form"
+              v-else-if="isStatic"
+              ref="staticForm"
+              :model="staticForm"
+              :rules="staticRules"
+            >
+              <m-form-item prop="ip" ref="ip">
+                <m-input
+                  :label="$t('trans0151')"
+                  type="text"
+                  placeholder="0.0.0.0"
+                  v-model="staticForm.ip"
+                  :onBlur="ipChange"
+                />
               </m-form-item>
-              <m-form-item prop="mask"
-                           ref="mask">
-                <m-input :label="$t('trans0152')"
-                         type="text"
-                         placeholder="0.0.0.0"
-                         v-model="staticForm.mask"
-                         :onBlur="maskChange" />
+              <m-form-item prop="mask" ref="mask">
+                <m-input
+                  :label="$t('trans0152')"
+                  type="text"
+                  placeholder="0.0.0.0"
+                  v-model="staticForm.mask"
+                  :onBlur="maskChange"
+                />
               </m-form-item>
-              <m-form-item prop="gateway"
-                           ref="gateway">
-                <m-input :label="$t('trans0153')"
-                         type="text"
-                         placeholder="0.0.0.0"
-                         v-model="staticForm.gateway" />
+              <m-form-item prop="gateway" ref="gateway">
+                <m-input
+                  :label="$t('trans0153')"
+                  type="text"
+                  placeholder="0.0.0.0"
+                  v-model="staticForm.gateway"
+                />
               </m-form-item>
-              <m-form-item prop="dns1"
-                           ref="dns">
-                <m-input :label="$t('trans0236')"
-                         type="text"
-                         placeholder="0.0.0.0"
-                         v-model="staticForm.dns1" />
+              <m-form-item prop="dns1" ref="dns">
+                <m-input
+                  :label="$t('trans0236')"
+                  type="text"
+                  placeholder="0.0.0.0"
+                  v-model="staticForm.dns1"
+                />
               </m-form-item>
-              <m-form-item class="last"
-                           prop="dns2"
-                           ref="backupdns">
-                <m-input :label="$t('trans0320')"
-                         type="text"
-                         placeholder="0.0.0.0"
-                         v-model="staticForm.dns2" />
+              <m-form-item class="last" prop="dns2" ref="backupdns">
+                <m-input
+                  :label="$t('trans0320')"
+                  type="text"
+                  placeholder="0.0.0.0"
+                  v-model="staticForm.dns2"
+                />
               </m-form-item>
             </m-form>
           </div>
           <div class="card form__vlan">
-            <m-form-item :class="{last:!vlan.enabled}">
-              <m-switch :label="$t('trans0683')"
-                        v-model="vlan.enabled"></m-switch>
-              <div class="des-tips">{{$t('trans0682')}}</div>
+            <m-form-item :class="{ last: !vlan.enabled }">
+              <m-switch
+                :label="$t('trans0683')"
+                v-model="vlan.enabled"
+              ></m-switch>
+              <div class="des-tips">{{ $t('trans0682') }}</div>
             </m-form-item>
             <!-- Internet VLAN ID -->
-            <m-form v-if="vlan.enabled"
-                    :model="vlan"
-                    ref="vlanForm">
-              <m-form-item prop="id"
-                           :rules="vlanIdRules"
-                           ref="vlanId">
-                <m-input :label="$t('trans0684')"
-                         type="text"
-                         placeholder="2-4094"
-                         v-model="vlan.id"></m-input>
+            <m-form v-if="vlan.enabled" :model="vlan" ref="vlanForm">
+              <m-form-item prop="id" :rules="vlanIdRules" ref="vlanId">
+                <m-input
+                  :label="$t('trans0684')"
+                  type="text"
+                  placeholder="2-4094"
+                  v-model="vlan.id"
+                ></m-input>
               </m-form-item>
               <m-form-item>
-                <m-select :label="$t('trans0686')"
-                          v-model="vlan.priority"
-                          :options="priorities"></m-select>
+                <m-select
+                  :label="$t('trans0686')"
+                  v-model="vlan.priority"
+                  :options="priorities"
+                ></m-select>
               </m-form-item>
               <m-form-item>
-                <m-checkbox :text="$t('trans0685')"
-                            :rect='false'
-                            style="margin-right:10px"
-                            v-model="vlan.ports[0].tagged"></m-checkbox>
+                <m-checkbox
+                  :text="$t('trans0685')"
+                  :rect="false"
+                  style="margin-right: 10px"
+                  v-model="vlan.ports[0].tagged"
+                ></m-checkbox>
               </m-form-item>
             </m-form>
             <template v-if="vlan.enabled">
               <!-- IP-Phone VLAN ID -->
-              <m-form :model="ipPhoneVlan"
-                      ref="ipPhoneVlanForm">
+              <m-form :model="ipPhoneVlan" ref="ipPhoneVlanForm">
                 <m-form-item>
-                  <m-switch v-model="ipPhoneVlan.enabled"
-                            label="IP-Phone VLAN ID"></m-switch>
+                  <m-switch
+                    v-model="ipPhoneVlan.enabled"
+                    label="IP-Phone VLAN ID"
+                  ></m-switch>
                 </m-form-item>
                 <template v-if="ipPhoneVlan.enabled">
-                  <m-form-item prop="id"
-                               :rules="ipPhoneVlanIdRules"
-                               ref="ipPhoneVlanId">
-                    <m-input type="text"
-                             placeholder="2-4094"
-                             v-model="ipPhoneVlan.id">
+                  <m-form-item
+                    prop="id"
+                    :rules="ipPhoneVlanIdRules"
+                    ref="ipPhoneVlanId"
+                  >
+                    <m-input
+                      type="text"
+                      placeholder="2-4094"
+                      v-model="ipPhoneVlan.id"
+                    >
                     </m-input>
                   </m-form-item>
                   <m-form-item class="form__item">
-                    <m-select :label="$t('trans0686')"
-                              v-model="ipPhoneVlan.priority"
-                              :popupTop="!iptvVlan.enabled"
-                              :options="priorities"></m-select>
+                    <m-select
+                      :label="$t('trans0686')"
+                      v-model="ipPhoneVlan.priority"
+                      :popupTop="!iptvVlan.enabled"
+                      :options="priorities"
+                    ></m-select>
                   </m-form-item>
                 </template>
               </m-form>
               <!-- IPTV VLAN ID -->
-              <m-form :model="iptvVlan"
-                      ref="iptvVlanForm">
-                <m-form-item :class="{'last':!iptvVlan.enabled}">
-                  <m-switch v-model="iptvVlan.enabled"
-                            label="IPTV VLAN ID"></m-switch>
+              <m-form :model="iptvVlan" ref="iptvVlanForm">
+                <m-form-item :class="{ last: !iptvVlan.enabled }">
+                  <m-switch
+                    v-model="iptvVlan.enabled"
+                    label="IPTV VLAN ID"
+                  ></m-switch>
                 </m-form-item>
                 <template v-if="iptvVlan.enabled">
-                  <m-form-item prop="id"
-                               :rules="iptvVlanIdRules"
-                               ref="iptvVlanId">
-                    <m-input type="text"
-                             placeholder="2-4094"
-                             v-model="iptvVlan.id">
+                  <m-form-item
+                    prop="id"
+                    :rules="iptvVlanIdRules"
+                    ref="iptvVlanId"
+                  >
+                    <m-input
+                      type="text"
+                      placeholder="2-4094"
+                      v-model="iptvVlan.id"
+                    >
                     </m-input>
                   </m-form-item>
                   <m-form-item class="last">
-                    <m-select :label="$t('trans0686')"
-                              v-model="iptvVlan.priority"
-                              :popupTop="true"
-                              :options="priorities"></m-select>
+                    <m-select
+                      :label="$t('trans0686')"
+                      v-model="iptvVlan.priority"
+                      :popupTop="true"
+                      :options="priorities"
+                    ></m-select>
                   </m-form-item>
                 </template>
               </m-form>
@@ -244,9 +281,7 @@
       </div>
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
-          <button class="btn"
-                  v-defaultbutton
-                  @click="submit()">
+          <button class="btn" v-defaultbutton @click="submit()">
             {{ $t('trans0081') }}
           </button>
         </div>
@@ -694,12 +729,15 @@ export default {
                   item => item.name === VlanName.ipPhone
                 ) || cloneDeep(IpPhoneVlanDefault);
               this.iptvVlan =
-                this.netInfo.vlan.find(
-                  item => item.name === VlanName.iptv
-                ) || cloneDeep(IptvVlanDefault);
+                this.netInfo.vlan.find(item => item.name === VlanName.iptv) ||
+                cloneDeep(IptvVlanDefault);
             }
             if (this.isDhcp) {
-              if (this.netInfo.dhcp && this.netInfo.dhcp.dns && this.netInfo.dhcp.dns.length > 0) {
+              if (
+                this.netInfo.dhcp &&
+                this.netInfo.dhcp.dns &&
+                this.netInfo.dhcp.dns.length > 0
+              ) {
                 this.autodns.dhcp = false;
                 [this.dhcpForm.dns1] = this.netInfo.dhcp.dns;
                 this.dhcpForm.dns2 = this.netInfo.dhcp.dns[1] || '';
@@ -708,7 +746,11 @@ export default {
             if (this.isPppoe) {
               this.pppoeForm.account = this.netInfo.pppoe.account;
               this.pppoeForm.password = this.netInfo.pppoe.password;
-              if (this.netInfo.pppoe.dns) {
+              if (
+                this.netInfo.pppoe &&
+                this.netInfo.pppoe.dns &&
+                this.netInfo.pppoe.dns.length > 0
+              ) {
                 this.autodns.pppoe = false;
                 [this.pppoeForm.dns1] = this.netInfo.pppoe.dns;
                 this.pppoeForm.dns2 = this.netInfo.pppoe.dns[1] || '';
