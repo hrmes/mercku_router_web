@@ -203,7 +203,7 @@
                   :options="priorities"
                 ></m-select>
               </m-form-item>
-              <m-form-item>
+              <m-form-item class="last">
                 <m-checkbox
                   :text="$t('trans0685')"
                   :rect="false"
@@ -212,8 +212,8 @@
                 ></m-checkbox>
               </m-form-item>
             </m-form>
-            <template v-if="vlan.enabled">
-              <!-- IP-Phone VLAN ID -->
+            <!-- <template v-if="vlan.enabled">
+              IP-Phone VLAN ID 
               <m-form :model="ipPhoneVlan" ref="ipPhoneVlanForm">
                 <m-form-item>
                   <m-switch
@@ -244,7 +244,7 @@
                   </m-form-item>
                 </template>
               </m-form>
-              <!-- IPTV VLAN ID -->
+              IPTV VLAN ID
               <m-form :model="iptvVlan" ref="iptvVlanForm">
                 <m-form-item :class="{ last: !iptvVlan.enabled }">
                   <m-switch
@@ -275,7 +275,7 @@
                   </m-form-item>
                 </template>
               </m-form>
-            </template>
+            </template> -->
           </div>
         </div>
       </div>
@@ -327,104 +327,104 @@ const VlanDefault = {
   is_bridged: false,
   name: VlanName.internet
 };
-const IpPhoneVlanDefault = {
-  enabled: false,
-  id: '',
-  ports: [
-    {
-      port: {
-        id: 4,
-        name: 'wan',
-        type: 'wan'
-      },
-      tagged: true
-    },
-    {
-      port: {
-        id: 0,
-        name: 'lan1',
-        type: 'lan'
-      },
-      tagged: true
-    },
-    {
-      port: {
-        id: 1,
-        name: 'lan2',
-        type: 'lan'
-      },
-      tagged: true
-    },
-    {
-      port: {
-        id: 2,
-        name: 'lan3',
-        type: 'lan'
-      },
-      tagged: true
-    },
-    {
-      port: {
-        id: 3,
-        name: 'lan4',
-        type: 'lan'
-      },
-      tagged: true
-    }
-  ],
-  priority: 0,
-  is_bridged: false,
-  name: VlanName.ipPhone
-};
-const IptvVlanDefault = {
-  enabled: false,
-  id: '',
-  ports: [
-    {
-      port: {
-        id: 4,
-        name: 'wan',
-        type: 'wan'
-      },
-      tagged: true
-    },
-    {
-      port: {
-        id: 0,
-        name: 'lan1',
-        type: 'lan'
-      },
-      tagged: true
-    },
-    {
-      port: {
-        id: 1,
-        name: 'lan2',
-        type: 'lan'
-      },
-      tagged: true
-    },
-    {
-      port: {
-        id: 2,
-        name: 'lan3',
-        type: 'lan'
-      },
-      tagged: true
-    },
-    {
-      port: {
-        id: 3,
-        name: 'lan4',
-        type: 'lan'
-      },
-      tagged: true
-    }
-  ],
-  priority: 0,
-  is_bridged: false,
-  name: VlanName.iptv
-};
+// const IpPhoneVlanDefault = {
+//   enabled: false,
+//   id: '',
+//   ports: [
+//     {
+//       port: {
+//         id: 4,
+//         name: 'wan',
+//         type: 'wan'
+//       },
+//       tagged: true
+//     },
+//     {
+//       port: {
+//         id: 0,
+//         name: 'lan1',
+//         type: 'lan'
+//       },
+//       tagged: true
+//     },
+//     {
+//       port: {
+//         id: 1,
+//         name: 'lan2',
+//         type: 'lan'
+//       },
+//       tagged: true
+//     },
+//     {
+//       port: {
+//         id: 2,
+//         name: 'lan3',
+//         type: 'lan'
+//       },
+//       tagged: true
+//     },
+//     {
+//       port: {
+//         id: 3,
+//         name: 'lan4',
+//         type: 'lan'
+//       },
+//       tagged: true
+//     }
+//   ],
+//   priority: 0,
+//   is_bridged: false,
+//   name: VlanName.ipPhone
+// };
+// const IptvVlanDefault = {
+//   enabled: false,
+//   id: '',
+//   ports: [
+//     {
+//       port: {
+//         id: 4,
+//         name: 'wan',
+//         type: 'wan'
+//       },
+//       tagged: true
+//     },
+//     {
+//       port: {
+//         id: 0,
+//         name: 'lan1',
+//         type: 'lan'
+//       },
+//       tagged: true
+//     },
+//     {
+//       port: {
+//         id: 1,
+//         name: 'lan2',
+//         type: 'lan'
+//       },
+//       tagged: true
+//     },
+//     {
+//       port: {
+//         id: 2,
+//         name: 'lan3',
+//         type: 'lan'
+//       },
+//       tagged: true
+//     },
+//     {
+//       port: {
+//         id: 3,
+//         name: 'lan4',
+//         type: 'lan'
+//       },
+//       tagged: true
+//     }
+//   ],
+//   priority: 0,
+//   is_bridged: false,
+//   name: VlanName.iptv
+// };
 export default {
   data() {
     return {
@@ -450,8 +450,8 @@ export default {
       netType: WanType.dhcp,
       netInfo: {},
       vlan: cloneDeep(VlanDefault),
-      ipPhoneVlan: cloneDeep(IpPhoneVlanDefault),
-      iptvVlan: cloneDeep(IptvVlanDefault),
+      // ipPhoneVlan: cloneDeep(IpPhoneVlanDefault),
+      // iptvVlan: cloneDeep(IptvVlanDefault),
       staticForm: {
         ip: '',
         mask: '',
@@ -563,37 +563,37 @@ export default {
           rule: value => isValidInteger(value, 2, 4094),
           message: this.$t('trans0687').format('%d', 2, 4094)
         }
-      ],
-      ipPhoneVlanIdRules: [
-        {
-          rule: value => {
-            if (!this.ipPhoneVlan.enabled) {
-              return false;
-            }
-            return !/^\s*$/g.test(value);
-          },
-          message: this.$t('trans0232')
-        },
-        {
-          rule: value => isValidInteger(value, 2, 4094),
-          message: this.$t('trans0687').format('%d', 2, 4094)
-        }
-      ],
-      iptvVlanIdRules: [
-        {
-          rule: value => {
-            if (!this.iptvVlan.enabled) {
-              return false;
-            }
-            return !/^\s*$/g.test(value);
-          },
-          message: this.$t('trans0232')
-        },
-        {
-          rule: value => isValidInteger(value, 2, 4094),
-          message: this.$t('trans0687').format('%d', 2, 4094)
-        }
       ]
+      // ipPhoneVlanIdRules: [
+      //   {
+      //     rule: value => {
+      //       if (!this.ipPhoneVlan.enabled) {
+      //         return false;
+      //       }
+      //       return !/^\s*$/g.test(value);
+      //     },
+      //     message: this.$t('trans0232')
+      //   },
+      //   {
+      //     rule: value => isValidInteger(value, 2, 4094),
+      //     message: this.$t('trans0687').format('%d', 2, 4094)
+      //   }
+      // ],
+      // iptvVlanIdRules: [
+      //   {
+      //     rule: value => {
+      //       if (!this.iptvVlan.enabled) {
+      //         return false;
+      //       }
+      //       return !/^\s*$/g.test(value);
+      //     },
+      //     message: this.$t('trans0232')
+      //   },
+      //   {
+      //     rule: value => isValidInteger(value, 2, 4094),
+      //     message: this.$t('trans0687').format('%d', 2, 4094)
+      //   }
+      // ]
     };
   },
   watch: {
@@ -724,13 +724,13 @@ export default {
                 this.netInfo.vlan.find(
                   item => item.name === VlanName.internet
                 ) || cloneDeep(VlanDefault);
-              this.ipPhoneVlan =
-                this.netInfo.vlan.find(
-                  item => item.name === VlanName.ipPhone
-                ) || cloneDeep(IpPhoneVlanDefault);
-              this.iptvVlan =
-                this.netInfo.vlan.find(item => item.name === VlanName.iptv) ||
-                cloneDeep(IptvVlanDefault);
+              // this.ipPhoneVlan =
+              //   this.netInfo.vlan.find(
+              //     item => item.name === VlanName.ipPhone
+              //   ) || cloneDeep(IpPhoneVlanDefault);
+              // this.iptvVlan =
+              //   this.netInfo.vlan.find(item => item.name === VlanName.iptv) ||
+              //   cloneDeep(IptvVlanDefault);
             }
             if (this.isDhcp) {
               if (
@@ -796,24 +796,27 @@ export default {
     },
     submit() {
       if (this.vlan.enabled) {
-        if (
-          !this.$refs.vlanForm.validate() ||
-          !this.$refs.ipPhoneVlanForm.validate() ||
-          !this.$refs.iptvVlanForm.validate()
-        ) {
+        if (!this.$refs.vlanForm.validate()) {
           return;
         }
+        // if (
+        //   !this.$refs.vlanForm.validate() ||
+        //   !this.$refs.ipPhoneVlanForm.validate() ||
+        //   !this.$refs.iptvVlanForm.validate()
+        // ) {
+        //   return;
+        // }
         // 经过上面的判断，到这里已经可以确定如果有值的话必定是数字，所以可以用部分等于
-        if (
-          (this.ipPhoneVlan.id === this.vlan.id && this.ipPhoneVlan.enabled) ||
-          (this.iptvVlan.id === this.vlan.id && this.iptvVlan.enabled) ||
-          (this.ipPhoneVlan.id === this.iptvVlan.id &&
-            this.ipPhoneVlan.enabled &&
-            this.iptvVlan.enabled)
-        ) {
-          this.$toast(this.$t('trans1051'), 2000, 'error');
-          return;
-        }
+        // if (
+        //   (this.ipPhoneVlan.id === this.vlan.id && this.ipPhoneVlan.enabled) ||
+        //   (this.iptvVlan.id === this.vlan.id && this.iptvVlan.enabled) ||
+        //   (this.ipPhoneVlan.id === this.iptvVlan.id &&
+        //     this.ipPhoneVlan.enabled &&
+        //     this.iptvVlan.enabled)
+        // ) {
+        //   this.$toast(this.$t('trans1051'), 2000, 'error');
+        //   return;
+        // }
       }
       const form = { type: this.netType, vlan: [] };
       if (this.vlan.enabled) {
@@ -821,18 +824,18 @@ export default {
           ...this.vlan,
           id: Number(this.vlan.id)
         });
-        if (this.ipPhoneVlan.enabled) {
-          form.vlan.push({
-            ...this.ipPhoneVlan,
-            id: Number(this.ipPhoneVlan.id)
-          });
-        }
-        if (this.iptvVlan.enabled) {
-          form.vlan.push({
-            ...this.iptvVlan,
-            id: Number(this.iptvVlan.id)
-          });
-        }
+        // if (this.ipPhoneVlan.enabled) {
+        //   form.vlan.push({
+        //     ...this.ipPhoneVlan,
+        //     id: Number(this.ipPhoneVlan.id)
+        //   });
+        // }
+        // if (this.iptvVlan.enabled) {
+        //   form.vlan.push({
+        //     ...this.iptvVlan,
+        //     id: Number(this.iptvVlan.id)
+        //   });
+        // }
       }
       switch (this.netType) {
         case WanType.dhcp:
