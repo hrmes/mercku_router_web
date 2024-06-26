@@ -44,8 +44,6 @@ export default {
       this.pathElements.forEach((p, index) => {
         p.style.fill = this.colorArr[index];
         p.style.stroke = this.colorArr[index];
-        console.log(p.style.fill);
-        console.log(p.style.stroke);
       });
     }
   }
