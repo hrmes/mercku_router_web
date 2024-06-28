@@ -2,6 +2,12 @@
 
 mercku router pages, each router is in a directory.
 
+## 进入编译环境
+```shell
+./docker/build.sh
+./docker/linux_start
+```
+
 ## How to run
 
 ### for dev
