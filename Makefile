@@ -51,7 +51,6 @@ build: prd_depend
 	make -C $(MODEL) CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
 	mkdir -p output
 	tar cf output/webui-$(VERSION)-$(CUSTOMER_ID)-$(MODEL_ID).tar -C $(MODEL) dist
-	ln -sf $(MODEL)/dist dist
 
 dev:
 	make -C $(MODEL) dev CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
