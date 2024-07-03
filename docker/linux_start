@@ -1,5 +1,5 @@
 #! /bin/bash
-img=${1:-mercku_os_m6a}
+img=${1:-webui}
 
 set -x
 docker run --cpus 4 -it \

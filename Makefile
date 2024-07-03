@@ -2,6 +2,8 @@ MIN_NPM_VER_MAJOR=6
 MIN_NPM_VER_MINOR=1
 MIN_NPM_VER_PATCH=0
 
+include config
+
 CUR_NPM_VER := $(shell npm -v)
 CUR_NPM_VER_MAJOR := $(shell echo $(CUR_NPM_VER) | cut -f1 -d.)
 CUR_NPM_VER_MINOR := $(shell echo $(CUR_NPM_VER) | cut -f2 -d.)
@@ -46,11 +48,13 @@ dev_depend: package.json check_npm_version
 	npm i
 
 build: prd_depend
-	cd $(MODEL) && make CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
+	make -C $(MODEL) CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
+	mkdir -p output
+	tar cf output/webui-$(VERSION)-$(CUSTOMER_ID)-$(MODEL_ID).tar -C $(MODEL) dist
 	ln -sf $(MODEL)/dist dist
 
 dev:
-	cd $(MODEL) && make dev CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
+	make -C $(MODEL) dev CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
 
 
 .PHONY: all install check_npm_version prd_depend dev_depend dev build

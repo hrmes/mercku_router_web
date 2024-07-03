@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:18.04
 
 # Install dependencies
 COPY ./sources.list /etc/apt/sources.list
