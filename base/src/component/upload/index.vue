@@ -132,7 +132,7 @@ export default {
     },
     limit: {
       type: Number,
-      default: 50 * 1000 * 1000
+      default: 100 * 1000 * 1000
     }
   },
   data() {

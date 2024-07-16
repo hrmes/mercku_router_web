@@ -115,7 +115,7 @@ module.exports = {
         }
       })
     );
-    config.plugins.push(new BundleAnalyzerPlugin());
+    // config.plugins.push(new BundleAnalyzerPlugin());
     const plugins = [
       new CleanWebpackPlugin(),
       new TerserPlugin({
