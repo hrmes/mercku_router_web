@@ -190,7 +190,7 @@ export default {
     }
   }
 }
-@media screen and(max-width: 768px) {
+@media screen and (max-width: 768px) {
   .step-container {
     .line {
       width: auto;

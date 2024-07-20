@@ -633,7 +633,7 @@ $img_folder: '../../../../../base/src/assets/images';
     &.successed {
       max-width: 400px;
     }
-    @media screen and(max-width:768px) {
+    @media screen and (max-width:768px) {
       width: 100%;
     }
   }
@@ -843,11 +843,13 @@ $img_folder: '../../../../../base/src/assets/images';
     height: 200px;
   }
   .result-container__tips {
-    font-size: 15px;
-    text-align: center;
-    color: var(--text_default-color);
-    font-weight: bold;
-    width: 360px;
+    & {
+      font-size: 15px;
+      text-align: center;
+      color: var(--text_default-color);
+      font-weight: bold;
+      width: 360px;
+    }
     @media screen and (max-width: 768px) {
       width: 100%;
     }

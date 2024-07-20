@@ -80,6 +80,7 @@
 </template>
 <script>
 import languageMixin from 'base/mixins/language';
+import policy from './policy-en.html';
 
 export default {
   mixins: [languageMixin],
@@ -135,7 +136,7 @@ export default {
   },
   computed: {
     policy() {
-      return require('./policy-en.html');
+      return policy;
     },
     copyright() {
       const copyright = this.$t('trans0276');

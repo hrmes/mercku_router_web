@@ -158,7 +158,7 @@ export default {
   }
 }
 
-@media screen and(max-width:768px) {
+@media screen and (max-width:768px) {
   .log-container {
     max-height: 50vh;
   }

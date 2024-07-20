@@ -640,7 +640,7 @@ export default {
     }
   }
 }
-@media screen and(max-width: 768px) {
+@media screen and (max-width: 768px) {
   .wlan {
     flex: 1;
     min-width: auto;

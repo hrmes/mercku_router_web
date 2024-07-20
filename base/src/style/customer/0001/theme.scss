@@ -7,7 +7,7 @@
   上述两个文件必须存在，因为在入口处默认被引入，因此即使没有自定义主题的需求，也应该复制默认的样式进行覆盖
 */
 
-//浅色主题，颜色定义
+/** 浅色主题，颜色定义 **/
 @mixin light-theme {
   color-scheme: light;
 
@@ -279,7 +279,7 @@
   --offline-boxshadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1);
 }
 
-//深色主题，颜色定义
+/** 深色主题，颜色定义**/
 @mixin dark-theme {
   color-scheme: dark;
 

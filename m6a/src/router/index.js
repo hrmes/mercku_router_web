@@ -28,6 +28,7 @@ import region from 'base/pages/bussiness/setting/region.vue';
 import guest from 'base/pages/bussiness/setting/guest.vue';
 import upnp from 'base/pages/bussiness/setting/upnp.vue';
 import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
+import externalPortForwarding from 'base/pages/bussiness/setting/external-port-forwarding.vue';
 // import led from 'base/pages/bussiness/setting/led.vue';
 
 // advance page
@@ -273,6 +274,15 @@ const routes = {
       path: '/setting/schedule',
       name: 'schedule',
       component: wifiSchedule,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/setting/external-port-forwarding',
+      name: 'external-port-forwarding',
+      component: externalPortForwarding,
       meta: {
         layout: 'primary',
         hasAside: true

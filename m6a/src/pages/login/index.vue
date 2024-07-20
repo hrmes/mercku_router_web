@@ -394,7 +394,7 @@ export default {
     transform: translate(-50%, 0) rotate(-30deg);
   }
 }
-@media screen and(max-width: 768px) {
+@media screen and (max-width: 768px) {
   .login {
     width: 100%;
     height: 100%;

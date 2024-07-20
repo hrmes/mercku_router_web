@@ -578,7 +578,7 @@ export default {
     }
   }
 }
-@media screen and(max-width: 768px) {
+@media screen and (max-width: 768px) {
   .ipv6-page {
     width: 100vw;
     .ipv6-page__content {

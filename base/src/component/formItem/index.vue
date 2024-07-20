@@ -1,10 +1,12 @@
 <template>
-  <div class="form-item"
-       :class="{'form-item-success':success,'form-item-error':error}">
+  <div class="form-item" :class="{ 'form-item-success': success, 'form-item-error': error }">
+    <label v-if="label" class="item-label">
+      <span>
+        {{ label }}
+      </span>
+    </label>
     <slot></slot>
-    <span class="error-message"
-          :class="{static:errorMsgIsStatic}"
-          v-show="error">{{message}}</span>
+    <span class="error-message" :class="{ static: errorMsgIsStatic }" v-show="error">{{ message }}</span>
   </div>
 </template>
 <script>
@@ -13,6 +15,7 @@ export default {
     prop: {
       type: String
     },
+    label: String,
     rules: {
       type: Array,
       default: () => []
@@ -26,7 +29,7 @@ export default {
     return {
       validators: [],
       result: null, // null表示没有进行校验，true通过，false未通过
-      message: ''
+      message: ""
     };
   },
   computed: {
@@ -41,15 +44,15 @@ export default {
     getValueByPath(obj, path) {
       let tempObj = obj;
       // remove start dot in path
-      path = path.replace(/^\./, '');
+      path = path.replace(/^\./, "");
       // replace .=>[]
-      path = path.replace(/\.(\w+)(?=\.|\[|$)/g, '[$1]');
+      path = path.replace(/\.(\w+)(?=\.|\[|$)/g, "[$1]");
       // replace start key
-      path = path.replace(/^(\w+)/, '[$1]');
+      path = path.replace(/^(\w+)/, "[$1]");
       // sometime path is empty when init, so match will get null
       let keyArr = path.match(/(?:\[)(.*?)(?:\])/g) || [];
       // remove [|]|"|' in key
-      keyArr = keyArr.map(k => k.replace(/(\[|\]|"|')/g, ''));
+      keyArr = keyArr.map(k => k.replace(/(\[|\]|"|')/g, ""));
       let i = 0;
       for (let len = keyArr.length; i < len - 1; i += 1) {
         if (!tempObj) break;
@@ -63,7 +66,7 @@ export default {
     validate() {
       if (this.prop) {
         const rules = this.$parent.rules || {};
-        const prop = this.prop || '';
+        const prop = this.prop || "";
         const validators = rules[prop] || [];
         this.validators = validators.concat(this.rules);
 
@@ -96,13 +99,13 @@ export default {
     }
   },
   mounted() {
-    this.$on('blur', () => {
+    this.$on("blur", () => {
       this.validate();
     });
-    this.$on('focus', () => {
+    this.$on("focus", () => {
       this.result = null;
     });
-    this.$on('change', () => {
+    this.$on("change", () => {
       this.result = null;
     });
   }
@@ -113,22 +116,28 @@ export default {
   25% {
     transform: translateX(6px);
   }
+
   50% {
     transform: translateX(-8px);
   }
+
   75% {
     transform: translateX(4px);
   }
+
   100% {
     transform: translateX(0);
   }
 }
+
 .form-item {
   margin-bottom: 30px;
   position: relative;
+
   &.last {
     margin-bottom: 0;
   }
+
   .error-message {
     color: var(--input_error_text-color);
     font-size: 12px;
@@ -138,26 +147,42 @@ export default {
     position: absolute;
     top: 100%;
     left: 0;
+
     &.static {
       position: static;
     }
   }
+
   &.form-item-error {
     .input-wrapper {
       input {
         border: 2px solid var(--input_error_text-color);
       }
-      animation: errorshake 0.3s forwards;
+
+      & {
+        animation: errorshake 0.3s forwards;
+      }
     }
+
     .select-container {
       .select {
         border: 2px solid var(--input_error_text-color);
         animation: errorshake 0.3s forwards;
       }
+
       .icon-container {
         border-left: 2px solid var(--input_error_text-color);
       }
     }
   }
+}
+
+.item-label {
+  display: block;
+  text-align: left;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: var(--input_label-color);
+  font-size: 14px;
 }
 </style>

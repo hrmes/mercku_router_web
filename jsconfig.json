@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+
+    "baseUrl": ".",
+    "paths": {
+      // "@/*": ["src/components/*"],
+      "base/*": ["base/src/*"]
+    }
+  },
+  // "include": ["base/src/**/*", "m6a/**/*"]
+}

@@ -183,7 +183,7 @@ export default {
       white-space: pre-wrap;
       word-wrap: break-word;
       font-weight: 600;
-      @media screen and(min-width:1441px) {
+      @media screen and (min-width:1441px) {
         width: 100%;
       }
       &:first-child {
@@ -192,7 +192,7 @@ export default {
     }
   }
 }
-@media screen and(max-width:768px) {
+@media screen and (max-width:768px) {
   .page-content {
     .form {
       .log-container {

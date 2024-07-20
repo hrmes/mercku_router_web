@@ -118,6 +118,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'schedule',
         text: 'trans0962',
         config
+      },
+      {
+        url: '/setting/external-port-forwarding',
+        name: 'external-port-forwarding',
+        text: 'trans1252',
+        config
       }
     ]
   };

@@ -909,7 +909,7 @@ export default {
     width: 160px;
   }
 }
-@media screen and(max-width:768px) {
+@media screen and (max-width:768px) {
   .wan-info {
     width: 100%;
     padding: 0;

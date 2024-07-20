@@ -135,7 +135,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@media screen and(min-width: 769px) {
+@media screen and (min-width: 769px) {
   .login-container {
     .form {
       height: 262px;
@@ -247,7 +247,7 @@ export default {
     }
   }
 }
-@media screen and(max-width: 768px) {
+@media screen and (max-width: 768px) {
   .login-container {
     height: auto;
     overflow: hidden;

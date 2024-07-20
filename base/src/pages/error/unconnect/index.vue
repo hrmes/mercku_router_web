@@ -70,7 +70,7 @@ export default {
   justify-content: center;
   flex-direction: column;
 }
-@media screen and(max-width: 768px) {
+@media screen and (max-width: 768px) {
   .unconnect {
     padding: 0;
     .inner {

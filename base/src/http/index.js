@@ -151,7 +151,8 @@ const commonMethods = {
   getMeshLEDStatus: createMethod('mesh.led.get'),
   updateMeshLEDStatus: createMethod('mesh.led.update'),
   getMeshAutoUpgrade: createMethod('mesh.auto_upgrade.get'),
-  setMeshAutoUpgrade: createMethod('mesh.auto_upgrade.set')
+  setMeshAutoUpgrade: createMethod('mesh.auto_upgrade.set'),
+  getExternalPortForwarding: createMethod('router.epf.get')
 };
 
 // 获取主页

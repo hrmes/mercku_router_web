@@ -1242,5 +1242,6 @@
   "trans1247": "Käytä WAN:ia (RJ45) päästäksesi Internetiin",
   "trans1248": "Käytä SFP:tä päästäksesi Internetiin",
   "trans1249": "Kun olet suorittanut alkuasennuksen, muodosta yhteys uudelleen äskettäin asetettuun Wi-Fi-SSID-tunnukseen varmistaaksesi, että laite lisätään onnistuneesti.",
-  "trans1250": "Kun käytät SFP:tä Internetiin pääsyyn, WAN-portista tulee LAN-portti"
+  "trans1250": "Kun käytät SFP:tä Internetiin pääsyyn, WAN-portista tulee LAN-portti",
+  "trans1252": "Ulkoinen porttien uudelleenohjaus"
 }

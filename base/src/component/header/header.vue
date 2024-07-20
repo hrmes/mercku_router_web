@@ -380,7 +380,7 @@ export default {
             if (this.$route.path.includes(mm.url)) {
               selected = true;
             }
-            return { ...mm, children };
+            return { ...mm };
           });
           return { ...m, selected, showChild: false };
         }

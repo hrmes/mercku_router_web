@@ -112,7 +112,7 @@ export default {
     transform: translate(-50%, -100%);
   }
 }
-@media screen and(max-width: 768px) {
+@media screen and (max-width: 768px) {
   .toast-container {
     max-width: 90vw;
     min-width: 280px;

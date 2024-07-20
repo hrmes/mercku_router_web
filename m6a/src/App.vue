@@ -158,9 +158,11 @@ export default {
 </script>
 
 <style lang="scss">
-[data-title]:hover:after {
+[data-title]:hover{
+  &:after {
   opacity: 1;
   visibility: visible;
+}
 }
 [data-title]:after {
   content: attr(data-title);
