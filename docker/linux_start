@@ -5,7 +5,6 @@ set -x
 docker run --cpus 4 -it \
          --name ${USER}_${img} \
          -v /home/${USER}:/home/${USER} \
-         -u $(id -u):$(id -g) \
          -w $(pwd) \
          -v '/etc/group:/etc/group:ro' \
          -v '/etc/passwd:/etc/passwd:ro' \

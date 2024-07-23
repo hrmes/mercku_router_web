@@ -4,12 +4,13 @@ FROM ubuntu:18.04
 COPY ./sources.list /etc/apt/sources.list
 
 RUN apt update && apt install -y make
-RUN apt install -y curl
-RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+RUN apt install -y curl git
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
 
 RUN apt install -y nodejs
+RUN curl -fsSL https://get.pnpm.io/install.sh | bash -
+RUN pnpm create rsbuild@latest
 # RUN npx browserslist@latest --update-db
-RUN apt install -y git
 
 # RUN apt update && apt install -y make autoconf gcc g++ libtool shtool curl wget valgrind git protobuf-c-compiler pkg-config libprotobuf-c-dev libssl-dev libmbedtls-dev  llvm-dev libclang-dev clang && \
 #     rm -rf /var/lib/apt/lists/*
