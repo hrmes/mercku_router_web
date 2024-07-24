@@ -5,30 +5,39 @@
     </div>
     <div class="page-content">
       <div class="page-content__main">
-        <div class="smart-connect card" style="margin-bottom: 20px">
-          <m-form class="form card" ref="protoclForm" key="protoclForm" :model="form" :rules="rules">
-            <m-form-item key="protocol" prop="protocol" :label="$t('trans0435')">
-              <m-radio-group v-model="form.protocol" class="radio-group" direction='horizontal'
-                :options="protocolTypes"></m-radio-group>
-            </m-form-item>
+        <div class="row-1" style="margin-bottom: 20px">
+          <div class="card">
+            <m-switch v-model="form.enable" :label="$t('trans0462')" />
+          </div>
+        </div>
+        <div class="row-1">
 
-            <m-form-item key="external_port" prop="external_port" :rules="rules.external_port">
-              <m-input v-model="form.external_port" :label="$t('trans0426')" type="text"
-                placeholder="1-65535"></m-input>
 
-            </m-form-item>
-            <m-form-item key="internal_port" prop="internal_port" :rules="rules.internal_port">
-              <m-input v-model="form.internal_port" :label="$t('trans0428')" type="text"
-                placeholder="1-65535"></m-input>
-            </m-form-item>
-            <m-form-item key="internal_ip" prop="internal_ip" :rules="rules.internal_ip">
-              <m-input v-model="form.internal_ip" :label="$t('trans0427')" type="text"
-                :placeholder="$t('trans0427')"></m-input>
-            </m-form-item>
-            <m-form-item key="enable" prop="enable">
-              <m-switch v-model="form.enable" :label="$t('trans0462')" />
-            </m-form-item>
-          </m-form>
+          <div v-if="form.enable" class="smart-connect card">
+            <m-form class="form card" ref="protoclForm" key="protoclForm" :model="form" :rules="rules">
+              <!-- <m-form-item key="enable" prop="enable">
+            </m-form-item> -->
+              <m-form-item key="protocol" v-if="form.enable" prop="protocol" :label="$t('trans0435')">
+                <m-radio-group v-model="form.protocol" class="radio-group" direction='horizontal'
+                  :options="protocolTypes"></m-radio-group>
+              </m-form-item>
+
+              <m-form-item v-if="form.enable" key="external_port" prop="external_port" :rules="rules.external_port">
+                <m-input v-model="form.external_port" :label="$t('trans0426')" type="text"
+                  placeholder="1-65535"></m-input>
+
+              </m-form-item>
+              <m-form-item v-if="form.enable" key="internal_port" prop="internal_port" :rules="rules.internal_port">
+                <m-input v-model="form.internal_port" :label="$t('trans0428')" type="text"
+                  placeholder="1-65535"></m-input>
+              </m-form-item>
+              <m-form-item v-if="form.enable" key="internal_ip" prop="internal_ip" :rules="rules.internal_ip">
+                <m-input v-model="form.internal_ip" :label="$t('trans0427')" type="text"
+                  :placeholder="$t('trans0427')"></m-input>
+              </m-form-item>
+
+            </m-form>
+          </div>
         </div>
       </div>
       <div class="page-content__bottom">
@@ -43,9 +52,8 @@
 </template>
 <script>
 import {
-  isIP
+  isIP,
 } from 'base/util/util';
-import { Bands, ChannelMode } from 'base/util/constant';
 
 export default {
   data() {
@@ -53,7 +61,7 @@ export default {
       protocolTypes: [
         {
           text: 'TCP&UDP',
-          value: 'tcp&udp'
+          value: 'tcp_udp'
         },
         {
           text: 'TCP',
@@ -66,7 +74,7 @@ export default {
 
       ],
       form: {
-        protocol: 'tcp&udp',
+        protocol: 'tcp_udp',
         external_port: '',
         internal_port: '',
         internal_ip: '',
@@ -117,7 +125,6 @@ export default {
     };
   },
   mounted() {
-    // TODO: fill form data when initial loading
     this.getInitData();
   },
   methods: {
@@ -134,31 +141,22 @@ export default {
         callback: {
           ok: () => {
             this.$loading.open();
-
-            const b24g = this.mapBandData(
-              this.form.b24g,
-              this.form.channel.b24gChannel
-            );
-
-            const b5gBandInfo = this.form.smart_connect
-              ? this.form.b24g
-              : this.form.b5g;
-            const b5g = this.mapBandData(
-              b5gBandInfo,
-              this.form.channel.b5gChannel
-            );
-
-            const wifi = {
-              smart_connect: this.form.smart_connect,
-              compatibility_mode: this.form.compatibility_mode,
-              tx_power: this.form.wifiTxPower,
-              dfs: this.form.dfs,
-              bands: { [Bands.b24g]: b24g, [Bands.b5g]: b5g }
-            };
-            console.log(wifi);
+            const { enabled,
+              protocol,
+              external_port,
+              internal_port,
+              internal_ip } = this.form;
 
             this.$http
-              .meshWifiUpdate(wifi)
+              .setExternalPortForwarding({
+                'router.epf.update:': {
+                  enabled: enabled,
+                  protocol: protocol,
+                  external_port: Number(external_port),
+                  internal_port: Number(internal_port),
+                  internal_ip: internal_ip,
+                }
+              })
               .then(() => {
                 this.$reconnect({
                   onsuccess: () => {
@@ -185,21 +183,21 @@ export default {
           if (response.data.result) {
             const {
               enabled = false,
-              protocol = 'tcp&udp',
+              protocol = 'tcp_udp',
               external_port = '',
               internal_port = '',
               internal_ip = ''
-            } = response.data.result;
-
+            } = response.data.result.router_epf_get;
             this.form = {
-              ...this.from,
               enabled,
               protocol,
-              external_port,
-              internal_port,
+              external_port: external_port === 0 ? '' : String(external_port),
+              internal_port: internal_port === 0 ? '' : String(internal_port),
               internal_ip
             };
           }
+        }).finally(() => {
+          this.$loading.close();
         });
     },
   }
@@ -208,7 +206,6 @@ export default {
 <style lang="scss" scoped>
 .smart-connect {
   flex-direction: column;
-  width: 500px;
 
   .smart-connect__inner {
     display: flex;

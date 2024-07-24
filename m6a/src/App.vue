@@ -2,24 +2,14 @@
   <div class="scrollbar-wrap">
     <div class="container">
       <div class="app-container router-view">
-        <div ref="flexWrap"
-             class="flex-wrap"
-             :class="{'is-login-page':isLoginPage}">
-          <m-header :navVisible="navVisible"
-                    :isLoginPage="isLoginPage"
-                    :isWlanPage="isWlanPage"
-                    :navs="menus"
-                    id="header" />
-          <transition :name="!isMobile && $store.state.hasTransition?'fade':''"
-                      :css="!isMobile && $store.state.hasTransition"
-                      mode="out-in">
-            <component :is="layout"
-                       :hasBackWrap='hasBackWrap'
-                       :asideInfo='asideInfo'></component>
+        <div ref="flexWrap" class="flex-wrap" :class="{ 'is-login-page': isLoginPage }">
+          <m-header :navVisible="navVisible" :isLoginPage="isLoginPage" :isWlanPage="isWlanPage" :navs="menus"
+            id="header" />
+          <transition :name="!isMobile && $store.state.hasTransition ? 'fade' : ''"
+            :css="!isMobile && $store.state.hasTransition" mode="out-in">
+            <component :is="layout" :hasBackWrap='hasBackWrap' :asideInfo='asideInfo'></component>
           </transition>
-          <m-footer :isLoginPage="isLoginPage "
-                    :isWlanPage="isWlanPage"
-                    :navVisible="navVisible" />
+          <m-footer :isLoginPage="isLoginPage" :isWlanPage="isWlanPage" :navVisible="navVisible" />
         </div>
       </div>
     </div>
@@ -84,7 +74,7 @@ export default {
       return !visible;
     },
     menus() {
-      return getMenu(this.$store.state.role, this.$store.state.mode);
+      return getMenu(this.$store.state.role, this.$store.state.mode, this.profile.layout.settings);
     },
     header() {
       return document.querySelector('#header');
@@ -158,12 +148,13 @@ export default {
 </script>
 
 <style lang="scss">
-[data-title]:hover{
+[data-title]:hover {
   &:after {
-  opacity: 1;
-  visibility: visible;
+    opacity: 1;
+    visibility: visible;
+  }
 }
-}
+
 [data-title]:after {
   content: attr(data-title);
   position: absolute;
@@ -184,9 +175,11 @@ export default {
   visibility: hidden;
   transition: all 0.2s ease-in-out;
 }
+
 [data-title] {
   position: relative;
 }
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.3s ease;
@@ -196,47 +189,58 @@ export default {
 .fade-leave-to {
   opacity: 0;
 }
+
 .scrollbar-wrap {
   height: 100%;
   overflow: auto;
   background: var(--scrollbar_wrap-bgc__isNotLogin);
+
   &.is-login-page {
     background: var(--scrollbar_wrap-bgc__isLogin);
   }
+
   @media screen and (min-width: 768px) {
+
     &::-webkit-scrollbar,
     ::-webkit-scrollbar {
       width: 6px;
       height: 6px;
     }
+
     &::-webkit-scrollbar-track,
     ::-webkit-scrollbar-track {
       background-color: var(--scrollbar_wrap_track-color);
       // border-radius: 100px;
     }
+
     &::-webkit-scrollbar-thumb,
     ::-webkit-scrollbar-thumb {
       background-color: var(--scrollbar_wrap_thumb-color);
       border-radius: 100px;
+
       &:hover {
         opacity: 0.5;
       }
     }
   }
 }
+
 .container {
   position: relative;
   display: flex;
+
   .app-container {
     display: flex;
     flex: 1;
     flex-direction: column;
     position: relative;
   }
+
   .layout-wrap {
     flex: 1;
   }
 }
+
 .flex-wrap {
   display: flex;
   flex-direction: column;
@@ -249,15 +253,19 @@ export default {
       box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.1);
     }
   }
+
   .scrollbar-wrap {
     min-height: 100dvh;
     // height: 100%;
   }
+
   .flex-wrap {
     padding-top: 65px;
   }
+
   .container {
     flex-direction: column;
+
     .login-logo__left__top,
     .login-logo__right__bottom {
       display: none;

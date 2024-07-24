@@ -24,7 +24,7 @@ require('base/style/router-model.scss');
 // 不同客户特别的样式表
 require(`base/style/customer/${process.env.CUSTOMER_CONFIG.id}/custom.scss`);
 
-const launch = () => {
+const launch =  async () => {
   const http = new Http();
   registerComponents(Vue);
 
@@ -176,6 +176,10 @@ const launch = () => {
     }
     throw err;
   });
+
+  const profile = await http.getSessionProfile()
+
+  Vue.prototype.profile = profile.data.result.session_profile
 
   Vue.prototype.loadingColor = process.env.CUSTOMER_CONFIG.loading.color;
   Vue.prototype.$loading = loading;

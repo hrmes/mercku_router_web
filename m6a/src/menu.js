@@ -2,7 +2,14 @@ import { Role, RouterMode, Customers } from 'base/util/constant';
 
 const customerId = process.env.CUSTOMER_CONFIG.id;
 const modelId = process.env.MODEL_CONFIG.id;
-export default function getMenu(role, mode = RouterMode.router) {
+
+function dashToCamel(dashName) {
+  return dashName.split('-').map((word, index) => {
+      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+  }).join('');
+}
+
+export default function getMenu(role, mode = RouterMode.router, settings) {
   console.log('Init menus...');
   console.log(`customer id is: ${customerId}`);
   console.log(`model id is: ${modelId}`);
@@ -289,6 +296,13 @@ export default function getMenu(role, mode = RouterMode.router) {
     // 过滤不显示的菜单
     item.children = item.children.filter(menu => {
       let { show } = menu.config;
+      
+      // 服务端下发数据让其隐藏
+      const camelName = dashToCamel(menu.name)
+      if (settings[camelName] && settings[camelName] == 'hidden') {
+        show = false
+      }
+
       // 如果支持多级管理员，判断当前角色是否可以查看菜单
       if (process.env.CUSTOMER_CONFIG.allow2LevelAdmin && show) {
         show = menu.config.auth.includes(role);

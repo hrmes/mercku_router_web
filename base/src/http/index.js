@@ -152,7 +152,9 @@ const commonMethods = {
   updateMeshLEDStatus: createMethod('mesh.led.update'),
   getMeshAutoUpgrade: createMethod('mesh.auto_upgrade.get'),
   setMeshAutoUpgrade: createMethod('mesh.auto_upgrade.set'),
-  getExternalPortForwarding: createMethod('router.epf.get')
+  getExternalPortForwarding: createMethod('router.epf.get'),
+  setExternalPortForwarding: createMethod('router.epf.update'),
+  getSessionProfile: createMethod('session.profile'),
 };
 
 // 获取主页
