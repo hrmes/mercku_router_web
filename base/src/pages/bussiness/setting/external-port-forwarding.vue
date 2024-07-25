@@ -7,31 +7,31 @@
       <div class="page-content__main">
         <div class="row-1" style="margin-bottom: 20px">
           <div class="card">
-            <m-switch v-model="form.enable" :label="$t('trans0462')" />
+            <m-switch v-model="form.enabled" :label="$t('trans0462')" />
           </div>
         </div>
         <div class="row-1">
 
 
-          <div v-if="form.enable" class="smart-connect card">
+          <div v-if="form.enabled" class="smart-connect card">
             <m-form class="form card" ref="protoclForm" key="protoclForm" :model="form" :rules="rules">
-              <!-- <m-form-item key="enable" prop="enable">
+              <!-- <m-form-item key="enabled" prop="enabled">
             </m-form-item> -->
-              <m-form-item key="protocol" v-if="form.enable" prop="protocol" :label="$t('trans0435')">
+              <m-form-item key="protocol" v-if="form.enabled" prop="protocol" :label="$t('trans0435')">
                 <m-radio-group v-model="form.protocol" class="radio-group" direction='horizontal'
                   :options="protocolTypes"></m-radio-group>
               </m-form-item>
 
-              <m-form-item v-if="form.enable" key="external_port" prop="external_port" :rules="rules.external_port">
+              <m-form-item v-if="form.enabled" key="external_port" prop="external_port" :rules="rules.external_port">
                 <m-input v-model="form.external_port" :label="$t('trans0426')" type="text"
                   placeholder="1-65535"></m-input>
 
               </m-form-item>
-              <m-form-item v-if="form.enable" key="internal_port" prop="internal_port" :rules="rules.internal_port">
+              <m-form-item v-if="form.enabled" key="internal_port" prop="internal_port" :rules="rules.internal_port">
                 <m-input v-model="form.internal_port" :label="$t('trans0428')" type="text"
                   placeholder="1-65535"></m-input>
               </m-form-item>
-              <m-form-item v-if="form.enable" key="internal_ip" prop="internal_ip" :rules="rules.internal_ip">
+              <m-form-item v-if="form.enabled" key="internal_ip" prop="internal_ip" :rules="rules.internal_ip">
                 <m-input v-model="form.internal_ip" :label="$t('trans0427')" type="text"
                   :placeholder="$t('trans0427')"></m-input>
               </m-form-item>
@@ -78,7 +78,7 @@ export default {
         external_port: '',
         internal_port: '',
         internal_ip: '',
-        enable: false,
+        enabled: false,
       },
       rules: {
         external_port: [
@@ -149,7 +149,7 @@ export default {
 
             this.$http
               .setExternalPortForwarding({
-                'router.epf.update:': {
+                'router.epf.update': {
                   enabled: enabled,
                   protocol: protocol,
                   external_port: Number(external_port),
@@ -187,7 +187,7 @@ export default {
               external_port = '',
               internal_port = '',
               internal_ip = ''
-            } = response.data.result.router_epf_get;
+            } = response.data.result["router.epf.get"];
             this.form = {
               enabled,
               protocol,

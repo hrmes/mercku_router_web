@@ -179,7 +179,10 @@ const launch =  async () => {
 
   const profile = await http.getSessionProfile()
 
-  Vue.prototype.profile = profile.data.result.session_profile
+  // fixme @yawei: 这里应该只在登陆后才调用。
+  // fixme advance-tr069 等没有生效
+  // fixme upgrade/offline 等没有生效
+  Vue.prototype.profile = profile.data.result["session.profile"]
 
   Vue.prototype.loadingColor = process.env.CUSTOMER_CONFIG.loading.color;
   Vue.prototype.$loading = loading;
