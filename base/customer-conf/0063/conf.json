@@ -2,7 +2,7 @@
   "id": "0063",
   "title": "Mercku",
   "host": "http://mywifi.mercku.tech",
-  "accept": ".ma",
+  "accept": ".mic",
   "favicon": "customer-conf/0063/favicon.ico",
   "policy": "",
   "allow2LevelAdmin": false,

@@ -119,7 +119,7 @@ export default {
   methods: {
     updateSettings() {
       this.$http.getSessionProfile().then(response => {
-        this.$store.state.settings = response.data.result["session_profile"]?.layout?.settings ?? {}
+        this.$store.state.settings = response.data.result["session.profile"]?.layout?.settings ?? {}
       })
     },
     initializePage() {
