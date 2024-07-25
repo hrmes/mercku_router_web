@@ -1,78 +1,60 @@
 <template>
   <div class="login customized">
-    <div class="login__left"
-         v-if="!isMobile">
+    <div class="login__left" v-if="!isMobile">
       <div class="left-rotate_bg"></div>
-      <img :src="LoginImg"
-           class="left-img"
-           alt="">
+      <img :src="LoginImg" class="left-img" alt="">
     </div>
     <div class="login__right">
-      <div class="center-form"
-           :class="currentTheme">
+      <div class="center-form" :class="currentTheme">
         <div class="form">
           <div class="logo">
           </div>
-          <div class="loading"
-               v-if="loading">
+          <div class="loading" v-if="loading">
             <m-loading></m-loading>
           </div>
           <div v-else>
-            <button v-if="initial === true"
-                    class="btn"
-                    @click="towlan">{{$t('trans0222')}}</button>
-            <div class="login-form"
-                 v-if="initial === false">
+            <button v-if="initial === true" class="btn" @click="towlan">{{ $t('trans0222') }}</button>
+            <div class="login-form" v-if="initial === false">
               <div class="form-item">
-                <m-input :label="$t('trans0067')"
-                         :placeholder="$t('trans0321')"
-                         type="password"
-                         v-model="password" />
+                <m-input :label="$t('trans0067')" :placeholder="$t('trans0321')" type="password" v-model="password" />
               </div>
               <div class="form-item">
-                <button class="btn"
-                        v-defaultbutton
-                        @click.stop="login()">{{this.$t('trans0001')}}</button>
+                <button class="btn" v-defaultbutton @click.stop="login()">{{ this.$t('trans0001') }}</button>
               </div>
             </div>
           </div>
         </div>
-        <div class="download"
-             v-if="appDownloadUrl&&!isMobile">
+        <div class="download" v-if="appDownloadUrl && !isMobile">
           <div class="stores">
             <div class="store">
               <div>
-                <img class="android-img"
-                     :src="require('base/assets/images/icon/ic_android.png')" />
+                <img class="android-img" :src="require('base/assets/images/icon/ic_android.png')" />
               </div>
               <span>Google Play</span>
             </div>
             <div class="store">
               <div>
-                <img class="apple-img"
-                     :src="require('base/assets/images/icon/ic_apple.png')" />
+                <img class="apple-img" :src="require('base/assets/images/icon/ic_apple.png')" />
               </div>
               <span>App Store</span>
             </div>
           </div>
           <div class="qr"></div>
         </div>
-        <div class="small-device-download"
-             v-if="appDownloadUrl && isMobile">
+        <div class="small-device-download" v-if="appDownloadUrl && isMobile">
           <div class="top-wrap">
             <div class="logo-container">
               <div class="app-logo">
               </div>
             </div>
             <div class="down-text">
-              <div>{{$t('trans0314')}}</div>
+              <div>{{ $t('trans0314') }}</div>
               <div>
-                {{$t('trans0292')}}</div>
+                {{ $t('trans0292') }}</div>
             </div>
           </div>
           <div class="down-button-container">
-            <a class="down-button"
-               :href="appDownloadUrl">{{$t('trans0262')}}</a>
+            <a class="down-button" :href="appDownloadUrl">{{ $t('trans0262') }}</a>
           </div>
         </div>
 
@@ -166,7 +148,9 @@ export default {
         .then(res => {
           const { role } = res.data.result;
           this.$store.state.role = role;
+          this.$store.state.logined = true
           localStorage.setItem('role', role);
+
           this.$http.getMeshMode().then(res1 => {
             this.$loading.close();
             const { mode } = res1.data.result;
@@ -266,8 +250,10 @@ export default {
   min-height: 720px;
   flex: 1;
   overflow: hidden;
+
   .login__left {
     position: relative;
+
     .left-rotate_bg {
       width: 100%;
       height: 120%;
@@ -276,6 +262,7 @@ export default {
       transform: translate(20%, 12%) rotate(-40deg);
       background-color: var(--login_left_rotate-bgcolor);
     }
+
     .left-img {
       position: absolute;
       top: 50%;
@@ -285,15 +272,18 @@ export default {
       height: auto;
     }
   }
+
   .login__right {
     display: flex;
     justify-content: center;
     align-items: center;
   }
+
   .loading {
     display: flex;
     justify-content: center;
   }
+
   .center-form {
     display: flex;
     flex-direction: column;
@@ -306,14 +296,17 @@ export default {
     background-color: var(--login_right_form-bgcolor);
     box-shadow: var();
     border-radius: 15px;
+
     .logo {
       margin: 0 auto;
       margin-bottom: 30px;
     }
+
     .btn {
       width: 340px;
     }
   }
+
   .download {
     display: flex;
     justify-content: space-between;
@@ -324,10 +317,12 @@ export default {
     border-radius: 10px;
     padding: 0 20px;
     background-color: var(--login_right_form_download-bgcolor);
+
     .stores {
       display: flex;
       flex-direction: column;
       margin-right: 20px;
+
       .store {
         padding: 6px 10px;
         border-radius: 4px;
@@ -336,28 +331,35 @@ export default {
         margin-bottom: 14px;
         border-radius: 4px;
         background-color: var(--download_tag-bgc);
+
         &:last-child {
           margin: 0;
         }
-        > div {
+
+        >div {
           line-height: 1;
         }
+
         img {
           width: 14px;
+
           // height: 18px;
           &.android-img {
             filter: var(--download_android_img-brightness);
           }
+
           &.apple-img {
             filter: var(--download_ios_img-brightness);
           }
         }
+
         span {
           position: relative;
           display: inline-block;
           width: 150px;
           margin-left: 10px;
           color: var(--text_default-color);
+
           &::before {
             content: '';
             position: absolute;
@@ -373,15 +375,18 @@ export default {
         }
       }
     }
+
     .qr {
       width: 86px;
       height: 86px;
     }
+
     .text {
       font-size: 14px;
       text-align: center;
     }
   }
+
   .login-background {
     position: absolute;
     top: 0;
@@ -394,6 +399,7 @@ export default {
     transform: translate(-50%, 0) rotate(-30deg);
   }
 }
+
 @media screen and (max-width: 768px) {
   .login {
     width: 100%;
@@ -404,15 +410,19 @@ export default {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+
     .login__right {
       flex: 1;
     }
+
     .small-device-image {
       display: block;
+
       img {
         width: 100%;
       }
     }
+
     .small-device-download {
       display: flex;
       flex-direction: column;
@@ -425,12 +435,15 @@ export default {
       align-items: center;
       justify-content: space-between;
       background: var(--grey-bgc);
+
       .top-wrap {
         display: flex;
         align-items: center;
         width: 100%;
+
         .logo-container {
           height: 48px;
+
           .app-logo {
             width: 48px;
             height: 48px;
@@ -460,12 +473,11 @@ export default {
         transition: all 0.1s ease-in-out;
         background-clip: padding-box, border-box;
         background-origin: padding-box, border-box;
-        background-image: linear-gradient(
-            to right,
+        background-image: linear-gradient(to right,
             var(--grey-bgc),
-            var(--grey-bgc)
-          ),
+            var(--grey-bgc)),
           var(--common_btn_default-bgimg);
+
         .down-button {
           display: inline-block;
           width: 100%;
@@ -479,6 +491,7 @@ export default {
         }
       }
     }
+
     .center-form {
       // width: 80%;
       background-color: transparent;
@@ -488,16 +501,19 @@ export default {
       padding-bottom: 0;
       justify-content: center;
       transform: translateY(0);
+
       .logo {
         width: 220px;
         margin-bottom: 30px;
       }
+
       .btn {
         max-width: 340px;
       }
     }
   }
 }
+
 @media screen and (max-width: 320px) {
   .login {
     .small-device-download {
@@ -505,15 +521,18 @@ export default {
         width: 80px;
         font-size: 10px;
         margin-top: 5px;
-        > div:last-child {
+
+        >div:last-child {
           display: none;
         }
       }
+
       .down-button-container {
         margin-top: 10px;
         padding-top: 5px;
       }
     }
+
     .center-form {
       .download {
         display: none;

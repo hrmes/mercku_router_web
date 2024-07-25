@@ -9,12 +9,13 @@ function dashToCamel(dashName) {
   }).join('');
 }
 
-export default function getMenu(role, mode = RouterMode.router, settings) {
+export default function getMenu(role, mode = RouterMode.router, settings = {}) {
   console.log('Init menus...');
   console.log(`customer id is: ${customerId}`);
   console.log(`model id is: ${modelId}`);
   console.log(`role is: ${role}`);
   console.log(`mode is: ${mode}`);
+  console.log(`menu reseting ${JSON.stringify(settings)}`)
   // 菜单默认配置
   const config = {
     show: true,
@@ -221,7 +222,7 @@ export default function getMenu(role, mode = RouterMode.router, settings) {
       },
       {
         url: '/advance/tr069',
-        name: 'advance.tr069',
+        name: 'advance-tr069',
         text: 'trans0499',
         config: {
           show: true,

@@ -177,12 +177,16 @@ const launch =  async () => {
     throw err;
   });
 
-  const profile = await http.getSessionProfile()
-
   // fixme @yawei: 这里应该只在登陆后才调用。
   // fixme advance-tr069 等没有生效
   // fixme upgrade/offline 等没有生效
-  Vue.prototype.profile = profile.data.result["session.profile"]
+  
+  router.afterEach(() => {
+    // 回退到 login 页标记 logined 为 false
+    if (window.location.href.includes('/login')) {
+      store.state.logined = false
+    }
+  })
 
   Vue.prototype.loadingColor = process.env.CUSTOMER_CONFIG.loading.color;
   Vue.prototype.$loading = loading;

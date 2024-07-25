@@ -21,7 +21,9 @@ export default new Vuex.Store({
       portfw: {},
       rsvdip: {},
       vpn: {}
-    }
+    },
+    logined: false,
+    settings: {}
   },
   mutations: {
     pushToken(state, payload) {

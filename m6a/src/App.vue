@@ -19,6 +19,7 @@
 import defaultLayout from 'base/layouts/default.vue';
 import primaryLayout from 'base/layouts/primary.vue';
 import getMenu from './menu';
+import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -26,6 +27,7 @@ export default {
     primary: primaryLayout
   },
   computed: {
+    ...mapState(['logined']),
     isMobile() {
       return this.$store.state.isMobile;
     },
@@ -74,7 +76,7 @@ export default {
       return !visible;
     },
     menus() {
-      return getMenu(this.$store.state.role, this.$store.state.mode, this.profile.layout.settings);
+      return getMenu(this.$store.state.role, this.$store.state.mode, this.$store.state.settings);
     },
     header() {
       return document.querySelector('#header');
@@ -92,12 +94,34 @@ export default {
       this.updateIsMobile();
     });
 
+    this.$http.checkLogin().then(res => {
+      if (res.data.result.status) {
+        this.$store.state.logined = true
+        this.updateSettings()
+      }
+    })
+
     this.$router.beforeEach(this.beforeRouteChange);
+  },
+  watch: {
+    logined(val) {
+      if (val) {
+        setTimeout(() => {
+
+          this.updateSettings()
+        }, 1000)
+      }
+    }
   },
   beforeDestroy() {
     this.removeEventListeners();
   },
   methods: {
+    updateSettings() {
+      this.$http.getSessionProfile().then(response => {
+        this.$store.state.settings = response.data.result["session_profile"]?.layout?.settings ?? {}
+      })
+    },
     initializePage() {
       this.setHeight();
       // 手机下，滚动添加删除header的box-shadow
