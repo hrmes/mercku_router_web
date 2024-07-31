@@ -302,7 +302,15 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
     keep: true,
     children: []
   };
-  [dashboard, setting, advance, upgrade, theme].forEach(item => {
+  const innerMenus = [dashboard, setting, advance, upgrade, theme].map(item => {
+    if (item.name) {
+      const camelName = dashToCamel(item.name)
+      if (settings[camelName] && settings[camelName] == 'hidden') {
+        return null
+      }
+    }
+    
+
     // 根据编译客户生成菜单
     item.children.forEach(menu => {
       menu.config = menu.config || config;
@@ -344,9 +352,11 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
           return true;
         }
       });
-  });
-  var menu = [dashboard, setting, advance, upgrade, theme];
-  menu = menu.filter(item => (item.children.length > 0 || item.keep));
+
+    return item
+  }).filter(Boolean);
+
+  const menu = innerMenus.filter(item => (item?.children.length > 0 || item?.keep));
 
   console.log("menu:", menu);
   return menu;
