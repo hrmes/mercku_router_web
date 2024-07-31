@@ -21,7 +21,7 @@ const customerAbsPath = path.resolve(
 
 export default defineConfig({
   server: {
-    open: true,
+    open: false,
     port: 8080,
     proxy: {
       '/app': {

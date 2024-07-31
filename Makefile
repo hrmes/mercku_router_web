@@ -52,7 +52,8 @@ build: prd_depend
 	mkdir -p output
 	tar cf output/webui-$(VERSION)-$(CUSTOMER_ID)-$(MODEL_ID).tar -C $(MODEL) dist
 
-dev:
-	make -C $(MODEL) dev CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
+dev: dev_depend
+	BROWSER=no MODEL_ID=$(MODEL_ID) pnpm -F $(MODEL) rs:dev
+# make -C $(MODEL) dev CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
 
 .PHONY: all install check_npm_version prd_depend dev_depend dev build
