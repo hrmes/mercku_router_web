@@ -76,6 +76,8 @@ export default {
       return !visible;
     },
     menus() {
+      let settings = this.$store.state.settings;
+      console.log("menus", settings);
       return getMenu(this.$store.state.role, this.$store.state.mode, this.$store.state.settings);
     },
     header() {
@@ -118,8 +120,10 @@ export default {
   },
   methods: {
     updateSettings() {
+      console.log("updateSettings");
       this.$http.getSessionProfile().then(response => {
         this.$store.state.settings = response.data.result["session.profile"]?.layout?.settings ?? {}
+        console.log("got settings", this.$store.state.settings);
       })
     },
     initializePage() {

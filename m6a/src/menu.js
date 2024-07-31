@@ -1,11 +1,12 @@
 import { Role, RouterMode, Customers } from 'base/util/constant';
+import Http from './http';
 
 const customerId = process.env.CUSTOMER_CONFIG.id;
 const modelId = process.env.MODEL_CONFIG.id;
 
 function dashToCamel(dashName) {
   return dashName.split('-').map((word, index) => {
-      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
   }).join('');
 }
 
@@ -15,7 +16,22 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
   console.log(`model id is: ${modelId}`);
   console.log(`role is: ${role}`);
   console.log(`mode is: ${mode}`);
-  console.log(`menu reseting ${JSON.stringify(settings)}`)
+  // var settings = {};
+  // const http = new Http();
+  // Promise.all([http.getSessionProfile()]).then(([res]) => {
+
+  //   console.log('get session profile success', res);
+  //   settings = res.data.result["session.profile"]?.layout;
+  // }).catch(err => {
+  //   console.log('get session profile error', err);
+  // });
+  // http.getSessionProfile().then(res => {
+  //   console.log('get session profile success', res);
+  //   settings = res.data.result["session.profile"]?.layout;
+  // }).catch(err => {
+  //   console.log('get session profile error', err);
+  // });
+  console.log("settings: ", settings);
   // 菜单默认配置
   const config = {
     show: true,
@@ -283,6 +299,7 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
   const theme = {
     icon: 'ic_theme_light',
     text: 'trans1119',
+    keep: true,
     children: []
   };
   [dashboard, setting, advance, upgrade, theme].forEach(item => {
@@ -297,7 +314,7 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
     // 过滤不显示的菜单
     item.children = item.children.filter(menu => {
       let { show } = menu.config;
-      
+
       // 服务端下发数据让其隐藏
       const camelName = dashToCamel(menu.name)
       if (settings[camelName] && settings[camelName] == 'hidden') {
@@ -328,7 +345,9 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
         }
       });
   });
+  var menu = [dashboard, setting, advance, upgrade, theme];
+  menu = menu.filter(item => (item.children.length > 0 || item.keep));
 
-  console.log([dashboard, setting, advance, upgrade, theme]);
-  return [dashboard, setting, advance, upgrade, theme];
+  console.log("menu:", menu);
+  return menu;
 }

@@ -93,10 +93,16 @@ export default {
     this.$http
       .isinitial()
       .then(res => {
+        console.log("is_initial?", res);
         if (res.data.result.status) {
+
           this.$http.login({ password: '' }).then(() => {
+            console.log("towlan now");
             this.towlan();
-          });
+          })
+            .catch((err) => {
+              console.log("login failed", err);
+            });
         } else {
           this.initial = false;
           this.loading = false;

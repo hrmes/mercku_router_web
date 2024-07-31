@@ -10,7 +10,7 @@ dev_depend: package.json
 	npm i
 
 dev:
-	@CUSTOMER_ID=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID) npm run dev
+	NODE_OPTIONS=--openssl-legacy-provider CUSTOMER_ID=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID) npm run dev
 
 build: prd_depend
 	@CUSTOMER_ID=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID) npm run build
