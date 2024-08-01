@@ -49,6 +49,7 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
     selectedIcon: 'ic_home_selected',
     text: 'trans0173',
     url: '/dashboard',
+    keep: true,
     children: []
   };
   const setting = {
