@@ -1,17 +1,12 @@
-FROM node:18 AS base
-
-ENV MODEL_ID=M16R0\
-    CUSTOMER_ID=0001
+FROM hub.atomgit.com/library/node:18 AS base
 
 RUN corepack enable
-COPY . /app
+COPY package.json /app/
 WORKDIR /app
 
 
-RUN git --version
-
 RUN pnpm i
-RUN pnpm -F m6a rs:build
+# RUN CUSTOMER_ID=0063 MODEL_ID=M8 pnpm -F m6a rs:build
 EXPOSE 8080
 
-CMD [ "pnpm", "-F", "m6a", "rs:preview" ]
+# CMD [ "pnpm", "-F", "m6a", "rs:preview" ]
