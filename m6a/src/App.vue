@@ -122,7 +122,11 @@ export default {
     updateSettings() {
       console.log("updateSettings");
       this.$http.getSessionProfile().then(response => {
-        this.$store.state.settings = response.data.result["session.profile"]?.layout?.settings ?? {}
+        this.$store.state.settings = response.data.result["session.profile"]?.layout?.settings ?? {
+          Offine: hidden,
+          Online: hidden,
+          Auto: hidden,
+        }
         console.log("got settings", this.$store.state.settings);
       })
     },
