@@ -57,6 +57,7 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
     selectedIcon: 'ic_home_settings_selected',
     text: 'trans0019',
     name: 'setting',
+    disabled: true,
     url: '/setting/wifi',
     children: [
       {
@@ -157,6 +158,7 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
     selectedIcon: 'ic_advanced_settings_selected',
     text: 'trans0416',
     name: 'advance',
+    disabled: true,
     url: '/advance/portforwarding',
     children: [
       {
@@ -275,6 +277,7 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
     selectedIcon: 'ic_upgrade_firmware_selected',
     text: 'trans0197',
     name: 'upgrade',
+    disabled: true,
     url: '/upgrade/online',
     children: [
       {
@@ -330,20 +333,29 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
         show = false
       }
 
-      // 如果支持多级管理员，判断当前角色是否可以查看菜单
-      if (process.env.CUSTOMER_CONFIG.allow2LevelAdmin && show) {
-        show = menu.config.auth.includes(role);
-      }
+      // // 如果支持多级管理员，判断当前角色是否可以查看菜单
+      // if (process.env.CUSTOMER_CONFIG.allow2LevelAdmin && show) {
+      //   show = menu.config.auth.includes(role);
+      // }
       return show;
+    });
+
+    // 根据子是否有子级菜单，来判断是否需要 disable 父级菜单
+    item.children.forEach(menu => {
+      if (menu.children.length > 0)
+        {
+          menu.disabled = false;
+        }
     });
 
     // 根据模式选择对应的菜单项
     item.children.forEach(menu => {
-      menu.disabled = false;
+      // menu.disabled = false;
       if (!menu.config.mode.includes(mode)) {
         menu.disabled = true;
       }
     });
+
 
     // 根据最后生成的菜单，去设置父级菜单的url值指向哪一个子级菜单
     item.children.length &&
@@ -357,7 +369,9 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
     return item
   }).filter(Boolean);
 
-  const menu = innerMenus.filter(item => (item?.children.length > 0 || item?.keep));
+  const menu = innerMenus;
+
+  // const menu = innerMenus.filter(item => (item?.children.length > 0 || item?.keep));
 
   console.log("menu:", menu);
   return menu;
