@@ -3,70 +3,71 @@
     .logo-wrap {
       width: 185px;
       height: 30px;
+
       &.light {
         .logo-wrap__logo {
-          background: url(../../../assets/images/customer/mic/logo_nav_light.webp)
-            center no-repeat;
+          background: url(../../../assets/images/customer/mic/logo_nav_light.webp) center no-repeat;
           background-size: 100%;
         }
       }
+
       &.dark {
         .logo-wrap__logo {
-          background: url(../../../assets/images/customer/mic/logo_nav_light.webp)
-            center no-repeat;
+          background: url(../../../assets/images/customer/mic/logo_nav_light.webp) center no-repeat;
           background-size: 100%;
         }
       }
+
       @media screen and (max-width: 768px) {
         width: 60px;
         height: 20px;
+
         &.light,
         &.dark {
           .logo-wrap__logo {
-            background: url(../../../assets/images/customer/mic/logo-mobile.png)
-              left no-repeat;
+            background: url(../../../assets/images/customer/mic/logo-mobile.png) left no-repeat;
             background-size: contain;
           }
         }
       }
+
       @media not all and (prefers-color-scheme: dark) and (prefers-color-scheme: light) {
         .logo-wrap__logo {
-          background: url(../../../assets/images/customer/mic/logo_nav_light.webp)
-            center no-repeat;
+          background: url(../../../assets/images/customer/mic/logo_nav_light.webp) center no-repeat;
           background-size: 100%;
         }
+
         @media screen and (max-width: 768px) {
           .logo-wrap__logo {
-            background: url(../../../assets/images/customer/mic/logo-mobile.png)
-              center no-repeat;
+            background: url(../../../assets/images/customer/mic/logo-mobile.png) center no-repeat;
             background-size: contain;
           }
         }
       }
+
       @media (prefers-color-scheme: light) {
         .logo-wrap__logo {
-          background: url(../../../assets/images/customer/mic/logo_nav_light.webp)
-            center no-repeat;
+          background: url(../../../assets/images/customer/mic/logo_nav_light.webp) center no-repeat;
           background-size: 100%;
         }
+
         @media screen and (max-width: 768px) {
           .logo-wrap__logo {
-            background: url(../../../assets/images/customer/mic/logo-mobile.png)
-              center no-repeat;
+            background: url(../../../assets/images/customer/mic/logo-mobile.png) center no-repeat;
             background-size: contain;
           }
         }
       }
+
       @media (prefers-color-scheme: dark) {
         .logo-wrap__logo {
-          background: url(../../../assets/images/customer/mic/logo_nav_light.webp)
-            center no-repeat;
+          background: url(../../../assets/images/customer/mic/logo_nav_light.webp) center no-repeat;
           background-size: 100%;
         }
+
         @media screen and (max-width: 768px) {
           .logo-wrap__logo {
-            background: url(../../../assets/images/customer/mic/logo-mobile.png)
-              center no-repeat;
+            background: url(../../../assets/images/customer/mic/logo-mobile.png) center no-repeat;
             background-size: contain;
           }
         }
@@ -81,54 +82,55 @@
         width: 280px;
         height: 38px;
       }
+
       &.light {
         .logo {
-          background: url(../../../assets/images/customer/mic/logo-light.svg)
-            no-repeat center;
+          background: url(../../../assets/images/customer/mic/logo-light.svg) no-repeat center;
           background-size: contain;
         }
       }
+
       &.dark {
         .logo {
-          background: url(../../../assets/images/customer/mic/logo-dark.svg)
-            no-repeat center;
+          background: url(../../../assets/images/customer/mic/logo-dark.svg) no-repeat center;
           background-size: contain;
         }
       }
+
       @media not all and (prefers-color-scheme: dark) and (prefers-color-scheme: light) {
         .logo {
-          background: url(../../../assets/images/customer/mic/logo-light.svg)
-            no-repeat center;
+          background: url(../../../assets/images/customer/mic/logo-light.svg) no-repeat center;
           background-size: contain;
         }
       }
+
       @media (prefers-color-scheme: light) {
         .logo {
-          background: url(../../../assets/images/customer/mic/logo-light.svg)
-            no-repeat center;
+          background: url(../../../assets/images/customer/mic/logo-light.svg) no-repeat center;
           background-size: contain;
         }
       }
+
       @media (prefers-color-scheme: dark) {
         .logo {
-          background: url(../../../assets/images/customer/mic/logo-dark.svg)
-            no-repeat center;
+          background: url(../../../assets/images/customer/mic/logo-dark.svg) no-repeat center;
           background-size: contain;
         }
       }
     }
+
     .app-logo {
-      background: url(../../../assets/images/customer/mic/ic_launcher.png)
-        no-repeat center;
+      background: url(../../../assets/images/customer/mic/ic_launcher.png) no-repeat center;
       background-size: 100%;
     }
+
     .download {
       .qr {
-        background: url(../../../assets/images/customer/mic/qr.png) no-repeat
-          center;
+        background: url(../../../assets/images/customer/mic/qr.jpeg) no-repeat center;
         background-size: 100%;
       }
     }
   }
+
   /**************************end登陆页面******************/
 }

@@ -69,8 +69,10 @@ build: $(TMPDIR)/.container_ready
 # mkdir -p output
 # tar cf output/webui-$(VERSION)-$(CUSTOMER_ID)-$(MODEL_ID).tar -C $(MODEL) dist
 
-dev: dev_depend
-	BROWSER=no MODEL_ID=$(MODEL_ID) pnpm -F $(MODEL) rs:dev
+PORT=8080
+
+dev: $(TMPDIR)/.container_ready
+	docker run --rm -it -v $(TOPDIR):/app/src -p $(PORT):8080 -w /app/src -e MODEL_ID=$(MODEL_ID) -e CUSTOMER_ID=$(CUSTOMER_ID)  -e MODEL=${MODEL} -e VERSION=${VERSION} $(IMG) bash /app/src/scripts/dev_in_docker.sh
 # make -C $(MODEL) dev CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
 
 .PHONY: all install check_npm_version prd_depend dev_depend dev build

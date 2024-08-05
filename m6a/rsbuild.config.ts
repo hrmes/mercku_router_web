@@ -14,6 +14,7 @@ const CUSTOMER_CONFIG = require(`../base/customer-conf/${CUSTOMER_ID}/conf.json`
 const { title, favicon } = CUSTOMER_CONFIG;
 
 const host = CUSTOMER_CONFIG.host || 'http://mywifi.mercku.tech';
+console.log("host is:" + host);
 const customerAbsPath = path.resolve(
   __dirname,
   `../base/src/style/customer/${CUSTOMER_ID}/theme.scss`

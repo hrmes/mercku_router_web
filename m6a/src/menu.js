@@ -313,7 +313,7 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
         return null
       }
     }
-    
+
 
     // 根据编译客户生成菜单
     item.children.forEach(menu => {
@@ -341,12 +341,9 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
     });
 
     // 根据子是否有子级菜单，来判断是否需要 disable 父级菜单
-    item.children.forEach(menu => {
-      if (menu.children.length > 0)
-        {
-          menu.disabled = false;
-        }
-    });
+    if (item.children.length > 0) {
+      item.disabled = false;
+    }
 
     // 根据模式选择对应的菜单项
     item.children.forEach(menu => {

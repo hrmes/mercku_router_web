@@ -1,132 +1,91 @@
 <template>
-  <header class="header customized"
-          :class="{
-            'is-position-nav':isLoginPage||isWlanPage,
-            'is-not-position-nav':!isLoginPage && !isWlanPage,
-            'open':mobileNavVisible,
-            'i18n-open':mobileI18nVisible
-          }">
-    <div class="logo-wrap"
-         :class="currentTheme">
-      <a v-if="website && isLoginPage"
-         class="offical"
-         target="_blank"
-         :href="website.url">
-        <img src="../../assets/images/icon/ic_web_home.png"
-             alt="">
-        <span>{{website.text}}</span>
+  <header class="header customized" :class="{
+    'is-position-nav': isLoginPage || isWlanPage,
+    'is-not-position-nav': !isLoginPage && !isWlanPage,
+    'open': mobileNavVisible,
+    'i18n-open': mobileI18nVisible
+  }">
+    <div class="logo-wrap" :class="currentTheme">
+      <a v-if="website && isLoginPage" class="offical" target="_blank" :href="website.url">
+        <img src="../../assets/images/icon/ic_web_home.png" alt="">
+        <span>{{ website.text }}</span>
       </a>
-      <div v-else
-           @click.stop="forward2Page('/dashboard')"
-           class="logo-wrap__logo"
-           :class="{'is-wlan-page':isWlanPage}"></div>
+      <div v-else @click.stop="forward2Page('/dashboard')" class="logo-wrap__logo"
+        :class="{ 'is-wlan-page': isWlanPage }">
+      </div>
     </div>
     <template v-if="isMobile">
-      <div class="nav-wrap nav-wrap--mobile"
-           v-show="mobileNavVisible">
+      <div class="nav-wrap nav-wrap--mobile" v-show="mobileNavVisible">
         <ul class="nav reset-ul">
-          <li class="nav-item"
-              :class="{'selected':menu.selected}"
-              :key="menu.key"
-              v-for="menu in list"
-              @click="showMobileMenu(menu)">
+          <li class="nav-item" :class="{ 'selected': menu.selected }" :key="menu.key" v-for="menu in list"
+            @click="showMobileMenu(menu)">
             <div class="nav-item-content">
-              <i class="el-menu-item__icon iconfont"
-                 :class="menu.selected? menu.selectedIcon : menu.icon"></i>
-              <div class="nav-item__text">{{$t(menu.text)}}</div>
-              <span v-if="menu.children.length"
-                    class="mobile-trangle"></span>
-              <i v-if="!menu.children.length"
-                 class="is-checked"></i>
+              <i class="el-menu-item__icon iconfont" :class="menu.selected ? menu.selectedIcon : menu.icon"></i>
+              <div class="nav-item__text">{{ $t(menu.text) }}</div>
+              <span v-if="menu.children.length" class="mobile-trangle"></span>
+              <i v-if="!menu.children.length" class="is-checked"></i>
             </div>
-            <transition name="collapse"
-                        @before-enter="beforeEnter"
-                        @enter="enter"
-                        @after-enter="afterEnter"
-                        @before-leave="beforeLeave"
-                        @leave="leave"
-                        @after-leave="afterLeave">
-              <ul v-if="menu.children.length"
-                  class="nav-item-child reset-ul"
-                  v-show="menu.selected">
-                <li class="nav-child__text"
-                    :key="child.key"
-                    @click.stop="jumpMobile(child)"
-                    v-for="child in menu.children"
-                    :class="{'selected':$route.name.includes(child.name),'disabled':child.disabled}">
-                  {{$t(child.text)}}
-                  <i v-if="$route.name.includes(child.name)"
-                     class="is-checked"></i>
+            <transition name="collapse" @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter"
+              @before-leave="beforeLeave" @leave="leave" @after-leave="afterLeave">
+              <ul v-if="menu.children.length" class="nav-item-child reset-ul" v-show="menu.selected">
+                <li class="nav-child__text" :key="child.key" @click.stop="jumpMobile(child)"
+                  v-for="child in menu.children"
+                  :class="{ 'selected': $route.name.includes(child.name), 'disabled': child.disabled }">
+                  {{ $t(child.text) }}
+                  <i v-if="$route.name.includes(child.name)" class="is-checked"></i>
                 </li>
               </ul>
             </transition>
           </li>
-          <li v-if="!isWirelessBridge"
-              class="nav-item nav-item__exit add-node">
-            <div class="nav-item-content"
-                 @click.stop="forward2Page('/mesh/add')">
+          <li v-if="!isWirelessBridge" class="nav-item nav-item__exit add-node">
+            <div class="nav-item-content" @click.stop="forward2Page('/mesh/add')">
               <button class="btn">
                 <span class="add-icon"></span>
-                {{$t('trans0194')}}
+                {{ $t('trans0194') }}
               </button>
             </div>
           </li>
           <li class="nav-item nav-item__exit">
-            <div class="nav-item-content"
-                 @click="exit()">
-              <div class="nav-item__text">{{$t('trans0021')}}</div>
+            <div class="nav-item-content" @click="exit()">
+              <div class="nav-item__text">{{ $t('trans0021') }}</div>
             </div>
 
           </li>
         </ul>
       </div>
-      <div class="nav-wrap nav-wrap--mobile"
-           v-show="mobileI18nVisible">
+      <div class="nav-wrap nav-wrap--mobile" v-show="mobileI18nVisible">
         <ul class="i18n-mobile reset-ul">
-          <li :key="lang.value"
-              v-for="lang in Languages"
-              :class="{'selected':$i18n.locale === lang.value}"
-              @click="selectMobileLang(lang)">
-            {{lang.text}}
-            <i v-if="$i18n.locale === lang.value"
-               class="is-checked"></i>
+          <li :key="lang.value" v-for="lang in Languages" :class="{ 'selected': $i18n.locale === lang.value }"
+            @click="selectMobileLang(lang)">
+            {{ lang.text }}
+            <i v-if="$i18n.locale === lang.value" class="is-checked"></i>
           </li>
         </ul>
       </div>
       <div class="right-wrap">
-        <span @click="setMobileLangVisible()"
-              class="menu-icon language"
-              :class="[$i18n.locale]">
+        <span @click="setMobileLangVisible()" class="menu-icon language" :class="[$i18n.locale]">
           <i class="iconfont a-ic_languages_moblie"></i>
         </span>
-        <span v-if="navVisible"
-              @click="trigerMobileNav()"
-              class="menu-icon menu">
+        <span v-if="navVisible" @click="trigerMobileNav()" class="menu-icon menu">
           <i class="iconfont ic_more_moblie"></i>
         </span>
       </div>
     </template>
-    <div class="nav-wrap nav-wrap--laptop"
-         v-else>
-      <ul class="nav reset-ul"
-          v-if="navVisible">
-        <li class="nav-item"
-            :key="menu.key"
-            v-for="menu in list"
-            :class="{'selected':menu.selected}">
-          <div class="nav-item-content"
-               @click.stop="jump(menu)"
-               :data-title="$t(menu.text)">
-            <i class="el-menu-item__icon iconfont"
-               :class="menu.selected? menu.selectedIcon : menu.icon"></i>
+    <div class="nav-wrap nav-wrap--laptop" v-else>
+      <ul class="nav reset-ul" v-if="navVisible">
+        <li class="nav-item" :key="menu.key" v-for="menu in list" :class="{
+          'selected': menu.selected,
+          'disabled': menu.disabled
+        }">
+          <div class="nav-item-content" @click.stop="jump(menu)" :data-title="$t(menu.text)"
+            :class="{ 'disabled': menu.disabled }" :disabled="menu.disabled">
+            <i class="el-menu-item__icon iconfont" :class="menu.selected ? menu.selectedIcon : menu.icon
+              "></i>
           </div>
         </li>
         <li class="nav-item nav-item__add-node">
-          <div class="nav-item-content"
-               :data-title="$t('trans0194')">
-            <button class="btn btn-small"
-                    :class="{'disabled':isWirelessBridge}"
-                    @click.stop="jumpAddNode">
+          <div class="nav-item-content" :data-title="$t('trans0194')">
+            <button class="btn btn-small" :class="{ 'disabled': isWirelessBridge }" @click.stop="jumpAddNode">
               <span class="add-icon"></span>
             </button>
           </div>
@@ -134,64 +93,45 @@
       </ul>
     </div>
     <!-- theme change modal -->
-    <m-modal class="theme-change-modal"
-             :type="isMobile?'confirm':'info'"
-             :visible.sync='ThemechangeVisiable'>
+    <m-modal class="theme-change-modal" :type="isMobile ? 'confirm' : 'info'" :visible.sync='ThemechangeVisiable'>
       <m-modal-header>
         <div class="theme-change-header">
-          <span>{{$t('trans1119')}}</span>
-          <div class="theme-change-header__close-btn"
-               @click.stop="() => (ThemechangeVisiable = false)">
+          <span>{{ $t('trans1119') }}</span>
+          <div class="theme-change-header__close-btn" @click.stop="() => (ThemechangeVisiable = false)">
             <i class="iconfont ic_close"></i>
           </div>
         </div>
       </m-modal-header>
       <m-modal-body>
         <div class="theme-change-body">
-          <div class="theme-option"
-               @click="clickHandler('light')">
-            <m-checkbox v-if="isMobile"
-                        class="checkbox static"
-                        :rect="false"
-                        v-model="themeOptions.light.ischecked"></m-checkbox>
+          <div class="theme-option" @click="clickHandler('light')">
+            <m-checkbox v-if="isMobile" class="checkbox static" :rect="false"
+              v-model="themeOptions.light.ischecked"></m-checkbox>
             <img :src="require('base/assets/images/common/img_theme_light.png')" />
-            <span class="label">{{$t('trans1122')}}</span>
-            <m-checkbox v-if="!isMobile"
-                        class="checkbox"
-                        :rect="false"
-                        v-model="themeOptions.light.ischecked"></m-checkbox>
+            <span class="label">{{ $t('trans1122') }}</span>
+            <m-checkbox v-if="!isMobile" class="checkbox" :rect="false"
+              v-model="themeOptions.light.ischecked"></m-checkbox>
           </div>
-          <div class="theme-option"
-               @click="clickHandler('dark')">
-            <m-checkbox v-if="isMobile"
-                        class="checkbox static"
-                        :rect="false"
-                        v-model="themeOptions.dark.ischecked"></m-checkbox>
+          <div class="theme-option" @click="clickHandler('dark')">
+            <m-checkbox v-if="isMobile" class="checkbox static" :rect="false"
+              v-model="themeOptions.dark.ischecked"></m-checkbox>
             <img :src="require('base/assets/images/common/img_theme_dark.png')" />
-            <span class="label">{{$t('trans1123')}}</span>
-            <m-checkbox v-if="!isMobile"
-                        class="checkbox"
-                        :rect="false"
-                        v-model="themeOptions.dark.ischecked"></m-checkbox>
+            <span class="label">{{ $t('trans1123') }}</span>
+            <m-checkbox v-if="!isMobile" class="checkbox" :rect="false"
+              v-model="themeOptions.dark.ischecked"></m-checkbox>
           </div>
-          <div class="theme-option"
-               @click="clickHandler('auto')">
-            <m-checkbox v-if="isMobile"
-                        class="checkbox static"
-                        :rect="false"
-                        v-model="themeOptions.auto.ischecked"></m-checkbox>
+          <div class="theme-option" @click="clickHandler('auto')">
+            <m-checkbox v-if="isMobile" class="checkbox static" :rect="false"
+              v-model="themeOptions.auto.ischecked"></m-checkbox>
             <img :src="require('base/assets/images/common/img_theme_auto.png')" />
-            <span class="label">{{$t('trans1121')}}</span>
-            <m-checkbox v-if="!isMobile"
-                        class="checkbox"
-                        :rect="false"
-                        v-model="themeOptions.auto.ischecked"></m-checkbox>
+            <span class="label">{{ $t('trans1121') }}</span>
+            <m-checkbox v-if="!isMobile" class="checkbox" :rect="false"
+              v-model="themeOptions.auto.ischecked"></m-checkbox>
           </div>
         </div>
       </m-modal-body>
       <m-modal-footer class="theme-change-footer">
-        <button class="btn btn-dialog-confirm"
-                @click="changeThemeMode">{{$t('trans0081')}}</button>
+        <button class="btn btn-dialog-confirm" @click="changeThemeMode">{{ $t('trans0081') }}</button>
       </m-modal-footer>
     </m-modal>
   </header>
@@ -276,6 +216,7 @@ export default {
     },
     menus() {
       this.list = this.getList();
+      console.log('menus', this.list);
     },
     currentTheme: {
       handler(nv) {
@@ -350,7 +291,9 @@ export default {
         this.themeOptions[current].ischecked = true;
         this.ThemechangeVisiable = true;
       } else {
-        this.$router.push({ path: menu.url });
+        if (!menu.disabled) {
+          this.$router.push({ path: menu.url });
+        }
       }
     },
     jumpMobile(menu) {
@@ -461,9 +404,21 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.disabled {
+  cursor: not-allowed;
+  color: var(--header_popup_item_disabled-color);
+
+  &:active,
+  &:hover {
+    color: var(--header_popup_item_disabled-color);
+    background: var(--header_popup-bgc);
+  }
+}
+
 .theme-change-modal {
   .theme-change-header {
     position: relative;
+
     .theme-change-header__close-btn {
       position: absolute;
       top: 50%;
@@ -474,20 +429,24 @@ export default {
       border-radius: 50%;
       background: var(--button_close-bgc);
       cursor: pointer;
+
       .iconfont {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         font-size: 12px;
+
         &::before {
           transform: scale(0.5);
         }
       }
     }
   }
+
   .theme-change-body {
     display: flex;
+
     .theme-option {
       position: relative;
       width: 120px;
@@ -499,15 +458,19 @@ export default {
       text-align: center;
       outline: 3px solid transparent;
       transition: outline 0.3s ease-out;
+
       &:hover {
         outline-color: var(--primary-color);
       }
-      > img {
+
+      >img {
         width: 100%;
       }
+
       .label {
         color: var(--text-defult-color);
       }
+
       .checkbox {
         position: absolute;
         top: 7px;
@@ -515,10 +478,12 @@ export default {
       }
     }
   }
+
   .btn-dialog-confirm {
     width: 240px;
   }
 }
+
 .header {
   position: relative;
   display: flex;
@@ -528,9 +493,11 @@ export default {
   height: 65px;
   padding: 0 30px;
   color: var(--text_default-color);
+
   .logo-wrap {
     width: 168px;
     height: 36px;
+
     .offical {
       color: var(--header_official-color);
       text-decoration: none;
@@ -538,29 +505,36 @@ export default {
       align-items: center;
       font-size: 14px;
       line-height: 1;
+
       &:hover {
         text-decoration: underline;
         color: var(--header_official_hover-color);
       }
+
       img {
         width: 12px;
         margin-right: 5px;
       }
     }
+
     .logo-wrap__logo {
       width: 100%;
       height: 100%;
       cursor: pointer;
+
       &.is-wlan-page {
         cursor: default;
       }
     }
   }
+
   .nav-wrap {
     height: 100%;
+
     .nav {
       display: flex;
       height: 100%;
+
       .nav-item {
         position: relative;
         height: 100%;
@@ -569,6 +543,7 @@ export default {
         align-items: center;
         cursor: pointer;
         margin-right: 40px;
+
         .nav-item-content {
           display: flex;
           position: relative;
@@ -578,13 +553,16 @@ export default {
           height: 40px;
           border-radius: 50%;
           transition: background 0.3s linear;
+
           &:hover {
             background: var(--header_nav_hover-bgc);
           }
+
           .iconfont {
             font-size: 24px;
             color: var(--header_nav_iconfont-color);
           }
+
           .nav-item__text {
             height: 100%;
             display: flex;
@@ -593,6 +571,7 @@ export default {
             color: #fff;
           }
         }
+
         .nav-item-child {
           display: none;
           width: 280px;
@@ -602,48 +581,59 @@ export default {
           margin-top: 6px;
           box-shadow: var(--select_popup-shadow);
           background-color: var(--header_popup-bgc);
+
           &.show {
             display: block;
           }
         }
+
         @media screen and (max-width: 1440px) {
           margin-right: 30px;
         }
+
         &.nav-item__add-node {
           .nav-item-content {
             width: 60px;
+
             .btn-small {
               width: 60px;
               height: 32px;
               min-width: auto;
               padding: 0;
             }
+
             &:hover {
               background: transparent;
             }
           }
         }
+
         &.selected {
           position: relative;
+
           .nav-item-content {
             &:hover {
               background: none;
             }
           }
+
           .iconfont {
             background-image: var(--header_selected-bgc);
-            -webkit-background-clip: text; /* Safari/Chrome */
+            -webkit-background-clip: text;
+            /* Safari/Chrome */
             background-clip: text;
             color: transparent;
             text-shadow: var(--header_selected_icon-textshadow);
           }
         }
+
         &:last-child {
           margin-right: 0;
         }
       }
     }
   }
+
   &.is-position-nav {
     position: absolute;
     top: 20px;
@@ -652,18 +642,21 @@ export default {
     background: transparent;
     padding: 0 30px;
     z-index: 999;
+
     .logo-wrap {
       img {
         filter: var(--img-brightness);
       }
     }
   }
+
   .add-icon {
     position: relative;
     display: inline-block;
     width: 10px;
     height: 10px;
     margin-right: 5px;
+
     &::before {
       content: '';
       position: absolute;
@@ -676,6 +669,7 @@ export default {
       background-color: #fff;
       transform: translate(-50%, -50%) rotate(0deg);
     }
+
     &::after {
       content: '';
       position: absolute;
@@ -690,10 +684,12 @@ export default {
     }
   }
 }
+
 @media screen and (max-width: 768px) {
   .theme-change-modal {
     .theme-change-body {
       flex-direction: column;
+
       .theme-option {
         flex: 1;
         width: 100%;
@@ -702,12 +698,14 @@ export default {
         align-items: center;
         margin-bottom: 10px;
         margin-left: 20px;
+
         img {
           width: 50px;
           height: 80px;
           margin-left: 10px;
           margin-right: 20px;
         }
+
         .checkbox {
           &.static {
             width: fit-content;
@@ -716,24 +714,40 @@ export default {
             transform: translate(-50%, -50%);
           }
         }
+
         &:last-child {
           margin-bottom: 0;
         }
+
         &:hover {
           outline-color: transparent;
         }
       }
     }
+
     .theme-change-footer {
       padding-top: 20px;
     }
   }
+
+
+  .disabled {
+    color: var(--header_popup_item_disabled-color);
+
+    &:active,
+    &:hover {
+      color: var(--header_popup_item_disabled-color);
+      background: var(--header_popup-bgc);
+    }
+  }
+
   .header {
     z-index: 999;
     position: fixed;
     left: 0;
     top: 0;
     padding: 0 20px;
+
     .logo-wrap {
       display: flex;
       align-items: center;
@@ -743,6 +757,7 @@ export default {
       transform: translateY(-50%);
       padding: 0;
     }
+
     .nav-wrap {
       position: fixed;
       top: 65px;
@@ -751,32 +766,49 @@ export default {
       height: calc(100% - 65px);
       background: var(--header-bgc);
       color: var(--header-color);
+
       .nav {
         flex-direction: column;
         height: auto;
+
         .nav-item {
           width: 100%;
           margin: 0;
           height: auto;
           flex-direction: column;
           align-items: center;
+
           .collapse-enter-active,
           .collapse-leave-active {
             transition: height 0.4s ease;
             overflow: hidden;
           }
+
           .collapse-enter,
           .collapse-leave-to {
             height: 0;
           }
+
+          .disabled {
+            color: var(--header_popup_item_disabled-color);
+
+            &:active,
+            &:hover {
+              color: var(--header_popup_item_disabled-color);
+              background: var(--header_popup-bgc);
+            }
+          }
+
           .nav-item-content {
             justify-content: flex-start;
             align-items: center;
             position: relative;
             width: 85%;
+
             &:hover {
               background: transparent;
             }
+
             .nav-item__text {
               color: var(--header_mobile_navitem-color);
               line-height: 1;
@@ -784,6 +816,7 @@ export default {
               font-size: 16px;
               font-weight: 600;
             }
+
             .mobile-trangle {
               position: absolute;
               right: 0;
@@ -799,6 +832,7 @@ export default {
               transition: all 0.3s;
               font-size: 10px;
             }
+
             .is-checked {
               display: none;
               position: absolute;
@@ -807,12 +841,14 @@ export default {
               transform: translateY(-50%);
             }
           }
+
           .nav-item-child {
             position: static;
             display: block;
             background: var(--mobile_header_popup-bgc);
             box-shadow: none;
             width: 100%;
+
             .nav-child__text {
               display: flex;
               justify-content: space-between;
@@ -823,23 +859,28 @@ export default {
               color: var(--text_default-color);
               background: var(--header_popup-bgc);
               cursor: not-allowed;
+
               &.disabled {
                 color: var(--header_popup_item_disabled-color);
+
                 &:active,
                 &:hover {
                   color: var(--header_popup_item_disabled-color);
                   background: var(--header_popup-bgc);
                 }
               }
+
               &.selected {
                 color: var(--mobile_menu_selected-color);
               }
             }
           }
+
           &.nav-item__exit {
             display: block;
             max-width: 340px;
             margin: 0 auto 30px;
+
             .nav-item-content {
               height: 48px;
               justify-content: center;
@@ -847,32 +888,40 @@ export default {
               box-shadow: var(--logout_btn-boxshadow);
               border-radius: 22px;
               margin: 0 auto;
-              > .nav-item__text {
+
+              >.nav-item__text {
                 margin: 0;
               }
             }
           }
+
           &.add-node {
             margin: 30px auto;
+
             .btn {
               font-weight: 500;
             }
           }
+
           &.selected {
             .iconfont {
               background-image: var(--header_selected-bgc);
-              -webkit-background-clip: text; /* Safari/Chrome */
+              -webkit-background-clip: text;
+              /* Safari/Chrome */
               background-clip: text;
               color: transparent;
               text-shadow: var(--header_selected_icon-textshadow);
             }
+
             .nav-item-content {
               .nav-item__text {
                 color: var(--mobile_menu_selected-color);
               }
+
               & .is-checked {
                 display: inline-flex;
               }
+
               & .mobile-trangle {
                 transform: translateY(-50%) rotate(90deg);
               }
@@ -880,10 +929,12 @@ export default {
           }
         }
       }
+
       &.nav-wrap--mobile {
         display: block;
         overflow: auto;
       }
+
       .i18n-mobile {
         position: fixed;
         top: 65px;
@@ -895,6 +946,7 @@ export default {
         padding: 0 30px;
         z-index: 999;
         font-size: 16px;
+
         li {
           display: flex;
           justify-content: space-between;
@@ -902,20 +954,24 @@ export default {
           padding: 16px 0;
           list-style: none;
           font-weight: 600;
+
           &.selected {
             color: var(--mobile_menu_selected-color);
+
             .is-checked {
               &::after {
                 border-color: var(--mobile_menu_selected-color);
               }
             }
           }
+
           &:first-child {
             border: 0;
           }
         }
       }
     }
+
     .right-wrap {
       position: absolute;
       right: 20px;
@@ -928,21 +984,26 @@ export default {
         height: 20px;
         line-height: 20px;
         text-align: center;
+
         .iconfont {
           font-size: 20px;
         }
+
         &.menu {
           margin-left: 35px;
         }
       }
     }
+
     &.is-position-nav {
       top: 0;
       height: 65px;
     }
+
     &.is-not-position-nav {
       background-color: var(--header-bgc);
     }
+
     &.open,
     &.i18n-open {
       border-radius: 0;
