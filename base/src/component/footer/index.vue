@@ -51,7 +51,7 @@
         <div class="jump-app-info">
           <div class="text-container">{{transText('trans1118')}}</div>
           <div class="icon qr">
-            <img :src="require(`base/assets/images/customer/${ispFolderName}/qr.png`)" />
+            <img :src="require(`base/assets/images/customer/${ispAppQr}`)" />
           </div>
         </div>
       </div>
@@ -151,7 +151,10 @@ export default {
         .replace('%s', process.env.CUSTOMER_CONFIG.title);
     },
     ispFolderName() {
-      return process.env.CUSTOMER_CONFIG.title.toLowerCase();
+      return process.env.CUSTOMER_CONFIG.ispId.toLowerCase();
+    },
+    ispAppQr() {
+      return process.env.CUSTOMER_CONFIG.images.appQr;
     },
     isMobile() {
       return this.$store.state.isMobile;

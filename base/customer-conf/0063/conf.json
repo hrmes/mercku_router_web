@@ -1,6 +1,7 @@
 {
   "id": "0063",
   "title": "Micronat",
+  "ispId": "mic",
   "host": "http://mywifi.micronat.tech",
   "accept": ".mic",
   "favicon": "customer-conf/0063/favicon.ico",
@@ -91,11 +92,11 @@
   },
   "theme": {
     "dark": {
-      "test_bg_color": "#000000",
+      "test_bg_color": "#000000"
     }
   },
   "images": {
-    "appQr": "qr.jpeg"
+    "appQr": "mic/qr.jpeg"
   },
   "appDownloadUrl": "http://onelink.to/micronat"
 }

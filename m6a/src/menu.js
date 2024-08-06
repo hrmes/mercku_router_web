@@ -341,7 +341,7 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
     });
 
     // 根据子是否有子级菜单，来判断是否需要 disable 父级菜单
-    if (item.children.length > 0) {
+    if (item.children && item.children.length > 0) {
       item.disabled = false;
     }
 
