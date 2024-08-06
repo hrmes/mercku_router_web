@@ -16,7 +16,7 @@ if (process.env.CUSTOMER_ID) {
   CUSTOMER_ID = '0001';
 }
 
-const CUSTOMER_CONFIG = require(`../base/customer-conf/${CUSTOMER_ID}/conf.json`);
+const CUSTOMER_CONFIG = require(`../base/customer-conf/${CUSTOMER_ID}/conf.js`);
 console.log(process.env.MODEL);
 console.log(
   `get CUSTOMER_CONFIG for ${CUSTOMER_ID}:\n`,

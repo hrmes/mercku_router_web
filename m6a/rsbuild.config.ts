@@ -10,8 +10,10 @@ if (process.env.CUSTOMER_ID) {
   CUSTOMER_ID = '0001';
 }
 
-const CUSTOMER_CONFIG = require(`../base/customer-conf/${CUSTOMER_ID}/conf.json`);
+const CUSTOMER_CONFIG = require(`../base/customer-conf/${CUSTOMER_ID}/conf.js`);
 const { title, favicon } = CUSTOMER_CONFIG;
+
+console.log(CUSTOMER_CONFIG.images)
 
 const host = CUSTOMER_CONFIG.host || 'http://mywifi.mercku.tech';
 console.log("host is:" + host);

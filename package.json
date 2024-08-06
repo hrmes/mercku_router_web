@@ -7,7 +7,8 @@
     "lint": "vue-cli-service lint",
     "dev": "vue-cli-service serve",
     "test:unit": "vue-cli-service test:unit",
-    "start": "node ./scripts/start.mjs"
+    "start": "node ./scripts/start.mjs",
+    "format": "prettier --write ./base/customer-conf/**/*.js"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -46,6 +47,7 @@
     "fs-extra": "^11.2.0",
     "html-loader": "^0.5.5",
     "inquirer": "^10.0.4",
+    "prettier": "^3.3.3",
     "sass": "^1.32.8",
     "sass-loader": "^7.0.1",
     "svg-sprite-loader": "^4.1.3",
