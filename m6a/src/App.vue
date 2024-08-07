@@ -9,7 +9,7 @@
             :css="!isMobile && $store.state.hasTransition" mode="out-in">
             <component :is="layout" :hasBackWrap='hasBackWrap' :asideInfo='asideInfo'></component>
           </transition>
-          <m-footer :isLoginPage="isLoginPage" :isWlanPage="isWlanPage" :navVisible="navVisible" />
+          <m-footer :isLoginPage="isLoginPage" :isWlanPage="isWlanPage" :navVisible="navVisible" :logout="cbLogout" />
         </div>
       </div>
     </div>
@@ -76,10 +76,24 @@ export default {
       return !visible;
     },
     menus() {
-      let settings = this.$store.state.settings;
-      console.log("menus", settings);
-      return getMenu(this.$store.state.role, this.$store.state.mode, this.$store.state.settings);
+      console.log("current settings: ", this.$store.state.settings);
+      console.log("current menu: ", this.$store.state.menu);
+      if (this.$store.state.menuLoaded) {
+        return this.$store.state.menu;
+      }
+      return getMenu(this.$store.state.role, this.$store.state.mode);
     },
+    // async menus() {
+    //   await this.$http.getSessionProfile().then(response => {
+    //     this.$store.state.settings = response.data.result["session.profile"]?.layout?.settings ?? {
+    //       Offine: hidden,
+    //       Online: hidden,
+    //       Auto: hidden,
+    //     }
+    //     console.log("got settings", this.$store.state.settings);
+    //   });
+    //   return getMenu(this.$store.state.role, this.$store.state.mode, this.$store.state.settings);
+    // },
     header() {
       return document.querySelector('#header');
     },
@@ -119,16 +133,22 @@ export default {
     this.removeEventListeners();
   },
   methods: {
-    updateSettings() {
+    cbLogout() {
+      console.log("cbLogout");
+      this.$store.state.logined = false;
+      this.$store.state.menuLoaded = false;
+    },
+    async updateSettings() {
       console.log("updateSettings");
-      this.$http.getSessionProfile().then(response => {
-        this.$store.state.settings = response.data.result["session.profile"]?.layout?.settings ?? {
-          Offine: hidden,
-          Online: hidden,
-          Auto: hidden,
-        }
-        console.log("got settings", this.$store.state.settings);
-      })
+      const response = await this.$http.getSessionProfile();
+      this.$store.state.settings = response.data.result["session.profile"]?.layout?.settings ?? {
+        Offine: hidden,
+        Online: hidden,
+        Auto: hidden,
+      }
+      console.log("got settings", this.$store.state.settings);
+      this.$store.state.menu = getMenu(this.$store.state.role, this.$store.state.mode, this.$store.state.settings);
+      this.$store.state.menuLoaded = true;
     },
     initializePage() {
       this.setHeight();

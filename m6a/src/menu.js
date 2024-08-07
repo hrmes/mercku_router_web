@@ -306,7 +306,11 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
     keep: true,
     children: []
   };
-  const innerMenus = [dashboard, setting, advance, upgrade, theme].map(item => {
+  var initMenus = [dashboard, setting, advance, upgrade, theme];
+  if (Object.keys(settings).length === 0) {
+    initMenus = [dashboard, setting, advance, theme];
+  }
+  var innerMenus = initMenus.map(item => {
     if (item.name) {
       const camelName = dashToCamel(item.name)
       if (settings[camelName] && settings[camelName] == 'hidden') {
@@ -366,9 +370,9 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
     return item
   }).filter(Boolean);
 
-  const menu = innerMenus;
+  // const menu = innerMenus;
 
-  // const menu = innerMenus.filter(item => (item?.children.length > 0 || item?.keep));
+  const menu = innerMenus.filter(item => (item?.children.length > 0 || item?.keep));
 
   console.log("menu:", menu);
   return menu;

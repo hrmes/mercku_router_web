@@ -9,10 +9,11 @@ ENV AWS_SECRET_ACCESS_KEY=IAzwFUAbwQ5qQFjJ+OvRBVp7xdWvAuHkmOTCIZ5q
 
 RUN corepack enable
 COPY package.json /app/
+COPY pnpm-lock.yaml /app/
 WORKDIR /app
 
 
-RUN pnpm i
+RUN pnpm i --registry=https://r.cnpmjs.org --verbose
 # RUN CUSTOMER_ID=0063 MODEL_ID=M8 pnpm -F m6a rs:build
 EXPOSE 8080
 
