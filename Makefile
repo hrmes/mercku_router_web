@@ -1,7 +1,5 @@
 
 
-include config
-
 TOPDIR=$(shell pwd)
 TMPDIR=$(TOPDIR)/tmp
 
@@ -25,6 +23,8 @@ $(error MODEL_ID should be oneof ($(MODEL_LIST)))
 endif
 
 MODEL=$(subst $(MODEL_ID)=,,$(filter $(MODEL_ID)=%, $(MODEL_LIST)))
+
+VERSION=$(shell sed -n 's/.*"version": "\(.*\)".*/\1/p' $(TOPDIR)/base/customer-conf/$(CUSTOMER_ID)/conf.json)
 
 all: install
 

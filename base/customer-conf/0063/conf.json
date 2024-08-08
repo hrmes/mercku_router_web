@@ -1,5 +1,6 @@
 {
   "id": "0063",
+  "version": "1.0.0",
   "title": "Micronat",
   "ispId": "mic",
   "host": "http://mywifi.micronat.tech",

@@ -1,7 +1,10 @@
 import { Role, RouterMode, Customers } from './util/constant';
 
 const customerId = process.env.CUSTOMER_CONFIG.id;
+const pageVersion = process.env.CUSTOMER_CONFIG.version;
+const ispName = process.env.CUSTOMER_CONFIG.ispId;
 export default function getMenu(role, mode = RouterMode.router) {
+  console.log("version: ${pageVersion}.${ispName}");
   console.log('Init menus...');
   console.log(`customer id is: ${customerId}`);
   console.log(`role is: ${role}`);
@@ -210,7 +213,7 @@ export default function getMenu(role, mode = RouterMode.router) {
       },
       {
         url: '/advance/wwa',
-        name: 'advance.wwa',
+        name: 'advance-wwa',
         text: 'trans0511',
         config: strategyA,
         customers: {
@@ -230,7 +233,7 @@ export default function getMenu(role, mode = RouterMode.router) {
       },
       {
         url: '/advance/tr069',
-        name: 'advance.tr069',
+        name: 'advance-tr069',
         text: 'trans0499',
         config: {
           show: true,

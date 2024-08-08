@@ -3,6 +3,8 @@ import Http from './http';
 
 const customerId = process.env.CUSTOMER_CONFIG.id;
 const modelId = process.env.MODEL_CONFIG.id;
+const pageVersion = process.env.CUSTOMER_CONFIG.version;
+const ispName = process.env.CUSTOMER_CONFIG.ispId;
 
 function dashToCamel(dashName) {
   return dashName.split('-').map((word, index) => {
@@ -11,6 +13,7 @@ function dashToCamel(dashName) {
 }
 
 export default function getMenu(role, mode = RouterMode.router, settings = {}) {
+  console.log(`version: ${pageVersion}.${ispName}`);
   console.log('Init menus...');
   console.log(`customer id is: ${customerId}`);
   console.log(`model id is: ${modelId}`);
@@ -235,7 +238,7 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
       },
       {
         url: '/advance/wwa',
-        name: 'advance.wwa',
+        name: 'advance-wwa',
         text: 'trans0511',
         config: strategyA
       },
