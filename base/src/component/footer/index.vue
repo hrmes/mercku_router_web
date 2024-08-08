@@ -99,6 +99,7 @@ export default {
       );
     },
     showPolicy() {
+      console.log("policy: ", process.env.CUSTOMER_CONFIG.policy);
       if (process.env.CUSTOMER_CONFIG.policy) {
         window.open(process.env.CUSTOMER_CONFIG.policy);
       } else {

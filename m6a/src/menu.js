@@ -372,7 +372,21 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
 
   // const menu = innerMenus;
 
-  const menu = innerMenus.filter(item => (item?.children.length > 0 || item?.keep));
+  const menu = innerMenus.filter(item => {
+    if (item?.keep) {
+      return true;
+    }
+    if (item?.disabled) {
+      return false;
+    }
+    console.log("item:", item)
+    var hasValidChildren = item?.children.some(child => {
+      console.log("child enabled?: ", child.name, !child.disabled, child);
+      return !child.disabled;
+    });
+    console.log("item has valid children:", item.name, hasValidChildren)
+    return hasValidChildren;
+  });
 
   console.log("menu:", menu);
   return menu;

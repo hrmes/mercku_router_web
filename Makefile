@@ -65,7 +65,7 @@ enter_docker: $(TMPDIR)/.container_ready
 	docker run --rm -v $(TOPDIR):/app/src -w /app/src -e MODEL_ID=$(MODEL_ID) -e CUSTOMER_ID=$(CUSTOMER_ID) -e MODEL=${MODEL} -it $(IMG) bash
 
 build: $(TMPDIR)/.container_ready
-	docker run --rm -v $(TOPDIR):/app/src -w /app/src -e MODEL_ID=$(MODEL_ID) -e CUSTOMER_ID=$(CUSTOMER_ID)  -e MODEL=${MODEL} -e VERSION=${VERSION} $(IMG) bash /app/src/scripts/build_in_docker.sh
+	docker run --rm -i -v $(TOPDIR):/app/src -w /app/src -e MODEL_ID=$(MODEL_ID) -e CUSTOMER_ID=$(CUSTOMER_ID)  -e MODEL=${MODEL} -e VERSION=${VERSION} $(IMG) bash /app/src/scripts/build_in_docker.sh
 # mkdir -p output
 # tar cf output/webui-$(VERSION)-$(CUSTOMER_ID)-$(MODEL_ID).tar -C $(MODEL) dist
 

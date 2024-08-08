@@ -5,7 +5,7 @@
   "host": "http://mywifi.micronat.tech",
   "accept": ".mic",
   "favicon": "customer-conf/0063/favicon.ico",
-  "policy": "",
+  "policy": "https://www.micronat.se/allmanna-villkor",
   "allow2LevelAdmin": false,
   "languages": [
     "zh-CN",
