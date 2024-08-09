@@ -1,6 +1,6 @@
 {
   "id": "0063",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "title": "Micronat",
   "ispId": "mic",
   "host": "http://mywifi.micronat.tech",
@@ -88,8 +88,8 @@
     "color": "#d6001c"
   },
   "website": {
-    "url": "https://www.micronat.com",
-    "text": "www.micronat.com"
+    "url": "https://www.micronat.se",
+    "text": "www.micronat.se"
   },
   "theme": {
     "dark": {
