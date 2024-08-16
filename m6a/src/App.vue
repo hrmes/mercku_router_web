@@ -59,6 +59,7 @@ export default {
         }
       }
       const asideInfo = { hasAside, subMenu };
+      console.log("asideInfo computed, asideInfo: ", hasAside, asideInfo);
       return asideInfo;
     },
     isLoginPage() {
@@ -69,19 +70,25 @@ export default {
     },
     navVisible() {
       const { path } = this.$route;
-      const visible =
+      const invisible =
         path.includes('login') ||
         path.includes('wlan') ||
         path.includes('unconnect');
-      return !visible;
+      return !invisible && this.$store.state.settingsLoaded;
     },
     menus() {
+      console.log("from m6a/src/App.vue");
       console.log("current settings: ", this.$store.state.settings);
       console.log("current menu: ", this.$store.state.menu);
-      if (this.$store.state.menuLoaded) {
-        return this.$store.state.menu;
-      }
-      return getMenu(this.$store.state.role, this.$store.state.mode);
+      return getMenu(this.$store.state.role, this.$store.state.mode, this.$store.state.settings);
+      // this.$http.getSessionProfile().then(response => {
+      //   this.$store.state.settings = response.data.result["session.profile"]?.layout?.settings ?? {
+      //     Offine: hidden,
+      //     Online: hidden,
+      //     Auto: hidden,
+      //   }
+      //   console.log("got settings", this.$store.state.settings);
+      // });
     },
     // async menus() {
     //   await this.$http.getSessionProfile().then(response => {
@@ -102,6 +109,14 @@ export default {
     }
   },
   mounted() {
+    this.$store.state.menus = [{
+      icon: 'ic_home_light',
+      selectedIcon: 'ic_home_selected',
+      text: 'trans0173',
+      url: '/dashboard',
+      keep: true,
+      children: []
+    }];
     this.updateIsMobile(); // 初始检查
     this.initializePage();
 
@@ -138,17 +153,25 @@ export default {
       this.$store.state.logined = false;
       this.$store.state.menuLoaded = false;
     },
-    async updateSettings() {
+    updateSettings() {
       console.log("updateSettings");
-      const response = await this.$http.getSessionProfile();
-      this.$store.state.settings = response.data.result["session.profile"]?.layout?.settings ?? {
-        Offine: hidden,
-        Online: hidden,
-        Auto: hidden,
-      }
-      console.log("got settings", this.$store.state.settings);
-      this.$store.state.menu = getMenu(this.$store.state.role, this.$store.state.mode, this.$store.state.settings);
-      this.$store.state.menuLoaded = true;
+      this.$http.getSessionProfile().then(response => {
+        this.$store.state.settings = response.data.result["session.profile"]?.layout?.settings ?? {
+          Offine: hidden,
+          Online: hidden,
+          Auto: hidden,
+        }
+        this.$store.state.settingsLoaded = true;
+        console.log("got settings", this.$store.state.settings);
+        const newMenus = getMenu(this.$store.state.role, this.$store.state.mode, this.$store.state.settings);
+        console.log("current menus: ", newMenus);
+        // this.menus = newMenus;
+        // Vue.set(this, 'menus', newMenus); // 使用 Vue.set 或者 this.$set 方法将新的 menus 赋值给 menus 属性
+        // console.log("current menus: ", this.menus);
+        this.$store.state.menus = newMenus;
+      });
+      // this.$store.state.menu = getMenu(this.$store.state.role, this.$store.state.mode, this.$store.state.settings);
+      // this.$store.state.menuLoaded = true;
     },
     initializePage() {
       this.setHeight();

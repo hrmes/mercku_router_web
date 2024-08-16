@@ -37,6 +37,8 @@ export default {
       return visible;
     },
     menus() {
+      console.log("from base/src/App.vue");
+      console.log("this.$store.role, this.$store.mode", this.$store.role, this.$store.mode);
       return getMenu(this.$store.role, this.$store.mode);
     }
   },
