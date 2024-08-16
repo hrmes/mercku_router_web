@@ -19,6 +19,7 @@ import meshAdd from 'pages/bussiness/mesh/add.vue';
 // setting page
 import wifi from 'pages/bussiness/setting/wifi.vue';
 import wan from 'pages/bussiness/setting/wan.vue';
+import powerSupply from 'pages/bussiness/setting/powersupply.vue';
 import ipv6 from 'base/pages/bussiness/setting/ipv6.vue';
 import safe from 'base/pages/bussiness/setting/safe.vue';
 import superConfig from 'base/pages/bussiness/setting/super.vue';
@@ -274,6 +275,15 @@ const routes = {
       path: '/setting/schedule',
       name: 'schedule',
       component: wifiSchedule,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/setting/powersupply',
+      name: 'powersupply',
+      component: powerSupply,
       meta: {
         layout: 'primary',
         hasAside: true

@@ -1,5 +1,6 @@
 import { Role, RouterMode, Customers } from 'base/util/constant';
 import Http from './http';
+import Super from 'base/pages/bussiness/setting/super.vue';
 
 const customerId = process.env.CUSTOMER_CONFIG.id;
 const modelId = process.env.MODEL_CONFIG.id;
@@ -12,6 +13,31 @@ function dashToCamel(dashName) {
   }).join('');
 }
 
+// default layout。短期内过渡，后续会从后端获取
+const layout = {
+  super: {
+    Super: "hidden",
+    Safe: "hidden",
+    Schedule: "hidden",
+    AdvanceFirewall: "hidden",
+  },
+  admin: {
+    Region: "hidden",
+    Ipv6: "hidden",
+    Wan: "hidden",
+    AdvanceMode: "hidden",
+    AdvanceWwa: "hidden",
+    AdvanceTr069: "hidden",
+    AdvanceMac: "hidden",
+    Offline: "hidden",
+    Online: "hidden",
+    Auto: "hidden",
+    Super: "hidden",
+    Schedule: "hidden",
+    AdvanceFirewall: "hidden",
+  }
+};
+
 export default function getMenu(role, mode = RouterMode.router, settings = {}) {
   console.log(`version: ${pageVersion}.${ispName}`);
   console.log('Init menus...');
@@ -19,6 +45,7 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
   console.log(`model id is: ${modelId}`);
   console.log(`role is: ${role}`);
   console.log(`mode is: ${mode}`);
+  settings = layout[role] || {};
   // var settings = {};
   // const http = new Http();
   // Promise.all([http.getSessionProfile()]).then(([res]) => {
@@ -85,26 +112,13 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
         text: 'trans0561',
         name: 'safe',
         url: '/setting/safe',
-        config,
-        customers: {
-          [Customers.viaero]: {
-            auth: [Role.admin]
-          }
-        }
+        config
       },
       {
         url: '/setting/super',
         name: 'super',
         text: 'trans0576',
-        config,
-        customers: {
-          [Customers.mercku]: {
-            show: false
-          },
-          [Customers.viaero]: {
-            show: false
-          }
-        }
+        config
       },
       // {
       //   text: 'trans0020',
@@ -149,10 +163,16 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
         config
       },
       {
+        url: '/setting/powersupply',
+        name: 'powersupply',
+        text: 'trans1239',
+        config
+      },
+      {
         url: '/setting/external-port-forwarding',
         name: 'external-port-forwarding',
         text: 'trans1252',
-        config
+        strategyA
       }
     ]
   };

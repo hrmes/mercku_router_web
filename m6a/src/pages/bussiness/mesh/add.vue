@@ -231,6 +231,7 @@
 <script>
 import debounce from 'lodash/debounce';
 import { AddNodeType, RouterHasModelDistinctionMap } from 'base/util/constant';
+import Assets from 'base/assets';
 
 const PageStatus = {
   scanning: 'scanning',
@@ -435,7 +436,10 @@ export default {
       if (step === Step.step3 && type && this.isM6a) {
         switch (type) {
           case AddNodeType.wireless:
-            img = require('@/assets/images/add/img_wireless_add_03.svg');
+            const imgPath = Assets.getImagePath('080', "add/img_wireless_add_03.svg");
+            console.log("assets:", imgPath);
+            // img = require(imgPath);
+            img = imgPath;
             break;
           case AddNodeType.wired:
             img = require('@/assets/images/add/img_wired_add_03.svg');

@@ -7,7 +7,7 @@
   "accept": ".mic",
   "favicon": "customer-conf/0063/favicon.ico",
   "policy": "https://www.micronat.se/allmanna-villkor",
-  "allow2LevelAdmin": false,
+  "allow2LevelAdmin": true,
   "languages": [
     "zh-CN",
     "en-US",

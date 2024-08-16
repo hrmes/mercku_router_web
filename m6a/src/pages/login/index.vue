@@ -163,11 +163,12 @@ export default {
             this.$store.state.mode = mode;
             localStorage.setItem('mode', mode);
 
-            const { sn } = res1.data.result;
-            const modelVersion = sn.charAt(9);
+            // todo modelVersion need to be filled.
+            // const { sn } = res1.data.result;
+            // const modelVersion = sn.charAt(9);
 
-            this.$store.state.modelVersion = modelVersion;
-            localStorage.setItem('modelVersion', modelVersion);
+            this.$store.state.modelVersion = 0;
+            localStorage.setItem('modelVersion', 0);
 
             this.$router.push({ path: '/dashboard' });
             this.$loading.close();

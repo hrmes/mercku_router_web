@@ -43,7 +43,8 @@ const commonMethods = {
   loginout: createMethod('router.logout'),
   isinitial: createMethod('router.is_initial'),
   updateMeshConfig: createMethod('mesh.config.update'),
-  updateRouterInitialize: createMethod('router.initialize'),
+  updateRouterInitialize: createMethod('mesh.config.update'),
+  // updateRouterInitialize: createMethod('router.initialize'),
   getWanStatus: createMethod('mesh.wan.status.get'),
   getTimezone: createMethod('mesh.info.timezone.get'),
   setTimezone: createMethod('mesh.config.timezone.update'),
@@ -154,7 +155,20 @@ const commonMethods = {
   setMeshAutoUpgrade: createMethod('mesh.auto_upgrade.set'),
   getExternalPortForwarding: createMethod('router.epf.get'),
   setExternalPortForwarding: createMethod('router.epf.update'),
-  getSessionProfile: createMethod('session.profile'),
+  // getSessionProfile: createMethod('session.profile'),
+  getMeshPowerSupplyMode: createMethod('mesh.poe.mode.get'),
+  updateMeshPowerSupplyMode: createMethod('mesh.poe.mode.update'),
+};
+
+Http.prototype.getSessionProfile = function getSessionProfile() {
+  return new Promise((resolve, reject) => {
+    resolve({
+      data: {
+        result: {}
+
+      }
+    });
+  });
 };
 
 // 获取主页

@@ -14,7 +14,7 @@
 
 
           <div v-if="form.enabled" class="smart-connect card">
-            <m-form class="form card" ref="protoclForm" key="protoclForm" :model="form" :rules="rules">
+            <m-form class="form card" ref="protcolForm" key="protcolForm" :model="form" :rules="rules">
               <!-- <m-form-item key="enabled" prop="enabled">
             </m-form-item> -->
               <m-form-item key="protocol" v-if="form.enabled" prop="protocol" :label="$t('trans0435')">
@@ -129,9 +129,11 @@ export default {
   },
   methods: {
     submit() {
-      const validateResult = this.$refs.protoclForm.validate();
-      if (!validateResult) {
-        return;
+      if (this.form.enabled) {
+        const validateResult = this.$refs.protcolForm.validate();
+        if (!validateResult) {
+          return;
+        }
       }
 
       this.$dialog.confirm({

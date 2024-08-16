@@ -75,14 +75,17 @@ export default {
       const ModelIdJMapNameList = ModelIdJMapName[MODEL_ID];
       let productInfo;
 
-      if (Object.keys(ModelIdJMapNameList).length > 1) {
-        productInfo =
-          process.env.CUSTOMER_CONFIG.routers[
-            ModelIdJMapNameList[this.$store.state.modelVersion]
-          ];
-      } else {
-        productInfo = process.env.CUSTOMER_CONFIG.routers[ModelIds[MODEL_ID]];
-      }
+      // if (Object.keys(ModelIdJMapNameList).length > 1) {
+      //   console.log("modelVersion: ", this.$store.state.modelVersion);
+      //   productInfo =
+      //     process.env.CUSTOMER_CONFIG.routers[
+      //     ModelIdJMapNameList[this.$store.state.modelVersion]
+      //     ];
+      //   console.log("productInfo: ", productInfo);
+      // } else {
+      productInfo = process.env.CUSTOMER_CONFIG.routers[ModelIds[MODEL_ID]];
+      console.log("productInfo: ", productInfo);
+      // }
       return DeviceColorList.filter(color =>
         productInfo.deviceColors.includes(color.name)
       );
@@ -97,7 +100,7 @@ export default {
       const modelVersion = sn?.charAt(9);
       const productInfo =
         process.env.CUSTOMER_CONFIG.routers[
-          SnABJMapName?.[modelID]?.[modelVersion]
+        SnABJMapName?.[modelID]?.[modelVersion]
         ] || {};
       console.log(productInfo);
       return DeviceColorList.filter(color =>

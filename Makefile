@@ -14,6 +14,7 @@ ifeq ($(shell echo $(CUSTOMER_LIST) | grep $(CUSTOMER_ID)),)
 $(error CUSTOMER_ID should be oneof ($(CUSTOMER_LIST)))
 endif
 
+MODEL_ID=M8
 ifndef MODEL_ID
 $(error MODEL_ID required)
 endif
