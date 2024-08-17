@@ -7,7 +7,10 @@
   "agreement": "https://ljbweb.qiyou.cn/#/protocol",
   "policy": "https://ljbweb.qiyou.cn/#/privacy",
   "allow2LevelAdmin": false,
-  "languages": ["zh-CN", "en-US"],
+  "languages": [
+    "zh-CN",
+    "en-US"
+  ],
   "defaultLanguage": "zh-CN",
   "wifi": "QiYou",
   "deviceID": "QiYou",
@@ -18,7 +21,9 @@
       "shortName": "X1 Pro"
     }
   },
-  "deviceColors": ["white"],
+  "deviceColors": [
+    "white"
+  ],
   "loading": {
     "color": "#2a74ef"
   },

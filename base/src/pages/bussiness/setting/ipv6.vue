@@ -150,13 +150,29 @@
                              :placeholder="IPv6DefaultPlaceholder"
                              v-model="staticForm.gateway" />
                   </m-form-item>
-                  <m-form-item class="last"
+                  <m-form-item
                                prop='dns'
                                ref="dns">
                     <m-input :label="$t('trans0236')"
                              type="text"
                              :placeholder="IPv6DefaultPlaceholder"
                              v-model="staticForm.dns" />
+                  </m-form-item>
+                  <div class="form-header">
+                    <span class="form-header__title">{{ $t('trans1310') }}</span>
+                  </div>
+                  <m-form-item prop="lanPrefix" ref="lanPrefix">
+                    <m-input :label="$t('trans1308')"
+                             type="text"
+                             placeholder=""
+                             v-model="staticForm.lanPrefix" />
+                  </m-form-item>
+                  <m-form-item prop="lanPrefixLen" ref="lanPrefixLen">
+                    <m-input :label="$t('trans1309')"
+                    class="last"
+                             type="text"
+                             placeholder="16-64"
+                             v-model="staticForm.lanPrefixLen" />
                   </m-form-item>
                 </m-form>
               </div>
@@ -382,11 +398,17 @@ export default {
             this.pppoeForm.dns = pppoeInfo.dns?.[0]?.ip ?? '';
           }
           if (this.isStatic) {
+            // result.static.netinfo.subprefix = {
+            //   ip: "2001:db8:0:1::",
+            //   prefix_length: 64
+            // };
             const staticInfo = result.static.netinfo;
             this.staticForm.ip = staticInfo.address?.[0]?.ip ?? '';
             this.staticForm.prefixLength = staticInfo.address?.[0]?.prefix_length ?? '';
             this.staticForm.gateway = staticInfo.gateway.ip;
             this.staticForm.dns = staticInfo.dns?.[0]?.ip ?? '';
+            this.staticForm.lanPrefix = staticInfo.subprefix?.ip ?? '';
+            this.staticForm.lanPrefixLen = staticInfo.subprefix?.prefix_length;
           }
         })
         .catch(() => {
@@ -543,6 +565,10 @@ export default {
               gateway: {
                 ip: this.staticForm.gateway,
                 prefix_length: defaultPrefixLength
+              },
+              subprefix: {
+                ip: this.staticForm.lanPrefix,
+                prefix_length: Number(this.staticForm.lanPrefixLen)
               },
               dns: [
                 {
