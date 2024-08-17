@@ -1,0 +1,14 @@
+#! /bin/bash
+img=${1:-fantasyweb}
+
+mac_home=/Users/${USER}
+ubuntu_home=/home/${USER}
+work_dir=$(pwd | sed "s#^${mac_home}#${ubuntu_home}#g")
+
+set -x
+docker run --cpus 4 -it \
+--name ${USER}_${img} \
+-p 8080:8080 \
+-v ${mac_home}:${ubuntu_home} \
+-w ${work_dir} \
+--rm ${img} bash
