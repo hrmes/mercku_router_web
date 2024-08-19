@@ -161,19 +161,18 @@ const commonMethods = {
 };
 
 const commonV2Methods = {
-  getSessionProfile: createMethod('session.profile'),
+  // getSessionProfile: createMethod('session.profile'),
 };
 
-// Http.prototype.getSessionProfile = function getSessionProfile() {
-//   return new Promise((resolve, reject) => {
-//     resolve({
-//       data: {
-//         result: {}
-
-//       }
-//     });
-//   });
-// };
+Http.prototype.getSessionProfile = function getSessionProfile() {
+  return Promise.resolve({
+    layout: {
+      settings: {}
+    },
+    model_ab: "16",
+    model_j: "0"
+  });
+};
 
 // 获取主页
 Http.prototype.getHomePage = function getHomePage() {
