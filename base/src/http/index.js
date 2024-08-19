@@ -31,6 +31,7 @@ class Http {
       method: 'post',
       data
     };
+    // console.log("options: ", options);
     return axios(options).catch(err => {
       this.exHandler(err, options);
     });
@@ -155,21 +156,24 @@ const commonMethods = {
   setMeshAutoUpgrade: createMethod('mesh.auto_upgrade.set'),
   getExternalPortForwarding: createMethod('router.epf.get'),
   setExternalPortForwarding: createMethod('router.epf.update'),
-  // getSessionProfile: createMethod('session.profile'),
   getMeshPowerSupplyMode: createMethod('mesh.poe.mode.get'),
   updateMeshPowerSupplyMode: createMethod('mesh.poe.mode.update'),
 };
 
-Http.prototype.getSessionProfile = function getSessionProfile() {
-  return new Promise((resolve, reject) => {
-    resolve({
-      data: {
-        result: {}
-
-      }
-    });
-  });
+const commonV2Methods = {
+  getSessionProfile: createMethod('session.profile'),
 };
+
+// Http.prototype.getSessionProfile = function getSessionProfile() {
+//   return new Promise((resolve, reject) => {
+//     resolve({
+//       data: {
+//         result: {}
+
+//       }
+//     });
+//   });
+// };
 
 // 获取主页
 Http.prototype.getHomePage = function getHomePage() {
@@ -218,5 +222,22 @@ Object.keys(commonMethods).forEach(methodName => {
     return this.request(commonMethods[methodName], params, httpConf);
   };
 });
+
+Object.keys(commonV2Methods).forEach(methodName => {
+  Http.prototype[methodName] = function name(params, httpConf) {
+    const args = commonV2Methods[methodName];
+    console.log("do request v2: ", args);
+    return this.request(commonV2Methods[methodName], {
+      [args.action]: params ?? {}
+    }, httpConf).then(res => {
+      console.log("got res: ", res);
+      console.log("inner: ", res.data.result);
+      console.log("method: ", args.action);
+      const innerResult = res.data.result[args.action];
+      console.log("innerResult: ", innerResult);
+      return Promise.resolve(innerResult);
+    })
+  };
+})
 
 export default Http;

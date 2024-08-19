@@ -1,21 +1,47 @@
 // import path from 'path';
 
-function getImagePath(abjCode, assetName) {
+function checkImgExist(path) {
+    console.log("checkImgExist: ", path);
+    try {
+        require(path);
+        return true;
+    } catch (e) {
+        return false;
+    }
+}
+
+function getImagePath(id, ab, j = 0) {
     // Assuming the assets are located in the 'assets' directory
-    console.log("abjCode:", abjCode);
-    console.log("assetName:", assetName);
-    console.log("current dir:", __dirname);
-    var imgRoot = "@base/assets/images";
-    // var imgRoot = path.join(__dirname, 'images');
-    // if (imgRoot.includes(abjCode)) {
-    imgRoot = `${imgRoot}/${abjCode}`;
-    // }
-
-    // const assetPath = path.join(imgRoot, assetName);
-    const assetPath = `${imgRoot}/${assetName}`;
-
-    // return assetPath;
-    return require('@/assets/images/add/img_wired_add_03.svg')
+    console.log("abCode:", ab);
+    console.log("jCode:", j);
+    // console.log("assetName:", assetName);
+    // console.log("current dir:", __dirname);
+    const imgMap = process.env.CUSTOMER_CONFIG.images;
+    const imgRoot = require.context('./images', true, /\.(png|jpe?g|svg)$/);
+    console.log("imgRoot:", imgRoot);
+    // const imgRoot = "@/assets/images";
+    const relPath = imgMap[id];
+    console.log("relPath:", relPath);
+    const abjPath = `./${ab}/${j}/${relPath}`;
+    try {
+        console.log("getImagePath abjPath:", abjPath);
+        return imgRoot(abjPath);
+    } catch (e) {
+        if (j !== 0) {
+            const abPath = `./${ab}/0/${relPath}`;
+            try {
+                console.log("getImagePath abPath:", abPath);
+                return imgRoot(abPath);
+            } catch (e) {
+                console.log("getImagePath relPath:", relPath);
+                return imgRoot(`./${relPath}`);
+            }
+        }
+        else {
+            console.log("getImagePath relPath:", relPath);
+            return imgRoot(`./${relPath}`);
+        }
+    }
 }
 
 const Assets = {

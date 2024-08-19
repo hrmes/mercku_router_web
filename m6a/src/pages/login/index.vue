@@ -66,6 +66,7 @@
 <script>
 import { LoginImg } from 'base/assets/images/base64-img/img.js';
 import { setCookie, getCookie, clearCookie } from 'base/util/cookie';
+import store from "../../store";
 
 export default {
   data() {
@@ -152,6 +153,7 @@ export default {
       this.$http
         .login({ password: this.password })
         .then(res => {
+          store.dispatch('loadProfile');
           const { role } = res.data.result;
           this.$store.state.role = role;
           this.$store.state.logined = true

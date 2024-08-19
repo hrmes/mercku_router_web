@@ -9,6 +9,7 @@ export default new Vuex.Store({
     mode: localStorage.getItem('mode') || '',
     role: localStorage.getItem('role') || '',
     meshId: localStorage.getItem('meshId') || '',
+    profile: {},
     isMobile: true,
     hasTransition: true,
     isConnected: '',
@@ -23,7 +24,23 @@ export default new Vuex.Store({
       vpn: {}
     }
   },
+  actions: {
+    loadProfile({ commit }) {
+      return this.$http
+        .getProfile()
+        .then(res => {
+          commit('setProfile', res.data.result);
+        })
+        .catch(err => {
+          console.error('get profile error', err);
+        });
+    }
+  },
   mutations: {
+    setProfile(state, profile) {
+      console.log("setProfile: ", profile);
+      state.profile = profile;
+    },
     pushToken(state, payload) {
       state.cancelTokenArr.push(payload.cancelToken);
     },

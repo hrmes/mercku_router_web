@@ -423,7 +423,11 @@ export default {
       if (step === Step.step1) {
         switch (this.modelVersion) {
           case RouterHasModelDistinctionMap.M6a:
-            img = require('@/assets/images/add/img_add_01.svg');
+            const path = Assets.getImagePath("wirelessAddNodeStep1", '08', '0');
+            console.log("assets:", path);
+            // img = require(path);
+            img = path;
+            // img = require('@/assets/images/add/img_add_01.svg');
             break;
           case RouterHasModelDistinctionMap.M6a_Plus:
           case RouterHasModelDistinctionMap.M6c:
@@ -436,7 +440,7 @@ export default {
       if (step === Step.step3 && type && this.isM6a) {
         switch (type) {
           case AddNodeType.wireless:
-            const imgPath = Assets.getImagePath('080', "add/img_wireless_add_03.svg");
+            const imgPath = Assets.getImagePath("wirelessAddNodeStep3", '08', '0');
             console.log("assets:", imgPath);
             // img = require(imgPath);
             img = imgPath;

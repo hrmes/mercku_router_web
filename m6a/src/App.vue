@@ -1,15 +1,15 @@
 <template>
   <div class="scrollbar-wrap">
     <div class="container">
-      <div class="app-container router-view">
+      <div class="app-container router-view"  >
         <div ref="flexWrap" class="flex-wrap" :class="{ 'is-login-page': isLoginPage }">
           <m-header :navVisible="navVisible" :isLoginPage="isLoginPage" :isWlanPage="isWlanPage" :navs="menus"
-            id="header" />
-          <transition :name="!isMobile && $store.state.hasTransition ? 'fade' : ''"
+            id="header" v-if="profileLoaded"/>
+          <transition v-if="profileLoaded" :name="!isMobile && $store.state.hasTransition ? 'fade' : ''"
             :css="!isMobile && $store.state.hasTransition" mode="out-in">
             <component :is="layout" :hasBackWrap='hasBackWrap' :asideInfo='asideInfo'></component>
           </transition>
-          <m-footer :isLoginPage="isLoginPage" :isWlanPage="isWlanPage" :navVisible="navVisible" :logout="cbLogout" />
+          <m-footer v-if="profileLoaded" :isLoginPage="isLoginPage" :isWlanPage="isWlanPage" :navVisible="navVisible" :logout="cbLogout" />
         </div>
       </div>
     </div>
@@ -20,16 +20,28 @@ import defaultLayout from 'base/layouts/default.vue';
 import primaryLayout from 'base/layouts/primary.vue';
 import getMenu from './menu';
 import { mapState } from 'vuex';
+import store from "./store";
 
 export default {
   components: {
     default: defaultLayout,
     primary: primaryLayout
   },
+  created() {
+    store.dispatch('loadProfile')
+      .then(() => {
+        console.log("store.dispatch('loadProfile') success");
+        this.$mount('#web');
+      })
+  },
   computed: {
     ...mapState(['logined']),
     isMobile() {
       return this.$store.state.isMobile;
+    },
+    profileLoaded()
+    {
+      return this.$store.state.profileLoaded
     },
     layout() {
       const { layout } = this.$route.meta;
@@ -74,33 +86,13 @@ export default {
         path.includes('login') ||
         path.includes('wlan') ||
         path.includes('unconnect');
-      return !invisible && this.$store.state.settingsLoaded;
+      return !invisible && this.$store.state.profileLoaded;
     },
     menus() {
       console.log("from m6a/src/App.vue");
-      console.log("current settings: ", this.$store.state.settings);
-      console.log("current menu: ", this.$store.state.menu);
-      return getMenu(this.$store.state.role, this.$store.state.mode, this.$store.state.settings);
-      // this.$http.getSessionProfile().then(response => {
-      //   this.$store.state.settings = response.data.result["session.profile"]?.layout?.settings ?? {
-      //     Offine: hidden,
-      //     Online: hidden,
-      //     Auto: hidden,
-      //   }
-      //   console.log("got settings", this.$store.state.settings);
-      // });
+      console.log("current settings: ", this.$store.state.profile?.layout?.settings);
+      return getMenu(this.$store.state.role, this.$store.state.mode, this.$store.state.profile?.layout?.settings);
     },
-    // async menus() {
-    //   await this.$http.getSessionProfile().then(response => {
-    //     this.$store.state.settings = response.data.result["session.profile"]?.layout?.settings ?? {
-    //       Offine: hidden,
-    //       Online: hidden,
-    //       Auto: hidden,
-    //     }
-    //     console.log("got settings", this.$store.state.settings);
-    //   });
-    //   return getMenu(this.$store.state.role, this.$store.state.mode, this.$store.state.settings);
-    // },
     header() {
       return document.querySelector('#header');
     },
@@ -155,21 +147,21 @@ export default {
     },
     updateSettings() {
       console.log("updateSettings");
-      this.$http.getSessionProfile().then(response => {
-        this.$store.state.settings = response.data.result["session.profile"]?.layout?.settings ?? {
-          Offine: hidden,
-          Online: hidden,
-          Auto: hidden,
-        }
-        this.$store.state.settingsLoaded = true;
-        console.log("got settings", this.$store.state.settings);
-        const newMenus = getMenu(this.$store.state.role, this.$store.state.mode, this.$store.state.settings);
-        console.log("current menus: ", newMenus);
-        // this.menus = newMenus;
-        // Vue.set(this, 'menus', newMenus); // 使用 Vue.set 或者 this.$set 方法将新的 menus 赋值给 menus 属性
-        // console.log("current menus: ", this.menus);
-        this.$store.state.menus = newMenus;
-      });
+      // this.$http.getSessionProfile().then(response => {
+      //   this.$store.state.settings = response.data.result["session.profile"]?.layout?.settings ?? {
+      //     Offine: "hidden",
+      //     Online: "hidden",
+      //     Auto: "hidden",
+      //   }
+      //   this.$store.state.settingsLoaded = true;
+      //   console.log("got settings", this.$store.state.settings);
+      //   const newMenus = getMenu(this.$store.state.role, this.$store.state.mode, this.$store.state.settings);
+      //   console.log("current menus: ", newMenus);
+      //   // this.menus = newMenus;
+      //   // Vue.set(this, 'menus', newMenus); // 使用 Vue.set 或者 this.$set 方法将新的 menus 赋值给 menus 属性
+      //   // console.log("current menus: ", this.menus);
+      //   this.$store.state.menus = newMenus;
+      // });
       // this.$store.state.menu = getMenu(this.$store.state.role, this.$store.state.mode, this.$store.state.settings);
       // this.$store.state.menuLoaded = true;
     },

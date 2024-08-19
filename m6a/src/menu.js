@@ -45,7 +45,7 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
   console.log(`model id is: ${modelId}`);
   console.log(`role is: ${role}`);
   console.log(`mode is: ${mode}`);
-  settings = layout[role] || {};
+  // settings = layout[role] || {};
   // var settings = {};
   // const http = new Http();
   // Promise.all([http.getSessionProfile()]).then(([res]) => {

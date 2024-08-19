@@ -1,11 +1,16 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import Http from '../http';
 
 Vue.use(Vuex);
 const lowerCaseModelId = process.env.MODEL_CONFIG.id.toLowerCase();
 
+const http = new Http();
+
 export default new Vuex.Store({
   state: {
+    profile: {},
+    profileLoaded: false,
     mode: '' || localStorage.getItem('mode'),
     role: '' || localStorage.getItem('role'),
     modelVersion: '' || localStorage.getItem('modelVersion'),
@@ -25,7 +30,25 @@ export default new Vuex.Store({
     logined: false,
     settings: {}
   },
+  actions: {
+    loadProfile({ commit }) {
+      return http
+        .getSessionProfile()
+        .then(res => {
+          console.log('get session profile success', res);
+          commit('setProfile', res);
+        })
+        .catch(err => {
+          console.error('get profile error', err);
+        });
+    }
+  },
   mutations: {
+    setProfile(state, profile) {
+      console.log("setProfile: ", profile);
+      state.profile = profile;
+      state.profileLoaded = true;
+    },
     pushToken(state, payload) {
       state.cancelTokenArr.push(payload.cancelToken);
     },

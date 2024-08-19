@@ -97,7 +97,9 @@
     }
   },
   "images": {
-    "appQr": "mic/qr.jpeg"
+    "appQr": "mic/qr.jpeg",
+    "wirelessAddNodeStep1": "add/img_add_01.svg",
+    "wirelessAddNodeStep3": "add/img_wireless_add_03.svg"
   },
   "appDownloadUrl": "http://onelink.to/micronat"
 }
