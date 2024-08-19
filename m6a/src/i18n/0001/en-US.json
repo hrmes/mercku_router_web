@@ -1242,6 +1242,5 @@
   "trans1247": "Use WAN (RJ45) to access the Internet",
   "trans1248": "Using SFP to access the Internet",
   "trans1249": "After completing the initial setup, please reconnect to the newly set Wi-Fi SSID to ensure the device is added successfully.",
-  "trans1250": "When using SFP to access the Internet, the WAN port will become a LAN port",
-  "trans1252": "External Port Forwarding"
+  "trans1250": "When using SFP to access the Internet, the WAN port will become a LAN port"
 }

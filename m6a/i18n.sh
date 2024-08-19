@@ -5,8 +5,9 @@ doc_branch=$1
 docs_remote_url="https://github.com/hrmes/docs.git"
 project_dir=$(pwd)
 
-folder=(m2_app_code viaero_code)
-customer=(0001 0032)
+# 需要一一对应。
+folder=(m2_app_code viaero_code micronat_code)
+customer=(0001 0032 0063)
 source=(en_US_web.json zh_CN_web.json de_DE_web.json nb_NO_web.json bg_BG_web.json fi_FI_web.json)
 target=(en-US.json zh-CN.json de-DE.json nb-NO.json bg-BG.json fi-FI.json)
 sourceerror=error_to_trans_web.json
@@ -15,32 +16,32 @@ targeterror=code-map.json
 # $1 is message for echo
 # $2 is echo type, support error|success|info
 beautify_echo(){
-  case $2 in
-    error)
-      echo -e "\033[31merror: $1\033[0m"
-      ;;
-    success)
-      echo -e "\033[32msuccess: $1\033[0m"
-      ;;
-    info)
-      echo -e "\033[37minfo: $1\033[0m"
-      ;;
-    *)
-      echo $1
-      ;;
+    case $2 in
+        error)
+            echo -e "\033[31merror: $1\033[0m"
+        ;;
+        success)
+            echo -e "\033[32msuccess: $1\033[0m"
+        ;;
+        info)
+            echo -e "\033[37minfo: $1\033[0m"
+        ;;
+        *)
+            echo $1
+        ;;
     esac
 }
 
 if [ ${#source[*]} != ${#target[*]} ];then
-  beautify_echo "array length not match..." error
-  exit -1
+    beautify_echo "array length not match..." error
+    exit -1
 fi
 
 # 检查是否指定分支
 if [[ $doc_branch == "" ]]
 then
-  beautify_echo "repo branch required..." error
-  exit -1
+    beautify_echo "repo branch required..." error
+    exit -1
 fi
 # 进入上层目录
 cd ..
@@ -66,13 +67,13 @@ git pull origin $doc_branch
 # 拷贝不同客户翻译文件
 beautify_echo "copy customer i18n files..." info
 for((i=0;i<${#folder[*]};i++)) do
-  beautify_echo "copy i18n files for customer: ${customer[i]}..." info
-  pushd ${folder[i]} > /dev/null
-  for((j=0;j<${#source[*]};j++)) do
-    cp -f ${source[j]} $project_dir/src/i18n/${customer[i]}/${target[j]}
-  done
-  beautify_echo "complete copy i18n files for customer: ${customer[i]}..." success
-  popd > /dev/null
+    beautify_echo "copy i18n files for customer: ${customer[i]}..." info
+    pushd ${folder[i]} > /dev/null
+    for((j=0;j<${#source[*]};j++)) do
+        cp -f ${source[j]} $project_dir/src/i18n/${customer[i]}/${target[j]}
+    done
+    beautify_echo "complete copy i18n files for customer: ${customer[i]}..." success
+    popd > /dev/null
 done
 beautify_echo "complete copy all customers i18n files..." success
 

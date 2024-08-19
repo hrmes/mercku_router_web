@@ -1,19 +1,10 @@
 // import path from 'path';
 
-function checkImgExist(path) {
-    console.log("checkImgExist: ", path);
-    try {
-        require(path);
-        return true;
-    } catch (e) {
-        return false;
-    }
-}
-
 function getImagePath(id, ab, j = 0) {
     // Assuming the assets are located in the 'assets' directory
     console.log("abCode:", ab);
     console.log("jCode:", j);
+    console.log("id:", id);
     // console.log("assetName:", assetName);
     // console.log("current dir:", __dirname);
     const imgMap = process.env.CUSTOMER_CONFIG.images;
@@ -44,8 +35,26 @@ function getImagePath(id, ab, j = 0) {
     }
 }
 
+function getDeviceMeta(modelAb, modelJ) {
+    const map = process.env.CUSTOMER_CONFIG.deviceMeta;
+    const dftMeta = map.dft || {
+        name: "Router",
+        shortName: "Router",
+        deviceColors: ["black"],
+    };
+    const abMeta = map[modelAb];
+    if (abMeta) {
+        const jMeta = abMeta[modelJ] || dftMeta;
+        return jMeta;
+    }
+    else {
+        return dft;
+    }
+}
+
 const Assets = {
-    getImagePath
+    getImagePath,
+    getDeviceMeta,
 };
 
 export default Assets;

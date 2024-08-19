@@ -1,6 +1,6 @@
 {
   "id": "0063",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "title": "Micronat",
   "ispId": "mic",
   "host": "http://mywifi.micronat.tech",
@@ -99,7 +99,50 @@
   "images": {
     "appQr": "mic/qr.jpeg",
     "wirelessAddNodeStep1": "add/img_add_01.svg",
+    "wirelessAddNodeStep2": "add/img_add_02.svg",
     "wirelessAddNodeStep3": "add/img_wireless_add_03.svg"
+  },
+  "deviceMeta": {
+    "dft": {
+      "name": "Micronat Wi-Fi6 Router",
+      "shortName": "Micronat",
+      "deviceColors": [
+        "black",
+        "white"
+      ]
+    },
+    "16": {
+      "0": {
+        "name": "M6s PoE++ Wi-Fi6 Router",
+        "shortName": "M6s PoE++",
+        "deviceColors": [
+          "black",
+          "white"
+        ]
+      }
+    },
+    "08": {
+      "0": {
+        "name": "M6a Wi-Fi6 Router",
+        "shortName": "M6a",
+        "deviceColors": [
+          "black",
+          "white",
+          "grey",
+          "red"
+        ]
+      },
+      "1": {
+        "name": "M6a Plus Wi-Fi6 Router",
+        "shortName": "M6a Plus",
+        "deviceColors": [
+          "black",
+          "white",
+          "grey",
+          "red"
+        ]
+      }
+    }
   },
   "appDownloadUrl": "http://onelink.to/micronat"
 }

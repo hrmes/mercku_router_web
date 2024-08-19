@@ -52,7 +52,7 @@
                v-show="isStep(1)">
             <div class="main-content">
               <div class="img-container">
-                <img src="@/assets/images/add/img_add_02.svg"
+                <img :src="getM6aSeriesProductAddNodeImg(1)"
                      alt="">
               </div>
               <p class="step-item__tip">{{$t('trans1005')}}</p>
@@ -68,7 +68,7 @@
                v-show="isStep(2)">
             <div class="main-content">
               <div class="img-container">
-                <img :src="getM6aSeriesProductAddNodeImg(2,this.addNodeType)"
+                <img :src="getM6aSeriesProductAddNodeImg(2)"
                      alt="">
               </div>
               <div v-if="addNodeType===AddNodeType.wired">
@@ -291,6 +291,7 @@ export default {
       return `${this.$t('trans0633')}: ${this.$t('trans0661')}`;
     },
     modelVersion() {
+      return this.$store.state.profile?.model_ab;
       return this.$store.state.modelVersion || localStorage.getItem('modelVersion');
     },
     isM6a() {
@@ -312,24 +313,10 @@ export default {
   methods: {
     transText(text) {
       let resultText = '';
-      if (this.isM6a) {
-        resultText = this.$t(text).replaceAll(
-          '%s',
-          process.env.CUSTOMER_CONFIG.routers.M6a.shortName
-        );
-      }
-      if (this.isM6aPlus) {
-        resultText = this.$t(text).replaceAll(
-          '%s',
-          process.env.CUSTOMER_CONFIG.routers.M6a_Plus.shortName
-        );
-      }
-      if (this.isM6c) {
-        resultText = this.$t(text).replaceAll(
-          '%s',
-          process.env.CUSTOMER_CONFIG.routers.M6c.shortName
-        );
-      }
+      const ab = this.$store.state.profile.model_ab;
+      const j = this.$store.state.profile.model_j;
+      const meta = Assets.getDeviceMeta(ab, j);
+      resultText = this.$t(text).replaceAll('%s', meta.shortName);
       return resultText;
     },
     transDeviceId(text) {
@@ -420,50 +407,61 @@ export default {
     },
     getM6aSeriesProductAddNodeImg(step, type) {
       let img = '';
+      const model_ab = this.$store.state.profile?.model_ab || '08';
+      const model_j = this.$store.state.profile?.model_j || '0';
       if (step === Step.step1) {
-        switch (this.modelVersion) {
-          case RouterHasModelDistinctionMap.M6a:
-            const path = Assets.getImagePath("wirelessAddNodeStep1", '08', '0');
-            console.log("assets:", path);
-            // img = require(path);
-            img = path;
-            // img = require('@/assets/images/add/img_add_01.svg');
-            break;
-          case RouterHasModelDistinctionMap.M6a_Plus:
-          case RouterHasModelDistinctionMap.M6c:
-            img = require('@/assets/images/add/m6a-4_lan_prots/img_add_01.svg');
-            break;
-          default:
-            break;
-        }
+        const path = Assets.getImagePath("wirelessAddNodeStep1", model_ab, model_j);
+        img = path;
+        // switch (this.modelVersion) {
+        //   case RouterHasModelDistinctionMap.M6a:
+        //     const path = Assets.getImagePath("wirelessAddNodeStep1", '08', '0');
+        //     console.log("assets:", path);
+        //     // img = require(path);
+        //     img = path;
+        //     // img = require('@/assets/images/add/img_add_01.svg');
+        //     break;
+        //   case RouterHasModelDistinctionMap.M6a_Plus:
+        //   case RouterHasModelDistinctionMap.M6c:
+        //     img = require('@/assets/images/add/m6a-4_lan_prots/img_add_01.svg');
+        //     break;
+        //   default:
+        //     break;
+        // }
       }
-      if (step === Step.step3 && type && this.isM6a) {
-        switch (type) {
-          case AddNodeType.wireless:
-            const imgPath = Assets.getImagePath("wirelessAddNodeStep3", '08', '0');
-            console.log("assets:", imgPath);
-            // img = require(imgPath);
-            img = imgPath;
-            break;
-          case AddNodeType.wired:
-            img = require('@/assets/images/add/img_wired_add_03.svg');
-            break;
-          default:
-            break;
-        }
+      if (step === Step.step2) {
+        return Assets.getImagePath("wirelessAddNodeStep2", model_ab, model_j);
       }
-      if (step === Step.step3 && type && !this.isM6a) {
-        switch (type) {
-          case AddNodeType.wireless:
-            img = require('@/assets/images/add/m6a-4_lan_prots/img_wireless_add_03.svg');
-            break;
-          case AddNodeType.wired:
-            img = require('@/assets/images/add/m6a-4_lan_prots/img_wired_add_03.svg');
-            break;
-          default:
-            break;
-        }
+      if (step === Step.step3) {
+        const path = Assets.getImagePath("wirelessAddNodeStep3", model_ab, model_j);
+        img = path;
       }
+      // if (step === Step.step3 && type && this.isM6a) {
+      //   switch (type) {
+      //     case AddNodeType.wireless:
+      //       const imgPath = Assets.getImagePath("wirelessAddNodeStep3", '08', '0');
+      //       console.log("assets:", imgPath);
+      //       // img = require(imgPath);
+      //       img = imgPath;
+      //       break;
+      //     case AddNodeType.wired:
+      //       img = require('@/assets/images/add/img_wired_add_03.svg');
+      //       break;
+      //     default:
+      //       break;
+      //   }
+      // }
+      // if (step === Step.step3 && type && !this.isM6a) {
+      //   switch (type) {
+      //     case AddNodeType.wireless:
+      //       img = require('@/assets/images/add/m6a-4_lan_prots/img_wireless_add_03.svg');
+      //       break;
+      //     case AddNodeType.wired:
+      //       img = require('@/assets/images/add/m6a-4_lan_prots/img_wired_add_03.svg');
+      //       break;
+      //     default:
+      //       break;
+      //   }
+      // }
       return img;
     },
     getM6aSeriesProductNetworkingImg() {

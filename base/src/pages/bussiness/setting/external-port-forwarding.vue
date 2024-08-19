@@ -11,8 +11,6 @@
           </div>
         </div>
         <div class="row-1">
-
-
           <div v-if="form.enabled" class="smart-connect card">
             <m-form class="form card" ref="protcolForm" key="protcolForm" :model="form" :rules="rules">
               <!-- <m-form-item key="enabled" prop="enabled">
@@ -23,17 +21,17 @@
               </m-form-item>
 
               <m-form-item v-if="form.enabled" key="external_port" prop="external_port" :rules="rules.external_port">
-                <m-input v-model="form.external_port" :label="$t('trans0426')" type="text"
+                <m-input v-model="form.external_port" :label="$t('trans1254')" type="text"
                   placeholder="1-65535"></m-input>
 
               </m-form-item>
               <m-form-item v-if="form.enabled" key="internal_port" prop="internal_port" :rules="rules.internal_port">
-                <m-input v-model="form.internal_port" :label="$t('trans0428')" type="text"
+                <m-input v-model="form.internal_port" :label="$t('trans1253')" type="text"
                   placeholder="1-65535"></m-input>
               </m-form-item>
               <m-form-item v-if="form.enabled" key="internal_ip" prop="internal_ip" :rules="rules.internal_ip">
-                <m-input v-model="form.internal_ip" :label="$t('trans0427')" type="text"
-                  :placeholder="$t('trans0427')"></m-input>
+                <m-input v-model="form.internal_ip" :label="$t('trans1255')" type="text"
+                  :placeholder="$t('trans1255')"></m-input>
               </m-form-item>
 
             </m-form>
