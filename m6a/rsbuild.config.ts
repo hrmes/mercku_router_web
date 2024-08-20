@@ -3,6 +3,35 @@ import { defineConfig } from '@rsbuild/core';
 import { pluginVue2 } from '@rsbuild/plugin-vue2';
 import { pluginSass } from '@rsbuild/plugin-sass';
 
+function mergeObjects(obj1, obj2) {
+  const merged = {};
+
+  for (let key in obj1) {
+    if (obj1.hasOwnProperty(key)) {
+      if (typeof obj1[key] === 'object' && obj1[key] !== null && !Array.isArray(obj1[key])) {
+        merged[key] = mergeObjects(obj1[key], {});
+      } else {
+        merged[key] = obj1[key];
+      }
+    }
+  }
+
+  for (let key in obj2) {
+    if (obj2.hasOwnProperty(key)) {
+      if (typeof obj2[key] === 'object' && obj2[key] !== null && !Array.isArray(obj2[key])) {
+        if (!merged.hasOwnProperty(key)) {
+          merged[key] = mergeObjects({}, obj2[key]);
+        } else {
+          merged[key] = mergeObjects(merged[key], obj2[key]);
+        }
+      } else {
+        merged[key] = obj2[key];
+      }
+    }
+  }
+
+  return merged;
+}
 let CUSTOMER_ID = '';
 if (process.env.CUSTOMER_ID) {
   CUSTOMER_ID = `${process.env.CUSTOMER_ID}`;
@@ -10,7 +39,10 @@ if (process.env.CUSTOMER_ID) {
   CUSTOMER_ID = '0001';
 }
 
-const CUSTOMER_CONFIG = require(`../base/customer-conf/${CUSTOMER_ID}/conf.json`);
+const DFT_CONFIG = require(`../base/customer-conf/dft.json`);
+const OVER_CONFIG = require(`../base/customer-conf/${CUSTOMER_ID}/conf.json`);
+const CUSTOMER_CONFIG = mergeObjects(DFT_CONFIG, OVER_CONFIG);
+console.log("CUSTOMER_CONFIG is:" + JSON.stringify(CUSTOMER_CONFIG));
 const { title, favicon } = CUSTOMER_CONFIG;
 
 const host = CUSTOMER_CONFIG.host || 'http://mywifi.mercku.tech';

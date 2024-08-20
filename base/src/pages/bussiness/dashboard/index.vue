@@ -224,7 +224,8 @@
 </template>
 <script>
 import marked from 'marked';
-import { WanNetStatus, RouterMode, ModelIds, ModelIdJMapName } from 'base/util/constant';
+import Assets from 'base/assets';
+import { WanNetStatus, RouterMode, ModelIds } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
 import meshEditMixin from 'base/mixins/mesh-edit.js';
 
@@ -278,20 +279,8 @@ export default {
       return process.env.CUSTOMER_CONFIG.title.toLowerCase();
     },
     productName() {
-      let productInfo;
-      if (this.$store.state?.modelVersion) {
-        console.log(this.$store.state.modelVersion);
-        productInfo = process.env.CUSTOMER_CONFIG.routers[
-          ModelIdJMapName?.[process.env.MODEL_CONFIG.id]?.[this.$store.state.modelVersion]
-        ];
-        console.log(productInfo);
-      } else {
-        productInfo = process.env.CUSTOMER_CONFIG.routers[
-          ModelIds[process.env.MODEL_CONFIG.id]
-        ];
-      }
-
-      return productInfo?.shortName || 'Unknown';
+      const meta = Assets.getDeviceMeta();
+      return meta?.shortName || 'Unknown';
     },
     productImgName() {
       return ModelIds[process.env.MODEL_CONFIG.id];

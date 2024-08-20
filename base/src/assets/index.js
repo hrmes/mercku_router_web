@@ -1,4 +1,5 @@
 // import path from 'path';
+import store from '@/store/index';
 
 function getImagePath(id, ab, j = 0) {
     // Assuming the assets are located in the 'assets' directory
@@ -35,7 +36,13 @@ function getImagePath(id, ab, j = 0) {
     }
 }
 
-function getDeviceMeta(modelAb, modelJ) {
+function getDeviceMeta() {
+    const modelAb = store.state.profile?.model_ab || '08';
+    const modelJ = store.state.profile?.model_j || '0';
+    return getDeviceMetaOf(modelAb, modelJ);
+}
+
+function getDeviceMetaOf(modelAb, modelJ) {
     const map = process.env.CUSTOMER_CONFIG.deviceMeta;
     const dftMeta = map.dft || {
         name: "Router",
@@ -55,6 +62,7 @@ function getDeviceMeta(modelAb, modelJ) {
 const Assets = {
     getImagePath,
     getDeviceMeta,
+    getDeviceMetaOf,
 };
 
 export default Assets;

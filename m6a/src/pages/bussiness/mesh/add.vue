@@ -313,9 +313,7 @@ export default {
   methods: {
     transText(text) {
       let resultText = '';
-      const ab = this.$store.state.profile.model_ab;
-      const j = this.$store.state.profile.model_j;
-      const meta = Assets.getDeviceMeta(ab, j);
+      const meta = Assets.getDeviceMeta();
       resultText = this.$t(text).replaceAll('%s', meta.shortName);
       return resultText;
     },
