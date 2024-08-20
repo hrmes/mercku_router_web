@@ -318,6 +318,10 @@ export default {
             text: this.$t('trans0696')
           },
           {
+            value: CONSTANTS.WanType.relay,
+            text: this.$t('trans1308')
+          },
+          {
             value: CONSTANTS.WanType.static,
             text: this.$t('trans0148')
           }
@@ -327,6 +331,10 @@ export default {
         {
           value: CONSTANTS.WanType.auto,
           text: this.$t('trans0696')
+        },
+        {
+            value: CONSTANTS.WanType.relay,
+            text: this.$t('trans1308')
         },
         {
           value: CONSTANTS.WanType.pppoe,
@@ -361,10 +369,66 @@ export default {
     }
   },
   mounted() {
-    this.getIPv4WanNetInfo();
-    this.getIpv6NetInfo();
+    // this.getIPv4WanNetInfo();
+    // this.getIpv6NetInfo();
+    this.getInitNetInfo();
   },
   methods: {
+    getInitNetInfo() {
+      this.$loading.open();
+      Promise.all([this.$http.getMeshInfoWanNetIpv6(), this.$http.getWanNetInfo()])
+        .then(
+        ([ipv6Res, ipv4Res]) => {
+          this.$loading.close();
+          const { result: ipv4Result } = ipv4Res.data;
+          this.IPv4NetType = ipv4Result.type;
+          const dftIpv6NetType = this.IPv4NetType === CONSTANTS.WanType.dhcp || this.IPv4NetType == CONSTANTS.WanType.wisp ? CONSTANTS.WanType.relay : CONSTANTS.WanType.auto;
+          console.log("ipv4NetType is ", this.IPv4NetType);
+          console.log("dftIpv6NetType is ", dftIpv6NetType);
+          const { result } = ipv6Res.data;
+          this.enabled = result.enabled;
+          this.isSetup = this.enabled;
+          if (!this.enabled) {
+            return;
+          }
+          this.netType = result.type ?? dftIpv6NetType;
+          const { netinfo } = result;
+          this.netInfo.type = result.type ?? '-';
+          this.netInfo.ip = netinfo.address?.[0]?.ip ?? '-';
+          this.netInfo.gateway = netinfo.gateway?.ip ?? '-';
+          this.netInfo.dns = netinfo.dns?.[0]?.ip ?? '-';
+          if (this.isAuto) {
+            const dnsArr = result.auto.dns;
+            this.autodns = !dnsArr?.length;
+            this.autoForm.dns = dnsArr?.[0]?.ip ?? '';
+          }
+          if (this.isPppoe) {
+            const pppoeInfo = result.pppoe;
+            this.pppoeForm.isUseIPv4 = pppoeInfo.share_ipv4_credentials;
+            this.pppoeForm.account = pppoeInfo.account;
+            this.pppoeForm.password = pppoeInfo.password;
+            this.pppoeForm.dns = pppoeInfo.dns?.[0]?.ip;
+            this.autodns = !pppoeInfo.dns?.length;
+            this.pppoeForm.dns = pppoeInfo.dns?.[0]?.ip ?? '';
+          }
+          if (this.isStatic) {
+            // result.static.netinfo.subprefix = {
+            //   ip: "2001:db8:0:1::",
+            //   prefix_length: 64
+            // };
+            const staticInfo = result.static.netinfo;
+            this.staticForm.ip = staticInfo.address?.[0]?.ip ?? '';
+            this.staticForm.prefixLength = staticInfo.address?.[0]?.prefix_length ?? '';
+            this.staticForm.gateway = staticInfo.gateway.ip;
+            this.staticForm.dns = staticInfo.dns?.[0]?.ip ?? '';
+            this.staticForm.lanPrefix = staticInfo.subprefix?.ip ?? '';
+            this.staticForm.lanPrefixLen = staticInfo.subprefix?.prefix_length;
+          }
+        }
+      ).catch(() => {
+        this.$loading.close();
+      });
+    },
     getIpv6NetInfo() {
       this.$loading.open();
       this.$http

@@ -1299,8 +1299,6 @@
   "trans1304": "VPN is closing, please wait...",
   "trans1305": "Enabling IPv6 may potentially impact the acceleration effect. Do you still want to proceed with enabling it?",
   "trans1306": "Confirm",
-  "trans1308": "Prefix",
-  "trans1309": "Length",
-  "trans1310": "LAN",
-  "trans1307": "Enabling this VPN will automatically disconnect existing VPN connections"
+  "trans1307": "Enabling this VPN will automatically disconnect existing VPN connections",
+  "trans1308": "Relay"
 }

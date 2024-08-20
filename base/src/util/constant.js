@@ -48,6 +48,7 @@ export const WanType = {
   static: 'static',
   dhcp: 'dhcp',
   auto: 'auto',
+  relay: 'relay',
   wisp: 'wisp'
 };
 export const WanNetStatus = {
