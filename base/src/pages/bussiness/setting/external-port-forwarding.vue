@@ -39,7 +39,7 @@
         </div>
       </div>
       <div class="page-content__bottom">
-        <div class="form-button__wrapper">
+        <div class="form-button__wrapper" v-if="showSaveBtn">
           <button class="btn" v-defaultbutton @click="submit()">
             {{ $t('trans0081') }}
           </button>
@@ -71,6 +71,7 @@ export default {
         },
 
       ],
+      initShowSave: false,
       form: {
         protocol: 'tcp_udp',
         external_port: '',
@@ -124,6 +125,11 @@ export default {
   },
   mounted() {
     this.getInitData();
+  },
+  computed: {
+    showSaveBtn() {
+      return this.initShowSave || this.form.enabled;
+    }
   },
   methods: {
     submit() {
@@ -188,6 +194,7 @@ export default {
               internal_port = '',
               internal_ip = ''
             } = response.data.result["router.epf.get"];
+            this.initShowSave = enabled;
             this.form = {
               enabled,
               protocol,

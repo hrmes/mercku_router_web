@@ -142,11 +142,11 @@
         </div>
       </div>
       <div class="wireless-mesh-add-fail-tips"
-           v-if="showTipsDialog">
+      v-if="showTipsDialog">
         <div class="mesh-add-tips-list">
           <div class="mesh-add-tips-list__item list-item">
             <div class="list-item__img">
-              <img src="~@/assets/images/add/img_power_on.svg"
+              <img :src="imgPath('addNodeFailTip1')"
                    alt="" />
             </div>
             <div class="list-item__text">
@@ -156,7 +156,7 @@
           </div>
           <div class="mesh-add-tips-list__item list-item">
             <div class="list-item__img">
-              <img src="~@/assets/images/add/img_orangelight.png"
+              <img :src="imgPath('addNodeFailTip2')" 
                    alt="" />
             </div>
             <div class="list-item__text">
@@ -165,7 +165,7 @@
           </div>
           <div class="mesh-add-tips-list__item list-item">
             <div class="list-item__img">
-              <img :src="getM6aSeriesProductNetworkingImg()"
+              <img :src="imgPath('addNodeFailTip3')"
                    alt="" />
             </div>
             <div class="list-item__text">
@@ -318,6 +318,11 @@ export default {
       const meta = Assets.getDeviceMeta(ab, j);
       resultText = this.$t(text).replaceAll('%s', meta.shortName);
       return resultText;
+    },
+    imgPath(id) {
+      const ab = this.$store.state.profile.model_ab;
+      const j = this.$store.state.profile.model_j;
+      return Assets.getImagePath(id, ab, j);
     },
     transDeviceId(text) {
       console.log(process.env.CUSTOMER_CONFIG.deviceId);

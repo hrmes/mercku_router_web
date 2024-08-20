@@ -1,9 +1,8 @@
 {
   "id": "0063",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "title": "Micronat",
   "ispId": "mic",
-  "host": "http://mywifi.micronat.tech",
   "accept": ".mic",
   "favicon": "customer-conf/0063/favicon.ico",
   "policy": "https://www.micronat.se/allmanna-villkor",
@@ -97,10 +96,13 @@
     }
   },
   "images": {
-    "appQr": "mic/qr.jpeg",
     "wirelessAddNodeStep1": "add/img_add_01.svg",
     "wirelessAddNodeStep2": "add/img_add_02.svg",
-    "wirelessAddNodeStep3": "add/img_wireless_add_03.svg"
+    "wirelessAddNodeStep3": "add/img_wireless_add_03.svg",
+    "addNodeFailTip1": "add/img_power_on.svg",
+    "addNodeFailTip2": "add/img_add_02.svg",
+    "addNodeFailTip3": "add/img_networking.svg",
+    "appQr": "mic/qr.jpeg"
   },
   "deviceMeta": {
     "dft": {

@@ -172,7 +172,7 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
         url: '/setting/external-port-forwarding',
         name: 'external-port-forwarding',
         text: 'trans1252',
-        strategyA
+        config: strategyA
       }
     ]
   };
