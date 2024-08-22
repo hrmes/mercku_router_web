@@ -182,10 +182,10 @@ export default {
       isLoading: false,
       wifiFormRules: {
         ssid24g: [
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
-          },
+          // {
+          //   rule: value => isFieldHasSpaces(value),
+          //   message: this.$t('trans1021')
+          // },
           {
             rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0232')
@@ -204,10 +204,10 @@ export default {
           }
         ],
         password24g: [
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
-          },
+          // {
+          //   rule: value => isFieldHasSpaces(value),
+          //   message: this.$t('trans1020')
+          // },
           {
             rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0232')
@@ -222,10 +222,10 @@ export default {
           }
         ],
         ssid5g: [
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
-          },
+          // {
+          //   rule: value => isFieldHasSpaces(value),
+          //   message: this.$t('trans1021')
+          // },
           {
             rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0232')

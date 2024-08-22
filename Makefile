@@ -26,6 +26,9 @@ endif
 MODEL=$(subst $(MODEL_ID)=,,$(filter $(MODEL_ID)=%, $(MODEL_LIST)))
 
 VERSION=$(shell sed -n 's/.*"version": "\(.*\)".*/\1/p' $(TOPDIR)/base/customer-conf/$(CUSTOMER_ID)/conf.json)
+ifeq ($(VERSION),)
+VERSION=$(shell sed -n 's/.*"version": "\(.*\)".*/\1/p' $(TOPDIR)/base/customer-conf/dft.json)
+endif
 
 all: install
 
@@ -48,10 +51,6 @@ $(TMPDIR)/.init:
 	mkdir -p $(dir $@)
 	touch $@
 
-# build: prd_depend
-# 	pnpm -F $(MODEL) rs:build
-# 	mkdir -p output
-# 	tar cf output/webui-$(VERSION)-$(CUSTOMER_ID)-$(MODEL_ID).tar -C $(MODEL) dist
 docker_installed := $(shell command -v docker 2> /dev/null)
 ifeq ($(docker_installed),)
 	$(error Docker is not installed)
@@ -67,8 +66,6 @@ enter_docker: $(TMPDIR)/.container_ready
 
 build: $(TMPDIR)/.container_ready
 	docker run --rm -i -v $(TOPDIR):/app/src -w /app/src -e MODEL_ID=$(MODEL_ID) -e CUSTOMER_ID=$(CUSTOMER_ID)  -e MODEL=${MODEL} -e VERSION=${VERSION} $(IMG) bash /app/src/scripts/build_in_docker.sh
-# mkdir -p output
-# tar cf output/webui-$(VERSION)-$(CUSTOMER_ID)-$(MODEL_ID).tar -C $(MODEL) dist
 
 PORT=8080
 

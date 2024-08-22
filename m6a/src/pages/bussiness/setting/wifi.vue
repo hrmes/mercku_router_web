@@ -267,10 +267,10 @@ export default {
       },
       rules: {
         'b24g.ssid': [
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
-          },
+          // {
+          //   rule: value => isFieldHasSpaces(value),
+          //   message: this.$t('trans1021')
+          // },
           {
             rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0232')
@@ -307,10 +307,10 @@ export default {
           }
         ],
         'b5g.ssid': [
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
-          },
+          // {
+          //   rule: value => isFieldHasSpaces(value),
+          //   message: this.$t('trans1021')
+          // },
           {
             rule: value => !/^\s*$/g.test(value.trim()),
             message: this.$t('trans0232')
