@@ -1300,5 +1300,8 @@
   "trans1305": "Enabling IPv6 may potentially impact the acceleration effect. Do you still want to proceed with enabling it?",
   "trans1306": "Confirm",
   "trans1307": "Enabling this VPN will automatically disconnect existing VPN connections",
-  "trans1308": "Relay"
+  "trans1308": "Relay",
+  "trans1309": "LAN",
+  "trans1310": "Prefix",
+  "trans1311": "After enabling IPv6, the router will automatically obtain the IPV6 address assigned by the operator through the WAN interface. You can also manually modify the IPv6 address in the configuration page. Some functions (firewall, VPN, GoodCloud) do not support IPv6 yet.\nNote: 1. After enabling IPv6, the acceleration effect may be affected; 2. If the VPN IPV6 function is used at the same time, it is likely to cause IPv6 data leakage."
 }

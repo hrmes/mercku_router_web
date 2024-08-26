@@ -14,6 +14,9 @@
                         @change="ipv6EnabledChange" />
             </m-form-item>
           </div>
+          <div class="card">
+            <span>{{ $t('trans1311') }}</span>
+            </div>
         </div>
         <div class="row-2">
           <template v-if="enabled">
