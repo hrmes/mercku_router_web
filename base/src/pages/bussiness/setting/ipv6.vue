@@ -162,16 +162,16 @@
                              v-model="staticForm.dns" />
                   </m-form-item>
                   <div class="form-header">
-                    <span class="form-header__title">{{ $t('trans1310') }}</span>
+                    <span class="form-header__title">{{ $t('trans1309') }}</span>
                   </div>
                   <m-form-item prop="lanPrefix" ref="lanPrefix">
-                    <m-input :label="$t('trans1308')"
+                    <m-input :label="$t('trans1310')"
                              type="text"
                              placeholder=""
                              v-model="staticForm.lanPrefix" />
                   </m-form-item>
                   <m-form-item prop="lanPrefixLen" ref="lanPrefixLen">
-                    <m-input :label="$t('trans1309')"
+                    <m-input :label="$t('trans0694')"
                     class="last"
                              type="text"
                              placeholder="16-64"
