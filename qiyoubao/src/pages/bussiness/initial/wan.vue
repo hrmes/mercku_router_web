@@ -262,7 +262,7 @@ export default {
         ip: '',
         mask: '',
         gateway: '',
-        dns1: '',
+        dns1: '119.29.29.29',
         dns2: ''
       },
       pppoeForm: {

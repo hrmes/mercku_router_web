@@ -215,7 +215,8 @@ export default {
       networkArr: {
         auto: this.$t('trans0696'),
         static: this.$t('trans0148'),
-        pppoe: this.$t('trans0144')
+        pppoe: this.$t('trans0144'),
+        relay: this.$t('trans1308')
       },
       dnsOptions: [
         { value: true, text: this.$t('trans0399') },
