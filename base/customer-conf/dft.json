@@ -1,6 +1,6 @@
 {
     "id": "0001",
-    "version": "1.0.10",
+    "version": "1.0.12",
     "ispId": "mercku",
     "title": "Mercku",
     "host": "http://mywifi.mercku.tech",
@@ -95,6 +95,7 @@
         "wirelessAddNodeStep1": "add/img_add_01.svg",
         "wirelessAddNodeStep2": "add/img_add_02.svg",
         "wirelessAddNodeStep3": "add/img_wireless_add_03.svg",
+        "wiredAddNodeStep3": "add/img_wired_add_03.svg",
         "addNodeFailTip1": "add/img_power_on.svg",
         "addNodeFailTip2": "add/img_add_02.svg",
         "addNodeFailTip3": "add/img_networking.svg",

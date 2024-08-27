@@ -15,7 +15,7 @@
               </div>
             </div>
           </li>
-          <!-- <li class="wired__wrap">
+          <li class="wired__wrap">
             <div class="card"
                  @click="updateChooseTypeVisible(false,'wired')">
               <div class="inner">
@@ -23,7 +23,7 @@
               </div>
             </div>
             <p class="tips__text tips__subtext">{{$t('trans1097')}}</p>
-          </li> -->
+          </li>
         </ul>
       </div>
       <div class="steps-container"
@@ -415,28 +415,16 @@ export default {
       if (step === Step.step1) {
         const path = Assets.getImagePath("wirelessAddNodeStep1", model_ab, model_j);
         img = path;
-        // switch (this.modelVersion) {
-        //   case RouterHasModelDistinctionMap.M6a:
-        //     const path = Assets.getImagePath("wirelessAddNodeStep1", '08', '0');
-        //     console.log("assets:", path);
-        //     // img = require(path);
-        //     img = path;
-        //     // img = require('@/assets/images/add/img_add_01.svg');
-        //     break;
-        //   case RouterHasModelDistinctionMap.M6a_Plus:
-        //   case RouterHasModelDistinctionMap.M6c:
-        //     img = require('@/assets/images/add/m6a-4_lan_prots/img_add_01.svg');
-        //     break;
-        //   default:
-        //     break;
-        // }
       }
       if (step === Step.step2) {
         return Assets.getImagePath("wirelessAddNodeStep2", model_ab, model_j);
       }
       if (step === Step.step3) {
-        const path = Assets.getImagePath("wirelessAddNodeStep3", model_ab, model_j);
-        img = path;
+        if (type == AddNodeType.wired) {
+          img = Assets.getImagePath("wiredAddNodeStep3", model_ab, model_j);
+        } else {
+          img = Assets.getImagePath("wirelessAddNodeStep3", model_ab, model_j);
+        }
       }
       // if (step === Step.step3 && type && this.isM6a) {
       //   switch (type) {

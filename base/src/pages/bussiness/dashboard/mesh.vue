@@ -139,8 +139,8 @@
                     </div>
                   </div>
                   <div class="col-3">
-                    <span class="band" :class="{ 'wired': isWired(sta.connected_network.band) }">{{
-                      bandMap[sta.connected_network.band] }}</span>
+                    <span class="band" :class="{ 'wired': isWired(sta.online_info.band)}">{{
+                      bandMap[sta.online_info.band] }}</span>
                     <span class="guest" v-if="isGuest(sta.connected_network.type)"></span>
                   </div>
                 </li>
@@ -435,6 +435,7 @@ export default {
       return type === GUEST;
     },
     isWired(band) {
+      console.log("band: ", band);
       return band === Bands.wired;
     },
     connectQuality(color) {

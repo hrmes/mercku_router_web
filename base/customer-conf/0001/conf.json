@@ -2,7 +2,7 @@
   "id": "0001",
   "ispId": "mercku",
   "title": "Mercku",
-  "host": "http://mywifi.mercku.tech",
+  "host": "http://192.168.127.1",
   "accept": ".ma",
   "favicon": "customer-conf/0001/favicon.ico",
   "policy": "",
