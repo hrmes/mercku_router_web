@@ -2,6 +2,7 @@
   "id": "0059",
   "title": "QiYou",
   "accept": ".qy",
+  "host": "http://admin.ljbwifi.com",
   "favicon": "customer-conf/0059/favicon.ico",
   "agreement": "https://ljbweb.qiyou.cn/#/protocol",
   "policy": "https://ljbweb.qiyou.cn/#/privacy",

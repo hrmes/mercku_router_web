@@ -199,6 +199,7 @@ export default {
         pppoe: this.$t('trans0144'),
         auto: this.$t('trans0696'),
         wisp: this.$t('trans1242'),
+        relay: this.$t('trans1308'),
         failObtain: this.$t('trans1058')
       },
       speedStatus: SpeedTestStatus.done,

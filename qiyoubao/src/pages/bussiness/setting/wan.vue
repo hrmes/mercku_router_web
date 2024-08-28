@@ -358,7 +358,7 @@ export default {
       pppoeForm: {
         account: '',
         password: '',
-        dns1: '',
+        dns1: '119.29.29.29',
         dns2: ''
       },
       dhcpForm: {

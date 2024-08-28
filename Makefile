@@ -10,6 +10,7 @@ IS_NPM_OK := $(shell [ $(CUR_NPM_VER_MAJOR) -gt $(MIN_NPM_VER_MAJOR) -o \( $(CUR
 
 CUSTOMER_LIST = 0059
 MODEL_LIST = M15R0=qiyoubao
+CUSTOMER_ID=0059
 
 ifndef CUSTOMER_ID
 $(error CUSTOMER_ID required)
@@ -19,6 +20,7 @@ ifeq ($(shell echo $(CUSTOMER_LIST) | grep $(CUSTOMER_ID)),)
 $(error CUSTOMER_ID should be oneof ($(CUSTOMER_LIST)))
 endif
 
+MODEL_ID=M15R0
 ifndef MODEL_ID
 $(error MODEL_ID required)
 endif

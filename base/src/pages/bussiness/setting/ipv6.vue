@@ -14,7 +14,7 @@
                         @change="ipv6EnabledChange" />
             </m-form-item>
           </div>
-          <div class="card">
+          <div class="card" v-if="enabled">
             <span>{{ $t('trans1311') }}</span>
             </div>
         </div>
@@ -49,7 +49,7 @@
               </div>
               <div>
                 <div class="form-warn"
-                     v-if="isShowWarn">
+                     v-if="false">
                   {{$t('trans0735')}}
                 </div>
                 <m-form-item>
@@ -392,10 +392,10 @@ export default {
           const { result } = ipv6Res.data;
           this.enabled = result.enabled;
           this.isSetup = this.enabled;
+          this.netType = result.enabled ? (result.type ?? dftIpv6NetType) : dftIpv6NetType;
           if (!this.enabled) {
             return;
           }
-          this.netType = result.type ?? dftIpv6NetType;
           const { netinfo } = result;
           this.netInfo.type = result.type ?? '-';
           this.netInfo.ip = netinfo.address?.[0]?.ip ?? '-';
