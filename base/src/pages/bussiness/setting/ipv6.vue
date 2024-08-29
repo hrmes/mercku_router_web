@@ -373,10 +373,10 @@ export default {
           value: CONSTANTS.WanType.pppoe,
           text: this.$t('trans0144')
         },
-        {
-          value: CONSTANTS.WanType.static,
-          text: this.$t('trans0148')
-        }
+        // {
+        //   value: CONSTANTS.WanType.static,
+        //   text: this.$t('trans0148')
+        // }
       ];
     }
   },
