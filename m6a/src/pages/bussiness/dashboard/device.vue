@@ -297,12 +297,12 @@
                 <li class="control"
                     v-if='isMobileRow(row.expand) && isRouter'>
                   <div class="limit-inner">
-                    <!-- <span class="limit-icon"
+                    <span class="limit-icon"
                           @click="()=>forward2limit(row,'time')">
                       <i class="time-limit iconfont ic_limit_time_off"
                          :class="{'active':isTimeLimit(row)}"></i>
                       <span class="hover-popover">{{$t('trans0075')}}</span>
-                    </span> -->
+                    </span>
                     <span class="limit-icon"
                           @click="()=>forward2limit(row,'speed')">
                       <i class="speed-limit iconfont ic_limit_speed_off"

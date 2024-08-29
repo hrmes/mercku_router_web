@@ -12,7 +12,7 @@ import device from 'pages/bussiness/dashboard/device.vue';
 import mesh from 'base/pages/bussiness/dashboard/mesh.vue';
 import internet from 'base/pages/bussiness/dashboard/internet.vue';
 import limit from 'base/pages/bussiness/dashboard/limit/index.vue';
-// import timeLimit from 'base/pages/bussiness/dashboard/limit/time.vue';
+import timeLimit from 'base/pages/bussiness/dashboard/limit/time.vue';
 // import urlLimit from 'base/pages/bussiness/dashboard/limit/blacklist.vue';
 import meshAdd from 'pages/bussiness/mesh/add.vue';
 
@@ -152,15 +152,15 @@ const routes = {
       component: limit,
       redirect: '/limit/:mac/time',
       children: [
-        // {
-        //   path: '/limit/:mac/time',
-        //   name: 'device-limit-time',
-        //   component: timeLimit,
-        //   meta: {
-        //     text: 'trans0075',
-        //     parentPath: '/dashboard/device/primary'
-        //   }
-        // },
+        {
+          path: '/limit/:mac/time',
+          name: 'device-limit-time',
+          component: timeLimit,
+          meta: {
+            text: 'trans0075',
+            parentPath: '/dashboard/device/primary'
+          }
+        },
         // {
         //   path: '/limit/:mac/url',
         //   name: 'device-limit-url',
