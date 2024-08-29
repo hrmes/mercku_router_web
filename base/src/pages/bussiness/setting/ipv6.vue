@@ -262,7 +262,27 @@ export default {
             message: this.$t('trans0231')
           }
         ],
+        lanPrefix:[
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => isIP(value, IPv6),
+            message: this.$t('trans0231')
+          }
+        ], 
         prefixLength: [
+          {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => isValidInteger(value, 1, 128),
+            message: this.$t('trans0647')
+          }
+        ],
+        lanPrefixLen: [
           {
             rule: value => !/^\s*$/g.test(value),
             message: this.$t('trans0232')
