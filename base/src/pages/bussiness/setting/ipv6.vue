@@ -167,7 +167,7 @@
                   <m-form-item prop="lanPrefix" ref="lanPrefix">
                     <m-input :label="$t('trans1310')"
                              type="text"
-                             placeholder=""
+                             :placeholder="IPv6DefaultPlaceholder"
                              v-model="staticForm.lanPrefix" />
                   </m-form-item>
                   <m-form-item prop="lanPrefixLen" ref="lanPrefixLen">
@@ -254,7 +254,10 @@ export default {
       staticRules: {
         ip: [
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => {
+              console.log("ip value is ", value);
+              !/^\s*$/g.test(value)
+            },
             message: this.$t('trans0232')
           },
           {
@@ -264,7 +267,10 @@ export default {
         ],
         lanPrefix:[
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => {
+              console.log("lanPrefix value is ", value);
+              !/^\s*$/g.test(value)
+            },
             message: this.$t('trans0232')
           },
           {
@@ -284,12 +290,15 @@ export default {
         ],
         lanPrefixLen: [
           {
-            rule: value => !/^\s*$/g.test(value),
+            rule: value => {
+              console.log("value is ", value);
+              !/^\s*$/g.test(value)
+            },
             message: this.$t('trans0232')
           },
           {
-            rule: value => isValidInteger(value, 1, 128),
-            message: this.$t('trans0647')
+            rule: value => isValidInteger(value, 16, 64),
+            message: this.$t('trans1312')
           }
         ],
         gateway: [
