@@ -18,6 +18,61 @@
             </m-form>
           </div>
         </div>
+                <div class="row-2"
+             v-if="mode===RouterMode.wirelessBridge">
+          <div class="card"
+               v-if="currentUpperInfo.show">
+            <div class="upperApForm">
+              <div class="upperApForm__top">
+                <h4>{{$t('trans1132')}}</h4>
+                <div class="upperApForm__top__upperinfo">
+                  <div class="current-ssid">
+                    <span class="title">{{$t('trans1133')}}</span>
+                    <span class="content">{{currentUpperInfo.ssid}}</span>
+                  </div>
+                  <div class="current-pwd">
+                    <span class="title">{{$t('trans1134')}}</span>
+                    <span class="content"
+                          :title="pwdValue">
+                      {{pwdValue}}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="upperApForm">
+              <div class="upperApForm__bottom">
+                <h4>{{$t('trans1135')}}</h4>
+                <m-form ref="upperApForm"
+                        :model="upperApForm"
+                        :rules="upperApFormRules">
+                  <m-form-item prop="upperApForm.ssid"
+                               :class="{last:pwdDisabled}">
+                    <m-scan-upper-select label="SSID"
+                                         :placeholder="$t('trans1182')"
+                                         type='text'
+                                         @change="selectedChange"
+                                         @scanApclient="startApclientScan"
+                                         :popupTop='$store.state.isMobile'
+                                         :bssid="upperApForm.bssid"
+                                         :options="processedUpperApList"
+                                         :loading="selectIsLoading"
+                                         :loadingText="loadingText" />
+                  </m-form-item>
+                  <m-form-item v-show="!pwdDisabled"
+                               prop="upperApForm.password">
+                    <m-input :label="$t('trans0003')"
+                             type="password"
+                             :placeholder="$t('trans0321')"
+                             v-model="upperApForm.password" />
+                  </m-form-item>
+                </m-form>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
