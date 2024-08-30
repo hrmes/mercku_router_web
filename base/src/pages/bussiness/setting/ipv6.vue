@@ -354,10 +354,10 @@ export default {
             value: CONSTANTS.WanType.relay,
             text: this.$t('trans1308')
           },
-          {
-            value: CONSTANTS.WanType.static,
-            text: this.$t('trans0148')
-          }
+          // {
+          //   value: CONSTANTS.WanType.static,
+          //   text: this.$t('trans0148')
+          // }
         ];
       }
       return [
