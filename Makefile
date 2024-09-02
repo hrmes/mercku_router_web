@@ -1,3 +1,5 @@
+VERSION=3.3.3-rc.1
+
 MIN_NPM_VER_MAJOR=6
 MIN_NPM_VER_MINOR=1
 MIN_NPM_VER_PATCH=0
@@ -51,6 +53,9 @@ build: prd_depend
 
 dev:
 	cd $(MODEL) && make dev CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
+
+upload:
+	VERSION=$(VERSION) MODEL_ID=$(MODEL_ID) CUSTOMER_ID=$(CUSTOMER_ID) MODEL=$(MODEL) ./scriptscopy/upload.sh
 
 
 .PHONY: all install check_npm_version prd_depend dev_depend dev build
