@@ -24,17 +24,17 @@ require('base/style/router-model.scss');
 // 不同客户特别的样式表
 require(`base/style/customer/${process.env.CUSTOMER_CONFIG.id}/custom.scss`);
 
-const launch =  async () => {
+const launch = async () => {
   const http = new Http();
   registerComponents(Vue);
 
   const reconnect = options => {
     const opt = {
       ...{
-        onsuccess: () => {},
-        ontimeout: () => {},
-        onprogress: () => {},
-        onfinally: () => {},
+        onsuccess: () => { },
+        ontimeout: () => { },
+        onprogress: () => { },
+        onfinally: () => { },
         timeout: 60,
         showLoading: true
       },
@@ -106,9 +106,9 @@ const launch =  async () => {
             upgradeHelper(res.data, upgrade, upgradeComponent);
           });
         },
-        ontimeout: () => {},
-        onprogress: () => {},
-        onfinally: () => {},
+        ontimeout: () => { },
+        onprogress: () => { },
+        onfinally: () => { },
         timeout: 600
       },
       ...options
@@ -120,7 +120,7 @@ const launch =  async () => {
         upgradeComponent.close();
         opt.ontimeout();
       },
-      onfinally: () => {},
+      onfinally: () => { },
       timeout: opt.timeout,
       showLoading: false
     });
@@ -180,7 +180,7 @@ const launch =  async () => {
   // fixme @yawei: 这里应该只在登陆后才调用。
   // fixme advance-tr069 等没有生效
   // fixme upgrade/offline 等没有生效
-  
+
   router.afterEach(() => {
     // 回退到 login 页标记 logined 为 false
     if (window.location.href.includes('/login')) {

@@ -1,0 +1,39 @@
+{
+  "id": "0031",
+  "ispId": "sci",
+  "title": "Sci",
+  "accept": ".sci",
+  "favicon": "customer-conf/0001/favicon.ico",
+  "policy": "https://scitelecom.com",
+  "website": {
+    "url": "https://scitelecom.com",
+    "text": "scitelecom.com"
+  },
+  "allow2LevelAdmin": true,
+  "languages": [
+    "zh-CN",
+    "en-US",
+    "de-DE",
+    "fi-FI",
+    "bg-BG",
+    "fr-FR"
+  ],
+  "wifi": "Mercku Wi-Fi",
+  "deviceID": "Mercku",
+  "images": {
+    "wirelessAddNodeStep1": "add/img_add_01.svg",
+    "wirelessAddNodeStep2": "add/img_add_02.svg",
+    "wirelessAddNodeStep3": "add/img_wireless_add_03.svg",
+    "addNodeFailTip1": "add/img_power_on.svg",
+    "addNodeFailTip2": "add/img_add_02.svg",
+    "addNodeFailTip3": "add/img_networking.svg",
+    "appQr": "mic/qr.jpeg"
+  },
+  "deviceMeta": {
+    "dft": {
+      "name": "Mercku Wi-Fi6 Router",
+      "shortName": "Mercku"
+    }
+  },
+  "appDownloadUrl": "http://onelink.to/mn4tgv"
+}

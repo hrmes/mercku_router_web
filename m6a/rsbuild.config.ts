@@ -1,4 +1,5 @@
 import path from 'path';
+import fs from 'fs';
 import { defineConfig } from '@rsbuild/core';
 import { pluginVue2 } from '@rsbuild/plugin-vue2';
 import { pluginSass } from '@rsbuild/plugin-sass';
@@ -47,10 +48,17 @@ const { title, favicon } = CUSTOMER_CONFIG;
 
 const host = CUSTOMER_CONFIG.host || 'http://mywifi.mercku.tech';
 console.log("host is:" + host);
-const customerAbsPath = path.resolve(
-  __dirname,
-  `../base/src/style/customer/${CUSTOMER_ID}/theme.scss`
-);
+var customerAbsPath = null;
+try {
+  customerAbsPath = path.resolve(__dirname, `../base/src/style/customer/${CUSTOMER_ID}/theme.scss`);
+  if (!fs.existsSync(customerAbsPath)) {
+    throw new Error('File not found');
+  }
+  console.log("customerAbsPath is:" + customerAbsPath);
+} catch (e) {
+  console.error(`No theme file found for customer ${CUSTOMER_ID}`);
+  customerAbsPath = path.resolve(__dirname, `../base/src/style/customer/dft/theme.scss`);
+}
 
 export default defineConfig({
   server: {
