@@ -601,7 +601,9 @@ export default {
     drawTopo(routers) {
       // const oldRouters = this.routers;
 
+      console.log("got routers: ", routers);
       const data = genData(routers);
+      console.log("data: ", data);
 
       data.nodes.forEach(n => {
         this.routers = routers.map(r => {
@@ -723,6 +725,7 @@ export default {
       this.chart.setOption(option);
     },
     createIntervalTask() {
+      console.log("init interval task");
       this.getMeshNode();
     },
     clearIntervalTask() {
@@ -735,10 +738,12 @@ export default {
       this.$http
         .getMeshNode()
         .then(res => {
+          console.log("res: ", res);
           const { result } = res.data;
           if (!this.chart) {
             this.initChart();
           }
+          console.log("draw Topo now");
           this.drawTopo(result);
 
           if (this.pageActive) {
