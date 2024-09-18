@@ -364,7 +364,8 @@ export default {
             value: v
           };
         }),
-        b5g: new Array(3).fill(0).map((_, i) => {
+        // fixme 莫名其妙的计算逻辑。。。
+        b5g: new Array(4).fill(0).map((_, i) => {
           const v = Math.pow(2, i) * 20;
           return {
             text: v,

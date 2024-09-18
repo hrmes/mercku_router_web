@@ -258,10 +258,10 @@ export default {
           value: VPNType.openvpn,
           text: this.$t('trans0676')
         },
-        {
-          value: VPNType.wireguard,
-          text: this.$t('trans1172')
-        }
+        // {
+        //   value: VPNType.wireguard,
+        //   text: this.$t('trans1172')
+        // }
       ],
       form: {
         id: '',

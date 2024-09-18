@@ -19,7 +19,7 @@ const layout = {
     Super: "hidden",
     Safe: "hidden",
     Schedule: "hidden",
-    AdvanceFirewall: "hidden",
+    AdvanceFirewall: "show",
     ExternalPortForwarding: "hidden",
     Powersupply: "hidden",
   },
@@ -36,7 +36,7 @@ const layout = {
     Auto: "hidden",
     Super: "hidden",
     Schedule: "hidden",
-    AdvanceFirewall: "hidden",
+    AdvanceFirewall: "show",
     ExternalPortForwarding: "hidden",
     Powersupply: "hidden",
   }
