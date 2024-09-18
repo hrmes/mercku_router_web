@@ -124,12 +124,12 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
         text: 'trans0576',
         config
       },
-      // {
-      //   text: 'trans0020',
-      //   name: 'blacklist',
-      //   url: '/setting/blacklist',
-      //   config: strategyA
-      // },
+      {
+        text: 'trans0020',
+        name: 'blacklist',
+        url: '/setting/blacklist',
+        config: strategyA
+      },
       {
         text: 'trans0272',
         name: 'timezone',

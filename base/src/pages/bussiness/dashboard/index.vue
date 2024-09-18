@@ -278,18 +278,19 @@ export default {
       return process.env.CUSTOMER_CONFIG.title.toLowerCase();
     },
     productName() {
-      let productInfo;
-      if (this.$store.state?.modelVersion) {
-        console.log(this.$store.state.modelVersion);
-        productInfo = process.env.CUSTOMER_CONFIG.routers[
-          ModelIdJMapName?.[process.env.MODEL_CONFIG.id]?.[this.$store.state.modelVersion]
-        ];
-        console.log(productInfo);
-      } else {
-        productInfo = process.env.CUSTOMER_CONFIG.routers[
-          ModelIds[process.env.MODEL_CONFIG.id]
-        ];
-      }
+      return "M6s";
+      // let productInfo;
+      // if (this.$store.state?.modelVersion) {
+      //   console.log(this.$store.state.modelVersion);
+      //   productInfo = process.env.CUSTOMER_CONFIG.routers[
+      //     ModelIdJMapName?.[process.env.MODEL_CONFIG.id]?.[this.$store.state.modelVersion]
+      //   ];
+      //   console.log(productInfo);
+      // } else {
+      //   productInfo = process.env.CUSTOMER_CONFIG.routers[
+      //     ModelIds[process.env.MODEL_CONFIG.id]
+      //   ];
+      // }
 
       return productInfo?.shortName || 'Unknown';
     },
