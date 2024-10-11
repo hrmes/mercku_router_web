@@ -13,31 +13,6 @@ function dashToCamel(dashName) {
   }).join('');
 }
 
-// default layout。短期内过渡，后续会从后端获取
-const layout = {
-  super: {
-    Super: "hidden",
-    Safe: "hidden",
-    Schedule: "hidden",
-    AdvanceFirewall: "hidden",
-  },
-  admin: {
-    Region: "hidden",
-    Ipv6: "hidden",
-    Wan: "hidden",
-    AdvanceMode: "hidden",
-    AdvanceWwa: "hidden",
-    AdvanceTr069: "hidden",
-    AdvanceMac: "hidden",
-    Offline: "hidden",
-    Online: "hidden",
-    Auto: "hidden",
-    Super: "hidden",
-    Schedule: "hidden",
-    AdvanceFirewall: "hidden",
-  }
-};
-
 export default function getMenu(role, mode = RouterMode.router, settings = {}) {
   console.log(`version: ${pageVersion}.${ispName}`);
   console.log('Init menus...');
@@ -45,22 +20,7 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
   console.log(`model id is: ${modelId}`);
   console.log(`role is: ${role}`);
   console.log(`mode is: ${mode}`);
-  // settings = layout[role] || {};
-  // var settings = {};
-  // const http = new Http();
-  // Promise.all([http.getSessionProfile()]).then(([res]) => {
 
-  //   console.log('get session profile success', res);
-  //   settings = res.data.result["session.profile"]?.layout;
-  // }).catch(err => {
-  //   console.log('get session profile error', err);
-  // });
-  // http.getSessionProfile().then(res => {
-  //   console.log('get session profile success', res);
-  //   settings = res.data.result["session.profile"]?.layout;
-  // }).catch(err => {
-  //   console.log('get session profile error', err);
-  // });
   console.log("settings: ", settings);
   // 菜单默认配置
   const config = {
