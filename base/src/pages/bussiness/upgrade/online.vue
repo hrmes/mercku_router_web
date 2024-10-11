@@ -206,9 +206,11 @@ export default {
           this.requestResult.complete = true;
 
           const filter = node => {
-            const { current, latest } = node.version;
-            console.log('compare', current, latest);
-            return compareVersion(current, latest);
+            // 不在前端做版本比较
+            // const { current, latest } = node.version;
+            // console.log('compare', current, latest);
+            // return compareVersion(current, latest);
+            return true;
           };
           let containGW = false;
           this.nodes = nodes.filter(filter).map(node => {
