@@ -21,7 +21,7 @@ const layout = {
     Schedule: "hidden",
     AdvanceFirewall: "show",
     // ExternalPortForwarding: "hidden",
-    Powersupply: "hidden",
+    // Powersupply: "hidden",
     AdvanceSsh: "hidden",
   },
   admin: {
@@ -39,7 +39,7 @@ const layout = {
     Schedule: "hidden",
     AdvanceFirewall: "show",
     // ExternalPortForwarding: "hidden",
-    Powersupply: "hidden",
+    // Powersupply: "hidden",
     AdvanceSsh: "hidden",
   }
 };
