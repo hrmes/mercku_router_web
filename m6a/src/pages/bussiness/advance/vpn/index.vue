@@ -147,9 +147,9 @@ export default {
             status: VPNAction.connect
           })
           .then(() => {
-            if (vpn.protocol.toLowerCase() === VPNType.wireguard) {
-              this.wireguardSwitchHandler(v, vpn);
-            } else {
+            // if (vpn.protocol.toLowerCase() === VPNType.wireguard) {
+            //   this.wireguardSwitchHandler(v, vpn);
+            // } else {
               this.createIntervalTask(
                 vpn,
                 false,
@@ -157,7 +157,7 @@ export default {
                 VPNStatus.connecting,
                 VPNStatus.connected
               );
-            }
+            // }
           })
           .catch(() => {
             vpn.enabled = false;
@@ -173,9 +173,9 @@ export default {
             status: VPNAction.disconnect
           })
           .then(() => {
-            if (vpn.protocol.toLowerCase() === VPNType.wireguard) {
-              this.wireguardSwitchHandler(v, vpn);
-            } else {
+            // if (vpn.protocol.toLowerCase() === VPNType.wireguard) {
+            //   this.wireguardSwitchHandler(v, vpn);
+            // } else {
               this.createIntervalTask(
                 vpn,
                 true,
@@ -183,7 +183,7 @@ export default {
                 VPNStatus.disconnecting,
                 VPNStatus.disconnected
               );
-            }
+            // }
           })
           .catch(() => {
             vpn.enabled = true;

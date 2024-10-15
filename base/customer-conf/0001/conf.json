@@ -3,7 +3,6 @@
   "ispId": "mercku",
   "title": "Mercku",
   "accept": ".ma",
-  "host": "http://192.168.127.1",
   "favicon": "customer-conf/0001/favicon.ico",
   "policy": "",
   "allow2LevelAdmin": false,
