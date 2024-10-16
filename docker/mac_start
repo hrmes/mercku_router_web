@@ -1,0 +1,18 @@
+#! /bin/bash
+img=webui
+if [ -z "$PORT" ]; then
+    PORT=8080
+fi
+
+mac_home=/Users/${USER}
+ubuntu_home=/home/${USER}
+work_dir=$(pwd | sed "s#^${mac_home}#${ubuntu_home}#g")
+
+set -x
+docker run --cpus 4 -it \
+--name ${USER}_${img} \
+-p ${PORT}:8080 \
+-p 8888:8888 \
+-v ${mac_home}:${ubuntu_home} \
+-w ${work_dir} \
+--rm ${img} $@

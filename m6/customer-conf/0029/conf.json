@@ -1,6 +1,6 @@
 {
   "id": "0029",
-  "host": "http://mywifi.junet.se",
+  "host": "http://192.168.1.1",
   "__host": "http://mywifi.mercku.tech",
   "title": "JUNET",
   "accept": ".jun",
@@ -8,7 +8,10 @@
   "policy": "https://www.junet.se/integritet/",
   "allow2LevelAdmin": true,
   "assetFolderName": "junet",
-  "languages": ["en-US", "sv-SE"],
+  "languages": [
+    "en-US",
+    "sv-SE"
+  ],
   "defaultLanguage": "en-US",
   "wifi": "JUNET-WIFI",
   "routers": {

@@ -2,6 +2,8 @@ MIN_NPM_VER_MAJOR=6
 MIN_NPM_VER_MINOR=1
 MIN_NPM_VER_PATCH=0
 
+VERSION=1.1.0
+
 CUR_NPM_VER := $(shell npm -v)
 CUR_NPM_VER_MAJOR := $(shell echo $(CUR_NPM_VER) | cut -f1 -d.)
 CUR_NPM_VER_MINOR := $(shell echo $(CUR_NPM_VER) | cut -f2 -d.)
@@ -46,8 +48,11 @@ dev_depend: package.json check_npm_version
 	npm i
 
 build: prd_depend
-	cd $(MODEL) && make CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
+	make -C $(MODEL) CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
 	ln -sf $(MODEL)/dist dist
+	tar -C $(MODEL) -cf webui-$(VERSION)-$(CUSTOMER_ID)-$(MODEL_ID).tar dist
+	aws s3 cp webui-$(VERSION)-$(CUSTOMER_ID)-$(MODEL_ID).tar s3://mercku-public/webui/$(CUSTOMER_ID)/webui-v$(VERSION)-$(CUSTOMER_ID)-$(MODEL_ID).tar
+	echo "upload to s3, you can download it via https://mercku-public.s3.cn-north-1.amazonaws.com.cn/webui/$(CUSTOMER_ID)/webui-v$(VERSION)-$(CUSTOMER_ID)-$(MODEL_ID).tar"
 
 dev:
 	cd $(MODEL) && make dev CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)

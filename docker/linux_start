@@ -1,0 +1,17 @@
+#! /bin/bash
+img=webui
+if [ -z "$PORT" ]; then
+    PORT=8888
+fi
+
+work_dir=$(pwd)
+
+set -x
+docker run --cpus 4 -it \
+--name ${USER}_${img} \
+-v ${work_dir}:${work_dir} \
+-w ${work_dir} \
+-p ${PORT}:8080 \
+-v '/etc/group:/etc/group:ro' \
+-v '/etc/passwd:/etc/passwd:ro' \
+-v '/etc/shadow:/etc/shadow:ro' --rm ${img} $@

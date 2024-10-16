@@ -20,9 +20,171 @@
                      prop='protocol'>
           <m-select :label="$t('trans0408')"
                     v-model="form.protocol"
-                    :options="protocols"></m-select>
+                    :options="protocolsList"></m-select>
         </m-form-item>
-        <div v-if="form.protocol !== VPNType.openvpn">
+        <div v-if="form.protocol.toLowerCase() === VPNType.openvpn">
+          <div class="config-uploader">
+            <div class="config-uploader__label">{{$t('trans0673')}}</div>
+            <div class="config-uploader__inner">
+              <button @click="triggerFileInput"
+                      class="config-uploader__button">
+                <span>{{ openvpnForm.configFile ? $t('trans0675') : $t('trans0006') }}</span>
+                <input type="file"
+                       @change="onFileChange"
+                       ref="uploadInput"
+                       :accept="`.${openvpnForm.fileAccept}`"
+                       hidden="hidden" />
+              </button>
+              <div v-if="openvpnForm.configFile"
+                   class="config-uploader__status"
+                   :class="{'config-uploader__status--error':isInvalidFile}">
+                <span class="config-uploader__icon"></span>
+                <span>{{isInvalidFile ? $t('trans0691'): $t('trans0689')}}</span>
+              </div>
+            </div>
+            <div class="config-uploader__tip"
+                 :class="{'config-uploader__tip--error':(isInvalidFile || isEmptyFile)}">
+              {{$t('trans0678')}}
+            </div>
+          </div>
+          <div class="openvpn__checkbox">
+            <m-checkbox v-model="openvpnForm.advance"
+                        :text="$t('trans0440')"></m-checkbox>
+          </div>
+          <div class="openvpn-advance"
+               v-if="openvpnForm.advance">
+            <m-form-item key="ousernmae"
+                         class="item"
+                         prop='username'>
+              <m-input :label="$t('trans0410')"
+                       type="text"
+                       :placeholder="$t('trans0321')"
+                       v-model="form.username" />
+            </m-form-item>
+            <m-form-item key="opassword"
+                         class="item"
+                         prop='password'>
+              <m-input :label="$t('trans0003')"
+                       type='password'
+                       :placeholder="`${$t('trans0321')}`"
+                       v-model="form.password"></m-input>
+            </m-form-item>
+          </div>
+        </div>
+        <div v-else-if="form.protocol.toLowerCase() === VPNType.wireguard">
+          <div class="interface__wrapper">
+            <m-form-item key="privateKey"
+                         class="item"
+                         prop="wireguard.interface.private_key"
+                         :rules="wireguardRules.key">
+              <m-input :label="$t('trans1177')"
+                       type="text"
+                       :placeholder="$t('trans0321')"
+                       v-model="form.wireguard.interface.private_key" />
+            </m-form-item>
+            <m-form-item key="addresses"
+                         class="item"
+                         prop="wireguard.interface.addresses[0]"
+                         :rules="wireguardRules.ip">
+              <m-input label="IP"
+                       type="text"
+                       :placeholder="$t('trans0321')"
+                       v-model="form.wireguard.interface.addresses[0]" />
+            </m-form-item>
+            <m-form-item key="listen_port"
+                         class="item"
+                         prop="wireguard.interface.listen_port"
+                         :rules="wireguardRules.port">
+              <m-input :label="$t('trans1155')"
+                       type="number"
+                       :placeholder="$t('trans0478')"
+                       v-model.number="form.wireguard.interface.listen_port" />
+            </m-form-item>
+            <m-form-item key="mtu"
+                         class="item"
+                         prop="wireguard.interface.mtu"
+                         :rules="wireguardRules.mtu">
+              <m-input :label="$t('trans1164')"
+                       type="number"
+                       :placeholder="$t('trans1184')"
+                       v-model.number="form.wireguard.interface.mtu" />
+            </m-form-item>
+          </div>
+          <div class="peers">
+            <h4 class="title">{{$t('trans1165')}}</h4>
+            <div class="peer"
+                 v-for="(peer,index) in form.wireguard.peers"
+                 :key="index">
+              <m-form-item key="preshared_key"
+                           class="item"
+                           :prop="`wireguard.peers[${index}].preshared_key`"
+                           :rules="wireguardRules.preshared_key">
+                <m-input :label="$t('trans1166')"
+                         type="text"
+                         :placeholder="$t('trans0321')"
+                         v-model="peer.preshared_key" />
+              </m-form-item>
+              <m-form-item key="public_key"
+                           class="item"
+                           :prop="`wireguard.peers[${index}].public_key`"
+                           :rules="wireguardRules.key">
+                <m-input :label="$t('trans1176')"
+                         type="text"
+                         :placeholder="$t('trans0321')"
+                         v-model="peer.public_key" />
+              </m-form-item>
+              <m-form-item key="allowed_ips"
+                           class="item"
+                           :prop="`wireguard.peers[${index}].allowed_ips[0]`"
+                           :rules="wireguardRules.ip">
+                <m-input :label="$t('trans1175')"
+                         type="text"
+                         :placeholder="$t('trans0321')"
+                         v-model="peer.allowed_ips[0]" />
+              </m-form-item>
+              <m-form-item key="endpoint_host"
+                           class="item"
+                           :prop="`wireguard.peers[${index}].endpoint_host`"
+                           :rules="wireguardRules.optional_ip">
+                <m-input :label="`${$t('trans1167')} ${$t('trans0411')}`"
+                         type="text"
+                         :placeholder="$t('trans0321')"
+                         v-model="peer.endpoint_host" />
+              </m-form-item>
+              <m-form-item key="endpoint_port"
+                           class="item"
+                           :prop="`wireguard.peers[${index}].endpoint_port`"
+                           :rules="wireguardRules.port">
+                <m-input :label="`${$t('trans1178')} ${$t('trans0411')}`"
+                         type="number"
+                         :placeholder="$t('trans0478')"
+                         v-model.number="peer.endpoint_port" />
+              </m-form-item>
+              <m-form-item key="route_allowed_ips"
+                           class="item"
+                           :prop="`wireguard.peers[${index}].route_allowed_ips`">
+                <m-checkbox :text="$t('trans1157')"
+                            :bold="true"
+                            v-model="peer.route_allowed_ips" />
+              </m-form-item>
+              <m-form-item key="persistent_keepalive"
+                           class="item persistent-keepalive"
+                           :prop="`wireguard.peers[${index}].persistent_keepalive`">
+                <m-checkbox class="checkbox"
+                            :text="$t('trans1179')"
+                            :bold="true"
+                            v-model="isKeepAlive"
+                            @change="handleClickKeepAlive" />
+                <m-input v-if="isKeepAlive"
+                         type="text"
+                         :disabled="true"
+                         :placeholder="$t('trans0321')"
+                         :value="peer.persistent_keepalive" />
+              </m-form-item>
+            </div>
+          </div>
+        </div>
+        <div v-else>
           <m-form-item key="server"
                        class="item"
                        prop='server'>
@@ -50,7 +212,6 @@
           <div class="opz-info"
                v-if="form.protocol===VPNType.pptp">
             <div class="opz">
-
               <m-checkbox v-model="pptp.mppe"
                           :text="$t('trans0412')"
                           :bold="true"></m-checkbox>
@@ -62,57 +223,6 @@
             </div>
           </div>
         </div>
-        <div v-if="form.protocol === VPNType.openvpn">
-          <div class="config-uploader">
-            <div class="config-uploader__label">{{$t('trans0673')}}</div>
-            <div class="config-uploader__inner">
-              <button @click="triggerFileInput"
-                      class="config-uploader__button">
-                <span>{{ openvpnConfigFile ? $t('trans0675') : $t('trans0006') }}</span>
-                <input type="file"
-                       @change="onFileChange"
-                       ref="uploadInput"
-                       :accept="`.${openvpnFileAccept}`"
-                       hidden="hidden" />
-              </button>
-              <div v-if="openvpnConfigFile"
-                   class="config-uploader__status"
-                   :class="{'config-uploader__status--error':isInvalidFile}">
-                <span class="config-uploader__icon"></span>
-                <span>{{isInvalidFile ? $t('trans0691'): $t('trans0689')}}</span>
-              </div>
-            </div>
-            <div class="config-uploader__tip"
-                 :class="{'config-uploader__tip--error':(isInvalidFile || isEmptyFile)}">
-              {{$t('trans0678')}}
-            </div>
-          </div>
-          <div class="openvpn__checkbox">
-            <m-checkbox v-model="openvpnAdvance"
-                        :text="$t('trans0440')"></m-checkbox>
-          </div>
-
-          <div class="openvpn-advance"
-               v-if="openvpnAdvance">
-            <m-form-item key="ousernmae"
-                         class="item"
-                         prop='username'>
-              <m-input :label="$t('trans0410')"
-                       type="text"
-                       :placeholder="$t('trans0321')"
-                       v-model="form.username" />
-            </m-form-item>
-            <m-form-item key="opassword"
-                         class="item"
-                         prop='password'>
-              <m-input :label="$t('trans0003')"
-                       type='password'
-                       :placeholder="`${$t('trans0321')}`"
-                       v-model="form.password"></m-input>
-            </m-form-item>
-          </div>
-        </div>
-
       </m-form>
       <div class="btn-info form-button">
         <button class="btn btn-middle btn-default"
@@ -127,13 +237,25 @@
 <script>
 import { VPNType } from 'base/util/constant';
 import { getStringByte, isValidPassword } from 'base/util/util';
+import wireguardConfig from 'base/mixins/wireguard-config';
+
+const FormType = {
+  add: 'add',
+  update: 'update'
+};
+const Action = {
+  updateVPN: 'updateVPN',
+  addVPN: 'addVPN'
+};
 
 const MAX_FILE_SIZE = 1000 * 1000;
 export default {
+  mixins: [wireguardConfig],
   data() {
     return {
       VPNType,
-      protocols: [
+      FormType,
+      protocolsList: [
         {
           value: VPNType.pptp,
           text: this.$t('trans0414')
@@ -145,19 +267,29 @@ export default {
         {
           value: VPNType.openvpn,
           text: this.$t('trans0676')
+        },
+        {
+          value: VPNType.wireguard,
+          text: this.$t('trans1172')
         }
       ],
-      pptp: {
-        mppe: false,
-        mppc: false
-      },
       form: {
         id: '',
         name: '',
         protocol: VPNType.pptp, // L2TP or PPTP
         server: '',
         username: '',
-        password: ''
+        password: '',
+      },
+      pptp: {
+        mppe: false,
+        mppc: false
+      },
+      openvpnForm: {
+        advance: false,
+        configFile: null,
+        configUrl: '',
+        fileAccept: 'ovpn',
       },
       rules: {
         name: [
@@ -200,12 +332,9 @@ export default {
             },
             message: this.$t('trans0125').format(1, 64)
           }
-        ]
+        ],
       },
-      openvpnAdvance: false,
-      openvpnConfigFile: null,
-      openvpnConfigUrl: '',
-      openvpnFileAccept: 'ovpn',
+      formParams: null,
       isEmptyFile: false
     };
   },
@@ -219,7 +348,29 @@ export default {
           name: vpn.name,
           protocol: vpn.protocol.toLowerCase()
         };
-        if (vpn.protocol !== VPNType.openvpn) {
+        if (vpn.protocol?.toLowerCase() === VPNType.openvpn) {
+          this.form.username = vpn.username;
+          this.form.password = vpn.password;
+          this.openvpnForm.advance = !!(vpn.password || vpn.username);
+          this.openvpnForm.configFile = {
+            update: true
+          };
+        } else if (vpn.protocol?.toLowerCase() === VPNType.wireguard) {
+          const originalWireguard = JSON.parse(JSON.stringify(vpn.wireguard));
+          const modifiedWireguard = {
+            ...originalWireguard,
+            interface: {
+              ...originalWireguard.interface,
+              listen_port: originalWireguard.interface.listen_port || '',
+              mtu: originalWireguard.interface.mtu || '',
+            },
+            peers: originalWireguard.peers.map(peer => ({
+              ...peer,
+              endpoint_port: peer.endpoint_port || '',
+            })),
+          };
+          this.form.wireguard = modifiedWireguard;
+        } else {
           this.form.server = vpn.server;
           this.form.username = vpn.username;
           this.form.password = vpn.password;
@@ -229,13 +380,6 @@ export default {
               mppc: vpn.pptp.mppc
             };
           }
-        } else {
-          this.form.username = vpn.username;
-          this.form.password = vpn.password;
-          this.openvpnAdvance = !!(vpn.password || vpn.username);
-          this.openvpnConfigFile = {
-            update: true
-          };
         }
       } else {
         this.$router.push('/advance/vpn');
@@ -244,51 +388,23 @@ export default {
   },
   computed: {
     formType() {
-      return this.$route.params.id ? 'update' : 'add';
-    },
-    formParams() {
-      this.form.name = this.form.name.trim();
-      const params = {
-        id: this.form.id,
-        name: this.form.name,
-        protocol: this.form.protocol
-      };
-      if (this.form.protocol !== VPNType.openvpn) {
-        params.server = this.form.server;
-        params.username = this.form.username;
-        params.password = this.form.password;
-        if (this.form.protocol === VPNType.pptp) {
-          params.pptp = this.pptp;
-        }
-      } else {
-        if (this.openvpnAdvance) {
-          params.username = this.form.username;
-          params.password = this.form.password;
-        }
-        if (!this.openvpnConfigFile.update) {
-          params.openvpn = {
-            url: this.openvpnConfigUrl
-          };
-        }
-      }
-
-      return params;
+      return this.$route.params.id ? FormType.update : FormType.add;
     },
     isInvalidFile() {
-      if (this.openvpnConfigFile && !this.openvpnConfigFile.update) {
+      if (this.openvpnForm.configFile && !this.openvpnForm.configFile.update) {
         // Don't need validate config file extend name
         // const ext = this.openvpnConfigFile.name.split('.').slice(-1)[0];
         // if (ext !== this.openvpnFileAccept) {
         //   return true;
         // }
-        const { size } = this.openvpnConfigFile;
+        const { size } = this.openvpnForm.configFile;
         // 空文件或者大于1M
         if (size <= 0 || size > MAX_FILE_SIZE) {
           return true;
         }
       }
       return false;
-    }
+    },
   },
   methods: {
     triggerFileInput() {
@@ -299,18 +415,48 @@ export default {
       if (files && !files.length) return;
       this.isEmptyFile = false;
       const postFiles = Array.prototype.slice.call(files);
-      [this.openvpnConfigFile] = postFiles;
+      [this.openvpnForm.configFile] = postFiles;
     },
     upload() {
       const formData = new FormData();
       formData.append('type', 'openvpn');
-      formData.append('file', this.openvpnConfigFile);
-      return this.$http.uploadFile(formData, () => {});
+      formData.append('file', this.openvpnForm.configFile);
+      return this.$http.uploadFile(formData, () => { });
+    },
+    updateFormParams() {
+      this.form.name = this.form.name.trim();
+      let params = {
+        id: this.form.id,
+        name: this.form.name,
+        protocol: this.form.protocol
+      };
+      if (this.form.protocol === VPNType.openvpn) {
+        if (this.openvpnForm.advance) {
+          params.username = this.form.username;
+          params.password = this.form.password;
+        }
+        if (!this.openvpnForm.configFile.update) {
+          params.openvpn = {
+            url: this.openvpnForm.configUrl
+          };
+        }
+      } else if (this.form.protocol === VPNType.wireguard) {
+        console.log(this.form);
+        params = JSON.parse(JSON.stringify(this.form));
+        params = this.deepClean(params);
+      } else {
+        params.server = this.form.server;
+        params.username = this.form.username;
+        params.password = this.form.password;
+        if (this.form.protocol === VPNType.pptp) {
+          params.pptp = this.pptp;
+        }
+      }
+      this.formParams = params;
     },
     submitForm(method) {
       this.$http[method](this.formParams)
         .then(() => {
-          this.$loading.close();
           this.$toast(this.$t('trans0040'), 3000, 'success');
           this.$router.push('/advance/vpn');
         })
@@ -320,7 +466,7 @@ export default {
     },
     submit() {
       if (this.form.protocol === VPNType.openvpn) {
-        if (!this.openvpnConfigFile) {
+        if (!this.openvpnForm.configFile) {
           this.isEmptyFile = true;
           return;
         }
@@ -329,13 +475,14 @@ export default {
         }
       }
       if (this.$refs.form.validate()) {
-        const fetchMethod = this.formType === 'update' ? 'updateVPN' : 'addVPN';
+        const fetchMethod = this.formType === FormType.update ? Action.updateVPN : Action.addVPN;
+        this.updateFormParams();
         this.$loading.open();
         if (this.formParams.protocol === VPNType.openvpn) {
-          if (!this.openvpnConfigFile.update) {
+          if (!this.openvpnForm.configFile.update) {
             this.upload()
               .then(res => {
-                this.openvpnConfigUrl = res.data.result.url;
+                this.openvpnForm.configUrl = res.data.result.url;
                 this.submitForm(fetchMethod);
               })
               .catch(() => {
@@ -348,6 +495,14 @@ export default {
         } else {
           this.submitForm(fetchMethod);
         }
+      }
+    },
+    handleClickKeepAlive() {
+      console.log(this.isKeepAlive);
+      if (this.isKeepAlive) {
+        this.form.wireguard.peers[0].persistent_keepalive = 25;
+      } else {
+        this.form.wireguard.peers[0].persistent_keepalive = 0;
       }
     }
   }
@@ -381,7 +536,7 @@ export default {
     align-items: center;
   }
   .config-uploader__label {
-    color: #333;
+    color: var(--text-default-color);
     margin-bottom: 5px;
     font-size: 14px;
     margin-right: 12px;
@@ -479,6 +634,22 @@ export default {
     width: 160px;
     &:first-child {
       margin-right: 20px;
+    }
+  }
+}
+.peers {
+  .title {
+    margin: 0;
+    font-size: 16px;
+    color: var(--text-default-color);
+    border-top: 1px solid var(--hr-color);
+    padding: 25px 0;
+  }
+  .persistent-keepalive {
+    display: flex;
+    flex-direction: column;
+    .checkbox {
+      margin-bottom: 10px;
     }
   }
 }
