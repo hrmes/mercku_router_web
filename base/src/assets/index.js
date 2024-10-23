@@ -55,7 +55,7 @@ function getDeviceMetaOf(modelAb, modelJ) {
         return jMeta;
     }
     else {
-        return dft;
+        return dftMeta;
     }
 }
 

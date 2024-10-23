@@ -243,6 +243,7 @@ import { Bands, RouterStatus, Color, RouterHasModelDistinctionMap, SnABJMapName,
 import meshEditMixin from 'base/mixins/mesh-edit.js';
 import { getNodeImage } from 'base/mixins/router-model';
 import genData from 'base/util/topo';
+import Assets from 'base/assets';
 
 const echarts = require('echarts/lib/echarts');
 // require('echarts/lib/chart');
@@ -318,10 +319,8 @@ export default {
       return this.selectedNodeInfo?.model?.version?.id || '';
     },
     productName() {
-      const productInfo = process.env.CUSTOMER_CONFIG.routers[
-        SnABJMapName?.[this.modelID]?.[this.modelVersion]
-      ];
-      return productInfo?.shortName || 'Unknown';
+      const meta = Assets.getDeviceMeta();
+      return meta?.shortName || 'Unknown';
     },
     productImgName() {
       if (SnABJMapName?.[this.modelID]?.[this.modelVersion]) {
