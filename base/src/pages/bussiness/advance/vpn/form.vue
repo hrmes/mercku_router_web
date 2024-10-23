@@ -483,6 +483,8 @@ export default {
             this.upload()
               .then(res => {
                 this.openvpnForm.configUrl = res.data.result.url;
+                console.log(`upload success, url: ${this.openvpnForm.configUrl}`);
+                this.updateFormParams();
                 this.submitForm(fetchMethod);
               })
               .catch(() => {

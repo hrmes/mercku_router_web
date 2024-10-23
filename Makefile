@@ -2,7 +2,7 @@ MIN_NPM_VER_MAJOR=6
 MIN_NPM_VER_MINOR=1
 MIN_NPM_VER_PATCH=0
 
-VERSION=1.1.0
+VERSION=1.1.1
 
 CUR_NPM_VER := $(shell npm -v)
 CUR_NPM_VER_MAJOR := $(shell echo $(CUR_NPM_VER) | cut -f1 -d.)
@@ -47,7 +47,7 @@ prd_depend: package.json package-lock.json check_npm_version
 dev_depend: package.json check_npm_version
 	npm i
 
-build: prd_depend
+build: 
 	make -C $(MODEL) CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
 	ln -sf $(MODEL)/dist dist
 	tar -C $(MODEL) -cf webui-$(VERSION)-$(CUSTOMER_ID)-$(MODEL_ID).tar dist
