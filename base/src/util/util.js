@@ -241,6 +241,9 @@ export const getStringByte = str => {
    * 然后按照utf-8的转换方式去计算utf-8的字节数
    * */
   /*  eslint-disable  */
+  if (!str) {
+    return 0;
+  }
   for (const ch of str) {
     const charCode = ch.codePointAt(0);
     if (charCode <= 0x007f) {
