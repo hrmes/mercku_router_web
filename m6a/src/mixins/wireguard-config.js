@@ -41,7 +41,7 @@ export default {
         ],
         preshared_key: [
           {
-            rule: value => value === '' || getStringByte(value) === 44,
+            rule: value => getStringByte(value) === 0 || getStringByte(value) === 44,
             message: this.$t('trans1209')
           }
         ],
