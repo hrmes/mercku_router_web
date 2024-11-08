@@ -33,7 +33,7 @@ export default {
     });
   },
   methods: {
-    updateSsh() {
+    onEnabledChange() {
       if (this.enabled) {
         this.$http.routerSshEnable();
       } else {
