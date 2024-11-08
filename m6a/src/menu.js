@@ -20,7 +20,7 @@ const layout = {
     Safe: "hidden",
     Schedule: "hidden",
     AdvanceFirewall: "show",
-    ExternalPortForwarding: "hidden",
+    // ExternalPortForwarding: "hidden",
     Powersupply: "hidden",
   },
   admin: {
@@ -37,7 +37,7 @@ const layout = {
     Super: "hidden",
     Schedule: "hidden",
     AdvanceFirewall: "show",
-    ExternalPortForwarding: "hidden",
+    // ExternalPortForwarding: "hidden",
     Powersupply: "hidden",
   }
 };
