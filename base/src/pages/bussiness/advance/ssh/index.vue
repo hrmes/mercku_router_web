@@ -2,11 +2,15 @@
   <div class="page">
     <div class="page-content">
       <div class="page-content__main">
-        <div class="content">
-          <div class="content__item content__switch">
-            <m-switch v-model="enabled"
-                      @change="updateSsh"></m-switch>
-            <label for="">{{ SSH }}</label>
+        <div class="row-1">
+          <div class="card">
+            <m-form-item class="last">
+              <m-switch class="form__switch"
+                        v-model="enabled"
+                        :label="$t('ssh')"
+                        @change="onEnabledChange" />
+              <!-- <p class="des-tips">{{$t('trans0643')}}</p> -->
+            </m-form-item>
           </div>
         </div>
       </div>
