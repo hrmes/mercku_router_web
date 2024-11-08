@@ -22,6 +22,7 @@ const layout = {
     AdvanceFirewall: "show",
     // ExternalPortForwarding: "hidden",
     Powersupply: "hidden",
+    AdvanceSsh: "hidden",
   },
   admin: {
     Region: "hidden",
@@ -39,6 +40,7 @@ const layout = {
     AdvanceFirewall: "show",
     // ExternalPortForwarding: "hidden",
     Powersupply: "hidden",
+    AdvanceSsh: "hidden",
   }
 };
 
