@@ -223,6 +223,12 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
         config: strategyA
       },
       {
+        url: '/advance/ssh',
+        name: 'advance-ssh',
+        text: 'ssh',
+        config: strategyA
+      },
+      {
         url: '/advance/tr069',
         name: 'advance-tr069',
         text: 'trans0499',

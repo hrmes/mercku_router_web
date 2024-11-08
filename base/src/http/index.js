@@ -162,6 +162,10 @@ const commonMethods = {
 
 const commonV2Methods = {
   getSessionProfile: createMethod('session.profile'),
+  // getSessionProfile: createMethod('session.profile'),
+  routerSshGet: createMethod('router.ssh.get'),
+  routerSshEnable: createMethod('router.ssh.enable'),
+  routerSshDisable: createMethod('router.ssh.disable'),
 };
 
 // Http.prototype.getSessionProfile = function getSessionProfile() {
