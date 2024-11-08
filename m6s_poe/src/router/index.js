@@ -43,6 +43,7 @@ import diagnosis from 'base/pages/bussiness/advance/diagnosis.vue';
 import log from 'pages/bussiness/advance/log.vue';
 import firewall from 'base/pages/bussiness/advance/firewall.vue';
 import wwa from 'base/pages/bussiness/advance/wwa.vue';
+import ssh from 'base/pages/bussiness/advance/ssh/index.vue';
 import telnet from 'base/pages/bussiness/advance/telnet.vue';
 import tr069 from 'base/pages/bussiness/advance/tr069.vue';
 import backup from 'base/pages/bussiness/advance/backup.vue';
@@ -398,6 +399,15 @@ const routes = {
       path: '/advance/wwa',
       name: 'advance.wwa',
       component: wwa,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/ssh',
+      name: 'advance.ssh',
+      component: ssh,
       meta: {
         layout: 'primary',
         hasAside: true

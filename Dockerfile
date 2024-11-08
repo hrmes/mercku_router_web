@@ -1,4 +1,4 @@
-FROM hub.atomgit.com/library/node:18 AS base
+FROM public.ecr.aws/docker/library/node:18 AS base
 
 RUN apt update && AWS_DEFAULT_REGION=cn-north-1 TZ=Asia/Shanghai DEBIAN_FRONTEND=noninteractive apt install -y awscli
 
