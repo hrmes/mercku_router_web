@@ -7,7 +7,7 @@
             <m-form-item class="last">
               <m-switch class="form__switch"
                         v-model="enabled"
-                        :label="$t('ssh')"
+                        :label="$t('SSH')"
                         @change="onEnabledChange" />
               <!-- <p class="des-tips">{{$t('trans0643')}}</p> -->
             </m-form-item>
@@ -28,6 +28,7 @@ export default {
   },
   mounted() {
     this.$http.routerSshGet().then(res => {
+      console.log("got res:", res);
       const { enabled } = res;
       this.enabled = enabled;
     });

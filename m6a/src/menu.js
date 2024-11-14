@@ -269,8 +269,12 @@ export default function getMenu(role, mode = RouterMode.router, settings = {}) {
       {
         url: '/advance/ssh',
         name: 'advance-ssh',
-        text: 'ssh',
-        config: strategyA
+        text: 'SSH',
+        config: {
+          show: true,
+          auth: [Role.super, Role.admin],
+          mode: [RouterMode.router, RouterMode.bridge]
+        }
       },
       {
         url: '/advance/tr069',
