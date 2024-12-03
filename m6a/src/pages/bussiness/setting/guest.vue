@@ -175,10 +175,6 @@ export default {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0451')
           },
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1021')
-          }
         ],
         password: [
           {
