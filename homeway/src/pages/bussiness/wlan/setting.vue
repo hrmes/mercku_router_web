@@ -225,10 +225,6 @@ export default {
         ],
         password24g: [
           {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
-          },
-          {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')
           },
@@ -256,10 +252,6 @@ export default {
           }
         ],
         password5g: [
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
-          },
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')

@@ -59,7 +59,7 @@ export const isValidInteger = (value, min = 8, max = 24) => {
   }
   return flag;
 };
-export const isValidPassword = (value, min = 8, max = 24) => {
+export const isValidPassword = (value, min = 8, max = 32) => {
   if (!value) {
     return false;
   }

@@ -263,10 +263,6 @@ export default {
             message: this.$t('trans0452')
           },
           {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
-          },
-          {
             rule: value => isValidPassword(value),
             message: this.$t('trans0169')
           }
@@ -289,10 +285,6 @@ export default {
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')
-          },
-          {
-            rule: value => isFieldHasSpaces(value),
-            message: this.$t('trans1020')
           },
           {
             rule: value => isValidPassword(value),
