@@ -356,22 +356,7 @@ export default {
         { value: 'medium', text: this.$t('trans1090') },
         { value: 'low', text: this.$t('trans1091') }
       ],
-      bandwidths: {
-        b24g: new Array(2).fill(0).map((_, i) => {
-          const v = Math.pow(2, i) * 20;
-          return {
-            text: v,
-            value: v
-          };
-        }),
-        b5g: new Array(3).fill(0).map((_, i) => {
-          const v = Math.pow(2, i) * 20;
-          return {
-            text: v,
-            value: v
-          };
-        })
-      },
+
       encryptMethods: [
         {
           value: EncryptMethod.open,
@@ -388,6 +373,27 @@ export default {
       ],
       isAutoChannel: false
     };
+  },
+  computed: {
+    bandwidths() {
+      const profile = this.$store.state.profile?.device_options || {};
+      const bandwidth_2g = profile.bandwidth_2g || [20, 40];
+      const bandwidth_5g = profile.bandwidth_5g || [20, 40, 80];
+      return {
+        b24g: bandwidth_2g.map((v) => {
+          return {
+            text: v,
+            value: v
+          };
+        }),
+        b5g: bandwidth_5g.map((v) => {
+          return {
+            text: v,
+            value: v
+          };
+        })
+      };
+    }
   },
   mounted() {
     this.getInitData();
