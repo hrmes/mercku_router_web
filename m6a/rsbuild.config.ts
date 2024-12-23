@@ -50,14 +50,16 @@ const host = CUSTOMER_CONFIG.host || 'http://mywifi.mercku.tech';
 console.log("host is:" + host);
 var customerAbsPath = null;
 try {
-  customerAbsPath = path.resolve(__dirname, `../base/src/style/customer/${CUSTOMER_ID}/theme.scss`);
+  customerAbsPath = path.resolve(__dirname, `../base/src/style/customer/${CUSTOMER_ID}/theme.scss`)
+    .replace(/\\/g, '/');
   if (!fs.existsSync(customerAbsPath)) {
     throw new Error('File not found');
   }
   console.log("customerAbsPath is:" + customerAbsPath);
 } catch (e) {
   console.error(`No theme file found for customer ${CUSTOMER_ID}`);
-  customerAbsPath = path.resolve(__dirname, `../base/src/style/customer/dft/theme.scss`);
+  customerAbsPath = path.resolve(__dirname, `../base/src/style/customer/dft/theme.scss`)
+    .replace(/\\/g, '/');
 }
 
 export default defineConfig({
@@ -109,11 +111,13 @@ export default defineConfig({
         warnRuleAsWarning: false,
         sassOptions: {
           quietDeps: true,
-          verbose: false
+          verbose: false,
+          includePaths: [
+            path.resolve(__dirname, '../base/src/style'),
+            path.resolve(__dirname, '../base/src/style/customer')
+          ]
         },
-        additionalData: content =>
-          `@import "${customerAbsPath}";
-${content}`
+        additionalData: `@import "${customerAbsPath}";`
       }
     }),
     pluginVue2({

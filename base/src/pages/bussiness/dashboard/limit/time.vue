@@ -282,6 +282,7 @@ export default {
     },
     getList() {
       this.$http.getTimeLimit({ mac: this.form.mac }).then(res => {
+        console.log("res: ", res.data);
         this.timeLimitList = res.data.result;
         if (this.limit && this.limit.time_limit) {
           this.limit.time_limit = this.timeLimitList;

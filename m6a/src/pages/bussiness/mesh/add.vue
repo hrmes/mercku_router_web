@@ -15,7 +15,7 @@
               </div>
             </div>
           </li>
-          <li class="wired__wrap" v-if="featureSupport('MeshWired')">
+          <li class="wired__wrap" v-if="supportMeshWired">
             <div class="card"
                  @click="updateChooseTypeVisible(false,'wired')">
               <div class="inner">
@@ -455,9 +455,9 @@ export default {
       // }
       return img;
     },
-    featureSupport(feature) {
-      const supportedFeatures = this.$store.state?.profile?.supported_features || [];
-      return supportedFeatures.includes(feature);
+    supportMeshWired() {
+      const features = this.$store.state.profile?.supported_features || {};
+      return features?.mesh_wired;
     },
     getM6aSeriesProductNetworkingImg() {
       let img = '';

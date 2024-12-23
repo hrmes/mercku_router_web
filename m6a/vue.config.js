@@ -167,7 +167,7 @@ module.exports = {
     loaderOptions: {
       sass: {
         // @/ is an alias to src/
-        data: `@import "base/style/customer/dft/theme.scss";`
+        data: resolve(`../base/src/style/customer/dft/theme.scss`)
       }
     }
   }

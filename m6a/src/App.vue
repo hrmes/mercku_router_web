@@ -90,8 +90,8 @@ export default {
     },
     menus() {
       console.log("from m6a/src/App.vue");
-      console.log("current settings: ", this.$store.state.profile?.layout?.settings);
-      return getMenu(this.$store.state.role, this.$store.state.mode, this.$store.state.profile?.layout?.settings);
+      console.log("current profile: ", this.$store.state.profile);
+      return getMenu(this.$store.state.role, this.$store.state.mode, this.$store.state.profile);
     },
     header() {
       return document.querySelector('#header');

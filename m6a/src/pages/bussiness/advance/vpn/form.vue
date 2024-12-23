@@ -245,24 +245,7 @@ export default {
     return {
       VPNType,
       FormType,
-      protocolsList: [
-        {
-          value: VPNType.pptp,
-          text: this.$t('trans0414')
-        },
-        {
-          value: VPNType.l2tp,
-          text: this.$t('trans0415')
-        },
-        {
-          value: VPNType.openvpn,
-          text: this.$t('trans0676')
-        },
-        {
-          value: VPNType.wireguard,
-          text: this.$t('trans1172')
-        }
-      ],
+
       form: {
         id: '',
         name: '',
@@ -374,6 +357,32 @@ export default {
     }
   },
   computed: {
+    protocolsList() {
+      let list = [
+        {
+          value: VPNType.pptp,
+          text: this.$t('trans0414')
+        },
+        {
+          value: VPNType.l2tp,
+          text: this.$t('trans0415')
+        }
+      ]
+      const features = this.$store.state.profile?.supported_features || {};
+      if (features?.vpn_wireguard) {
+        list.push({
+          value: VPNType.wireguard,
+          text: this.$t('trans1172')
+        });
+      }
+      if (features?.vpn_openvpn) {
+        list.push({
+          value: VPNType.openvpn,
+          text: this.$t('trans0676')
+        });
+      }
+      return list;
+    },
     formType() {
       return this.isEdit ? FormType.update : FormType.add;
     },

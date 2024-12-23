@@ -83,7 +83,7 @@
               <li class="ip-mac">{{$t('trans0151')}} / {{$t('trans0188')}}</li>
               <!-- 家长控制 -->
               <li class="control"
-                  v-if=' isRouter && featureSupport("ParentControl")'>{{$t('trans0115')}}</li>
+                  v-if=' isRouter && supportParentControl'>{{$t('trans0115')}}</li>
             </template>
           </ul>
         </div>
@@ -295,7 +295,7 @@
                 </li>
                 <!-- 家长控制 -->
                 <li class="control"
-                    v-if='isMobileRow(row.expand) && isRouter && featureSupport("ParentControl")'>
+                    v-if='isMobileRow(row.expand) && isRouter && supportParentControl'>
                   <div class="limit-inner">
                     <span class="limit-icon"
                           @click="()=>forward2limit(row,'time')">
@@ -604,9 +604,9 @@ export default {
     isMobileRow(expand) {
       return this.isMobile ? expand : true;
     },
-    featureSupport(feature) {
-      const supportedFeatures = this.$store.state?.profile?.supported_features || [];
-      return supportedFeatures.includes(feature);
+    supportParentControl() {
+      const features = this.$store.state.profile?.supported_features || {};
+      return features?.parent_control;
     },
     isTimeLimit(row) {
       if (row.time_limit && row.time_limit.length > 0) {

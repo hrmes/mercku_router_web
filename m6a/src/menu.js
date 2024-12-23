@@ -13,7 +13,9 @@ function dashToCamel(dashName) {
   }).join('');
 }
 
-export default function getMenu(role, mode = RouterMode.router, settings = {}) {
+export default function getMenu(role, mode = RouterMode.router, profile = {}) {
+  const settings = profile?.layout?.settings || {};
+  const features = profile?.supported_features || {};
   console.log(`version: ${pageVersion}.${ispName}`);
   console.log('Init menus...');
   console.log(`customer id is: ${customerId}`);
