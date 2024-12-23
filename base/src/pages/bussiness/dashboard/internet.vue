@@ -224,7 +224,6 @@ import { SpeedTestStatus, RouterMode, WanNetStatus, WanType, Models } from 'base
 import { formatBandWidth } from 'base/util/util';
 import speedTestMixin from 'base/mixins/speed-test';
 
-const NeedDisableSpeedtestModels = [Models.M6a]; // M6a系列上网方式为PPPOE时，测速不准确，暂时做隐藏
 export default {
   mixins: [speedTestMixin],
   data() {
@@ -283,8 +282,10 @@ export default {
     isRouter() {
       return RouterMode.router === this.$store.state.mode;
     },
-    disableSpeedtest() { // M6a系列上网方式为PPPOE时，测速不准确，暂时做隐藏
-      return NeedDisableSpeedtestModels.includes(process.env.MODEL_CONFIG.id) &&
+    disableSpeedtest() {
+      const features = this.$store.state.profile?.supported_features || {};
+      const supportSpeedTestOnPPPoE = features?.speed_test_on_pppoe;
+      return !supportSpeedTestOnPPPoE &&
         this.netInfo.type === WanType.pppoe;
     },
     uptimeArr() {
