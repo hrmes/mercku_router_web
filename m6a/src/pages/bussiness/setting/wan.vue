@@ -212,7 +212,7 @@
                 ></m-checkbox>
               </m-form-item>
             </m-form>
-            <template v-if="vlan.enabled">
+            <template v-if="vlan.enabled && supportVlanExt">
               <!-- IP-Phone VLAN ID -->
               <m-form :model="ipPhoneVlan" ref="ipPhoneVlanForm">
                 <m-form-item>
@@ -653,6 +653,10 @@ export default {
     this.getWanNetInfo();
   },
   computed: {
+    supportVlanExt() {
+      const features = this.$store.state.profile?.supported_features || {};
+      return features?.vlan_ext;
+    },
     isPppoe() {
       return this.netType === WanType.pppoe;
     },
