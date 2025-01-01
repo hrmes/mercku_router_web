@@ -227,6 +227,7 @@ export default function getMenu(role, mode = RouterMode.router, profile = {}) {
       {
         url: '/advance/ssh',
         name: 'advance-ssh',
+        feature: 'ssh',
         text: 'ssh',
         config: strategyA
       },
@@ -334,6 +335,19 @@ export default function getMenu(role, mode = RouterMode.router, profile = {}) {
       // }
       return show;
     });
+
+    // 根据 features 来决定菜单显示
+    item.children = item.children.filter(menu => {
+      let feature = menu.feature;
+      if (!feature) {
+        return true;
+      }
+      if (feature in features) {
+        return features[feature];
+      }
+      // 没有被指定的情况，默认不显示。
+      return false;
+    })
 
     // 根据子是否有子级菜单，来判断是否需要 disable 父级菜单
     if (item.children && item.children.length > 0) {
