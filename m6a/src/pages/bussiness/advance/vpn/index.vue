@@ -150,13 +150,15 @@ export default {
             // if (vpn.protocol.toLowerCase() === VPNType.wireguard) {
             //   this.wireguardSwitchHandler(v, vpn);
             // } else {
-              this.createIntervalTask(
-                vpn,
-                false,
-                VPNStatus.ready,
-                VPNStatus.connecting,
-                VPNStatus.connected
-              );
+              setTimeout(() => {
+                this.createIntervalTask(
+                  vpn,
+                  false,
+                  VPNStatus.ready,
+                  VPNStatus.connecting,
+                  VPNStatus.connected
+                );
+              }, 10000);
             // }
           })
           .catch(() => {
@@ -176,13 +178,15 @@ export default {
             // if (vpn.protocol.toLowerCase() === VPNType.wireguard) {
             //   this.wireguardSwitchHandler(v, vpn);
             // } else {
-              this.createIntervalTask(
-                vpn,
-                true,
-                VPNStatus.connected,
-                VPNStatus.disconnecting,
-                VPNStatus.disconnected
-              );
+              setTimeout(() => {
+                this.createIntervalTask(
+                  vpn,
+                  true,
+                  VPNStatus.connected,
+                  VPNStatus.disconnecting,
+                  VPNStatus.disconnected
+                );
+              }, 10000);
             // }
           })
           .catch(() => {
@@ -231,7 +235,7 @@ export default {
           });
         }
         timeout -= 1;
-      }, 1000);
+      }, 3000);
     },
     edit(vpn) {
       if (!this.connecting && !vpn.enabled) {
