@@ -47,6 +47,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         config: strategyA
       },
       {
+        text: 'trans0434',
+        name: 'wanping',
+        url: '/setting/wanping',
+        config: strategyA
+      },
+      {
         text: 'trans0620',
         name: 'ipv6',
         url: '/setting/ipv6',

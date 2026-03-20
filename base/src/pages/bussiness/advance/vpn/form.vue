@@ -66,7 +66,7 @@
               </m-form-item>
             </div>
           </div>
-          <!-- <div v-else-if="form.protocol.toLowerCase() === VPNType.wireguard">
+          <div v-else-if="form.protocol.toLowerCase() === VPNType.wireguard">
             <div class="interface__wrapper">
               <m-form-item key="privateKey"
                            prop="wireguard.interface.private_key"
@@ -168,7 +168,7 @@
                 </m-form-item>
               </div>
             </div>
-          </div> -->
+          </div>
           <div v-else>
             <m-form-item key="server"
                          prop='server'>
@@ -221,7 +221,7 @@
 <script>
 import { VPNType } from 'base/util/constant';
 import { getStringByte, isValidPassword } from 'base/util/util';
-// import wireguardConfig from 'base/mixins/wireguard-config';
+import wireguardConfig from 'base/mixins/wireguard-config';
 
 const FormType = {
   add: 'add',
@@ -234,7 +234,7 @@ const Action = {
 
 const MAX_FILE_SIZE = 1000 * 1000;
 export default {
-  // mixins: [wireguardConfig],
+  mixins: [wireguardConfig],
   props: {
     isEdit: {
       type: Boolean,
@@ -257,11 +257,11 @@ export default {
         {
           value: VPNType.openvpn,
           text: this.$t('trans0676')
+        },
+        {
+          value: VPNType.wireguard,
+          text: this.$t('trans1172')
         }
-        // {
-        //   value: VPNType.wireguard,
-        //   text: this.$t('trans1172')
-        // }
       ],
       form: {
         id: '',
@@ -347,7 +347,20 @@ export default {
             update: true
           };
         } else if (vpn.protocol?.toLowerCase() === VPNType.wireguard) {
-          this.form.wireguard = JSON.parse(JSON.stringify(vpn.wireguard));
+          const originalWireguard = JSON.parse(JSON.stringify(vpn.wireguard));
+          const modifiedWireguard = {
+            ...originalWireguard,
+            interface: {
+              ...originalWireguard.interface,
+              listen_port: originalWireguard.interface.listen_port || '',
+              mtu: originalWireguard.interface.mtu || ''
+            },
+            peers: originalWireguard.peers.map(peer => ({
+              ...peer,
+              endpoint_port: peer.endpoint_port || ''
+            }))
+          };
+          this.form.wireguard = modifiedWireguard;
         } else {
           this.form.server = vpn.server;
           this.form.username = vpn.username;

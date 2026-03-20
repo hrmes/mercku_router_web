@@ -2,7 +2,7 @@
   <div class="page">
     <div v-if="$store.state.isMobile"
          class="page-header">
-      {{ $t('trans0419') }}
+      {{ pageTitle }}
     </div>
     <div class="page-content">
       <div class="page-content__main">
@@ -12,7 +12,7 @@
                     :model="form"
                     ref="form"
                     :rules="rules">
-              <m-form-item>
+              <m-form-item v-if="showJobSelect">
                 <m-select v-model="job_type"
                           :label="$t('trans0070')"
                           :options="jobs"></m-select>
@@ -88,8 +88,24 @@ export default {
         host: ''
       },
       output: '',
-      label: this.$t('trans0463')
+      label: this.$t('trans0463'),
+      wanIfname: ''
     };
+  },
+  computed: {
+    isWanPing() {
+      return (
+        this.$route &&
+        this.$route.meta &&
+        this.$route.meta.diagnosisMode === 'wanping'
+      );
+    },
+    pageTitle() {
+      return this.isWanPing ? this.$t('trans0434') : this.$t('trans0419');
+    },
+    showJobSelect() {
+      return !this.isWanPing;
+    }
   },
   watch: {
     job_type(v) {
@@ -98,18 +114,53 @@ export default {
       } else {
         this.label = this.$t('trans0436');
       }
+    },
+    isWanPing: {
+      handler(val) {
+        if (val) {
+          this.job_type = this.jobs[0].value;
+          this.form.host = '';
+          this.output = '';
+        }
+      },
+      immediate: true
     }
   },
   methods: {
+    getWanIfname() {
+      return this.$http
+        .getWanNetInfo()
+        .then(res => {
+          const ifname = res?.data?.result?.ifname || '';
+          this.wanIfname = ifname;
+          return ifname;
+        })
+        .catch(() => {
+          this.wanIfname = '';
+          return '';
+        });
+    },
+    buildJobParams() {
+      const params = {
+        host: this.form.host
+      };
+      if (this.isWanPing && this.wanIfname) {
+        params.wan_if = this.wanIfname;
+      }
+      return params;
+    },
     diagnosis() {
       this.$loading.open();
-      this.$http
-        .diagnosis({
-          job_type: this.job_type,
-          job_params: {
-            host: this.form.host
-          }
-        })
+      const init = this.isWanPing && !this.wanIfname
+        ? this.getWanIfname()
+        : Promise.resolve(this.wanIfname);
+      init
+        .then(() =>
+          this.$http.diagnosis({
+            job_type: this.job_type,
+            job_params: this.buildJobParams()
+          })
+        )
         .then(res => {
           if (res.data.result.status === TaskStatus.done) {
             this.$loading.close();

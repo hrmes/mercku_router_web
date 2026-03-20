@@ -172,12 +172,19 @@ export default {
       this.updateFirewall();
     },
     updateWanPing(enabled) {
-      if (!enabled) {
-        if (this.pingEnabledInitialized !== this.ping.enabled) {
-          this.wan.ping.ip_limit = this.ip_limit;
-          this.wan.ping.enabled = false;
+      if (enabled) {
+        if (!this.isIpPointed) {
+          this.ping.ip_limit.mode = this.isIpPointed ? Mode.whitelist : Mode.free;
+          this.wan.ping = this.ping;
+          this.ip_limit = cloneDeep(this.wan.ping.ip_limit);
           this.updateFirewall();
         }
+        return;
+      }
+      if (this.pingEnabledInitialized !== this.ping.enabled) {
+        this.wan.ping.ip_limit = this.ip_limit;
+        this.wan.ping.enabled = false;
+        this.updateFirewall();
       }
     },
     submit() {

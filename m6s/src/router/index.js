@@ -179,6 +179,16 @@ const routes = {
       }
     },
     {
+      path: '/setting/wanping',
+      name: 'wanping',
+      component: diagnosis,
+      meta: {
+        layout: 'primary',
+        hasAside: true,
+        diagnosisMode: 'wanping'
+      }
+    },
+    {
       path: '/setting/ipv6',
       name: 'ipv6',
       component: ipv6,
