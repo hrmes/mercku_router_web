@@ -7,9 +7,11 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="card">
+          <div class="card"
+               data-e2e="upnp-card">
             <m-form-item class="last">
               <m-switch class="form__switch"
+                        data-e2e="upnp-switch"
                         v-model="form.enabled"
                         :label="$t('trans0644')"
                         @change="onEnabledChange" />

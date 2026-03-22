@@ -8,9 +8,11 @@
       <div class="page-content__main">
         <div class="row-1">
           <!-- smart_connect -->
-          <div class="smart-connect card">
+          <div class="smart-connect card"
+               data-e2e="wifi-smart-connect-card">
             <div class="smart-connect__inner">
               <m-switch class="smart-connect__switch"
+                        data-e2e="wifi-smart-connect-toggle"
                         @change="changeSmartConnect"
                         v-model="form.smart_connect"
                         :label="$t('trans0397')" />
@@ -18,7 +20,8 @@
             <div class="des-tips">{{ $t('trans0398') }}</div>
           </div>
           <!-- compatible with wifi5 -->
-          <div class="smart-connect card">
+          <div class="smart-connect card"
+               data-e2e="wifi-compatibility-card">
             <div class="smart-connect__inner">
               <m-switch class="smart-connect__switch"
                         v-model="form.compatibility_mode"
@@ -30,6 +33,7 @@
         <div class="row-2">
           <!-- wifi 2.4g -->
           <m-form class="form card"
+                  data-e2e="wifi-24g-form"
                   ref="b24gForm"
                   key="b24gform"
                   :model="form"
@@ -77,6 +81,7 @@
           </m-form>
           <!-- wifi 5g -->
           <m-form v-if="!form.smart_connect"
+                  data-e2e="wifi-5g-form"
                   class="form card"
                   ref="b5gForm"
                   key="b5gform"
@@ -125,6 +130,7 @@
           </m-form>
           <!-- channel -->
           <m-form class="form card"
+                  data-e2e="wifi-channel-form"
                   ref="channelForm"
                   key="channelform"
                   :model="form">
@@ -154,6 +160,7 @@
           </m-form>
           <!-- channel width -->
           <m-form class="form card"
+                  data-e2e="wifi-channel-width-form"
                   ref="channelWdithForm"
                   key="channelWdithForm"
                   :model="form">
@@ -176,6 +183,7 @@
           </m-form>
           <!-- Txpower -->
           <m-form class="form card"
+                  data-e2e="wifi-tx-power-form"
                   ref="wifiTxPowerForm"
                   key="wifiTxPowerform"
                   :model="form">
@@ -193,6 +201,7 @@
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
           <button class="btn"
+                  data-e2e="wifi-submit"
                   v-defaultbutton
                   @click="submit()">
             {{ $t('trans0081') }}

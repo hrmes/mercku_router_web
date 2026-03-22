@@ -6,7 +6,8 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="wan-info card">
+          <div class="wan-info card"
+               data-e2e="wan-summary-card">
             <div>
               <label class="with-colon">{{ $t('trans0317') }}:</label>
               <span>
@@ -36,7 +37,8 @@
           </div>
         </div>
         <div class="row-2">
-          <div class="net-type card">
+          <div class="net-type card"
+               data-e2e="wan-net-type-card">
             <m-form-item>
               <m-select
                 :label="$t('trans0317')"
@@ -178,7 +180,8 @@
               </m-form-item>
             </m-form>
           </div>
-          <div class="card form__vlan">
+          <div class="card form__vlan"
+               data-e2e="wan-vlan-card">
             <m-form-item :class="{ last: !vlan.enabled }">
               <m-switch
                 :label="$t('trans0683')"
@@ -281,7 +284,10 @@
       </div>
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
-          <button class="btn" v-defaultbutton @click="submit()">
+          <button class="btn"
+                  data-e2e="wan-submit"
+                  v-defaultbutton
+                  @click="submit()">
             {{ $t('trans0081') }}
           </button>
         </div>

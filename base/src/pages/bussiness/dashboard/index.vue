@@ -1,9 +1,10 @@
 <template>
   <div class="dashboard customized">
     <div class="net-info">
-      <div class="device inner">
-        <div class="card"
-             @click="forward2page('/dashboard/device/primary')">
+        <div class="device inner">
+          <div class="card"
+               data-e2e="dashboard-device-card"
+               @click="forward2page('/dashboard/device/primary')">
           <div class="row-1">
             <h2 class="main-text">{{$t('trans0174')}}</h2>
           </div>
@@ -82,9 +83,10 @@
           </span>
         </div>
       </div>
-      <div class="internet inner">
-        <div class="card"
-             @click="forward2page('/dashboard/internet')">
+        <div class="internet inner">
+          <div class="card"
+               data-e2e="dashboard-internet-card"
+               @click="forward2page('/dashboard/internet')">
           <div class="row-1">
             <h2 class="main-text">{{$t('trans0366')}}</h2>
             <h6 class="sub-text internet-type">{{networkTypeArr[netInfo.type]}}</h6>
@@ -126,7 +128,8 @@
           </div>
         </div>
       </div>
-      <div class="functional">
+      <div class="functional"
+           data-e2e="dashboard-functional-panel">
         <div class="row-1">
           <div class="mesh-name"
                :title="meshGatewayInfo.name">
@@ -146,6 +149,7 @@
         </div>
         <div class="row-3">
           <button class="btn"
+                  data-e2e="dashboard-mesh-action"
                   @click="forward2page('/dashboard/mesh')">
             <i class="iconfont icon-ic_devices_mesh_normal"></i>
             Mesh

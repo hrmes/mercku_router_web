@@ -1,5 +1,6 @@
 <template>
-  <div class="mk-switch">
+  <div class="mk-switch"
+       v-bind="$attrs">
     <div class="mk-switch__inner"
          :class="{ checked: checked, disabled: disabled }"
          @click="switchValue">
@@ -13,6 +14,7 @@
 </template>
 <script>
 export default {
+  inheritAttrs: false,
   props: {
     disabled: {
       type: Boolean,

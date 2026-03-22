@@ -11,9 +11,11 @@
                 :model="form"
                 :rules='rules'>
           <div class="row-1">
-            <div class="card">
+            <div class="card"
+                 data-e2e="guest-toggle-card">
               <m-form-item class="last card__switch">
                 <m-switch v-model="form.enabled"
+                          data-e2e="guest-enabled-switch"
                           :label="$t('trans0538')"
                           @change="guestEnabledChange" />
                 <p class="des-tips">{{$t('trans0540')}}</p>
@@ -21,22 +23,27 @@
             </div>
           </div>
           <div class="setting"
+               data-e2e="guest-settings-section"
                v-if="form.enabled&&showSettingPage">
             <div class="row-2">
-              <div class="card">
+              <div class="card"
+                   data-e2e="guest-duration-card">
                 <m-form-item class="last"
                              prop='duration'>
                   <m-select v-model="form.duration"
+                            data-e2e="guest-duration-select"
                             :label="$t('trans0521')"
                             :options='checkOps'></m-select>
                 </m-form-item>
               </div>
             </div>
             <div class="row-3">
-              <div class="card">
+              <div class="card"
+                   data-e2e="guest-smart-connect-card">
                 <m-form-item class="last"
                              prop="smart_connect">
                   <m-switch v-model="form.smart_connect"
+                            data-e2e="guest-smart-connect-switch"
                             :label="$t('trans0397')"
                             @change="changeSmartConnect"></m-switch>
                   <!-- <p class="des-tips">{{$t('trans0398')}}</p> -->
@@ -44,7 +51,8 @@
               </div>
             </div>
             <div class="row-4">
-              <div class="card">
+              <div class="card"
+                   data-e2e="guest-24g-card">
                 <div class="form-header"
                      v-show="!form.smart_connect">
                   <span class="form-header__title">{{ $t('trans0677') }}</span>
@@ -72,6 +80,7 @@
                 </m-form-item>
               </div>
               <div class="card"
+                   data-e2e="guest-5g-card"
                    v-show="!form.smart_connect">
                 <div class="form-header">
                   <span class="form-header__title">{{ $t('trans0679') }}</span>
@@ -101,9 +110,11 @@
             </div>
           </div>
           <div class="info"
+               data-e2e="guest-status-section"
                v-if="form.enabled&&showStatusPage">
             <div class="row-2">
-              <div class="card">
+              <div class="card"
+                   data-e2e="guest-status-card">
                 <div class="setting-ssid-info">
                   <p>
                     <label class="title with-colon">
@@ -151,9 +162,11 @@
                   @click='cancel'>{{$t('trans0025')}}</button>
           <button v-if="showStatusPage"
                   class="btn"
+                  data-e2e="guest-edit"
                   @click='toSetting'>{{$t('trans0019')}}</button>
           <button v-else
                   class="btn btn-setting"
+                  data-e2e="guest-submit"
                   @click='submit()'>{{$t('trans0081')}}</button>
         </div>
       </div>

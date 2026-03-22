@@ -1,10 +1,12 @@
 <template>
-  <div class="mk-form">
+  <div class="mk-form"
+       v-bind="$attrs">
     <slot></slot>
   </div>
 </template>
 <script>
 export default {
+  inheritAttrs: false,
   props: ['model', 'rules'],
   methods: {
     validate() {

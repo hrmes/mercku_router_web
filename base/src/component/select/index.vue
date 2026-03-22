@@ -1,5 +1,6 @@
 <template>
   <div class="select-container"
+       v-bind="$attrs"
        :class="{'disabled':disabled,'focus':opened}"
        v-clickoutside="close">
     <label for="">{{label}}</label>
@@ -71,6 +72,7 @@
 import scrollTo from '../utils/scroll-to';
 
 export default {
+  inheritAttrs: false,
   props: {
     options: {
       type: Array,

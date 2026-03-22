@@ -7,9 +7,11 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="card">
+          <div class="card"
+               data-e2e="region-form-card">
             <m-form-item class="last">
               <m-select v-model="form.region.id"
+                        data-e2e="region-select"
                         :label="$t('trans0639')"
                         :options="regions"
                         isDrawerStyle
@@ -22,6 +24,7 @@
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
           <button class="btn"
+                  data-e2e="region-submit"
                   v-defaultbutton
                   @click="updateRegion">{{$t('trans0081')}}</button>
         </div>

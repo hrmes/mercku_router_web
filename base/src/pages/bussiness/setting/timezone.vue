@@ -7,9 +7,11 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="card">
+          <div class="card"
+               data-e2e="timezone-form-card">
             <m-form-item class="last">
               <m-select v-model="form.timezone"
+                        data-e2e="timezone-select"
                         :label="$t('trans0273')"
                         :options="timezones"
                         needProcessing
@@ -22,6 +24,7 @@
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
           <button class="btn"
+                  data-e2e="timezone-submit"
                   v-defaultbutton
                   @click="submit()">{{$t('trans0081')}}</button>
         </div>

@@ -7,7 +7,8 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="card">
+          <div class="card"
+               data-e2e="wps-intro-card">
             <m-form-item class="last">
               <h4>{{$t('trans1168')}}</h4>
               <p class="des-tips">{{$t('trans1169')}}</p>
@@ -17,9 +18,11 @@
         <div class="row-2">
           <div class="card">
             <m-form ref="form"
-                    class='form'>
+                    class='form'
+                    data-e2e="wps-form">
               <m-form-item class="last">
                 <m-select :label="$t('trans1170')"
+                          data-e2e="wps-band-select"
                           v-model="wpsBand"
                           :options="bandList"></m-select>
                 <p class="des-tips">{{$t('trans1171')}}</p>
@@ -32,6 +35,7 @@
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
           <button class="btn"
+                  data-e2e="wps-submit"
                   v-defaultbutton
                   @click="submit()">{{$t('trans0081')}}</button>
         </div>
