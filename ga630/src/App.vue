@@ -1,5 +1,6 @@
 <template>
-  <div class="scrollbar-wrap">
+  <div class="scrollbar-wrap"
+       data-e2e="app-shell">
     <div class="container">
       <div class="app-container router-view">
         <div ref="flexWrap"
@@ -51,7 +52,10 @@ export default {
       const { hasAside } = this.$route.meta;
       let subMenu = [];
       if (hasAside) {
-        const { 2: mainMenuName } = this.$route.path.split('/');
+        const mainMenuName = this.$route.path
+          .split('/')
+          .filter(Boolean)
+          .find(item => ['setting', 'advance', 'upgrade'].includes(item));
         switch (mainMenuName) {
           case 'setting':
             subMenu = this.menus.filter(item => item.name === 'setting');

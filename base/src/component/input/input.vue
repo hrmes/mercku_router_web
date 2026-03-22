@@ -15,6 +15,7 @@
                readonly
                :value="addonBefore" />
         <input v-if="inputType==='number'"
+               v-bind="$attrs"
                @focus="focus"
                @blur="blur"
                @input="onInput"
@@ -26,6 +27,7 @@
                :type="inputType"
                pattern="[0-9]*">
         <input v-else
+               v-bind="$attrs"
                autocomplete="new-password"
                @focus="focus"
                @blur="blur"
@@ -50,6 +52,7 @@
 
 <script>
 export default {
+  inheritAttrs: false,
   props: {
     type: {
       type: String,

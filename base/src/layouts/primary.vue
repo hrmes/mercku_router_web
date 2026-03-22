@@ -7,6 +7,7 @@
           <li v-for="menu in asideInfo.subMenu[0].children"
               :key='menu.name'
               @click="jump(menu)"
+              :data-e2e="asideTestId(menu)"
               :class="{'selected':$route.path.includes(menu.url),'disabled':menu.disabled}">
             <span>{{$t(`${menu.text}`)}}</span>
             <svg v-if="!isMobile"
@@ -77,6 +78,10 @@ export default {
         return document.documentElement.clientWidth;
       }
       return 0;
+    },
+    asideTestId(menu) {
+      const source = menu.name || menu.url || 'item';
+      return `aside-${String(source).replace(/[^a-zA-Z0-9_-]+/g, '-')}`;
     },
     jump(menu) {
       if (menu.disabled) return;

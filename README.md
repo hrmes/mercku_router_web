@@ -93,6 +93,59 @@ NODE_OPTIONS=--openssl-legacy-provider CUSTOMER_ID=0001 MODEL_ID=M6R0 npm run bu
 
 ---
 
+## Playwright E2E
+
+当前仓库已在根目录接入 Playwright，首批只正式维护 `GA630`。
+
+### 运行前提
+
+- 本地会自动启动 `GA630` 前端开发服务器
+- 默认将前端代理到 `http://192.168.127.40:55555`
+- 如需覆盖代理目标，可设置 `DEV_PROXY_HOST`
+- 如需执行登录后的用例，需设置 `PLAYWRIGHT_PASSWORD`
+
+### 安装浏览器
+
+```bash
+npx playwright install chromium
+```
+
+### 常用命令
+
+```bash
+# 查看当前已注册的 E2E 用例
+npx playwright test --config=playwright.config.ts --list
+
+# 跑全部 GA630 用例
+npm run test:e2e:ga630
+
+# 跑完整 E2E 套件
+npm run test:e2e
+
+# 打开 Playwright UI
+npm run test:e2e:ui
+```
+
+### 环境变量示例
+
+```bash
+# 仅验证登录页与基础渲染
+DEV_PROXY_HOST=http://192.168.127.40:55555 npm run test:e2e:ga630
+
+# 执行需要登录的 GA630 用例
+DEV_PROXY_HOST=http://192.168.127.40:55555 PLAYWRIGHT_PASSWORD=your-router-password npm run test:e2e:ga630
+```
+
+### 当前覆盖范围
+
+- 登录页可达
+- `GA630` 顶层导航与功能显隐测试骨架
+- 关键路由可达测试骨架
+
+未提供 `PLAYWRIGHT_PASSWORD` 时，依赖登录的用例会被自动跳过。
+
+---
+
 ## 新增硬件型号指南
 
 ### 步骤 1: 复制型号目录

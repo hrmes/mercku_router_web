@@ -6,7 +6,10 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "dev": "vue-cli-service serve",
-    "test:unit": "vue-cli-service test:unit"
+    "test:unit": "vue-cli-service test:unit",
+    "test:e2e": "playwright test",
+    "test:e2e:ga630": "playwright test --project=ga630",
+    "test:e2e:ui": "playwright test --ui"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -23,6 +26,7 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
+    "@playwright/test": "^1.53.0",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
     "@vue/cli-plugin-babel": "^3.1.1",

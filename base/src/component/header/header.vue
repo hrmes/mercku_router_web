@@ -24,13 +24,15 @@
     <template v-if="isMobile">
       <div class="nav-wrap nav-wrap--mobile"
            v-show="mobileNavVisible">
-        <ul class="nav reset-ul">
+        <ul class="nav reset-ul"
+            data-e2e="nav-root-mobile">
           <li class="nav-item"
               :class="{'selected':menu.selected}"
               :key="menu.key"
               v-for="menu in list"
               @click="showMobileMenu(menu)">
-            <div class="nav-item-content">
+            <div class="nav-item-content"
+                 :data-e2e="menuTestId(menu)">
               <i class="el-menu-item__icon iconfont"
                  :class="menu.selected? menu.selectedIcon : menu.icon"></i>
               <div class="nav-item__text">{{$t(menu.text)}}</div>
@@ -109,6 +111,7 @@
     <div class="nav-wrap nav-wrap--laptop"
          v-else>
       <ul class="nav reset-ul"
+          data-e2e="nav-root"
           v-if="navVisible">
         <li class="nav-item"
             :key="menu.key"
@@ -116,6 +119,7 @@
             :class="{'selected':menu.selected}">
           <div class="nav-item-content"
                @click.stop="jump(menu)"
+               :data-e2e="menuTestId(menu)"
                :data-title="$t(menu.text)">
             <i class="el-menu-item__icon iconfont"
                :class="menu.selected? menu.selectedIcon : menu.icon"></i>
@@ -369,6 +373,14 @@ export default {
     trigerMobileNav() {
       this.mobileNavVisible = !this.mobileNavVisible;
       this.mobileI18nVisible = false;
+    },
+    menuTestId(menu) {
+      const fallback = menu.url || menu.text || `nav-${menu.key}`;
+      const source = menu.name || fallback;
+      const normalized = String(source)
+        .replace(/[^a-zA-Z0-9_-]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+      return `nav-${normalized}`;
     },
     getList() {
       const list = this.navs.map((m, index) => {

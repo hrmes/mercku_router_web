@@ -26,11 +26,13 @@
               <div class="form-item">
                 <m-input :label="$t('trans0067')"
                          :placeholder="$t('trans0321')"
+                         data-e2e="login-password"
                          type="password"
                          v-model="password" />
               </div>
               <div class="form-item">
                 <button class="btn"
+                        data-e2e="login-submit"
                         v-defaultbutton
                         @click.stop="login()">{{this.$t('trans0001')}}</button>
               </div>
