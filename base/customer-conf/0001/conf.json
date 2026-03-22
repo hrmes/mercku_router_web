@@ -49,6 +49,11 @@
       "name": "M6s Nano Wi-Fi6 Router",
       "shortName": "M6s Nano",
       "deviceColors": ["black", "white"]
+    },
+    "GA630": {
+      "name": "GA630 Wi-Fi6 Router",
+      "shortName": "GA630",
+      "deviceColors": ["black", "white"]
     }
   },
   "loading": {

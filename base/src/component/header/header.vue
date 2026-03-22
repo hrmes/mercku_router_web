@@ -377,14 +377,18 @@ export default {
           let selected = false;
           const children = m.children.map((mm, ii) => {
             mm.index = ii;
-            if (this.$route.path.includes(mm.url)) {
+            // 正则匹配：URL 后跟 /、? 或字符串结束，避免 /wan 匹配到 /wanping
+            const regex = new RegExp(`^${mm.url}(/|\\?|$)`);
+            if (regex.test(this.$route.path)) {
               selected = true;
             }
             return { ...mm, children };
           });
           return { ...m, selected, showChild: false };
         }
-        const selected = this.$route.path.includes(m.url);
+        // 父级菜单同样使用正则精确匹配
+        const regex = new RegExp(`^${m.url}(/|\\?|$)`);
+        const selected = regex.test(this.$route.path);
         return { ...m, selected, showChild: false };
       });
       return list;

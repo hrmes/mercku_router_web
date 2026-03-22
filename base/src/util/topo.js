@@ -113,6 +113,15 @@ const picModelColorMap = {
     [Color.bad]: picM6sPOEBad,
     [Color.offline]: picM6sPOEOffline
   },
+  // GA630 复用 M6s 图片
+  [RouterSnAB2Model.GA630]: {
+    [RouterHasModelDistinctionMap.GA630]: {
+      gw: picM6sGateway,
+      [Color.good]: picM6sGood,
+      [Color.bad]: picM6sBad,
+      [Color.offline]: picM6sOffline
+    }
+  },
   default: {
     gw: picDefaultGateway,
     [Color.good]: picDefaultGood,

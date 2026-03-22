@@ -48,7 +48,8 @@ export const RouterSnAB2Model = {
   M6a: '08',
   M6s: '11',
   M6s_Nano: '13',
-  M6s_PoE_pp: '16'
+  M6s_PoE_pp: '16',
+  GA630: '63'
 };
 export const Models = {
   M6: 'M6R0',
@@ -56,7 +57,8 @@ export const Models = {
   M6s: 'M11R1',
   M6s_SFP: 'M11R2',
   M6s_Nano: 'M13R0',
-  M6s_PoE_pp: 'M16R0'
+  M6s_PoE_pp: 'M16R0',
+  GA630: 'GA630'
 };
 export const ModelIds = Object.entries(Models).reduce((model, [key, value]) => {
   model[value] = key;
@@ -68,7 +70,8 @@ export const SnABJMapName = {
   '08': { 0: 'M6a', 1: 'M6a_Plus', 2: 'M6c' },
   11: { 0: 'M6s', 1: 'M6s', 2: 'M6s_SFP' },
   13: { 0: 'M6s_Nano' },
-  16: { 0: 'M6s_PoE_pp' }
+  16: { 0: 'M6s_PoE_pp' },
+  63: { 0: 'GA630' }
 };
 export const ModelIdJMapName = {
   M6R0: { 0: 'M6' },
@@ -76,14 +79,16 @@ export const ModelIdJMapName = {
   M11R1: { 1: 'M6s' },
   M11R2: { 2: 'M6s_SFP' },
   M13R0: { 0: 'M6s Nano' },
-  M16R0: { 0: 'M6s PoE_pp' }
+  M16R0: { 0: 'M6s PoE_pp' },
+  GA630: { 0: 'GA630' }
 };
 export const RouterHasModelDistinctionMap = {
   M6a: '0',
   M6a_Plus: '1',
   M6c: '2',
   M6s: '1',
-  M6s_SFP: '2'
+  M6s_SFP: '2',
+  GA630: '0'
 };
 export const SpeedTestStatus = {
   testing: 'testing',
