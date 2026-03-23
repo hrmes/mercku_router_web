@@ -88,6 +88,7 @@
           </div>
         </div>
         <div class="file__error"
+             data-e2e="offline-upgrade-error"
              v-if="uploadFail">
           {{ err || $t('trans0341') }}
         </div>

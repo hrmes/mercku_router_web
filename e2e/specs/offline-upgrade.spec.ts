@@ -1,4 +1,7 @@
 import { expect, test } from '../fixtures/app';
+import fs from 'node:fs/promises';
+import os from 'node:os';
+import path from 'node:path';
 
 import { openAppRoute } from '../helpers/navigation';
 import { byE2E } from '../helpers/selectors';
@@ -34,5 +37,41 @@ test.describe('GA630 offline upgrade', () => {
       await expect(page.locator(byE2E('offline-upgrade-node')).first()).toBeVisible();
       await expect(page.locator(byE2E('offline-upgrade-submit'))).toBeVisible();
     }
+  });
+
+  test('rejects files that do not match the accepted firmware extension', async ({ page, loginToShell }) => {
+    test.skip(!process.env.PLAYWRIGHT_PASSWORD, 'PLAYWRIGHT_PASSWORD is required');
+
+    const invalidPath = path.join(os.tmpdir(), 'ga630-invalid-upgrade.bin');
+    await fs.writeFile(invalidPath, 'not-a-firmware');
+
+    await loginToShell();
+    await openAppRoute(page, '/upgrade/offline');
+
+    await page
+      .locator(`${byE2E('offline-upgrade-upload')} input[type="file"]`)
+      .setInputFiles(invalidPath);
+
+    await expect(page.locator(byE2E('offline-upgrade-error'))).toBeVisible();
+    await expect(page.locator(byE2E('offline-upgrade-nodes'))).toHaveCount(0);
+    await expect(page.locator(byE2E('offline-upgrade-submit'))).toHaveCount(0);
+  });
+
+  test('rejects empty firmware packages before upload starts', async ({ page, loginToShell }) => {
+    test.skip(!process.env.PLAYWRIGHT_PASSWORD, 'PLAYWRIGHT_PASSWORD is required');
+
+    const emptyPath = path.join(os.tmpdir(), 'ga630-empty-upgrade.ma');
+    await fs.writeFile(emptyPath, '');
+
+    await loginToShell();
+    await openAppRoute(page, '/upgrade/offline');
+
+    await page
+      .locator(`${byE2E('offline-upgrade-upload')} input[type="file"]`)
+      .setInputFiles(emptyPath);
+
+    await expect(page.locator(byE2E('offline-upgrade-error'))).toBeVisible();
+    await expect(page.locator(byE2E('offline-upgrade-nodes'))).toHaveCount(0);
+    await expect(page.locator(byE2E('offline-upgrade-submit'))).toHaveCount(0);
   });
 });

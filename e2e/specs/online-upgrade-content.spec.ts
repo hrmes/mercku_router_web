@@ -33,6 +33,25 @@ test.describe('GA630 online upgrade content', () => {
     await expect(page.locator(byE2E('online-upgrade-submit'))).toBeVisible();
   });
 
+  test('keeps the upgrade action hidden when no upgradable nodes are available', async ({ page, loginToShell }) => {
+    test.skip(!process.env.PLAYWRIGHT_PASSWORD, 'PLAYWRIGHT_PASSWORD is required');
+
+    await loginToShell();
+    await openAppRoute(page, '/upgrade/online');
+
+    const nodes = page.locator(byE2E('online-upgrade-node'));
+    test.skip((await nodes.count()) > 0, 'Upgradable nodes are available in this environment');
+
+    const success = page.locator(byE2E('online-upgrade-success'));
+    const error = page.locator(byE2E('online-upgrade-error'));
+    const loading = page.locator(byE2E('global-loading'));
+    await expect(success.or(error).or(loading).first()).toBeVisible();
+    test.skip(await loading.isVisible(), 'Online upgrade is still loading in this environment');
+
+    await expect(page.locator(byE2E('online-upgrade-message'))).toBeVisible();
+    await expect(page.locator(byE2E('online-upgrade-submit'))).toHaveCount(0);
+  });
+
   test('opens the changelog modal for a node that provides changelog content', async ({ page, loginToShell }) => {
     test.skip(!process.env.PLAYWRIGHT_PASSWORD, 'PLAYWRIGHT_PASSWORD is required');
 
