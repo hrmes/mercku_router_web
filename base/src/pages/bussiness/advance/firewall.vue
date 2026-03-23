@@ -5,7 +5,8 @@
       {{$t('trans0424')}}
     </div>
     <div class="page-content">
-      <div class="content">
+      <div class="content"
+           data-e2e="firewall-wan-dos-card">
         <div class="content__item content__switch firewall">
           <m-switch v-model="wan.dos"
                     @change="updateWanDos"></m-switch>
@@ -13,7 +14,8 @@
         </div>
       </div>
       <div class="page-content__main">
-        <div class="content">
+        <div class="content"
+             data-e2e="firewall-ping-card">
           <div class="content__item content__switch">
             <m-switch v-model="ping.enabled"
                       @change="updateWanPing"></m-switch>
@@ -63,6 +65,7 @@
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
           <button class="btn"
+                  data-e2e="firewall-submit"
                   v-defaultbutton
                   @click="submit">{{$t('trans0081')}}</button>
         </div>

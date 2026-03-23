@@ -1,5 +1,6 @@
 <template>
   <div class="radio-card-group-container"
+       v-bind="$attrs"
        :class="`${direction}`">
     <div class="option"
          @click="check(option)"
@@ -20,6 +21,7 @@
 </template>
 <script>
 export default {
+  inheritAttrs: false,
   props: {
     value: {},
     direction: {

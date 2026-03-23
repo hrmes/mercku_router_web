@@ -1,7 +1,11 @@
 // loading.vue
 <template>
   <transition name="loading">
-    <div v-if="visible" class="loading-container" id="loading-wrap">
+    <div
+      v-if="visible"
+      class="loading-container"
+      id="loading-wrap"
+      data-e2e="global-loading">
       <div class="loading-wrap">
         <div id="loadingImg"></div>
       </div>

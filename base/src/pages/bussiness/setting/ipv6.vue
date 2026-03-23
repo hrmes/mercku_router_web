@@ -7,9 +7,11 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="card">
+          <div class="card"
+               data-e2e="ipv6-toggle-card">
             <m-form-item class="last">
               <m-switch v-model="enabled"
+                        data-e2e="ipv6-enabled-switch"
                         :label="$t('trans0620')"
                         @change="ipv6EnabledChange" />
             </m-form-item>
@@ -17,7 +19,8 @@
         </div>
         <div class="row-2">
           <template v-if="enabled">
-            <div class="form card">
+            <div class="form card"
+                 data-e2e="ipv6-status-card">
               <div class="form-header">
                 <span class="form-header__title">{{ $t('trans0622') }}</span>
               </div>
@@ -40,7 +43,8 @@
                 </div>
               </div>
             </div>
-            <div class=" form card">
+            <div class=" form card"
+                 data-e2e="ipv6-config-card">
               <div class="form-header">
                 <span class="form-header__title">{{ $t('trans0623') }}</span>
               </div>
@@ -51,6 +55,7 @@
                 </div>
                 <m-form-item>
                   <m-select :label="$t('trans0317')"
+                            data-e2e="ipv6-network-type-select"
                             v-model="netType"
                             :options="wanTypeOptions"></m-select>
                   <div class="des-tips"
@@ -63,17 +68,21 @@
                         ref="autoForm"
                         :model="autoForm"
                         :rules="autoRules"
-                        class="auto-form">
+                        class="auto-form"
+                        data-e2e="ipv6-auto-form">
                   <m-form-item :class="{last:autodns}">
                     <m-select :label="$t('trans0401')"
+                              data-e2e="ipv6-auto-dns-select"
                               v-model="autodns"
                               :options="dnsOptions"></m-select>
                   </m-form-item>
                   <template v-if="!autodns">
                     <m-form-item class="last"
                                  prop='dns'
-                                 ref="dns">
+                                 ref="dns"
+                                 data-e2e="ipv6-auto-dns-fields">
                       <m-input :label="$t('trans0236')"
+                               data-e2e="ipv6-auto-dns-input"
                                type="text"
                                :placeholder="IPv6DefaultPlaceholder"
                                v-model="autoForm.dns" />
@@ -86,15 +95,18 @@
                         ref="pppoeForm"
                         :model="pppoeForm"
                         :rules='pppoeRules'
-                        class="pppoe-form">
+                        class="pppoe-form"
+                        data-e2e="ipv6-pppoe-form">
                   <m-form-item prop='account'>
                     <m-input :label="$t('trans0155')"
+                             data-e2e="ipv6-pppoe-account"
                              type="text"
                              :placeholder="`${$t('trans0321')}`"
                              v-model="pppoeForm.account"></m-input>
                   </m-form-item>
                   <m-form-item prop='password'>
                     <m-input :label="$t('trans0156')"
+                             data-e2e="ipv6-pppoe-password"
                              type='password'
                              :placeholder="`${$t('trans0321')}`"
                              v-model="pppoeForm.password" />
@@ -108,14 +120,17 @@
                   </m-form-item>
                   <m-form-item :class="{last:autodns}">
                     <m-select :label="$t('trans0401')"
+                              data-e2e="ipv6-pppoe-dns-select"
                               v-model="autodns"
                               :options="dnsOptions"></m-select>
                   </m-form-item>
                   <template v-if="!autodns">
                     <m-form-item prop='dns'
                                  ref="dns"
-                                 class="last">
+                                 class="last"
+                                 data-e2e="ipv6-pppoe-dns-fields">
                       <m-input :label="$t('trans0236')"
+                               data-e2e="ipv6-pppoe-dns-input"
                                type="text"
                                :placeholder="IPv6DefaultPlaceholder"
                                v-model="pppoeForm.dns" />
@@ -128,32 +143,41 @@
                         ref="staticForm"
                         :model="staticForm"
                         :rules='staticRules'
-                        class="static-form">
+                        class="static-form"
+                        data-e2e="ipv6-static-form">
                   <m-form-item prop="ip"
-                               ref="ip">
+                               ref="ip"
+                               data-e2e="ipv6-static-ip-field">
                     <m-input :label="$t('trans0151')"
+                             data-e2e="ipv6-static-ip-input"
                              type="text"
                              :placeholder="IPv6DefaultPlaceholder"
                              v-model="staticForm.ip" />
                   </m-form-item>
                   <m-form-item prop='prefixLength'
-                               ref="prefixLength">
+                               ref="prefixLength"
+                               data-e2e="ipv6-static-prefix-field">
                     <m-input :label="$t('trans0694')"
+                             data-e2e="ipv6-static-prefix-input"
                              type="text"
                              placeholder="1-128"
                              v-model="staticForm.prefixLength" />
                   </m-form-item>
                   <m-form-item prop='gateway'
-                               ref="gateway">
+                               ref="gateway"
+                               data-e2e="ipv6-static-gateway-field">
                     <m-input :label="$t('trans0153')"
+                             data-e2e="ipv6-static-gateway-input"
                              type="text"
                              :placeholder="IPv6DefaultPlaceholder"
                              v-model="staticForm.gateway" />
                   </m-form-item>
                   <m-form-item class="last"
                                prop='dns'
-                               ref="dns">
+                               ref="dns"
+                               data-e2e="ipv6-static-dns-field">
                     <m-input :label="$t('trans0236')"
+                             data-e2e="ipv6-static-dns-input"
                              type="text"
                              :placeholder="IPv6DefaultPlaceholder"
                              v-model="staticForm.dns" />
@@ -168,6 +192,7 @@
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
           <button class="btn"
+                  data-e2e="ipv6-submit"
                   v-defaultbutton
                   @click="submit()">{{$t('trans0081')}}</button>
         </div>

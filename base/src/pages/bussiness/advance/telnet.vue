@@ -4,8 +4,10 @@
       {{$t('trans0497')}}
     </div>
     <div class="page-content">
-      <div class="form">
+      <div class="form"
+           data-e2e="telnet-card">
         <m-switch :label="$t('trans0462')"
+                  data-e2e="telnet-switch"
                   v-model="telnet"
                   @change="updateTelnet"></m-switch>
       </div>

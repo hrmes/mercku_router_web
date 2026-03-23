@@ -6,18 +6,22 @@
     </div>
     <div class="page-content">
       <div class="page-content__main">
-        <div class="form">
+        <div class="form"
+             data-e2e="log-form">
           <div class="form-item">
             <m-switch :label="$t('trans0462')"
+                      data-e2e="log-enabled-switch"
                       v-model="enabled"
                       @change="updateEnabled"></m-switch>
             <div class="btn-wrap"
                  v-if="enabled">
               <button class="btn btn-small"
+                      data-e2e="log-refresh"
                       @click="getSyslog">{{$t('trans0481')}}</button>
             </div>
           </div>
           <div class="log-container"
+               data-e2e="log-container"
                v-show="enabled">
             <pre>{{previous}}</pre>
             <pre class="increase"

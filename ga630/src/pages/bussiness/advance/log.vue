@@ -7,6 +7,7 @@
     <div class="page-content">
       <div class="page-content__main">
         <m-form class="form"
+                data-e2e="log-form"
                 ref="form"
                 :model="logSetting"
                 :rules="rules">
@@ -16,12 +17,14 @@
           <div class="card">
             <m-form-item prop="level">
               <m-select :label="$t('trans1143')"
+                        data-e2e="log-level-select"
                         v-model="logSetting.level"
                         :options="logLevel"></m-select>
               <p class="des-tips">{{$t('trans1152')}}</p>
             </m-form-item>
             <m-form-item prop="capacity">
               <m-input :label="$t('trans1156')"
+                       data-e2e="log-capacity-input"
                        v-model="logSetting.capacity"
                        type="number"
                        :placeholder="`${$t('trans1154')}`"></m-input>
@@ -29,6 +32,7 @@
             </m-form-item>
             <m-form-item class="last">
               <button class="btn"
+                      data-e2e="log-submit"
                       v-defaultbutton
                       @click="updateSetting()">
                 {{ $t('trans0081') }}

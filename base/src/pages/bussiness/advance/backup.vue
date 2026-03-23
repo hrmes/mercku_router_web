@@ -5,7 +5,8 @@
       {{$t('trans1010')}}
     </div>
     <div class="page-content">
-      <div class="backup">
+      <div class="backup"
+           data-e2e="backup-download-card">
         <div class="backup-wrapper">
           <div class="backup-wrapper__content">
             <p class="backup__tips">{{$t('trans1011')}}</p>
@@ -13,13 +14,15 @@
             <p class="backup__tips backup__tips--danger">*{{$t('trans1012')}}</p>
           </div>
           <button class="btn operate-btn"
+                  data-e2e="backup-download-button"
                   :class="{'btn-default':isMobile,'btn-middle':!isMobile}"
                   :disabled="isDownloading"
                   @click="getBackup">{{$t('trans1013')}}</button>
         </div>
       </div>
       <div class="page-content__main">
-        <div class="restore">
+        <div class="restore"
+             data-e2e="backup-restore-card">
           <div class='restore-header'>
             {{$t('trans1014')}}
           </div>
@@ -43,9 +46,10 @@
           </div>
         </div>
       </div>
-      <div class="page-content__bottom">
+          <div class="page-content__bottom">
         <div class="form-button__wrapper">
           <button class="btn btn-primary"
+                  data-e2e="backup-restore-submit"
                   @click="restoreBackup"
                   :disabled="!uplodaSuccess">{{$t('trans1027')}}</button>
         </div>

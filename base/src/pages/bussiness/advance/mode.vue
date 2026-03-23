@@ -7,10 +7,12 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="card">
+          <div class="card"
+               data-e2e="mode-form-card">
             <m-form>
               <m-form-item class="last">
                 <m-radio-group v-model="mode"
+                               data-e2e="mode-options"
                                :options="modes"
                                direction="vertical"></m-radio-group>
                 <p class="des-tips">{{$t('trans0543')}}</p>
@@ -22,6 +24,7 @@
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
           <button class="btn primary"
+                  data-e2e="mode-submit"
                   v-defaultbutton
                   @click="updateMode">{{$t('trans0081')}}</button>
         </div>

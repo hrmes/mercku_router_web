@@ -7,13 +7,15 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="card">
+          <div class="card"
+               data-e2e="dmz-form-card">
             <m-form ref="form"
                     class='form'
                     :model="dmz"
                     :rules='rules'>
               <m-form-item prop='ip'>
                 <m-input :label="$t('trans0457')"
+                         data-e2e="dmz-ip-input"
                          :placeholder="`${$t('trans0321')}`"
                          v-model="dmz.ip"></m-input>
               </m-form-item>
@@ -30,6 +32,7 @@
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
           <button class="btn"
+                  data-e2e="dmz-submit"
                   v-defaultbutton
                   @click="submit()">{{$t('trans0081')}}</button>
         </div>

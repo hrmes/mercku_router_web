@@ -7,9 +7,11 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="card">
+          <div class="card"
+               data-e2e="sfp-card">
             <m-form-item>
               <m-radio-card-group v-model="wanInterface"
+                                  data-e2e="sfp-interface-group"
                                   :options="interfaceList"
                                   direction="vertical"></m-radio-card-group>
             </m-form-item>
@@ -22,6 +24,7 @@
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
           <button class="btn"
+                  data-e2e="sfp-submit"
                   v-defaultbutton
                   @click="submit">{{$t('trans0081')}}</button>
         </div>

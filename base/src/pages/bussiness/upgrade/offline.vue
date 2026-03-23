@@ -1,12 +1,14 @@
 <template>
-  <div class="page">
+  <div class="page"
+       data-e2e="offline-upgrade-page">
     <div v-if="$store.state.isMobile" class="page-header">
       {{ $t('trans0204') }}
     </div>
     <div class="page-content">
       <div class="page-content__main">
         <div class="form">
-          <div class="description">
+          <div class="description"
+               data-e2e="offline-upgrade-description">
             <p>
               1.
               <span>{{ $t('trans0332') }}&nbsp;</span>
@@ -28,7 +30,8 @@
               <span>{{ $t('trans0348') }}</span>
             </p>
           </div>
-          <div class="upload">
+          <div class="upload"
+               data-e2e="offline-upgrade-upload">
             <m-upload
               ref="uploader"
               dragable
@@ -44,6 +47,7 @@
           <div
             class="nodes-wrapper"
             v-if="uploadStatus === UploadStatus.success && hasUpgradablityNodes"
+            data-e2e="offline-upgrade-nodes"
             ref="renodes"
           >
             <div
@@ -55,7 +59,11 @@
             >
               {{ $t('trans0333') }}
               <div v-if="$store.state.isMobile" class="retitle__btn-wrap">
-                <button @click="upgrade()" class="btn btn-small retitle__btn">
+                <button
+                  @click="upgrade()"
+                  class="btn btn-small retitle__btn"
+                  data-e2e="offline-upgrade-submit"
+                >
                   {{ $t('trans0225') }}
                 </button>
               </div>
@@ -70,6 +78,7 @@
                 v-for="node in localNodesOrdered"
                 :key="node.sn"
                 class="node"
+                data-e2e="offline-upgrade-node"
               >
                 <div class="message" @click="check(node)">
                   <m-checkbox :readonly="true" v-model="node.checked" />
@@ -103,6 +112,7 @@
             v-if="
               uploadStatus === UploadStatus.success && !hasUpgradablityNodes
             "
+            data-e2e="offline-upgrade-empty"
           >
             <p>
               <img src="../../../assets/images/icon/ic_hint.png" alt="" />
@@ -122,7 +132,9 @@
         "
       >
         <div class="form-button__wrapper">
-          <button class="btn" @click="upgrade()">
+          <button class="btn"
+                  data-e2e="offline-upgrade-submit"
+                  @click="upgrade()">
             {{ $t('trans0225') }}
           </button>
         </div>

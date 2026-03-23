@@ -7,18 +7,21 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="card">
+          <div class="card"
+               data-e2e="wwa-form-card">
             <m-form class="form"
                     ref="wwa"
                     :model="wwa"
                     :rules="wwaRules">
               <m-form-item prop="port">
                 <m-input :label="$t('trans0495')"
+                         data-e2e="wwa-port-input"
                          v-model="wwa.port"
                          :placeholder="$t('trans0321')"></m-input>
               </m-form-item>
               <m-form-item prop="allowed_ip">
                 <m-input :label="`${$t('trans0575')} ${$t('trans0411')}`"
+                         data-e2e="wwa-allowed-ip-input"
                          v-model="wwa.allowed_ip"
                          :placeholder="$t('trans0492')"></m-input>
               </m-form-item>
@@ -35,6 +38,7 @@
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
           <button class="btn btn-primary"
+                  data-e2e="wwa-submit"
                   @click="updateWWA">{{$t('trans0081')}}</button>
         </div>
       </div>

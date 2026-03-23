@@ -1,5 +1,6 @@
 <template>
-  <div class="device">
+  <div class="device"
+       data-e2e="dashboard-device-page">
     <div class="device-wrapper">
       <div class="back-wrap">
         <div class="btn-container"
@@ -10,6 +11,7 @@
              class="text-container">{{pageName}}</div>
         <m-tabs v-if="!isMobile">
           <m-tab :key="tab.id"
+                 :data-e2e="`dashboard-device-tab-${tab.id}`"
                  @click.native="tabChange(tab.id)"
                  v-for="tab in tabs"
                  :class="{'selected':isCurrentTab(tab)}">
@@ -21,6 +23,7 @@
       </div>
       <m-tabs v-if="isMobile">
         <m-tab :key="tab.id"
+               :data-e2e="`dashboard-device-tab-${tab.id}`"
                @click.native="tabChange(tab.id)"
                v-for="tab in tabs"
                :class="{'selected':isCurrentTab(tab)}">
@@ -36,6 +39,7 @@
           {{$t('trans0517')}}
         </div>
         <div class="table-head"
+             data-e2e="dashboard-device-table-head"
              v-if="!isMobile">
           <ul class="reset-ul"
               :class="{'offline':isOfflineDevices}">
@@ -87,7 +91,8 @@
             </template>
           </ul>
         </div>
-        <div class="table-body">
+        <div class="table-body"
+             data-e2e="dashboard-device-table-body">
           <!-- 离线设备批量管理列 -->
           <div class="offline-handle-wrapper"
                v-if="isMobile && isOfflineDevices">
@@ -106,12 +111,14 @@
             </div>
           </div>
           <div class="loading-container"
+               data-e2e="dashboard-device-loading"
                v-if="showLoading">
             <m-loading :color="loadingColor"></m-loading>
           </div>
           <div v-else>
             <ul v-for="(row,i) in devicesMap[id]"
                 :key='i'
+                data-e2e="dashboard-device-list"
                 :class="{'expand':row.expand,
                          'offline':isOfflineDevices,
                          'online':!isOfflineDevices}"
@@ -325,6 +332,7 @@
               </template>
             </ul>
             <div class='table-empty'
+                 data-e2e="dashboard-device-empty"
                  v-if="!devicesMap[id]||(devicesMap[id]&&devicesMap[id].length===0)">
               <img :src="require('base/assets/images/common/img_default_empty.png')">
               <span>{{$t('trans0278')}}</span>

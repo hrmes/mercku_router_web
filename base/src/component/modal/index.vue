@@ -1,6 +1,7 @@
 <template>
   <transition name="modal">
     <div class="modal-dialog"
+         v-bind="$attrs"
          v-if="open">
       <div class="mask"></div>
       <div v-clickoutside="close"
@@ -18,6 +19,7 @@ const Types = {
 };
 
 export default {
+  inheritAttrs: false,
   props: {
     visible: {
       type: Boolean,

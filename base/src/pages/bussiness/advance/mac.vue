@@ -7,9 +7,11 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="card">
+          <div class="card"
+               data-e2e="mac-card">
             <div class="form-item">
               <div @click="setSelected(true)"
+                   data-e2e="mac-default-option"
                    class="wrapper"
                    :class="{'selected':isBoolDefault}">
                 <div class="radio"></div>
@@ -19,6 +21,7 @@
             </div>
             <div class="form-item">
               <div @click="setSelected(false)"
+                   data-e2e="mac-custom-option"
                    class="wrapper"
                    :class="{'selected':!isBoolDefault}">
                 <div class="radio"></div>
@@ -47,6 +50,7 @@
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
           <button class="btn"
+                  data-e2e="mac-submit"
                   v-defaultbutton
                   @click="updateMac">{{$t('trans0081')}}</button>
         </div>

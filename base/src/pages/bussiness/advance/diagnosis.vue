@@ -1,14 +1,16 @@
 <template>
   <div class="page">
     <div v-if="$store.state.isMobile"
-         class="page-header">
+        class="page-header">
       {{ pageTitle }}
     </div>
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="card">
+          <div class="card"
+               :data-e2e="isWanPing ? 'wanping-form-card' : 'diagnosis-form-card'">
             <m-form class="form"
+                    :data-e2e="isWanPing ? 'wanping-form' : 'diagnosis-form'"
                     :model="form"
                     ref="form"
                     :rules="rules">
@@ -20,6 +22,7 @@
               <m-form-item class="last"
                            prop="host">
                 <m-input v-model="form.host"
+                         :data-e2e="isWanPing ? 'wanping-host-input' : 'diagnosis-host-input'"
                          :label="label"
                          :placeholder="$t('trans0321')"></m-input>
               </m-form-item>
@@ -28,8 +31,10 @@
         </div>
         <div class="row-2"
              v-if="output">
-          <div class="card">
-            <div class="log-container">
+          <div class="card"
+               :data-e2e="isWanPing ? 'wanping-output-card' : 'diagnosis-output-card'">
+            <div class="log-container"
+                 :data-e2e="isWanPing ? 'wanping-output' : 'diagnosis-output'">
               <pre>{{ output }}</pre>
             </div>
           </div>
@@ -38,6 +43,7 @@
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
           <button class="btn btn-primary"
+                  :data-e2e="isWanPing ? 'wanping-start' : 'diagnosis-start'"
                   v-defaultbutton
                   @click="start">
             {{ $t('trans0467') }}

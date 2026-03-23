@@ -4,6 +4,7 @@ import { ga630Project } from './e2e/projects/ga630';
 export default defineConfig({
   testDir: './e2e/specs',
   timeout: 30_000,
+  workers: Number(process.env.PLAYWRIGHT_WORKERS || 1),
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
   passWithNoTests: true,

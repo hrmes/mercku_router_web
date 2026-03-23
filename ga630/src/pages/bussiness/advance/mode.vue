@@ -7,10 +7,12 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="card">
+          <div class="card"
+               data-e2e="mode-form-card">
             <div class="form">
               <m-form-item class="last">
                 <m-radio-group v-model="mode"
+                               data-e2e="mode-options"
                                :options="modes"
                                direction="vertical"></m-radio-group>
                 <p class="note"
@@ -85,6 +87,7 @@
            v-show="modeHasChange||upperApForm.ssid!==''&&upperApForm.band!==''">
         <div class="form-button__wrapper">
           <button class="btn primary"
+                  data-e2e="mode-submit"
                   v-defaultbutton
                   @click="checkWanStatus"
                   :disabled="saveDisable">{{$t('trans0081')}}</button>

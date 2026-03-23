@@ -7,9 +7,11 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="card content">
+          <div class="card content"
+               data-e2e="auto-upgrade-card">
             <m-form-item :class="{last:!auto_upgrade.enabled}">
               <m-switch v-model="auto_upgrade.enabled"
+                        data-e2e="auto-upgrade-switch"
                         :label="$t('trans0744')"
                         @change="switchAutoUpgrade"></m-switch>
               <div class="des-tips">{{ tips }}</div>
@@ -17,9 +19,11 @@
             <template v-if="auto_upgrade.enabled">
               <m-form ref="autoUpgradeForm"
                       :model="auto_upgrade"
+                      data-e2e="auto-upgrade-form"
                       class="content__item form">
                 <m-form-item key="schedule">
                   <m-select :label="$t('trans0082')"
+                            data-e2e="auto-upgrade-schedule"
                             v-model="auto_upgrade.schedule"
                             :options="scheduleOption"></m-select>
                 </m-form-item>
@@ -28,6 +32,7 @@
                   <label class="item__label"
                          for="">{{$t('trans0745')}}</label>
                   <m-time-picker class="form__time-picker"
+                                 data-e2e="auto-upgrade-time"
                                  v-model="auto_upgrade.time" />
                 </m-form-item>
               </m-form>
@@ -39,6 +44,7 @@
            v-if="auto_upgrade.enabled">
         <div class="form-button__wrapper">
           <button class="btn"
+                  data-e2e="auto-upgrade-submit"
                   v-defaultbutton
                   @click="submit">{{$t('trans0081')}}</button>
         </div>

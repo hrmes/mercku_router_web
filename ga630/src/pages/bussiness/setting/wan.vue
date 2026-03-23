@@ -42,6 +42,7 @@
             <m-form-item>
               <m-select
                 :label="$t('trans0317')"
+                data-e2e="wan-net-type-select"
                 v-model="netType"
                 :options="options"
               ></m-select>
@@ -50,6 +51,7 @@
             <m-form
               key="dhcp-form"
               v-if="isDhcp"
+              data-e2e="wan-dhcp-form"
               ref="dhcpForm"
               :model="dhcpForm"
               :rules="dhcpRules"
@@ -57,11 +59,14 @@
               <m-form-item :class="{ last: autodns.dhcp }">
                 <m-select
                   :label="$t('trans0401')"
+                  data-e2e="wan-dhcp-dns-select"
                   v-model="autodns.dhcp"
                   :options="dnsOptions"
                 ></m-select>
               </m-form-item>
-              <div class="form__dns" v-if="!autodns.dhcp">
+              <div class="form__dns"
+                   data-e2e="wan-dhcp-dns-fields"
+                   v-if="!autodns.dhcp">
                 <m-form-item prop="dns1" ref="dns">
                   <m-input
                     :label="$t('trans0236')"
@@ -83,6 +88,7 @@
             <m-form
               key="pppoe-form"
               v-else-if="isPppoe"
+              data-e2e="wan-pppoe-form"
               ref="pppoeForm"
               :model="pppoeForm"
               :rules="pppoeRules"
@@ -106,11 +112,14 @@
               <m-form-item :class="{ last: autodns.pppoe }">
                 <m-select
                   :label="$t('trans0401')"
+                  data-e2e="wan-pppoe-dns-select"
                   v-model="autodns.pppoe"
                   :options="dnsOptions"
                 ></m-select>
               </m-form-item>
-              <div class="form__dns" v-if="!autodns.pppoe">
+              <div class="form__dns"
+                   data-e2e="wan-pppoe-dns-fields"
+                   v-if="!autodns.pppoe">
                 <m-form-item prop="dns1" ref="dns">
                   <m-input
                     :label="$t('trans0236')"
@@ -132,6 +141,7 @@
             <m-form
               key="static-form"
               v-else-if="isStatic"
+              data-e2e="wan-static-form"
               ref="staticForm"
               :model="staticForm"
               :rules="staticRules"
@@ -164,6 +174,7 @@
               </m-form-item>
               <m-form-item prop="dns1" ref="dns">
                 <m-input
+                  data-e2e="wan-static-dns-primary"
                   :label="$t('trans0236')"
                   type="text"
                   placeholder="0.0.0.0"
@@ -172,6 +183,7 @@
               </m-form-item>
               <m-form-item class="last" prop="dns2" ref="backupdns">
                 <m-input
+                  data-e2e="wan-static-dns-secondary"
                   :label="$t('trans0320')"
                   type="text"
                   placeholder="0.0.0.0"
@@ -185,14 +197,19 @@
             <m-form-item :class="{ last: !vlan.enabled }">
               <m-switch
                 :label="$t('trans0683')"
+                data-e2e="wan-vlan-toggle"
                 v-model="vlan.enabled"
               ></m-switch>
               <div class="des-tips">{{ $t('trans0682') }}</div>
             </m-form-item>
             <!-- Internet VLAN ID -->
-            <m-form v-if="vlan.enabled" :model="vlan" ref="vlanForm">
+            <m-form v-if="vlan.enabled"
+                    data-e2e="wan-vlan-form"
+                    :model="vlan"
+                    ref="vlanForm">
               <m-form-item prop="id" :rules="vlanIdRules" ref="vlanId">
                 <m-input
+                  data-e2e="wan-vlan-id-input"
                   :label="$t('trans0684')"
                   type="text"
                   placeholder="2-4094"
@@ -202,6 +219,7 @@
               <m-form-item>
                 <m-select
                   :label="$t('trans0686')"
+                  data-e2e="wan-vlan-priority-select"
                   v-model="vlan.priority"
                   :options="priorities"
                 ></m-select>

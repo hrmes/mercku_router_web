@@ -7,7 +7,8 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="card">
+          <div class="card"
+               data-e2e="super-form-card">
             <m-form ref="form"
                     class='form'
                     :model="form"
@@ -16,6 +17,7 @@
                            prop='password'
                            :errorMsgIsStatic="true">
                 <m-input :label="$t('trans0113')"
+                         data-e2e="super-password-input"
                          type='password'
                          :placeholder="`${$t('trans0321')}`"
                          v-model="form.password"></m-input>
@@ -27,6 +29,7 @@
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
           <button class="btn"
+                  data-e2e="super-submit"
                   v-defaultbutton
                   @click="submit()">{{$t('trans0081')}}</button>
         </div>

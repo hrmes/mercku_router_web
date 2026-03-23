@@ -1,5 +1,6 @@
 <template>
-  <div class="mesh-container">
+  <div class="mesh-container"
+       data-e2e="dashboard-mesh-page">
     <div class="mesh-info">
       <div class="back-wrap">
         <div class="btn-container"
@@ -55,6 +56,7 @@
 
           </div>
           <div class="topo-wrap"
+               data-e2e="dashboard-mesh-topology"
                id="toppo-wrap">
             <div id="topo"></div>
           </div>
@@ -63,6 +65,7 @@
                     mode="out-in"
                     @after-leave="handleTransitionEnd">
           <div class="mesh-info-card"
+               data-e2e="dashboard-mesh-detail-card"
                v-if="showTable">
             <div class="card-top">
               <div class="card-top__header">
@@ -90,11 +93,13 @@
                     <div class="line-icon">
                       <img :src="lineIconSrc" />
                     </div>
-                    <div class="text">{{selectedNodeInfo.name}}</div>
+                    <div class="text"
+                         data-e2e="dashboard-mesh-node-name">{{selectedNodeInfo.name}}</div>
                   </div>
                   <div class="row-2">
                     <span class="label">{{$t('trans0251')}}: </span>
-                    <span class="value">{{selectedNodeInfo.sn}}</span>
+                    <span class="value"
+                          data-e2e="dashboard-mesh-node-sn">{{selectedNodeInfo.sn}}</span>
                   </div>
                   <div class="row-3">
                     <span class="label">{{$t('trans0300')}}: </span>
@@ -156,6 +161,7 @@
                      v-if="!isMobile">{{$t('trans0375')}}</div>
               </div>
               <ul class="card-bottom__main reset-ul"
+                  data-e2e="dashboard-mesh-devices"
                   v-if="selectedNodeInfo.stations.length">
                 <li v-for="sta in listOrdered"
                     :key="sta.ip">

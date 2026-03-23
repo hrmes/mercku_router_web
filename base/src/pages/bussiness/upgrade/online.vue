@@ -1,5 +1,6 @@
 <template>
-  <div class="page">
+  <div class="page"
+       data-e2e="online-upgrade-page">
     <div v-if="$store.state.isMobile"
          class="page-header">
       {{ $t('trans0202') }}
@@ -15,6 +16,7 @@
       <div class="page-content__main">
         <div v-if="hasUpgradablityNodes"
              class="nodes-wrapper"
+             data-e2e="online-upgrade-nodes"
              ref="renodes">
           <div class="retitle"
                :class="{
@@ -24,7 +26,8 @@
             <div v-if="$store.state.isMobile"
                  class="retitle__btn-wrap">
               <button @click="submit()"
-                      class="btn btn-small retitle__btn">
+                      class="btn btn-small retitle__btn"
+                      data-e2e="online-upgrade-submit">
                 {{ $t('trans0225') }}
               </button>
             </div>
@@ -35,7 +38,8 @@
           }">
             <div v-for="node in nodes"
                  :key="node.sn"
-                 class="node">
+                 class="node"
+                 data-e2e="online-upgrade-node">
               <div class="message"
                    @click="check(node)">
                 <m-checkbox :readonly="true"
@@ -62,6 +66,7 @@
                     <m-tag><span :title="$t('trans0210')">{{ node.version.latest }}</span></m-tag>
                   </div>
                   <p class="changelog"
+                     data-e2e="online-upgrade-changelog"
                      @click.stop="showChangelog(node)">
                     {{ $t('trans0546') }}
                   </p>
@@ -71,19 +76,24 @@
           </div>
         </div>
         <div class="msg-wrapper"
+             data-e2e="online-upgrade-message"
              v-else>
           <div v-if="
             !hasUpgradablityNodes &&
               requestResult.complete &&
               !requestResult.error">
+            <div data-e2e="online-upgrade-success">
             <img :src="require('base/assets/images/common/img_new_version.png')"
                  width="220" />
             <p>{{ $t('trans0259') }}</p>
+            </div>
           </div>
           <div v-if="requestResult.error">
+            <div data-e2e="online-upgrade-error">
             <img :src="require('base/assets/images/common/img_error.png')"
                  width="220" />
             <p>{{ requestResult.message }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -91,19 +101,22 @@
            v-if="!$store.state.isMobile && hasUpgradablityNodes">
         <div class="form-button__wrapper">
           <button class="btn"
+                  data-e2e="online-upgrade-submit"
                   @click="submit()">
             {{ $t('trans0225') }}
           </button>
         </div>
       </div>
     </div>
-    <m-modal :visible.sync="showChangelogModal">
+    <m-modal :visible.sync="showChangelogModal"
+             data-e2e="online-upgrade-changelog-modal">
       <m-modal-header>
         {{ $t('trans0525') }}
       </m-modal-header>
       <m-modal-body class="modal-body">
         <div class="scroll-container">
           <div class="changelog markdown-body"
+               data-e2e="online-upgrade-changelog-body"
                v-html="changelog"></div>
         </div>
       </m-modal-body>

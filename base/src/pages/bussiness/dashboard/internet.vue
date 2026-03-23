@@ -14,7 +14,8 @@
             <div v-if="isRouter"
                  class="section__body ">
               <div class="waninfo__wrapper">
-                <div class="realtime__speed speed">
+                <div class="realtime__speed speed"
+                     data-e2e="dashboard-internet-realtime">
                   <div class="speed__item">
                     <div class="speed__item__wrap">
                       <i class="speed__icon speed__icon--down"></i>
@@ -40,7 +41,8 @@
                     </div>
                   </div>
                 </div>
-                <div class="traffic speed">
+                <div class="traffic speed"
+                     data-e2e="dashboard-internet-traffic">
                   <div class="speed__item">
                     <div class="speed__item__wrap">
                       <i class="speed__icon speed__icon--trafficdown"></i>
@@ -68,11 +70,13 @@
                 </div>
               </div>
               <div v-if="disableSpeedtest"
+                   data-e2e="dashboard-internet-speedtest-disabled"
                    class="pppoe__wrap">
                 <img :src="require('base/assets/images/common/img_pppoe.png')" />
                 <p>{{$t('trans1232')}}</p>
               </div>
               <div v-else
+                   data-e2e="dashboard-internet-speedtest"
                    class="
                      speedtest__wrap">
                 <div class="speedtest-dashboard"
@@ -115,6 +119,7 @@
               </div>
             </div>
             <div v-else
+                 data-e2e="dashboard-internet-bridge"
                  class="section__body section__body--bridge">
               <img :src="require('base/assets/images/common/img_bridge.png')">
               <p>{{$t('trans0984')}}</p>
@@ -149,6 +154,7 @@
           </div>
           <div class="section">
             <div class=" ipv4 section__inner"
+                 data-e2e="dashboard-internet-ipv4"
                  :class="{'stretch':isRouter&&!this.ipv6NetInfo.enabled}">
               <div class="section__title">{{$t('trans0301')}}</div>
               <div class="section__body">
@@ -178,6 +184,7 @@
             </div>
             <transition name="fade">
               <div v-if="isRouter&&this.ipv6NetInfo.enabled"
+                   data-e2e="dashboard-internet-ipv6"
                    class=" ipv6 section__inner"
                    :class="{'stretch':isRouter&&!this.ipv6NetInfo.enabled}">
                 <div class="section__title">{{$t('trans0700')}}</div>

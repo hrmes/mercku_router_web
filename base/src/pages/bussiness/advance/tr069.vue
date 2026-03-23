@@ -7,7 +7,8 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="card">
+          <div class="card"
+               data-e2e="tr069-remote-card">
             <div class="title">{{$t('trans0491')}}</div>
             <m-form ref="remote"
                     class="form"
@@ -15,6 +16,7 @@
                     :rules="remoteRules">
               <m-form-item prop="url">
                 <m-input :label="`${$t('trans0498')}`"
+                         data-e2e="tr069-remote-url-input"
                          v-model="remote.url"
                          :placeholder="$t('trans0321')"></m-input>
               </m-form-item>
@@ -37,7 +39,8 @@
               </m-form-item>
             </m-form>
           </div>
-          <div class="card">
+          <div class="card"
+               data-e2e="tr069-local-card">
             <div class="title">{{$t('trans0493')}}</div>
             <m-form ref="local"
                     class="form"
@@ -50,6 +53,7 @@
               </m-form-item>
               <m-form-item prop="port">
                 <m-input :label="$t('trans0495')"
+                         data-e2e="tr069-local-port-input"
                          v-model="local.port"
                          :placeholder="$t('trans0321')"></m-input>
               </m-form-item>
@@ -77,6 +81,7 @@
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
           <button class="btn btn-primary"
+                  data-e2e="tr069-submit"
                   @click="updateTr069">{{$t('trans0081')}}</button>
         </div>
       </div>

@@ -7,12 +7,14 @@
     <div class="page-content">
       <div class="page-content__main">
         <div class="row-1">
-          <div class="card">
+          <div class="card"
+               data-e2e="ddns-form-card">
             <m-form ref="form"
                     class='form'
                     :model="ddns"
                     :rules='rules'>
-              <m-form-item class="form-item">
+              <m-form-item class="form-item"
+                           data-e2e="ddns-service-group">
                 <label style="font-weight:bold;">{{$t('trans0435')}}</label>
                 <m-radio-group v-model="ddns.service"
                                class="radio-group"
@@ -21,16 +23,19 @@
               </m-form-item>
               <m-form-item prop='domain'>
                 <m-input :label="$t('trans0436')"
+                         data-e2e="ddns-domain-input"
                          :placeholder="`${$t('trans0321')}`"
                          v-model="ddns.domain"></m-input>
               </m-form-item>
               <m-form-item prop='username'>
                 <m-input :label="$t('trans0410')"
+                         data-e2e="ddns-username-input"
                          :placeholder="`${$t('trans0321')}`"
                          v-model="ddns.username"></m-input>
               </m-form-item>
               <m-form-item prop='password'>
                 <m-input :label="$t('trans0003')"
+                         data-e2e="ddns-password-input"
                          type="password"
                          :placeholder="`${$t('trans0321')}`"
                          v-model="ddns.password"></m-input>
@@ -47,6 +52,7 @@
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
           <button class="btn"
+                  data-e2e="ddns-submit"
                   v-defaultbutton
                   @click="submit()">{{$t('trans0081')}}</button>
         </div>

@@ -6,7 +6,8 @@
     </div>
     <div class="page-content">
       <div class="page-content__main">
-        <div class="table">
+        <div class="table"
+             data-e2e="blacklist-table">
           <div class="table-header">
             <div class="checkbox">
               <m-checkbox v-model="checkAllBlacklist"
@@ -19,11 +20,13 @@
                  v-if="!isMobile">{{ $t('trans0188') }}</div>
             <div class="tools">
               <button class="btn btn-small"
+                      data-e2e="blacklist-remove"
                       @click="removeBlacklist()"
                       :disabled="!someBlacklistChecked">
                 {{ $t('trans0033') }}
               </button>
               <button class="btn btn-primary btn-small"
+                      data-e2e="blacklist-add"
                       @click.stop="deviceModalVisible = !deviceModalVisible">
                 {{ $t('trans0035') }}
               </button>
