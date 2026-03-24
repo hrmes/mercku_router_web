@@ -245,6 +245,35 @@ export const RouterHasModelDistinctionMap = {
 2. 在 topo.js 顶部 import 图片
 3. 在 `picModelColorMap` 中引用
 
+### 步骤 5.1: 修改 dashboard / mesh 机型图片映射
+
+dashboard 中间主路由器图和 mesh 节点详情里的大图，使用的是公共机型 class 映射，不会自动读取型号目录下的 dashboard 图片。
+
+如果新型号要复用已有机型图片，直接在 `base/src/style/router-model.scss` 中为新机型补一组样式，先指向已有图片：
+
+```scss
+&.GA630 {
+  background: url(../assets/images/dashboard/m6s/img_black.png) no-repeat center;
+  background-size: contain;
+
+  &.black {
+    background: url(../assets/images/dashboard/m6s/img_black.png) no-repeat center;
+    background-size: contain;
+  }
+
+  &.white {
+    background: url(../assets/images/dashboard/m6s/img_white.png) no-repeat center;
+    background-size: contain;
+  }
+}
+```
+
+如果新型号要使用独立图片：
+
+1. 将 dashboard 图片放入 `base/src/assets/images/dashboard/<folder>/`
+2. 在 `base/src/style/router-model.scss` 中把该机型的图片路径改到新目录
+3. 如需同步调整 mesh / upgrade / topo 图片，再补齐 `base/src/mixins/router-model.js` 和 `base/src/util/topo.js` 的对应映射
+
 ### 步骤 6: 添加客户配置
 
 编辑 `base/customer-conf/0001/conf.json`，在 `routers` 中添加：
