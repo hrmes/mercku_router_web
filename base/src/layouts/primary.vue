@@ -8,7 +8,7 @@
               :key='menu.name'
               @click="jump(menu)"
               :data-e2e="asideTestId(menu)"
-              :class="{'selected':$route.path.includes(menu.url),'disabled':menu.disabled}">
+              :class="{'selected':isSelectedMenu(menu),'disabled':menu.disabled}">
             <span>{{$t(`${menu.text}`)}}</span>
             <svg v-if="!isMobile"
                  width="9"
@@ -82,6 +82,11 @@ export default {
     asideTestId(menu) {
       const source = menu.name || menu.url || 'item';
       return `aside-${String(source).replace(/[^a-zA-Z0-9_-]+/g, '-')}`;
+    },
+    isSelectedMenu(menu) {
+      if (!menu || !menu.url) return false;
+      const escapedUrl = String(menu.url).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return new RegExp(`^(?:/web)?${escapedUrl}(/|\\?|$)`).test(this.$route.path);
     },
     jump(menu) {
       if (menu.disabled) return;
