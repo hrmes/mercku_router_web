@@ -1,13 +1,18 @@
 import { defineConfig } from '@playwright/test';
 import { ga630Project } from './e2e/projects/ga630';
 
+if (!process.env.DEV_PROXY_HOST) {
+  throw new Error(
+    'DEV_PROXY_HOST is required for GA630 Playwright runs. Enable WAN Access on the router and set DEV_PROXY_HOST=http://<router-address>:<port>.'
+  );
+}
+
 export default defineConfig({
   testDir: './e2e/specs',
   timeout: 30_000,
   workers: Number(process.env.PLAYWRIGHT_WORKERS || 1),
   fullyParallel: false,
   forbidOnly: !!process.env.CI,
-  passWithNoTests: true,
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? [['html'], ['list']] : 'list',
   use: {
@@ -29,8 +34,7 @@ export default defineConfig({
     stdout: 'pipe',
     stderr: 'pipe',
     env: {
-      ...process.env,
-      DEV_PROXY_HOST: process.env.DEV_PROXY_HOST || 'http://192.168.127.40:55555'
+      ...process.env
     }
   }
 });
