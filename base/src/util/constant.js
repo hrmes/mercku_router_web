@@ -64,11 +64,13 @@ export const ModelIds = Object.entries(Models).reduce((model, [key, value]) => {
   model[value] = key;
   return model;
 }, {});
+// M11R4 reuses the existing M6s frontend and customer config.
+ModelIds.M11R4 = 'M6s';
 
 export const SnABJMapName = {
   '06': { 0: 'M6' },
   '08': { 0: 'M6a', 1: 'M6a_Plus', 2: 'M6c' },
-  11: { 0: 'M6s', 1: 'M6s', 2: 'M6s_SFP' },
+  11: { 0: 'M6s', 1: 'M6s', 2: 'M6s_SFP', 4: 'M6s' },
   13: { 0: 'M6s_Nano' },
   16: { 0: 'M6s_PoE_pp' },
   63: { 0: 'GA630' }
@@ -78,6 +80,7 @@ export const ModelIdJMapName = {
   M8: { 0: 'M6a', 1: 'M6a_Plus', 2: 'M6c' },
   M11R1: { 1: 'M6s' },
   M11R2: { 2: 'M6s_SFP' },
+  M11R4: { 4: 'M6s' },
   M13R0: { 0: 'M6s Nano' },
   M16R0: { 0: 'M6s PoE_pp' },
   GA630: { 0: 'GA630' }
@@ -88,6 +91,7 @@ export const RouterHasModelDistinctionMap = {
   M6c: '2',
   M6s: '1',
   M6s_SFP: '2',
+  M6s_R4: '4',
   GA630: '0'
 };
 export const SpeedTestStatus = {

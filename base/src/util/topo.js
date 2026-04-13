@@ -99,6 +99,12 @@ const picModelColorMap = {
       [Color.good]: picM6sSFPGood,
       [Color.bad]: picM6sSFPBad,
       [Color.offline]: picM6sSFPOffline
+    },
+    [RouterHasModelDistinctionMap.M6s_R4]: {
+      gw: picM6sGateway,
+      [Color.good]: picM6sGood,
+      [Color.bad]: picM6sBad,
+      [Color.offline]: picM6sOffline
     }
   },
   [RouterSnAB2Model.M6s_Nano]: {
@@ -405,6 +411,13 @@ function findOfflineNode(array, offline) {
 
 // 生成所有绘图数据
 function genData(array, fullLine = false) {
+  if (!Array.isArray(array) || array.length === 0) {
+    return {
+      nodes: [],
+      lines: []
+    };
+  }
+
   if (!array[0].is_gw) {
     // 将网关放在数组第一个，始终保证网关是绘图的起始 node
     // eslint-disable-next-line no-nested-ternary
@@ -419,6 +432,12 @@ function genData(array, fullLine = false) {
   routers = addConnection(routers);
 
   const gateway = findGateway(routers);
+  if (!gateway) {
+    return {
+      nodes: [],
+      lines: []
+    };
+  }
 
   const visited = [gateway];
   const green = findGreenNode(gateway, routers, visited);

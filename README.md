@@ -184,7 +184,7 @@ rm -rf dist node_modules *.tar
 编辑 `Makefile`，在 `MODEL_LIST` 中添加映射：
 
 ```makefile
-MODEL_LIST = M6R0=m6 M8=m6a M11R1=m6s M11R2=m6s M13R0=nano M16R0=m6s_poe GA630=ga630
+MODEL_LIST = M6R0=m6 M8=m6a M11R1=m6s M11R2=m6s M11R4=m6s M13R0=nano M16R0=m6s_poe GA630=ga630
 ```
 
 ### 步骤 4: 修改型号常量配置
@@ -316,9 +316,12 @@ CUSTOMER_ID=0001 MODEL_ID=GA630 npm run build
 | M8 | M6a/M6c | m6a | 08 | 0/1/2 |
 | M11R1 | M6s | m6s | 11 | 0/1 |
 | M11R2 | M6s SFP | m6s | 11 | 2 |
+| M11R4 | M6s R4 | m6s | 11 | 4 |
 | M13R0 | M6s Nano | nano | 13 | 0 |
 | M16R0 | M6s PoE++ | m6s_poe | 16 | 0 |
 | GA630 | GA630 | ga630 | 63 | 0 |
+
+说明：`M11R4` 复用 `m6s/` 目录构建，并沿用 `M6s` 的前端资源与 customer 配置。
 
 ### CUSTOMER_ID 列表
 

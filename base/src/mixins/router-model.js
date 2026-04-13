@@ -38,7 +38,8 @@ const RouterModelImgMap = {
     },
     [RouterSnAB2Model.M6s]: {
       [RouterHasModelDistinctionMap.M6s]: upgradeM6s,
-      [RouterHasModelDistinctionMap.M6s_SFP]: upgradeM6sSFP
+      [RouterHasModelDistinctionMap.M6s_SFP]: upgradeM6sSFP,
+      [RouterHasModelDistinctionMap.M6s_R4]: upgradeM6s
     },
     [RouterSnAB2Model.M6s_Nano]: upgradeM6sNano,
     [RouterSnAB2Model.M6s_PoE_pp]: upgradeM6sPOE,
@@ -53,7 +54,8 @@ const RouterModelImgMap = {
     },
     [RouterSnAB2Model.M6s]: {
       [RouterHasModelDistinctionMap.M6s]: meshM6s,
-      [RouterHasModelDistinctionMap.M6s_SFP]: meshM6sSFP
+      [RouterHasModelDistinctionMap.M6s_SFP]: meshM6sSFP,
+      [RouterHasModelDistinctionMap.M6s_R4]: meshM6s
     },
     [RouterSnAB2Model.M6s_Nano]: meshM6sNano,
     [RouterSnAB2Model.M6s_PoE_pp]: meshM6sPOE,
