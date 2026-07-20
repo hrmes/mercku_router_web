@@ -28,7 +28,7 @@ import region from 'base/pages/bussiness/setting/region.vue';
 import guest from 'base/pages/bussiness/setting/guest.vue';
 import upnp from 'base/pages/bussiness/setting/upnp.vue';
 import wifiSchedule from 'base/pages/bussiness/setting/wifi-schedule.vue';
-// import led from 'base/pages/bussiness/setting/led.vue';
+import led from 'base/pages/bussiness/setting/led.vue';
 
 // advance page
 import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
@@ -40,11 +40,11 @@ import ddns from 'base/pages/bussiness/advance/ddns.vue';
 import vpn from 'pages/bussiness/advance/vpn/index.vue';
 import mode from 'base/pages/bussiness/advance/mode.vue';
 import diagnosis from 'base/pages/bussiness/advance/diagnosis.vue';
-// import log from 'base/pages/bussiness/advance/log.vue';
+import log from 'base/pages/bussiness/advance/log.vue';
 import firewall from 'base/pages/bussiness/advance/firewall.vue';
 import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import tr069 from 'base/pages/bussiness/advance/tr069.vue';
-// import backup from 'base/pages/bussiness/advance/backup.vue';
+import backup from 'base/pages/bussiness/advance/backup.vue';
 
 // upgrade page
 import online from 'base/pages/bussiness/upgrade/online.vue';
@@ -258,15 +258,15 @@ const routes = {
         hasAside: true
       }
     },
-    // {
-    //   path: '/setting/led',
-    //   name: 'led',
-    //   component: led,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
+    {
+      path: '/setting/led',
+      name: 'led',
+      component: led,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
     {
       path: '/setting/schedule',
       name: 'schedule',
@@ -339,15 +339,15 @@ const routes = {
         hasAside: true
       }
     },
-    // {
-    //   path: '/advance/log',
-    //   name: 'advance-log',
-    //   component: log,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
+    {
+      path: '/advance/log',
+      name: 'advance-log',
+      component: log,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
     {
       path: '/advance/diagnosis',
       name: 'advance-diagnosis',
@@ -393,15 +393,15 @@ const routes = {
         hasAside: true
       }
     },
-    // {
-    //   path: '/advance/backup',
-    //   name: 'advance.backup',
-    //   component: backup,
-    //   meta: {
-    //     layout: 'primary',
-    //     hasAside: true
-    //   }
-    // },
+    {
+      path: '/advance/backup',
+      name: 'advance.backup',
+      component: backup,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
     {
       path: '/upgrade/online',
       name: 'online',

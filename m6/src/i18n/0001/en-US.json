@@ -1235,7 +1235,7 @@
   "trans1240": "Please check the device specifications or consult the manufacturer to determine if your PD (Power Device) is passive PoE or active PoE.",
   "trans1241": "Passive PoE",
   "trans1242": "Only supports 48V powered devices, not compatible with 24V powered devices.",
-  "trans1243": "Avtive PoE",
+  "trans1243": "Active PoE",
   "trans1244": "Please make sure that your PD device complies with the IEEE 802.3af or 802.3at or 802.3bt standards.",
   "trans1245": "Please make sure that your powered device supports 48V, otherwise it may cause device damage. Are you sure you want to switch the power supply mode to passive PoE?",
   "trans1246": "Disable"

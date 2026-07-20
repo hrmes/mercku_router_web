@@ -28,6 +28,7 @@ import region from 'base/pages/bussiness/setting/region.vue';
 import guest from 'base/pages/bussiness/setting/guest.vue';
 import upnp from 'base/pages/bussiness/setting/upnp.vue';
 import fan from 'pages/bussiness/setting/fan.vue';
+import wps from 'base/pages/bussiness/setting/wps.vue';
 
 // advance page
 import portforwarding from 'base/pages/bussiness/advance/port/index.vue';
@@ -262,6 +263,15 @@ const routes = {
       path: '/setting/fan',
       name: 'fan',
       component: fan,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/setting/wps',
+      name: 'wps',
+      component: wps,
       meta: {
         layout: 'primary',
         hasAside: true

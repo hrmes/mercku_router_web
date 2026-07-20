@@ -1104,6 +1104,7 @@ $img_folder: '../../../../../base/src/assets/images';
 }
 .mesh-container {
   display: flex;
+  height: 100%;
   .mesh-info {
     position: relative;
     display: flex;
