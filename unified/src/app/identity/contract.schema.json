@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mercku.local/schemas/identity/contract.v1.json",
+  "title": "Runtime Identity Contract v1",
+  "description": "Runtime identity emitted by the device suite. v1 is atomic with firmware; only schemaVersion 1 is supported.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "revision", "modelId", "customerId", "backend"],
+  "properties": {
+    "schemaVersion": {
+      "const": 1,
+      "description": "Locked to 1 for v1. Bump only when fields change type/semantics or are removed."
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Opaque suite revision tag, e.g. 2026-07-21T10:00:00Z-1."
+    },
+    "modelId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Hardware model identifier (e.g. M11R4). Must not be empty."
+    },
+    "customerId": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Customer identifier (e.g. 0007). Must not be empty."
+    },
+    "backend": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Backend engineering identifier (e.g. mercku_mtk7621). Must not be empty."
+    },
+    "detectedCapabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional hardware-existence detection results. Keys must be a subset of CAPABILITY_KEYS; must not carry brand/menu/frontend state.",
+      "properties": {
+        "sfp": { "type": "boolean" },
+        "poeControl": { "type": "boolean" },
+        "fanControl": { "type": "boolean" },
+        "frozenConfig": { "type": "boolean" }
+      }
+    }
+  }
+}

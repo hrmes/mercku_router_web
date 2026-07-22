@@ -9,7 +9,10 @@
     "test:unit": "vue-cli-service test:unit",
     "test:e2e": "playwright test",
     "test:e2e:ga630": "playwright test --project=ga630",
-    "test:e2e:ui": "playwright test --ui"
+    "test:e2e:ui": "playwright test --ui",
+    "build:unified": "VUE_CLI_SERVICE_CONFIG_PATH=$PWD/unified/vue.config.js vue-cli-service build --dest dist-unified",
+    "dev:unified": "VUE_CLI_SERVICE_CONFIG_PATH=$PWD/unified/vue.config.js vue-cli-service serve",
+    "check:unified-ids": "node scripts/check-unified-id-boundaries.mjs"
   },
   "dependencies": {
     "axios": "^0.21.1",
@@ -26,15 +29,16 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@playwright/test": "^1.53.0",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
+    "@playwright/test": "^1.53.0",
     "@vue/cli-plugin-babel": "^3.1.1",
     "@vue/cli-plugin-eslint": "^3.1.5",
     "@vue/cli-plugin-unit-mocha": "^3.2.2",
     "@vue/cli-service": "^3.1.4",
     "@vue/eslint-config-airbnb": "^4.0.0",
     "@vue/test-utils": "^1.0.0-beta.20",
+    "ajv": "^6.12.6",
     "babel-eslint": "^10.0.1",
     "chai": "^4.1.2",
     "clean-webpack-plugin": "^4.0.0",

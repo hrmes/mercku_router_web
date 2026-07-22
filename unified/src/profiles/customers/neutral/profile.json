@@ -1,0 +1,24 @@
+{
+  "profileVersion": 1,
+  "branding": {
+    "productName": "Router",
+    "wifiName": "Router Wi-Fi",
+    "website": {
+      "text": "Support",
+      "url": "https://example.invalid"
+    },
+    "policyUrl": "",
+    "appDownloadUrl": "",
+    "languages": ["en-US"],
+    "defaultLanguage": "en-US",
+    "theme": {
+      "--brand-primary": "#333333",
+      "--brand-loading": "#333333"
+    }
+  },
+  "policy": {
+    "disabledCapabilities": ["sfp", "poeControl", "fanControl", "frozenConfig"],
+    "allow2LevelAdmin": false,
+    "allowTelnet": false
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mercku.local/schemas/profiles/customer-profile.v1.json",
+  "title": "Customer Profile v1",
+  "description": "Customer Profile carries branding and policy only. First version does NOT design arbitrary hiddenMenus, roleRestrictions, or general policy DSL.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["profileVersion", "branding", "policy"],
+  "properties": {
+    "profileVersion": {
+      "const": 1,
+      "description": "Locked to 1 for v1. Bump only when fields change type/semantics or are removed."
+    },
+    "branding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["productName", "wifiName", "website", "policyUrl", "appDownloadUrl", "languages", "defaultLanguage", "theme"],
+      "properties": {
+        "productName": { "type": "string", "minLength": 1 },
+        "wifiName": { "type": "string", "minLength": 1 },
+        "website": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["text", "url"],
+          "properties": {
+            "text": { "type": "string", "minLength": 1 },
+            "url": {
+              "type": "string",
+              "pattern": "^https?://[^\\s]+$"
+            }
+          }
+        },
+        "policyUrl": {
+          "type": "string",
+          "pattern": "^$|^https?://[^\\s]+$"
+        },
+        "appDownloadUrl": {
+          "type": "string",
+          "pattern": "^$|^https?://[^\\s]+$"
+        },
+        "languages": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "pattern": "^[a-z]{2}(-[A-Z]{2})?$" }
+        },
+        "defaultLanguage": {
+          "type": "string",
+          "pattern": "^[a-z]{2}(-[A-Z]{2})?$"
+        },
+        "theme": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Whitelist of CSS Variables only. No Sass entry selected by CUSTOMER_ID; no arbitrary CSS/HTML/JS injection.",
+          "properties": {
+            "--brand-primary": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "--brand-loading": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+          }
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["disabledCapabilities", "allow2LevelAdmin", "allowTelnet"],
+      "properties": {
+        "disabledCapabilities": {
+          "type": "array",
+          "uniqueItems": true,
+          "description": "Can only reference capabilities in CUSTOMER_DISABLEABLE_CAPABILITIES; can only disable Model Profile existing capabilities, cannot enable missing ones.",
+          "items": {
+            "enum": ["sfp", "poeControl", "fanControl", "frozenConfig"]
+          }
+        },
+        "allow2LevelAdmin": { "type": "boolean" },
+        "allowTelnet": { "type": "boolean" }
+      }
+    }
+  }
+}

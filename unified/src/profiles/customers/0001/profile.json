@@ -1,0 +1,24 @@
+{
+  "profileVersion": 1,
+  "branding": {
+    "productName": "Mercku",
+    "wifiName": "Mercku Wi-Fi",
+    "website": {
+      "text": "www.mercku.com",
+      "url": "https://www.mercku.com"
+    },
+    "policyUrl": "",
+    "appDownloadUrl": "http://onelink.to/mn4tgv",
+    "languages": ["zh-CN", "en-US", "de-DE", "fi-FI", "bg-BG", "fr-FR"],
+    "defaultLanguage": "en-US",
+    "theme": {
+      "--brand-primary": "#d6001c",
+      "--brand-loading": "#d6001c"
+    }
+  },
+  "policy": {
+    "disabledCapabilities": [],
+    "allow2LevelAdmin": false,
+    "allowTelnet": false
+  }
+}

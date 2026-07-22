@@ -1,0 +1,24 @@
+{
+  "profileVersion": 1,
+  "branding": {
+    "productName": "JUNET",
+    "wifiName": "JUNET-WIFI",
+    "website": {
+      "text": "www.junet.se",
+      "url": "https://www.junet.se"
+    },
+    "policyUrl": "https://www.junet.se/integritet/",
+    "appDownloadUrl": "https://onelink.to/bjy4dw",
+    "languages": ["en-US", "sv-SE"],
+    "defaultLanguage": "en-US",
+    "theme": {
+      "--brand-primary": "#00b4e4",
+      "--brand-loading": "#00b4e4"
+    }
+  },
+  "policy": {
+    "disabledCapabilities": [],
+    "allow2LevelAdmin": true,
+    "allowTelnet": false
+  }
+}
