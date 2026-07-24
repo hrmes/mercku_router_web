@@ -8,6 +8,7 @@ const {
 } = require('../../../unified/src/app/bootstrap.js');
 const {
   buildBootstrapErrorDescriptor,
+  escapeHtml,
 } = require('../../../unified/src/app/bootstrap-error.js');
 const {
   createNeutralCustomerProfile,
@@ -38,8 +39,8 @@ const VALID_MODEL_PROFILE = {
     upgradeProbeStartDelayMs: 20000,
     modeSwitchProbeStartDelayMs: 30000,
     reconnectProbeTimeoutMs: 600000,
+    meshRadioStatus: 'txPower',
   },
-  pageVariants: {},
 };
 
 const VALID_CUSTOMER_PROFILE = {
@@ -142,7 +143,7 @@ describe('bootstrap({ createApp })', () => {
       expect(calls.length, 'createApp fires exactly once after all resolve').to.equal(1);
     });
 
-    it('passes identity, effectiveCapabilities, behavior, branding, policy, pageVariants and diagnostics on the runtimeContext', async () => {
+    it('passes identity, effectiveCapabilities, behavior, branding, policy and diagnostics on the runtimeContext', async () => {
       const calls = [];
       await bootstrap({
         createApp: (ctx) => { calls.push(ctx); },
@@ -163,7 +164,6 @@ describe('bootstrap({ createApp })', () => {
       expect(ctx.behavior).to.deep.equal(VALID_MODEL_PROFILE.behavior);
       expect(ctx.branding).to.deep.equal(VALID_CUSTOMER_PROFILE.branding);
       expect(ctx.policy).to.deep.equal(VALID_CUSTOMER_PROFILE.policy);
-      expect(ctx.pageVariants).to.deep.equal({});
       expect(ctx.diagnostics).to.be.an('array');
     });
   });
@@ -339,7 +339,6 @@ describe('bootstrap({ createApp })', () => {
             profileVersion: 2,
             expectedBackends: ['mercku_mtk7621'],
             behavior: VALID_MODEL_PROFILE.behavior,
-            pageVariants: {},
           }),
           loadCustomerProfile: async () => VALID_CUSTOMER_PROFILE,
           diagnostics: makeDiagnostics(),
@@ -538,6 +537,14 @@ describe('bootstrap({ createApp })', () => {
       const ctx = calls[0];
       expect(ctx.effectiveCapabilities.poeControl).to.equal(false);
     });
+  });
+});
+
+describe('bootstrap error HTML escaping', () => {
+  it('escapes dynamic error and diagnostic text before rendering', () => {
+    expect(escapeHtml('<img src=x onerror=alert(1)> & "quoted"')).to.equal(
+      '&lt;img src=x onerror=alert(1)&gt; &amp; &quot;quoted&quot;'
+    );
   });
 });
 

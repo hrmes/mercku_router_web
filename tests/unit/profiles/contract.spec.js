@@ -40,7 +40,6 @@ const validModelProfile = {
     reconnectProbeTimeoutMs: 600000,
     meshRadioStatus: 'txPower',
   },
-  pageVariants: {},
 };
 
 const validCustomerProfile = {
@@ -71,13 +70,12 @@ describe('profile contract (v1)', () => {
       expect(modelProfileSchema.properties.profileVersion.const).to.equal(1);
     });
 
-    it('requires profileVersion, expectedBackends, capabilities, behavior, pageVariants', () => {
+    it('requires profileVersion, expectedBackends, capabilities and behavior', () => {
       expect(modelProfileSchema.required).to.deep.equal([
         'profileVersion',
         'expectedBackends',
         'capabilities',
         'behavior',
-        'pageVariants',
       ]);
     });
 
@@ -129,10 +127,6 @@ describe('profile contract (v1)', () => {
           expect(behavior[key].maximum, `${key}.maximum`).to.be.greaterThan(0);
         }
       );
-    });
-
-    it('pageVariants is locked to empty in v1 (maxProperties 0)', () => {
-      expect(modelProfileSchema.properties.pageVariants.maxProperties).to.equal(0);
     });
   });
 
@@ -317,13 +311,13 @@ describe('profile contract (v1)', () => {
       );
     });
 
-    it('rejects a non-empty pageVariants in v1', () => {
-      const bad = { ...validModelProfile, pageVariants: { dashboard: 'v2' } };
+    it('rejects pageVariants as an unknown field', () => {
+      const bad = { ...validModelProfile, pageVariants: {} };
       expect(validate(bad)).to.equal(false);
-      const maxError = validate.errors.find(
-        (e) => e.keyword === 'maxProperties' && errorPath(e).includes('pageVariants')
+      const additional = validate.errors.find(
+        (e) => e.keyword === 'additionalProperties'
       );
-      expect(maxError, 'expected maxProperties error on pageVariants').to.not.equal(undefined);
+      expect(additional, 'expected additionalProperties error').to.not.equal(undefined);
     });
 
     it('rejects an empty expectedBackends array', () => {

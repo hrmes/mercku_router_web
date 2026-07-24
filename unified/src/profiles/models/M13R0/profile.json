@@ -12,6 +12,5 @@
     "modeSwitchProbeStartDelayMs": 30000,
     "reconnectProbeTimeoutMs": 600000,
     "meshRadioStatus": "txPower"
-  },
-  "pageVariants": {}
+  }
 }

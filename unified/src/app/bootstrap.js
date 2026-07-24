@@ -11,7 +11,7 @@
  *      unknown/load-fail/schema-invalid → Neutral Profile + diagnostic warning)
  *   4. validate Model Profile + Customer Profile schemas
  *   5. compose AppRuntimeContext (effective capability formula, behavior,
- *      branding, policy, pageVariants, diagnostics)
+ *      branding, policy, diagnostics)
  *   6. Object.freeze the runtime context (handled in compose)
  *   7. call `createApp(runtimeContext)` exactly once
  *

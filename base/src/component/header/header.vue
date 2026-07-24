@@ -320,7 +320,7 @@ export default {
   },
   methods: {
     forward2Page(target) {
-      if (this.navVisible) {
+      if (this.navVisible && this.$route.path !== target) {
         this.$router.push({ path: target });
       }
       if (this.mobileI18nVisible) {

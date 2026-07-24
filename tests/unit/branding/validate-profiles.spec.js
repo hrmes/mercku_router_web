@@ -156,8 +156,8 @@ const VALID_MODEL_PROFILE = {
     upgradeProbeStartDelayMs: 20000,
     modeSwitchProbeStartDelayMs: 30000,
     reconnectProbeTimeoutMs: 600000,
+    meshRadioStatus: 'txPower',
   },
-  pageVariants: {},
 };
 
 describe('validate-profiles CLI (asset + registry correspondence checks)', () => {

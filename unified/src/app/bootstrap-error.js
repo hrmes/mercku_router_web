@@ -2,6 +2,15 @@
 /** Plain error data that can be rendered before Vue starts. */
 import { isRetryable } from './bootstrap';
 
+export function escapeHtml(value) {
+  return String(value == null ? '' : value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 /**
  * Build a retryable error descriptor for the bootstrap failure page.
  *

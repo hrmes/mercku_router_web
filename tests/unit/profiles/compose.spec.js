@@ -42,8 +42,8 @@ const MODEL_PROFILE = {
     upgradeProbeStartDelayMs: 20000,
     modeSwitchProbeStartDelayMs: 30000,
     reconnectProbeTimeoutMs: 600000,
+    meshRadioStatus: 'txPower',
   },
-  pageVariants: {},
 };
 
 const CUSTOMER_PROFILE = {
@@ -163,13 +163,6 @@ describe('compose(identity, modelProfile, customerProfile)', () => {
     it('exposes the Customer Profile policy', () => {
       const ctx = compose(IDENTITY, MODEL_PROFILE, CUSTOMER_PROFILE);
       expect(ctx.policy).to.deep.equal(CUSTOMER_PROFILE.policy);
-    });
-  });
-
-  describe('pageVariants (Model Profile wins, v1 empty)', () => {
-    it('is always an empty object in v1', () => {
-      const ctx = compose(IDENTITY, MODEL_PROFILE, CUSTOMER_PROFILE);
-      expect(ctx.pageVariants).to.deep.equal({});
     });
   });
 

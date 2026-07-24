@@ -4,7 +4,11 @@ const { expect } = require('chai');
 const encryptMethodsMixin = require('../../../base/src/mixins/encrypt-methods.js').default;
 const wifiRulesMixin = require('../../../base/src/mixins/wifi-rules.js').default;
 const OfflineUpgradePage = require('../../../base/src/pages/bussiness/upgrade/offline.vue').default;
+const { resolveRuntimeModelId } = require('../../../base/src/runtime/ui-context.js');
+const WanSettings = require('../../../base/src/pages/bussiness/setting/wan.vue').default;
+const colorGradientMixin = require('../../../base/src/mixins/color-gradient.js').default;
 const Dashboard = require('../../../base/src/pages/bussiness/dashboard/index.vue').default;
+const DevicePage = require('../../../base/src/pages/bussiness/dashboard/device.vue').default;
 const { Products } = require('../../../base/src/mixins/router-model.js');
 
 describe('legacy page runtime-profile compatibility', () => {
@@ -40,6 +44,76 @@ describe('legacy page runtime-profile compatibility', () => {
     } finally {
       process.env.CUSTOMER_CONFIG = original;
     }
+  });
+
+  it('keeps the gateway first in the offline-upgrade node list', () => {
+    const satellite = { sn: 'satellite', isGW: false };
+    const gateway = { sn: 'gateway', isGW: true };
+    const ordered = OfflineUpgradePage.computed.localNodesOrdered.call({
+      localNodes: [satellite, gateway],
+    });
+
+    expect(ordered.map(node => node.sn)).to.deep.equal(['gateway', 'satellite']);
+  });
+
+  it('resolves the speed-test model from runtime identity without MODEL_CONFIG', () => {
+    const original = process.env.MODEL_CONFIG;
+    process.env.MODEL_CONFIG = undefined;
+    try {
+      expect(resolveRuntimeModelId({
+        getters: { runtimeContext: { identity: { modelId: 'M8' } } },
+      })).to.equal('M8');
+    } finally {
+      process.env.MODEL_CONFIG = original;
+    }
+  });
+
+  it('accepts DHCP WAN responses without a dns array', () => {
+    const response = { data: { result: { type: 'dhcp', dhcp: {} } } };
+    const request = {
+      then(callback) {
+        callback(response);
+        return { finally: callbackFinally => callbackFinally() };
+      },
+    };
+    const vm = {
+      $loading: { open() {}, close() {} },
+      $http: { getWanNetInfo: () => request },
+      netInfo: {},
+      netType: '',
+      autodns: { dhcp: true, pppoe: true },
+      dhcpForm: { dns1: '', dns2: '' },
+      pppoeForm: { account: '', password: '', dns1: '', dns2: '' },
+      staticForm: {},
+    };
+    Object.defineProperties(vm, {
+      isDhcp: { get: () => WanSettings.computed.isDhcp.call(vm) },
+      isPppoe: { get: () => WanSettings.computed.isPppoe.call(vm) },
+      isStatic: { get: () => WanSettings.computed.isStatic.call(vm) },
+    });
+
+    WanSettings.methods.getWanNetInfo.call(vm);
+
+    expect(vm.autodns.dhcp).to.equal(true);
+    expect(vm.dhcpForm).to.deep.include({ dns1: '', dns2: '' });
+  });
+
+  it('returns no loading paths before the loading DOM is mounted', () => {
+    const original = global.document;
+    global.document = { getElementById: () => null };
+    try {
+      expect(colorGradientMixin.computed.pathElements.call({})).to.deep.equal([]);
+    } finally {
+      global.document = original;
+    }
+  });
+
+  it('resolves the Dashboard device loading color from runtime branding', () => {
+    const $store = {
+      getters: { branding: { theme: { '--brand-loading': '#123456' } } },
+    };
+
+    expect(DevicePage.computed.loadingColor.call({ $store })).to.equal('#123456');
   });
 
   it('builds generic product labels from runtime branding', () => {

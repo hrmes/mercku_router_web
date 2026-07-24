@@ -430,6 +430,10 @@ export default {
     };
   },
   computed: {
+    loadingColor() {
+      const theme = this.$store.getters.branding && this.$store.getters.branding.theme;
+      return theme && theme['--brand-loading'];
+    },
     isMobile() {
       return this.$store.state.isMobile;
     },

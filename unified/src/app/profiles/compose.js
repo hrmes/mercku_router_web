@@ -12,7 +12,6 @@
  *     -> behavior (Model Profile wins)
  *     -> branding (Customer Profile wins, Neutral fallback handled by caller)
  *     -> policy (Customer Profile wins)
- *     -> pageVariants (Model Profile wins; v1 empty)
  *     -> Object.freeze (deep)
  *
  * Effective capability formula (§3.4):
@@ -107,7 +106,6 @@ export function compose(identity, modelProfile, customerProfile, diagnostics) {
     branding: deepClone(customerProfile.branding),
     policy: deepClone(customerProfile.policy),
     i18nMessages: deepClone(customerProfile.i18nMessages || {}),
-    pageVariants: deepClone(modelProfile.pageVariants || {}),
     diagnostics: diag,
   };
 

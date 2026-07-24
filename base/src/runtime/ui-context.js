@@ -81,6 +81,15 @@ function normalizeLegacyBranding(config) {
   };
 }
 
+export function resolveRuntimeModelId(store, legacyConfig = process.env.MODEL_CONFIG) {
+  const getters = asObject(store && store.getters);
+  const runtimeContext = asObject(getters.runtimeContext);
+  const identity = asObject(runtimeContext.identity);
+  if (asString(identity.modelId)) return identity.modelId;
+
+  return asString(asObject(legacyConfig).id);
+}
+
 export function resolveUiBranding(store, legacyConfig = process.env.CUSTOMER_CONFIG) {
   const getters = asObject(store && store.getters);
   const runtimeBranding = asObject(getters.branding);

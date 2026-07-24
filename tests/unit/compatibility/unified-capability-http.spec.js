@@ -14,6 +14,8 @@ describe('unified capability HTTP methods', () => {
 
     const expected = [
       ['getNewMeshNodeInfo', 'mesh.node.new.info'],
+      ['getMeshWps', 'mesh.wps.get'],
+      ['updateMeshWps', 'mesh.wps.update'],
       ['getMeshWanIntf', 'mesh.wan.intf.get'],
       ['updateMeshWanIntf', 'mesh.wan.intf.update'],
       ['getMeshPowerSupplyMode', 'mesh.poe.mode.get'],

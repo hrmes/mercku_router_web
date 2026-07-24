@@ -101,6 +101,36 @@ describe('Base Header runtime compatibility', () => {
     })).to.equal('/runtime-logo.svg');
   });
 
+  it('does not push when the logo target is already active', () => {
+    let pushed = false;
+    const vm = {
+      navVisible: true,
+      mobileI18nVisible: false,
+      mobileNavVisible: false,
+      $route: { path: '/dashboard' },
+      $router: { push() { pushed = true; } },
+    };
+
+    Header.methods.forward2Page.call(vm, '/dashboard');
+
+    expect(pushed).to.equal(false);
+  });
+
+  it('pushes when the logo target differs from the active route', () => {
+    let pushedPath = '';
+    const vm = {
+      navVisible: true,
+      mobileI18nVisible: false,
+      mobileNavVisible: false,
+      $route: { path: '/setting/wan' },
+      $router: { push({ path }) { pushedPath = path; } },
+    };
+
+    Header.methods.forward2Page.call(vm, '/dashboard');
+
+    expect(pushedPath).to.equal('/dashboard');
+  });
+
   it('falls back to English when configured languages are invalid', () => {
     const vm = { $store: { getters: { branding: { languages: ['xx-XX'] } } } };
     expect(languageMixin.computed.Languages.call(vm).map(item => item.value)).to.deep.equal([

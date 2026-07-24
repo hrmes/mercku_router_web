@@ -205,9 +205,12 @@ export default {
       return '';
     },
     localNodesOrdered() {
-      return this.localNodes.sort(a => {
+      return this.localNodes.sort((a, b) => {
         if (a.isGW) {
           return -1;
+        }
+        if (b.isGW) {
+          return 1;
         }
         return 0;
       });

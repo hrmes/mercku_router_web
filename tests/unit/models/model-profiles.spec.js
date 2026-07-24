@@ -20,6 +20,7 @@ const EXPECTED_BEHAVIOR = {
   upgradeProbeStartDelayMs: 20000,
   modeSwitchProbeStartDelayMs: 30000,
   reconnectProbeTimeoutMs: 600000,
+  meshRadioStatus: 'txPower',
 };
 
 describe('Model Profile: M11R4 (baseline, M6s no-SFP)', () => {
@@ -47,10 +48,6 @@ describe('Model Profile: M11R4 (baseline, M6s no-SFP)', () => {
 
   it('uses the delayed-variant behavior values extracted from m6s main.js + mode.vue', () => {
     expect(m11r4Profile.behavior).to.deep.equal(EXPECTED_BEHAVIOR);
-  });
-
-  it('keeps pageVariants empty (v1 schema locks maxProperties: 0)', () => {
-    expect(m11r4Profile.pageVariants).to.deep.equal({});
   });
 
   it('does NOT carry frontend-internals behavior (upgrading/Promise finally/error page)', () => {
@@ -88,9 +85,5 @@ describe('Model Profile: M13R0 (nano, fanControl hardware variant)', () => {
   it('shares the delayed-variant behavior with M11R4 (nano main.js is byte-identical)', () => {
     expect(m13r0Profile.behavior).to.deep.equal(EXPECTED_BEHAVIOR);
     expect(m13r0Profile.behavior).to.deep.equal(m11r4Profile.behavior);
-  });
-
-  it('keeps pageVariants empty (fan handled by capability gating, not pageVariant)', () => {
-    expect(m13r0Profile.pageVariants).to.deep.equal({});
   });
 });

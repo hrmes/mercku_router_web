@@ -26,6 +26,8 @@ let interceptorsInstalled = false;
 
 const unifiedMethods = {
   getNewMeshNodeInfo: createMethod('mesh.node.new.info'),
+  getMeshWps: createMethod('mesh.wps.get'),
+  updateMeshWps: createMethod('mesh.wps.update'),
   getMeshWanIntf: createMethod('mesh.wan.intf.get'),
   updateMeshWanIntf: createMethod('mesh.wan.intf.update'),
   getMeshPowerSupplyMode: createMethod('mesh.poe.mode.get'),

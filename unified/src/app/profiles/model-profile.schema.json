@@ -5,7 +5,7 @@
   "description": "Model Profile registers real hardware/backend capability differences plus device-flow behavior facts. v1 is atomic with firmware; only profileVersion 1 is supported.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["profileVersion", "expectedBackends", "capabilities", "behavior", "pageVariants"],
+  "required": ["profileVersion", "expectedBackends", "capabilities", "behavior"],
   "properties": {
     "profileVersion": {
       "const": 1,
@@ -56,11 +56,6 @@
           "description": "Radio status/control exposed by the shared Mesh topology: M6-style 2.4 GHz band control or read-only transmit power."
         }
       }
-    },
-    "pageVariants": {
-      "type": "object",
-      "maxProperties": 0,
-      "description": "Locked to empty in v1. New keys require a §A gate (schema bump)."
     }
   }
 }

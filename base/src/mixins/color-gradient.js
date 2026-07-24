@@ -16,7 +16,8 @@ export default {
       return '#00a7e1';
     },
     pathElements() {
-      return document.getElementById('loading-wrap').querySelectorAll('path');
+      const wrapper = document.getElementById('loading-wrap');
+      return wrapper ? wrapper.querySelectorAll('path') : [];
     },
     colorArr() {
       return this.lightenColor(this.color, this.pathElements.length);
@@ -45,7 +46,7 @@ export default {
       // 每次渐变的步长，值可以调整，根据需要让颜色变化更显著或更平滑
       const step = 5;
 
-      for (let i = 0; i < steps; i++) {
+      for (let i = 0; i < steps; i += 1) {
         r = Math.min(255, r + step);
         g = Math.min(255, g + step);
         b = Math.min(255, b + step);

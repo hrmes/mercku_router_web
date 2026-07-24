@@ -18,7 +18,7 @@ import 'base/style/theme-mode.scss';
 import 'base/style/router-model.scss';
 
 import { bootstrap } from './app/bootstrap';
-import { buildBootstrapErrorDescriptor } from './app/bootstrap-error';
+import { buildBootstrapErrorDescriptor, escapeHtml } from './app/bootstrap-error';
 import { createApp } from './app/create-app';
 
 // Render a brand-neutral bootstrap error page inside `#web`. Kept inline
@@ -28,12 +28,12 @@ function renderBootstrapError(descriptor) {
   if (typeof document === 'undefined') return;
   const root = document.getElementById('web') || document.body;
   const diagnostics = descriptor.diagnostics.length
-    ? `<details style="margin-top:16px;white-space:pre-wrap;color:#666;font-size:12px"><summary>Diagnostics</summary>${descriptor.diagnostics.map((d) => `${d.code || d.level}: ${d.message}`).join('\n')}</details>`
+    ? `<details style="margin-top:16px;white-space:pre-wrap;color:#666;font-size:12px"><summary>Diagnostics</summary>${descriptor.diagnostics.map((d) => `${escapeHtml(d.code || d.level)}: ${escapeHtml(d.message)}`).join('\n')}</details>`
     : '';
   root.innerHTML = [
     '<div style="font-family:-apple-system,system-ui,sans-serif;color:#333;max-width:480px;margin:80px auto;padding:0 16px;text-align:center">',
     '<h1 style="font-size:18px;margin:0 0 12px">Unable to start</h1>',
-    `<p style="font-size:14px;margin:0 0 24px;color:#666">${descriptor.message}</p>`,
+    `<p style="font-size:14px;margin:0 0 24px;color:#666">${escapeHtml(descriptor.message)}</p>`,
     descriptor.retryable
       ? '<button onclick="location.reload()" style="padding:8px 20px;font-size:14px;cursor:pointer">Retry</button>'
       : '<p style="font-size:12px;color:#999">This device is not supported by the installed firmware. Contact your administrator.</p>',
