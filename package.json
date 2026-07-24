@@ -11,7 +11,8 @@
     "test:e2e:ga630": "playwright test --project=ga630",
     "test:e2e:ui": "playwright test --ui",
     "build:unified": "VUE_CLI_SERVICE_CONFIG_PATH=$PWD/unified/vue.config.js vue-cli-service build --dest dist-unified",
-    "dev:unified": "VUE_CLI_SERVICE_CONFIG_PATH=$PWD/unified/vue.config.js vue-cli-service serve",
+    "dev:unified": "MERCKU_OFFLINE_PREVIEW=1 VUE_APP_OFFLINE_PREVIEW=1 VUE_CLI_SERVICE_CONFIG_PATH=$PWD/unified/vue.config.js vue-cli-service serve",
+    "dev:unified:backend": "VUE_CLI_SERVICE_CONFIG_PATH=$PWD/unified/vue.config.js vue-cli-service serve",
     "check:unified-ids": "node scripts/check-unified-id-boundaries.mjs"
   },
   "dependencies": {

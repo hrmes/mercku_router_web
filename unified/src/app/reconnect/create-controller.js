@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * Reconnect Controller — unified state machine for the legacy
  * reconnect/upgrade/mode-switch probe flow.
@@ -60,7 +61,6 @@ export function createReconnectController({
   http,
   behavior,
   scheduler,
-  store,
 } = {}) {
   if (!http || typeof http.getRouter !== 'function') {
     throw new TypeError('createReconnectController: http.getRouter is required');
@@ -68,11 +68,6 @@ export function createReconnectController({
   if (!behavior || typeof behavior !== 'object') {
     throw new TypeError('createReconnectController: behavior is required');
   }
-  // `store` is intentionally unused but accepted so the signature documents
-  // the legacy dependency. The new controller does not mutate cross-component
-  // state — abort flows via dispose().
-  void store;
-
   const sched = scheduler || defaultScheduler();
 
   let state = 'idle';

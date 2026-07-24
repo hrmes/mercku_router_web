@@ -1,0 +1,26 @@
+{
+  "profileVersion": 1,
+  "branding": {
+    "productName": "Viaero",
+    "wifiName": "Viaero Wi-Fi",
+    "website": {
+      "text": "www.viaero.com",
+      "url": "https://www.viaero.com"
+    },
+    "policyUrl": "https://www.viaero.com/terms-and-conditions#privacy-header",
+    "appDownloadUrl": "http://apk-viaero.merckuwifi.com/2mmkcrm",
+    "languages": ["zh-CN", "en-US", "de-DE", "fi-FI", "bg-BG"],
+    "defaultLanguage": "en-US",
+    "theme": {
+      "--brand-primary": "#0a6fcd",
+      "--brand-secondary": "#0a6fcd",
+      "--brand-tertiary": "#0a6fcd",
+      "--brand-loading": "#0a6fcd"
+    }
+  },
+  "policy": {
+    "disabledCapabilities": [],
+    "allow2LevelAdmin": true,
+    "allowTelnet": false
+  }
+}

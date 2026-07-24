@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 const { expect } = require('chai');
 
 const { applyBranding } = require('../../../unified/src/app/branding/apply-branding.js');
@@ -24,6 +25,13 @@ function createMockDocument() {
   };
   const documentElement = {
     lang: '',
+    className: '',
+    getAttribute(name) {
+      return name === 'class' ? this.className : null;
+    },
+    setAttribute(name, value) {
+      if (name === 'class') this.className = value;
+    },
     style: {
       setProperty(name, value) {
         documentElement.style._props = documentElement.style._props || {};
@@ -66,6 +74,8 @@ const SAMPLE_PROFILE = {
     defaultLanguage: 'en-US',
     theme: {
       '--brand-primary': '#d6001c',
+      '--brand-secondary': '#ee1d4f',
+      '--brand-tertiary': '#ff6734',
       '--brand-loading': '#d6001c',
     },
     logoUrl: '/static/img/logo.abc123.png',
@@ -92,6 +102,19 @@ describe('applyBranding(customerProfile, document)', () => {
     expect(doc.documentElement.lang).to.equal('en-US');
   });
 
+  it('defaults an uninitialized document to the light theme', () => {
+    const doc = createMockDocument();
+    applyBranding(SAMPLE_PROFILE, doc);
+    expect(doc.documentElement.className).to.equal('light');
+  });
+
+  it('preserves an explicitly selected dark theme', () => {
+    const doc = createMockDocument();
+    doc.documentElement.className = 'dark';
+    applyBranding(SAMPLE_PROFILE, doc);
+    expect(doc.documentElement.className).to.equal('dark');
+  });
+
   it('creates a favicon <link rel="icon"> when none exists', () => {
     const doc = createMockDocument();
     applyBranding(SAMPLE_PROFILE, doc);
@@ -116,6 +139,15 @@ describe('applyBranding(customerProfile, document)', () => {
     applyBranding(SAMPLE_PROFILE, doc);
     expect(doc.documentElement.style.getPropertyValue('--brand-primary')).to.equal('#d6001c');
     expect(doc.documentElement.style.getPropertyValue('--brand-loading')).to.equal('#d6001c');
+    expect(doc.documentElement.style.getPropertyValue('--primary-color')).to.equal('#d6001c');
+    expect(doc.documentElement.style.getPropertyValue('--button-bgc')).to.equal(
+      'linear-gradient(95deg, #d6001c, #ee1d4f 45%, #ff6734)'
+    );
+    expect(doc.documentElement.style.getPropertyValue('--header_selected-bgc')).to.equal(
+      'linear-gradient(225deg, #ff6734 30%, #ee1d4f 55%, #d6001c)'
+    );
+    expect(doc.documentElement.style.getPropertyValue('--header_selected_icon-textshadow'))
+      .to.equal('0 3px 8px rgba(214, 0, 28, 0.3)');
   });
 
   it('returns a descriptor with title, faviconUrl, theme, language, logoUrl, loginBackgroundUrl', () => {
@@ -128,6 +160,8 @@ describe('applyBranding(customerProfile, document)', () => {
       loginBackgroundUrl: '/static/img/login-bg.789xyz.webp',
       theme: {
         '--brand-primary': '#d6001c',
+        '--brand-secondary': '#ee1d4f',
+        '--brand-tertiary': '#ff6734',
         '--brand-loading': '#d6001c',
       },
       language: 'en-US',

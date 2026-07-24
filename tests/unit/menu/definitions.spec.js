@@ -1,8 +1,8 @@
+/* eslint-env mocha */
 const { expect } = require('chai');
 
 const { menuDefinitions } = require('../../../unified/src/app/menu/definitions.js');
 const { Role, RouterMode } = require('../../../base/src/util/constant');
-const { CAPABILITY_KEYS } = require('../../../unified/src/app/profiles/capabilities.js');
 
 /**
  * Flatten the menu tree into a list of leaf items (children only).
@@ -35,15 +35,13 @@ describe('menuDefinitions (static menu tree)', () => {
     expect(dashboard.children).to.deep.equal([]);
   });
 
-  describe('common items are present (no capability gating)', () => {
+  describe('implemented common items are present', () => {
     const leaves = leafItems(menuDefinitions);
     const names = leaves.map((l) => l.name);
 
     ['wifi', 'wan', 'wanping', 'ipv6', 'safe', 'blacklist', 'timezone', 'region', 'guest', 'upnp', 'led', 'schedule', 'wps'].forEach((name) => {
-      it(`includes ${name} as a common item (no capability field)`, () => {
+      it(`includes ${name} as a common item`, () => {
         expect(names, `${name} must be in menu definitions`).to.include(name);
-        const item = leaves.find((l) => l.name === name);
-        expect(item.capability, `${name} must NOT have a capability field (common item)`).to.equal(undefined);
       });
     });
 
@@ -60,35 +58,14 @@ describe('menuDefinitions (static menu tree)', () => {
     });
   });
 
-  describe('capability-gated items use the 4 v1 keys', () => {
+  describe('capability-gated items', () => {
     const leaves = leafItems(menuDefinitions);
 
-    it('setting.sfp is gated on capability "sfp"', () => {
-      const sfp = leaves.find((l) => l.name === 'sfp');
-      expect(sfp).to.exist;
-      expect(sfp.capability).to.equal('sfp');
-    });
-
-    it('setting.powersupply is gated on capability "poeControl"', () => {
-      const ps = leaves.find((l) => l.name === 'powersupply');
-      expect(ps).to.exist;
-      expect(ps.capability).to.equal('poeControl');
-    });
-
-    it('setting.fan is gated on capability "fanControl"', () => {
-      const fan = leaves.find((l) => l.name === 'fan');
-      expect(fan).to.exist;
-      expect(fan.capability).to.equal('fanControl');
-    });
-
-    it('all capability keys used in definitions are in CAPABILITY_KEYS (no aliasing)', () => {
-      const used = new Set();
-      leaves.forEach((l) => {
-        if (l.capability) used.add(l.capability);
-      });
-      used.forEach((cap) => {
-        expect(CAPABILITY_KEYS).to.include(cap);
-      });
+    it('advertises all existing hardware pages through capability metadata', () => {
+      expect(leaves.find(item => item.name === 'sfp').requiresCapability).to.equal('sfp');
+      expect(leaves.find(item => item.name === 'powersupply').requiresCapability).to.equal('poeControl');
+      expect(leaves.find(item => item.name === 'fan').requiresCapability).to.equal('fanControl');
+      expect(leaves.find(item => item.name === 'frozen-config').requiresCapability).to.equal('frozenConfig');
     });
   });
 

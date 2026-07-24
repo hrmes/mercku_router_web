@@ -1,5 +1,7 @@
 const path = require('path');
 const { execFileSync } = require('child_process');
+/* eslint-env mocha */
+/* eslint-disable prefer-destructuring, no-script-url */
 const { expect } = require('chai');
 const Ajv = require('ajv');
 
@@ -36,6 +38,7 @@ const validModelProfile = {
     upgradeProbeStartDelayMs: 20000,
     modeSwitchProbeStartDelayMs: 30000,
     reconnectProbeTimeoutMs: 600000,
+    meshRadioStatus: 'txPower',
   },
   pageVariants: {},
 };
@@ -99,12 +102,22 @@ describe('profile contract (v1)', () => {
       expect(eb.items.minLength).to.be.greaterThan(0);
     });
 
-    it('behavior declares exactly the three v1 delay keys and rejects unknown ones', () => {
+    it('behavior declares the device-flow and Mesh radio semantics and rejects unknown ones', () => {
       const behavior = modelProfileSchema.properties.behavior;
       expect(behavior.additionalProperties).to.equal(false);
       expect(behavior.required.sort()).to.deep.equal(
-        ['modeSwitchProbeStartDelayMs', 'reconnectProbeTimeoutMs', 'upgradeProbeStartDelayMs']
+        [
+          'meshRadioStatus',
+          'modeSwitchProbeStartDelayMs',
+          'reconnectProbeTimeoutMs',
+          'upgradeProbeStartDelayMs',
+        ]
       );
+    });
+
+    it('limits Mesh radio status to backend-neutral business meanings', () => {
+      expect(modelProfileSchema.properties.behavior.properties.meshRadioStatus.enum)
+        .to.deep.equal(['band24g', 'txPower']);
     });
 
     it('behavior delays are non-negative integers bounded above', () => {
@@ -158,11 +171,19 @@ describe('profile contract (v1)', () => {
       expect(customerProfileSchema.properties.branding.additionalProperties).to.equal(false);
     });
 
-    it('theme whitelist is exactly --brand-primary and --brand-loading', () => {
+    it('allows the webpack-assembled branding asset URLs', () => {
+      const branding = customerProfileSchema.properties.branding.properties;
+      ['logoUrl', 'darkLogoUrl', 'faviconUrl', 'loginBackgroundUrl', 'qrCodeUrl', 'appIconUrl'].forEach((name) => {
+        expect(branding[name].type).to.equal('string');
+        expect(branding[name].minLength).to.equal(1);
+      });
+    });
+
+    it('theme whitelist contains only the four semantic brand colors', () => {
       const theme = customerProfileSchema.properties.branding.properties.theme;
       expect(theme.additionalProperties).to.equal(false);
       expect(Object.keys(theme.properties).sort()).to.deep.equal(
-        ['--brand-loading', '--brand-primary']
+        ['--brand-loading', '--brand-primary', '--brand-secondary', '--brand-tertiary']
       );
     });
 

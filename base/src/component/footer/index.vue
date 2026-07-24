@@ -6,12 +6,14 @@
     <div class="footer__left"
          v-if="!isMobile">
       <div class="footer__left-menu logout"
+           data-e2e="footer-logout"
            v-if="navVisible"
            @click="exit()">
         <span class="icon"></span>
         {{$t('trans0021')}}
       </div>
       <div class="footer__left-menu lang"
+           data-e2e="footer-language"
            @mouseenter="setLangPopupVisible(true)"
            @mouseleave="setLangPopupVisible(false)">
         <span class="icon"></span>
@@ -24,6 +26,7 @@
             <ul class="popup reset-ul"
                 v-show="showPopup">
               <li :key="lang.value"
+                  :data-e2e="`language-${lang.value}`"
                   v-for="lang in Languages"
                   :class="{'selected':$i18n.locale === lang.value}"
                   @click="selectLang(lang)">
@@ -46,12 +49,13 @@
       </div>
 
       <div class="footer__right__QR-container"
-           v-if="!isLoginPage && !isMobile">
+           v-if="!isLoginPage && !isMobile && qrCodeUrl">
         <img src="../../assets/images/icon/ic_qr_small.png" />
         <div class="jump-app-info">
           <div class="text-container">{{transText('trans1118')}}</div>
           <div class="icon qr">
-            <img :src="require(`base/assets/images/customer/${ispFolderName}/qr.png`)" />
+            <img :src="qrCodeUrl"
+                 data-e2e="runtime-qr-code" />
           </div>
         </div>
       </div>
@@ -80,6 +84,7 @@
 </template>
 <script>
 import languageMixin from 'base/mixins/language';
+import { resolveUiBranding } from 'base/runtime/ui-context';
 
 export default {
   mixins: [languageMixin],
@@ -104,12 +109,12 @@ export default {
     transText(text) {
       return this.$t(text).replaceAll(
         '%s',
-        process.env.CUSTOMER_CONFIG.title
+        this.branding.productName
       );
     },
     showPolicy() {
-      if (process.env.CUSTOMER_CONFIG.policy) {
-        window.open(process.env.CUSTOMER_CONFIG.policy);
+      if (this.branding.policyUrl) {
+        window.open(this.branding.policyUrl);
       } else {
         this.policyVisiable = true;
       }
@@ -134,6 +139,19 @@ export default {
     },
   },
   computed: {
+    branding() {
+      return resolveUiBranding(this.$store);
+    },
+    qrCodeUrl() {
+      if (this.branding.qrCodeUrl) return this.branding.qrCodeUrl;
+      if (!this.branding.legacyAssetFolder) return '';
+
+      try {
+        return require(`base/assets/images/customer/${this.branding.legacyAssetFolder}/qr.png`);
+      } catch (error) {
+        return '';
+      }
+    },
     policy() {
       return require('./policy-en.html');
     },
@@ -147,10 +165,7 @@ export default {
       */
       return copyright
         .replace('%d', now.getFullYear())
-        .replace('%s', process.env.CUSTOMER_CONFIG.title);
-    },
-    ispFolderName() {
-      return process.env.CUSTOMER_CONFIG.title.toLowerCase();
+        .replace('%s', this.branding.productName);
     },
     isMobile() {
       return this.$store.state.isMobile;

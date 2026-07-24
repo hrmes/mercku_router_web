@@ -9,9 +9,14 @@
     </div>
     <div class="login__right">
       <div class="center-form"
-           :class="currentTheme">
+           :class="centerFormThemeClass">
         <div class="form">
-          <div class="logo">
+          <div class="logo"
+               :class="{'runtime-logo-wrap':isRuntimeProfile}">
+            <img v-if="currentLogoUrl"
+                 class="runtime-logo"
+                 :src="currentLogoUrl"
+                 :alt="branding.productName">
           </div>
           <div class="loading"
                v-if="loading">
@@ -55,13 +60,20 @@
               <span>App Store</span>
             </div>
           </div>
-          <div class="qr"></div>
+          <div class="qr">
+            <img v-if="qrCodeUrl"
+                 :src="qrCodeUrl"
+                 :alt="branding.productName">
+          </div>
         </div>
         <div class="small-device-download"
              v-if="appDownloadUrl && isMobile">
           <div class="top-wrap">
             <div class="logo-container">
               <div class="app-logo">
+                <img v-if="appIconUrl"
+                     :src="appIconUrl"
+                     :alt="branding.productName">
               </div>
             </div>
             <div class="down-text">
@@ -82,8 +94,17 @@
 </template>
 
 <script>
-import { LoginImg } from 'base/assets/images/base64-img/img.js';
+import { LoginImg } from 'base/assets/images/base64-img/img';
+import { resolveUiBranding } from 'base/runtime/ui-context';
 import { setCookie, getCookie, clearCookie } from 'base/util/cookie';
+
+export function persistLoginSession(session) {
+  // Older M6 backends return the session only through the Set-Cookie header.
+  // Newer backends may also include it in the JSON result.
+  if (typeof session === 'string' && session) {
+    setCookie('session', session, 0);
+  }
+}
 
 export default {
   data() {
@@ -126,17 +147,42 @@ export default {
       });
   },
   computed: {
+    branding() {
+      return resolveUiBranding(this.$store);
+    },
+    isRuntimeProfile() {
+      return Boolean(this.$store.getters && this.$store.getters.runtimeContext);
+    },
     isMobile() {
       return this.$store.state.isMobile;
     },
     website() {
-      return process.env.CUSTOMER_CONFIG.website;
+      return this.branding.website;
     },
     appDownloadUrl() {
-      return process.env.CUSTOMER_CONFIG.appDownloadUrl;
+      return this.branding.appDownloadUrl;
     },
     currentTheme() {
       return this.$store.state.theme;
+    },
+    centerFormThemeClass() {
+      return this.isRuntimeProfile ? '' : this.currentTheme;
+    },
+    currentLogoUrl() {
+      if (!this.isRuntimeProfile) return '';
+      if (this.currentTheme === 'dark') {
+        return this.branding.darkLoginLogoUrl ||
+          this.branding.darkLogoUrl ||
+          this.branding.loginLogoUrl ||
+          this.branding.logoUrl;
+      }
+      return this.branding.loginLogoUrl || this.branding.logoUrl;
+    },
+    qrCodeUrl() {
+      return this.isRuntimeProfile ? this.branding.qrCodeUrl : '';
+    },
+    appIconUrl() {
+      return this.isRuntimeProfile ? this.branding.appIconUrl : '';
     },
   },
   watch: {
@@ -174,7 +220,7 @@ export default {
         .then(res => {
           const { role, session } = res.data.result;
 
-          setCookie('session', session, 0);
+          persistLoginSession(session);
           setCookie('lockEndTime', 0, 1);
           setCookie('lockCountLeft', this.lockCount, 1);
 
@@ -318,6 +364,15 @@ export default {
       // height: 38px;
       margin: 0 auto;
       margin-bottom: 30px;
+      &.runtime-logo-wrap {
+        width: 280px;
+        height: 38px;
+      }
+      .runtime-logo {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
     }
     .btn {
       width: 340px;
@@ -385,6 +440,11 @@ export default {
     .qr {
       width: 86px;
       height: 86px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
     }
     .text {
       font-size: 14px;
@@ -444,6 +504,12 @@ export default {
             width: 48px;
             height: 48px;
             border-radius: 5px;
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: contain;
+              border-radius: inherit;
+            }
           }
         }
 

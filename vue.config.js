@@ -33,6 +33,11 @@ module.exports = {
         limit: 100000,
         name: 'static/img/[name].[hash:8].[ext]',
       });
+    config.module
+      .rule('html')
+      .test(/\.html$/)
+      .use('html-loader')
+      .loader('html-loader');
   },
   css: {
     loaderOptions: {

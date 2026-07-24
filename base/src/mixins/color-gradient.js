@@ -1,7 +1,19 @@
 export default {
   computed: {
     color() {
-      return process.env.CUSTOMER_CONFIG.loading.color;
+      // Legacy builds still get their compile-time customer color. Unified
+      // builds have no CUSTOMER_CONFIG and receive branding as CSS variables.
+      const customerConfig = process.env.CUSTOMER_CONFIG;
+      if (customerConfig && customerConfig.loading && customerConfig.loading.color) {
+        return customerConfig.loading.color;
+      }
+      if (typeof document !== 'undefined' && document.documentElement) {
+        const runtimeColor = getComputedStyle(document.documentElement)
+          .getPropertyValue('--brand-loading')
+          .trim();
+        if (runtimeColor) return runtimeColor;
+      }
+      return '#00a7e1';
     },
     pathElements() {
       return document.getElementById('loading-wrap').querySelectorAll('path');

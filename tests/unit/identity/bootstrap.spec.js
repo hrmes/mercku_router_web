@@ -15,7 +15,7 @@ const {
 const { compose } = require('../../../unified/src/app/profiles/compose.js');
 
 // Fixtures used to drive the bootstrap. We keep them in tests/fixtures so the
-// same data shapes the JSON-schema fixtures from Task 2.
+// same data shapes as the JSON-schema fixtures.
 const VALID_IDENTITY = {
   schemaVersion: 1,
   revision: '2026-07-21T10:00:00Z-1',
@@ -462,7 +462,7 @@ describe('bootstrap({ createApp })', () => {
     });
   });
 
-  describe('effective capability composition (deferred cross-file constraint from Task 2)', () => {
+  describe('effective capability composition', () => {
     it('detectedCapabilities=true CANNOT flip a Model Profile false to true', async () => {
       const calls = [];
       await bootstrap({

@@ -236,11 +236,16 @@ describe('validate-profiles CLI (asset + registry correspondence checks)', () =>
 
   it('skips the assets check for the neutral profile (uses shared default assets)', () => {
     const { status, stdout } = runValidator({
-      // neutral is not in the registry, but the validator should still
-      // accept its directory without an assets/ subdirectory.
+      // Neutral is loaded directly by the fallback factory, so it needs
+      // neither a registry entry, index.js nor a private assets directory.
       profiles: [
         { id: '0001', profileJson: VALID_CUSTOMER_PROFILE },
-        { id: 'neutral', profileJson: VALID_CUSTOMER_PROFILE, skipAssets: true },
+        {
+          id: 'neutral',
+          profileJson: VALID_CUSTOMER_PROFILE,
+          skipIndex: true,
+          skipAssets: true,
+        },
       ],
     });
     expect(status, `stdout=${stdout}`).to.equal(0);

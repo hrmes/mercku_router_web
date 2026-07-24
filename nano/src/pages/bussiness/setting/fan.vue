@@ -36,8 +36,8 @@
 </template>
 <script>
 import { debounce } from 'base/util/util';
-import fanGameIcon from '@/assets/images/icon/ic_fan_game.svg';
-import fanSleepIcon from '@/assets/images/icon/ic_fan_sleep.svg';
+import fanGameIcon from '../../../assets/images/icon/ic_fan_game.svg';
+import fanSleepIcon from '../../../assets/images/icon/ic_fan_sleep.svg';
 
 const FanMode = {
   game: 'game',

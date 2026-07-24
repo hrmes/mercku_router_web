@@ -19,9 +19,14 @@
       <div v-else
            @click.stop="forward2Page('/dashboard')"
            class="logo-wrap__logo"
-           :class="{'is-wlan-page':isWlanPage}"></div>
+           :class="{'is-wlan-page':isWlanPage}">
+        <img v-if="currentLogoUrl"
+             :src="currentLogoUrl"
+             :alt="branding.productName">
+      </div>
     </div>
-    <template v-if="isMobile">
+    <div v-if="isMobile"
+         class="mobile-header-controls">
       <div class="nav-wrap nav-wrap--mobile"
            v-show="mobileNavVisible">
         <ul class="nav reset-ul"
@@ -55,7 +60,10 @@
                     :key="child.key"
                     @click.stop="jumpMobile(child)"
                     v-for="child in menu.children"
-                    :class="{'selected':$route.name.includes(child.name),'disabled':child.disabled}">
+                    :class="{
+                      'selected':$route.name.includes(child.name),
+                      'disabled':child.disabled
+                    }">
                   {{$t(child.text)}}
                   <i v-if="$route.name.includes(child.name)"
                      class="is-checked"></i>
@@ -107,7 +115,7 @@
           <i class="iconfont ic_more_moblie"></i>
         </span>
       </div>
-    </template>
+    </div>
     <div class="nav-wrap nav-wrap--laptop"
          v-else>
       <ul class="nav reset-ul"
@@ -139,6 +147,7 @@
     </div>
     <!-- theme change modal -->
     <m-modal class="theme-change-modal"
+             data-e2e="theme-modal"
              :type="isMobile?'confirm':'info'"
              :visible.sync='ThemechangeVisiable'>
       <m-modal-header>
@@ -153,6 +162,7 @@
       <m-modal-body>
         <div class="theme-change-body">
           <div class="theme-option"
+               data-e2e="theme-option-light"
                @click="clickHandler('light')">
             <m-checkbox v-if="isMobile"
                         class="checkbox static"
@@ -166,6 +176,7 @@
                         v-model="themeOptions.light.ischecked"></m-checkbox>
           </div>
           <div class="theme-option"
+               data-e2e="theme-option-dark"
                @click="clickHandler('dark')">
             <m-checkbox v-if="isMobile"
                         class="checkbox static"
@@ -179,6 +190,7 @@
                         v-model="themeOptions.dark.ischecked"></m-checkbox>
           </div>
           <div class="theme-option"
+               data-e2e="theme-option-auto"
                @click="clickHandler('auto')">
             <m-checkbox v-if="isMobile"
                         class="checkbox static"
@@ -195,6 +207,7 @@
       </m-modal-body>
       <m-modal-footer class="theme-change-footer">
         <button class="btn btn-dialog-confirm"
+                data-e2e="theme-confirm"
                 @click="changeThemeMode">{{$t('trans0081')}}</button>
       </m-modal-footer>
     </m-modal>
@@ -202,6 +215,7 @@
 </template>
 <script>
 import languageMixin from 'base/mixins/language';
+import { resolveUiBranding } from 'base/runtime/ui-context';
 import { RouterMode } from 'base/util/constant';
 
 export default {
@@ -252,11 +266,14 @@ export default {
     this.checkTheme();
   },
   computed: {
+    branding() {
+      return resolveUiBranding(this.$store);
+    },
     language() {
       return this.getDefaultLanguage();
     },
     website() {
-      return process.env.CUSTOMER_CONFIG.website;
+      return this.branding.website;
     },
     needMoveToRight() {
       return (
@@ -270,6 +287,12 @@ export default {
     currentTheme() {
       return this.$store.state.theme;
     },
+    currentLogoUrl() {
+      if (this.currentTheme === 'dark' && this.branding.darkLogoUrl) {
+        return this.branding.darkLogoUrl;
+      }
+      return this.branding.logoUrl;
+    },
     isWirelessBridge() {
       return RouterMode.wirelessBridge === this.$store.state.mode;
     }
@@ -278,8 +301,11 @@ export default {
     $route() {
       this.list = this.getList();
     },
-    menus() {
-      this.list = this.getList();
+    navs: {
+      handler() {
+        this.list = this.getList();
+      },
+      deep: true
     },
     currentTheme: {
       handler(nv) {
@@ -383,27 +409,30 @@ export default {
       return `nav-${normalized}`;
     },
     getList() {
-      const list = this.navs.map((m, index) => {
-        m.key = index;
-        if (m.children.length) {
-          let selected = false;
-          const children = m.children.map((mm, ii) => {
-            mm.index = ii;
-            // 正则匹配：URL 后跟 /、? 或字符串结束，避免 /wan 匹配到 /wanping
-            const regex = new RegExp(`^${mm.url}(/|\\?|$)`);
-            if (regex.test(this.$route.path)) {
-              selected = true;
-            }
-            return { ...mm, children };
-          });
-          return { ...m, selected, showChild: false };
-        }
-        // 父级菜单同样使用正则精确匹配
-        const regex = new RegExp(`^${m.url}(/|\\?|$)`);
-        const selected = regex.test(this.$route.path);
-        return { ...m, selected, showChild: false };
+      const isSelected = (url) => {
+        if (!url) return false;
+        return this.$route.path === url || this.$route.path.startsWith(`${url}/`);
+      };
+
+      return this.navs.map((menu, index) => {
+        const children = (menu.children || []).map((child, childIndex) => ({
+          ...child,
+          key: childIndex,
+          index: childIndex,
+          selected: isSelected(child.url)
+        }));
+        const selected = children.length
+          ? children.some(child => child.selected)
+          : isSelected(menu.url);
+
+        return {
+          ...menu,
+          key: index,
+          children,
+          selected,
+          showChild: false
+        };
       });
-      return list;
     },
     close() {
       this.showPopup = false;
@@ -567,6 +596,12 @@ export default {
       width: 100%;
       height: 100%;
       cursor: pointer;
+      > img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        object-position: left center;
+      }
       &.is-wlan-page {
         cursor: default;
       }

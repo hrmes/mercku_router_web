@@ -31,8 +31,8 @@
 </template>
 <script>
 import { debounce } from 'base/util/util';
-import sfpIcon from '@/assets/images/icon/ic_sfp_sfp.png';
-import wanIcon from '@/assets/images/icon/ic_sfp_wan.png';
+import sfpIcon from '../../../assets/images/icon/ic_sfp_sfp.png';
+import wanIcon from '../../../assets/images/icon/ic_sfp_wan.png';
 
 const InterfaceType = {
   RJ45: 'RJ45',

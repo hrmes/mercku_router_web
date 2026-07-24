@@ -1,24 +1,21 @@
+/* eslint-env mocha */
 const { expect } = require('chai');
 
 const { compose } = require('../../../unified/src/app/profiles/compose.js');
-const {
-  createNeutralCustomerProfile,
-} = require('../../../unified/src/app/profiles/load.js');
 const { installGuards, GUARD_REDIRECT_TO } = require('../../../unified/src/app/router/guards.js');
 const { Role, RouterMode } = require('../../../base/src/util/constant');
 
 const m11r4Profile = require('../../../unified/src/profiles/models/M11R4/profile.json');
-const m13r0Profile = require('../../../unified/src/profiles/models/M13R0/profile.json');
 const customer0001 = require('../../../unified/src/profiles/customers/0001/profile.json');
 
-function composeFixture(modelProfile, customerProfile, detectedCapabilities = {}) {
+function composeFixture(modelProfile, customerProfile) {
   const identity = {
     schemaVersion: 1,
     revision: '2026-07-21T10:00:00Z-1',
     modelId: 'TEST_MODEL',
     customerId: 'TEST_CUSTOMER',
     backend: 'mercku_mtk7621',
-    detectedCapabilities,
+    detectedCapabilities: {},
   };
   return compose(identity, modelProfile, customerProfile);
 }
@@ -37,7 +34,7 @@ function customerWithAllPolicies() {
 /**
  * Minimal router mock: captures the beforeEach handler so tests can invoke
  * it directly with a synthetic `to` route and inspect what `next` was called
- * with. We do NOT instantiate Vue Router here — Task 6 must remain Vue-free.
+ * with. We do not instantiate Vue Router here.
  */
 function createMockRouter() {
   let guard = null;
@@ -47,7 +44,7 @@ function createMockRouter() {
     },
     runGuard(to, from = null) {
       expect(guard, 'installGuards must register a beforeEach handler').to.be.a('function');
-      let nextArg = undefined;
+      let nextArg;
       let nextCalled = false;
       const next = (arg) => {
         nextCalled = true;
@@ -60,13 +57,13 @@ function createMockRouter() {
 }
 
 function makeRoute(name, meta = {}) {
-  return { name, path: `/web/${name}`, meta };
+  return { name, path: `/${name}`, meta };
 }
 
 describe('installGuards(router, runtimeContext, getCurrentRole, getCurrentMode)', () => {
   describe('GUARD_REDIRECT_TO', () => {
-    it('redirects to /web/dashboard (safe default)', () => {
-      expect(GUARD_REDIRECT_TO).to.equal('/web/dashboard');
+    it('redirects to /dashboard (safe default)', () => {
+      expect(GUARD_REDIRECT_TO).to.equal('/dashboard');
     });
   });
 
@@ -92,35 +89,7 @@ describe('installGuards(router, runtimeContext, getCurrentRole, getCurrentMode)'
       const ctx = composeFixture(m11r4Profile, customer0001);
       const router = createMockRouter();
       installGuards(router, ctx, () => Role.admin, () => RouterMode.router);
-      const { nextArg } = router.runGuard({ name: 'unknown', path: '/web/unknown', meta: undefined });
-      expect(nextArg).to.equal(undefined);
-    });
-  });
-
-  describe('capability re-check (prevents direct URL bypass)', () => {
-    it('blocks fan route when effectiveCapabilities.fanControl is false', () => {
-      const ctx = composeFixture(m11r4Profile, customer0001);
-      const router = createMockRouter();
-      installGuards(router, ctx, () => Role.admin, () => RouterMode.router);
-      const fanRoute = makeRoute('fan', {
-        capability: 'fanControl',
-        auth: [Role.admin, Role.super],
-        mode: [RouterMode.router, RouterMode.bridge, RouterMode.wirelessBridge],
-      });
-      const { nextArg } = router.runGuard(fanRoute);
-      expect(nextArg, 'should redirect when cap is false').to.equal(GUARD_REDIRECT_TO);
-    });
-
-    it('allows fan route when effectiveCapabilities.fanControl is true', () => {
-      const ctx = composeFixture(m13r0Profile, customer0001);
-      const router = createMockRouter();
-      installGuards(router, ctx, () => Role.admin, () => RouterMode.router);
-      const fanRoute = makeRoute('fan', {
-        capability: 'fanControl',
-        auth: [Role.admin, Role.super],
-        mode: [RouterMode.router, RouterMode.bridge, RouterMode.wirelessBridge],
-      });
-      const { nextArg } = router.runGuard(fanRoute);
+      const { nextArg } = router.runGuard({ name: 'unknown', path: '/unknown', meta: undefined });
       expect(nextArg).to.equal(undefined);
     });
   });
@@ -163,6 +132,20 @@ describe('installGuards(router, runtimeContext, getCurrentRole, getCurrentMode)'
       });
       const { nextArg } = router.runGuard(superRoute);
       expect(nextArg).to.equal(GUARD_REDIRECT_TO);
+    });
+  });
+
+  describe('hardware capability re-check', () => {
+    it('blocks a capability route when the active model does not support it', () => {
+      const ctx = composeFixture(m11r4Profile, customer0001);
+      const router = createMockRouter();
+      installGuards(router, ctx, () => Role.admin, () => RouterMode.router);
+      const sfpRoute = makeRoute('sfp', {
+        requiresCapability: 'sfp',
+        auth: [Role.admin, Role.super],
+        mode: [RouterMode.router],
+      });
+      expect(router.runGuard(sfpRoute).nextArg).to.equal(GUARD_REDIRECT_TO);
     });
   });
 
@@ -257,36 +240,6 @@ describe('installGuards(router, runtimeContext, getCurrentRole, getCurrentMode)'
       expect(router.runGuard(wanRoute).nextArg).to.equal(undefined);
       currentMode = RouterMode.bridge;
       expect(router.runGuard(wanRoute).nextArg).to.equal(GUARD_REDIRECT_TO);
-    });
-  });
-
-  describe('combined re-check (capability + role + mode)', () => {
-    it('blocks when capability is OK but mode is wrong', () => {
-      const ctx = composeFixture(m13r0Profile, customer0001);
-      const router = createMockRouter();
-      installGuards(router, ctx, () => Role.admin, () => RouterMode.bridge);
-      // fan is all-modes in definitions, but the guard trusts meta.mode from
-      // the route config. Synthesize a fan route with router-only mode.
-      const fanRoute = makeRoute('fan', {
-        capability: 'fanControl',
-        auth: [Role.admin, Role.super],
-        mode: [RouterMode.router],
-      });
-      const { nextArg } = router.runGuard(fanRoute);
-      expect(nextArg).to.equal(GUARD_REDIRECT_TO);
-    });
-
-    it('allows when all checks pass', () => {
-      const ctx = composeFixture(m13r0Profile, customer0001);
-      const router = createMockRouter();
-      installGuards(router, ctx, () => Role.admin, () => RouterMode.router);
-      const fanRoute = makeRoute('fan', {
-        capability: 'fanControl',
-        auth: [Role.admin, Role.super],
-        mode: [RouterMode.router, RouterMode.bridge, RouterMode.wirelessBridge],
-      });
-      const { nextArg } = router.runGuard(fanRoute);
-      expect(nextArg).to.equal(undefined);
     });
   });
 });

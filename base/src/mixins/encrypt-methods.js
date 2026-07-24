@@ -3,7 +3,10 @@ import { EncryptMethod, Models } from '../util/constant';
 export default {
   data() {
     let encryptMethods = [];
-    switch (process.env.MODEL_CONFIG.id) {
+    // Unified runtime builds intentionally have no compile-time MODEL_CONFIG.
+    // Falling through to the conservative common list keeps reused pages
+    // usable; legacy model builds still select their original list.
+    switch ((process.env.MODEL_CONFIG || {}).id) {
       case Models.M2:
         encryptMethods = [
           {

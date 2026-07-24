@@ -6,18 +6,22 @@
  * `process.env.CUSTOMER_CONFIG`. The constructor receives the runtime
  * context explicitly so the module does not read compile-time globals.
  *
- * v1 (Task 7 sample link) ships with an EMPTY message catalogue. The
- * sample pages (`login`, `dashboard`, `wlan`, `mode`, `unconnect`) call
- * `this.$t('transNNNN')` for translation keys; VueI18n 8.x returns the
- * key verbatim when no message is registered, so the build is valid and
- * the runtime renders the key. Loading real locale JSON (code-map, extra,
- * per-customer `*.json`) is deferred until Task 9 — see
- * `docs/superpowers/plans/2026-07-21-model-unification-b-v4.md` §5.
+ * Customer Profile chunks carry the customer's real locale catalogues as
+ * non-contract webpack payload. compose() copies them into the runtime
+ * context, so only the selected customer's profile chunk is requested.
  *
  * The methods mirror the legacy `BasicI18n` surface so legacy page
  * components (`this.$t`, `this.changeLanguage`, `toLocaleNumber`) work
  * unchanged.
  */
+import 'intl/locale-data/jsonp/zh';
+import 'intl/locale-data/jsonp/en-US';
+import 'intl/locale-data/jsonp/de-DE';
+import 'intl/locale-data/jsonp/fr-FR';
+import 'intl/locale-data/jsonp/fi-FI';
+import 'intl/locale-data/jsonp/bg-BG';
+import 'intl/locale-data/jsonp/sv-SE';
+
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import { NumberFormat } from 'intl';
@@ -45,15 +49,20 @@ export class UnifiedI18n {
     if (!runtimeContext || !runtimeContext.branding) {
       throw new TypeError('UnifiedI18n: runtimeContext.branding is required');
     }
-    const branding = runtimeContext.branding;
+    const { branding } = runtimeContext;
     const languages = Array.isArray(branding.languages) ? branding.languages : [];
-    const defaultLanguage = branding.defaultLanguage
-      || (languages.length > 0 ? languages[0] : 'en-US');
+    const defaultLanguage = branding.defaultLanguage ||
+      (languages.length > 0 ? languages[0] : 'en-US');
     const stored = readStoredLang();
     const initialLocale = (stored && languages.includes(stored)) ? stored : defaultLanguage;
 
-    const messages = {};
-    languages.forEach((lang) => { messages[lang] = {}; });
+    // Vue observes and augments message objects. Clone the frozen runtime
+    // payload before handing it to VueI18n.
+    const runtimeMessages = runtimeContext.i18nMessages || {};
+    const messages = JSON.parse(JSON.stringify(runtimeMessages));
+    languages.forEach((lang) => {
+      if (!messages[lang]) messages[lang] = {};
+    });
 
     this._languages = languages.slice();
     this._defaultLanguage = defaultLanguage;

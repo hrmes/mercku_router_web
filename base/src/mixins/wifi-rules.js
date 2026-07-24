@@ -9,7 +9,7 @@ import { Models } from '../util/constant';
 export default {
   methods: {
     getAdvanceSSIDRule() {
-      const { id } = process.env.MODEL_CONFIG;
+      const { id } = process.env.MODEL_CONFIG || {};
       switch (id) {
         case Models.M6:
           return [

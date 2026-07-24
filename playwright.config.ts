@@ -17,12 +17,17 @@ if (enableGa630) {
   projects.push({ name: ga630Project.name, metadata: ga630Project });
 }
 if (enableRuntime) {
-  projects.push({ name: 'runtime-identity' });
+  projects.push({
+    name: 'runtime-identity',
+    testMatch: /runtime-.*\.spec\.ts/,
+  });
 }
 
 // Use the unified dev server when running runtime-identity tests; otherwise
 // use the legacy GA630 make dev command.
 const useUnifiedServer = enableRuntime && !enableGa630;
+const runtimePort = Number(process.env.RUNTIME_E2E_PORT || '8091');
+const runtimeBaseURL = `http://127.0.0.1:${runtimePort}`;
 
 // process.env values are `string | undefined`; Playwright's env field requires
 // `Record<string, string>`. Strip undefined entries so the spread is clean.
@@ -40,7 +45,8 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   reporter: process.env.CI ? [['html'], ['list']] : 'list',
   use: {
-    baseURL: process.env.PLAYWRIGHT_BASE_URL || 'http://127.0.0.1:8080',
+    baseURL: process.env.PLAYWRIGHT_BASE_URL
+      || (useUnifiedServer ? runtimeBaseURL : 'http://127.0.0.1:8080'),
     screenshot: 'only-on-failure',
     trace: 'on-first-retry'
   },
@@ -48,13 +54,16 @@ export default defineConfig({
   webServer: useUnifiedServer
     ? {
         command: 'VUE_CLI_SERVICE_CONFIG_PATH=$PWD/unified/vue.config.js NODE_OPTIONS=--openssl-legacy-provider vue-cli-service serve',
-        url: 'http://127.0.0.1:8080',
-        reuseExistingServer: !process.env.CI,
+        url: runtimeBaseURL,
+        reuseExistingServer: false,
         timeout: 120_000,
         stdout: 'pipe',
         stderr: 'pipe',
         env: {
           ...envVars,
+          MERCKU_OFFLINE_PREVIEW: '1',
+          VUE_APP_OFFLINE_PREVIEW: '1',
+          UNIFIED_DEV_PORT: String(runtimePort),
           MERCKU_IDENTITY_FIXTURE: process.env.MERCKU_IDENTITY_FIXTURE || '/tmp/runtime-config-e2e.v1.json',
         },
       }

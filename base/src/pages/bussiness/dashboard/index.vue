@@ -46,7 +46,7 @@
         </div>
         <div class="wrapper">
           <div class="router__img"
-               :class="[$store.state.deviceColor,productImgName]"></div>
+               :class="[$store.state.deviceColor,routerImageClass]"></div>
           <div key="mesh-shadow"
                class="background-shadow"></div>
         </div>
@@ -158,11 +158,11 @@
       </div>
     </div>
     <div class="jump-app-info"
-         v-if="isMobile"
+         v-if="isMobile && appIconUrl && branding.appDownloadUrl"
          @click="jumpApp">
       <div class="wrapper">
         <div class="icon">
-          <img :src="require(`base/assets/images/customer/${ispFolderName}/ic_launcher.png`)" />
+          <img :src="appIconUrl" />
         </div>
         <div class="text-container">{{$t('trans1118')}}</div>
       </div>
@@ -230,7 +230,8 @@
 import marked from 'marked';
 import { WanNetStatus, RouterMode, ModelIds, ModelIdJMapName } from 'base/util/constant';
 import { compareVersion, formatDate } from 'base/util/util';
-import meshEditMixin from 'base/mixins/mesh-edit.js';
+import meshEditMixin from 'base/mixins/mesh-edit';
+import { resolveUiBranding } from 'base/runtime/ui-context';
 
 
 export default {
@@ -278,10 +279,14 @@ export default {
     };
   },
   computed: {
-    ispFolderName() {
-      return process.env.CUSTOMER_CONFIG.title.toLowerCase();
+    branding() {
+      return resolveUiBranding(this.$store);
     },
     productName() {
+      if (this.$store.getters && this.$store.getters.runtimeContext) {
+        return this.branding.productName;
+      }
+
       let productInfo;
       if (this.$store.state?.modelVersion) {
         console.log(this.$store.state.modelVersion);
@@ -297,8 +302,25 @@ export default {
 
       return productInfo?.shortName || 'Unknown';
     },
-    productImgName() {
+    routerImageClass() {
+      if (this.$store.getters && this.$store.getters.runtimeContext) {
+        const capabilities = this.$store.getters.effectiveCapabilities || {};
+        if (capabilities.fanControl) return 'router-image--nano';
+        if (capabilities.frozenConfig) return 'router-image--m6';
+        return 'router-image--m6s';
+      }
       return ModelIds[process.env.MODEL_CONFIG.id];
+    },
+    appIconUrl() {
+      if (this.branding.appIconUrl) return this.branding.appIconUrl;
+      if (!this.branding.legacyAssetFolder) return '';
+      try {
+        return require(
+          `base/assets/images/customer/${this.branding.legacyAssetFolder}/ic_launcher.png`
+        );
+      } catch (error) {
+        return '';
+      }
     },
     isMobile() {
       return this.$store.state.isMobile;
@@ -590,7 +612,7 @@ export default {
     },
     jumpApp() {
       if (!this.$store.state.isMobile) return;
-      window.open(process.env.CUSTOMER_CONFIG.appDownloadUrl);
+      if (this.branding.appDownloadUrl) window.open(this.branding.appDownloadUrl);
     }
   },
   beforeDestroy() {

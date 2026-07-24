@@ -7,15 +7,15 @@ describe('customerProfileLoaders registry', () => {
     expect(Object.isFrozen(customerProfileLoaders)).to.equal(true);
   });
 
-  it('declares registered customer IDs (0001 Mercku + 0029 JUNET)', () => {
-    expect(Object.keys(customerProfileLoaders).sort()).to.deep.equal(['0001', '0029']);
+  it('declares registered customer IDs (0001 Mercku + 0029 JUNET + 0032 Viaero)', () => {
+    expect(Object.keys(customerProfileLoaders).sort()).to.deep.equal(['0001', '0029', '0032']);
   });
 
   it('does NOT declare a "neutral" key (neutral is the fallback for unknown customerId, not a registered profile)', () => {
     expect(customerProfileLoaders).to.not.have.property('neutral');
   });
 
-  ['0001', '0029'].forEach((id) => {
+  ['0001', '0029', '0032'].forEach((id) => {
     it(`the "${id}" loader is a function returning a Promise`, () => {
       const loader = customerProfileLoaders[id];
       expect(loader).to.be.a('function');

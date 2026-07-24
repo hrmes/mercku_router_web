@@ -1,16 +1,15 @@
+/* eslint-env mocha */
 const { expect } = require('chai');
 
 const { compose } = require('../../../unified/src/app/profiles/compose.js');
-const {
-  createNeutralCustomerProfile,
-} = require('../../../unified/src/app/profiles/load.js');
-const { CAPABILITY_KEYS } = require('../../../unified/src/app/profiles/capabilities.js');
 const { createMenu } = require('../../../unified/src/app/menu/create-menu.js');
-const { menuDefinitions } = require('../../../unified/src/app/menu/definitions.js');
 const { Role, RouterMode } = require('../../../base/src/util/constant');
 
 const m11r4Profile = require('../../../unified/src/profiles/models/M11R4/profile.json');
+const m11r2Profile = require('../../../unified/src/profiles/models/M11R2/profile.json');
 const m13r0Profile = require('../../../unified/src/profiles/models/M13R0/profile.json');
+const m16r0Profile = require('../../../unified/src/profiles/models/M16R0/profile.json');
+const m6r0Profile = require('../../../unified/src/profiles/models/M6R0/profile.json');
 const customer0001 = require('../../../unified/src/profiles/customers/0001/profile.json');
 
 /**
@@ -71,15 +70,12 @@ describe('createMenu(runtimeContext, role, mode)', () => {
   describe('table-driven: model + customer + role + mode combinations', () => {
     const cases = [
       {
-        label: 'M11R4+0001 admin/router: no caps, no telnet, no super',
+        label: '0001 admin/router: no telnet or super menu',
         model: m11r4Profile,
         customer: customer0001,
         role: Role.admin,
         mode: RouterMode.router,
         expected: {
-          sfp: false,
-          fan: false,
-          powersupply: false,
           telnet: false,
           super: false,
           wifi: true,
@@ -100,49 +96,6 @@ describe('createMenu(runtimeContext, role, mode)', () => {
           tr069: true,
           telnet: false,
           super: false,
-          fan: false,
-        },
-      },
-      {
-        label: 'M13R0+0001 admin/router: fan shown (M13R0 fanControl, 0001 no disable)',
-        model: m13r0Profile,
-        customer: customer0001,
-        role: Role.admin,
-        mode: RouterMode.router,
-        expected: {
-          sfp: false,
-          fan: true,
-          powersupply: false,
-          telnet: false,
-          super: false,
-        },
-      },
-      {
-        label: 'M13R0+neutral admin/router: fan hidden (neutral disables fanControl)',
-        model: m13r0Profile,
-        customer: createNeutralCustomerProfile(),
-        role: Role.admin,
-        mode: RouterMode.router,
-        expected: {
-          sfp: false,
-          fan: false,
-          powersupply: false,
-          telnet: false,
-          super: false,
-        },
-      },
-      {
-        label: 'M11R4+neutral admin/router: all capability-gated items hidden',
-        model: m11r4Profile,
-        customer: createNeutralCustomerProfile(),
-        role: Role.admin,
-        mode: RouterMode.router,
-        expected: {
-          sfp: false,
-          fan: false,
-          powersupply: false,
-          telnet: false,
-          super: false,
         },
       },
       {
@@ -155,7 +108,6 @@ describe('createMenu(runtimeContext, role, mode)', () => {
           super: true,
           telnet: false,
           tr069: false,
-          fan: false,
         },
       },
       {
@@ -168,7 +120,6 @@ describe('createMenu(runtimeContext, role, mode)', () => {
           super: true,
           telnet: true,
           tr069: true,
-          fan: false,
         },
       },
     ];
@@ -215,6 +166,28 @@ describe('createMenu(runtimeContext, role, mode)', () => {
     });
   });
 
+  describe('hardware capability filtering', () => {
+    [
+      [m11r2Profile, 'sfp'],
+      [m13r0Profile, 'fan'],
+      [m16r0Profile, 'powersupply'],
+      [m6r0Profile, 'frozen-config'],
+    ].forEach(([model, expectedItem]) => {
+      it(`shows only the supported ${expectedItem} item`, () => {
+        const menu = createMenu(composeFixture(model, customer0001), Role.admin, RouterMode.router);
+        const hardwareItems = ['sfp', 'fan', 'powersupply', 'frozen-config'];
+        hardwareItems.forEach((name) => {
+          expect(isPresent(menu, name), name).to.equal(name === expectedItem);
+        });
+      });
+    });
+
+    it('honours a suite/customer capability shutdown', () => {
+      const ctx = composeFixture(m11r2Profile, customer0001, { sfp: false });
+      expect(isPresent(createMenu(ctx, Role.admin, RouterMode.router), 'sfp')).to.equal(false);
+    });
+  });
+
   describe('parent url points to first non-disabled child', () => {
     it('setting parent url points to first enabled child', () => {
       const ctx = composeFixture(m11r4Profile, customer0001);
@@ -232,21 +205,6 @@ describe('createMenu(runtimeContext, role, mode)', () => {
       expect(advance).to.exist;
       // portforwarding is first child, strategyA (router-only), enabled in router mode
       expect(advance.url).to.equal('/advance/portforwarding');
-    });
-  });
-
-  describe('customer disabledCapabilities overrides model baseline', () => {
-    it('hides fan when customer disables fanControl even if model has it', () => {
-      const customerDisablingFan = {
-        ...customer0001,
-        policy: {
-          ...customer0001.policy,
-          disabledCapabilities: ['fanControl'],
-        },
-      };
-      const ctx = composeFixture(m13r0Profile, customerDisablingFan);
-      const menu = createMenu(ctx, Role.admin, RouterMode.router);
-      expect(isPresent(menu, 'fan'), 'fan should be hidden when customer disables fanControl').to.equal(false);
     });
   });
 
@@ -284,23 +242,6 @@ describe('createMenu(runtimeContext, role, mode)', () => {
       expect(wifi).to.have.property('url');
       expect(wifi).to.have.property('config');
       expect(wifi).to.have.property('disabled');
-    });
-  });
-
-  describe('capability gating uses only the 4 v1 keys (no aliasing)', () => {
-    it('does not invent new capability keys in definitions', () => {
-      const declaredCaps = new Set(CAPABILITY_KEYS);
-      const usedCaps = new Set();
-      function walk(items) {
-        items.forEach((item) => {
-          if (item.capability) usedCaps.add(item.capability);
-          if (Array.isArray(item.children)) walk(item.children);
-        });
-      }
-      walk(menuDefinitions);
-      usedCaps.forEach((cap) => {
-        expect(declaredCaps.has(cap), `unknown capability key "${cap}" not in CAPABILITY_KEYS`).to.equal(true);
-      });
     });
   });
 

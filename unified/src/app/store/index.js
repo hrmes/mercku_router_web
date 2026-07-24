@@ -89,9 +89,9 @@ export function createStore() {
     mutations: {
       setRuntimeContext(state, runtimeContext) {
         if (
-          !runtimeContext
-          || typeof runtimeContext !== 'object'
-          || !Object.isFrozen(runtimeContext)
+          !runtimeContext ||
+          typeof runtimeContext !== 'object' ||
+          !Object.isFrozen(runtimeContext)
         ) {
           throw new TypeError(
             'setRuntimeContext: expected a frozen AppRuntimeContext'
@@ -101,6 +101,9 @@ export function createStore() {
         // frozen object in a reactive proxy. `_runtimeContext` is read via
         // the `runtimeContext` getter, which returns the same reference.
         Vue.set(state, '_runtimeContext', runtimeContext);
+      },
+      setIsMobile(state, isMobile) {
+        state.isMobile = isMobile === true;
       },
       setMode(state, mode) {
         state.mode = mode;

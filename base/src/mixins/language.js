@@ -1,84 +1,63 @@
-const Languages = [
+import { resolveSupportedLanguages } from 'base/runtime/ui-context';
+
+const Languages = Object.freeze([
   {
     text: 'English',
-    value: 'en-US',
-    show: false
+    value: 'en-US'
   },
   {
     text: '简体中文',
-    value: 'zh-CN',
-    show: false
+    value: 'zh-CN'
   },
   {
     text: 'Deutsch',
-    value: 'de-DE',
-    show: false
+    value: 'de-DE'
   },
   {
     text: 'Nederlands',
-    value: 'nl-NL',
-    show: false
+    value: 'nl-NL'
   },
   {
     text: 'Srpski',
-    value: 'sr-RS',
-    show: false
+    value: 'sr-RS'
   },
   {
     text: 'Norsk bokmål',
-    value: 'nb-NO',
-    show: false
+    value: 'nb-NO'
   },
   {
     text: 'Français',
-    value: 'fr-FR',
-    show: false
+    value: 'fr-FR'
   },
   {
     text: 'Español',
-    value: 'es-ES',
-    show: false
+    value: 'es-ES'
   },
   {
     text: 'Svenska',
-    value: 'sv-SE',
-    show: false
+    value: 'sv-SE'
   },
   {
     text: 'Suomi',
-    value: 'fi-FI',
-    show: false
+    value: 'fi-FI'
   },
   {
     text: 'български',
-    value: 'bg-BG',
-    show: false
+    value: 'bg-BG'
   }
-];
-const supportLanguage = process.env.CUSTOMER_CONFIG.languages;
-if (!supportLanguage) {
-  // 早期没有在customer config中定义language，兼容处理
-  Languages.forEach(l => {
-    l.show = true;
-  });
-} else {
-  supportLanguage.forEach(sl => {
-    const language = Languages.filter(l => l.value === sl)[0];
-    if (language) {
-      language.show = true;
-    }
-  });
-}
+].map(language => Object.freeze(language)));
 
 export default {
   data() {
     return {
-      Languages: Languages.filter(l => l.show),
       showPopup: false,
       qrVisiable: false
     };
   },
   computed: {
+    Languages() {
+      return resolveSupportedLanguages(this.$store, Languages);
+    },
     language() {
       return this.getDefaultLanguage();
     }

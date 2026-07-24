@@ -5,7 +5,7 @@
  * branding (logo, favicon, theme color, product name) without rebuilding.
  * The dev server must be running via `npm run dev:unified`.
  *
- * Framework-only (Task 9): skipped by default. Set RUNTIME_E2E=1 to enable.
+ * Set RUNTIME_E2E=1 to run against the isolated unified preview server.
  */
 import { test, expect } from '@playwright/test';
 import { generateIdentityFixture, openApp } from '../fixtures/runtime-config';
@@ -61,5 +61,34 @@ describeRuntime('runtime branding switching', () => {
       );
       expect(color.toLowerCase()).toBe('#333333');
     });
+  });
+
+  test('switches customer logo and QR assets without rebuilding', async ({ page }) => {
+    const readAssets = async (customerId: string) => {
+      generateIdentityFixture({ modelId: 'M11R4', customerId });
+      await openApp(page);
+      await page.locator('input[type="password"]').fill('preview');
+      await page.locator('.login-form button').click();
+      await expect(page.locator('[data-e2e="dashboard-device-card"]')).toBeVisible();
+      return {
+        logo: await page.locator('.logo-wrap__logo img').getAttribute('src'),
+        qr: await page.locator('[data-e2e="runtime-qr-code"]').getAttribute('src'),
+      };
+    };
+
+    const mercku = await readAssets('0001');
+    await page.evaluate(() => {
+      localStorage.clear();
+      sessionStorage.clear();
+    });
+    await page.goto('/web/login');
+    const junet = await readAssets('0029');
+
+    expect(mercku.logo).toBeTruthy();
+    expect(mercku.qr).toBeTruthy();
+    expect(junet.logo).toBeTruthy();
+    expect(junet.qr).toBeTruthy();
+    expect(junet.logo).not.toBe(mercku.logo);
+    expect(junet.qr).not.toBe(mercku.qr);
   });
 });

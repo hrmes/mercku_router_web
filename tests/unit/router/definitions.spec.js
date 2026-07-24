@@ -1,8 +1,7 @@
+/* eslint-env mocha */
 const { expect } = require('chai');
 
 const { routeDefinitions } = require('../../../unified/src/app/router/definitions.js');
-const { Role, RouterMode } = require('../../../base/src/util/constant');
-const { CAPABILITY_KEYS } = require('../../../unified/src/app/profiles/capabilities.js');
 
 /**
  * Flatten route definitions, including children, into a single list.
@@ -23,20 +22,26 @@ describe('routeDefinitions (static route tree)', () => {
     expect(routeDefinitions).to.be.an('array').with.length.greaterThan(0);
   });
 
+  it('loads the existing M6s login page instead of a unified copy', async () => {
+    const loginRoute = routeDefinitions.find(route => route.name === 'login');
+    const module = await loginRoute.component();
+    expect(module.default.__file).to.match(/m6s\/src\/pages\/login\/index\.vue$/);
+  });
+
   describe('common routes are present', () => {
     const all = flattenRoutes(routeDefinitions);
     const names = all.map((r) => r.name).filter(Boolean);
 
     [
       'login', 'dashboard', 'wlan', 'unconnect',
-      'device', 'mesh', 'internet', 'mesh-add',
+      'device', 'mesh', 'mesh-add', 'internet',
       'device-limit', 'device-limit-time', 'device-limit-url',
       'wifi', 'wan', 'wanping', 'ipv6', 'safe', 'super', 'blacklist',
       'timezone', 'region', 'guest', 'upnp', 'led', 'schedule', 'wps',
-      'sfp', 'powersupply', 'fan',
       'portforwarding', 'dmz', 'dhcp', 'rsvdip', 'mac', 'ddns', 'vpn',
       'mode', 'diagnosis', 'log', 'firewall', 'wwa', 'tr069', 'telnet',
-      'backup', 'frozen-config',
+      'backup',
+      'sfp', 'powersupply', 'fan', 'frozen-config',
       'online', 'offline', 'auto',
     ].forEach((name) => {
       it(`includes route named "${name}"`, () => {
@@ -45,38 +50,29 @@ describe('routeDefinitions (static route tree)', () => {
     });
   });
 
-  describe('capability-gated routes', () => {
+  describe('capability routes reuse existing model pages', () => {
     const all = flattenRoutes(routeDefinitions);
 
-    it('setting.sfp route is gated on capability "sfp"', () => {
-      const r = all.find((x) => x.name === 'sfp');
-      expect(r.capability).to.equal('sfp');
-    });
-
-    it('setting.powersupply route is gated on capability "poeControl"', () => {
-      const r = all.find((x) => x.name === 'powersupply');
-      expect(r.capability).to.equal('poeControl');
-    });
-
-    it('setting.fan route is gated on capability "fanControl"', () => {
-      const r = all.find((x) => x.name === 'fan');
-      expect(r.capability).to.equal('fanControl');
-    });
-
-    it('advance.frozen-config route is gated on capability "frozenConfig"', () => {
-      const r = all.find((x) => x.name === 'frozen-config');
-      expect(r).to.exist;
-      expect(r.capability).to.equal('frozenConfig');
-    });
-
-    it('all capability keys used are in CAPABILITY_KEYS (no aliasing)', () => {
-      const used = new Set();
-      flattenRoutes(routeDefinitions).forEach((r) => {
-        if (r.capability) used.add(r.capability);
+    [
+      ['mesh-add', /m6s\/src\/pages\/bussiness\/mesh\/add\.vue$/],
+      ['sfp', /m6s\/src\/pages\/bussiness\/setting\/sfp\.vue$/],
+      ['powersupply', /m6s_poe\/src\/pages\/bussiness\/setting\/powersupply\.vue$/],
+      ['fan', /nano\/src\/pages\/bussiness\/setting\/fan\.vue$/],
+      ['frozen-config', /m6a\/src\/pages\/bussiness\/advance\/frozen-config\/index\.vue$/],
+    ].forEach(([name, filePattern]) => {
+      it(`${name} loads its existing implementation`, async () => {
+        const route = all.find(candidate => candidate.name === name);
+        expect(route, `${name} route`).to.exist;
+        const module = await route.component();
+        expect(module.default.__file).to.match(filePattern);
       });
-      used.forEach((cap) => {
-        expect(CAPABILITY_KEYS, `unknown capability "${cap}"`).to.include(cap);
-      });
+    });
+
+    it('declares the hardware capability required by each optional route', () => {
+      expect(all.find(route => route.name === 'sfp').requiresCapability).to.equal('sfp');
+      expect(all.find(route => route.name === 'powersupply').requiresCapability).to.equal('poeControl');
+      expect(all.find(route => route.name === 'fan').requiresCapability).to.equal('fanControl');
+      expect(all.find(route => route.name === 'frozen-config').requiresCapability).to.equal('frozenConfig');
     });
   });
 

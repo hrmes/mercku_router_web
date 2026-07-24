@@ -20,8 +20,9 @@
             <div class="tip-label">{{$t('trans0398')}}</div>
           </m-form-item>
           <div class="form-header">
-            <span
-                  class="form-header__title">{{ wifiForm.smart_connect?'Wi-Fi':$t('trans0677')}}</span>
+            <span class="form-header__title">
+              {{ wifiForm.smart_connect ? 'Wi-Fi' : $t('trans0677') }}
+            </span>
           </div>
           <m-form-item class="form-item"
                        prop="ssid24g">
@@ -202,8 +203,8 @@ export default {
       return this.wifiForm.smart_connect ? this.$t('trans0922') : this.$t('trans0921');
     },
     loadingColor() {
-      return this.$store.getters.branding.theme
-        && this.$store.getters.branding.theme['--brand-loading'];
+      return this.$store.getters.branding.theme &&
+        this.$store.getters.branding.theme['--brand-loading'];
     }
   },
   mounted() {
@@ -289,6 +290,7 @@ export default {
               }
             }, 1000);
             this.$reconnect({
+              timeout: 60,
               onsuccess: () => {
                 clearInterval(timer);
                 this.$router.push({ path: '/login' });

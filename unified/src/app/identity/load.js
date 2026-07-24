@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * Identity loader. Fetches `/runtime-config.v1.json` (served by the device in
  * production, by the dev middleware in development). The returned identity is
@@ -12,8 +13,6 @@ function getDefaultFetch() {
   if (typeof fetch === 'function') {
     return fetch;
   }
-  // webpack 4 / Vue CLI 3.1 build target: fall back to a runtime error if
-  // fetch is missing. The real implementation in Task 7 may swap in axios.
   throw new Error('global fetch is not available; pass fetchImpl explicitly');
 }
 

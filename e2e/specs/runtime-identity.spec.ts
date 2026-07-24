@@ -5,9 +5,8 @@
  * served by the dev server. The dev server must be running via
  * `npm run dev:unified` with MERCKU_IDENTITY_FIXTURE set to a writable path.
  *
- * These tests are framework-only (Task 9): they define the scenarios from
- * the plan but are skipped by default because they require a running dev
- * server. Set RUNTIME_E2E=1 to enable.
+ * These scenarios use runtime fixtures and do not require a real device.
+ * Set RUNTIME_E2E=1 to enable.
  */
 import { test, expect } from '@playwright/test';
 import { generateIdentityFixture, openApp } from '../fixtures/runtime-config';
@@ -38,7 +37,7 @@ describeRuntime('runtime identity switching', () => {
       // Neutral Profile uses productName "Router" and a grey theme.
       // The diagnostic warning should be visible in the console, not the UI.
       // This test asserts the app shell loads (does not show error page).
-      await expect(page.locator('#app')).toBeVisible();
+      await expect(page.locator('.scrollbar-wrap')).toBeVisible();
     });
   });
 
@@ -49,7 +48,7 @@ describeRuntime('runtime identity switching', () => {
 
     test('boots the app normally despite backend mismatch', async ({ page }) => {
       await openApp(page);
-      await expect(page.locator('#app')).toBeVisible();
+      await expect(page.locator('.scrollbar-wrap')).toBeVisible();
     });
   });
 
@@ -60,7 +59,7 @@ describeRuntime('runtime identity switching', () => {
 
     test('shows the login page for a known identity', async ({ page }) => {
       await openApp(page);
-      await expect(page.locator('#app')).toBeVisible();
+      await expect(page.locator('.login.customized')).toBeVisible();
     });
   });
 });

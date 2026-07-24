@@ -32,7 +32,7 @@
     "behavior": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["upgradeProbeStartDelayMs", "modeSwitchProbeStartDelayMs", "reconnectProbeTimeoutMs"],
+      "required": ["upgradeProbeStartDelayMs", "modeSwitchProbeStartDelayMs", "reconnectProbeTimeoutMs", "meshRadioStatus"],
       "description": "Device flow facts only. Must NOT expose upgrading, Promise finally, error-page jumping, etc.",
       "properties": {
         "upgradeProbeStartDelayMs": {
@@ -49,6 +49,11 @@
           "type": "integer",
           "minimum": 0,
           "maximum": 3600000
+        },
+        "meshRadioStatus": {
+          "type": "string",
+          "enum": ["band24g", "txPower"],
+          "description": "Radio status/control exposed by the shared Mesh topology: M6-style 2.4 GHz band control or read-only transmit power."
         }
       }
     },

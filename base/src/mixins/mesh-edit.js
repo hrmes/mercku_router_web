@@ -3,10 +3,8 @@ import {
   RouterColor,
   SnABJMapName,
   ModelIdJMapName,
-  ModelIds,
-  RouterHasModelDistinctionMap
+  ModelIds
 } from 'base/util/constant';
-import store from '@/store/index';
 
 const DeviceColorList = [
   {
@@ -67,11 +65,15 @@ export default {
         this.$t('trans0362'),
         this.$t('trans0363')
       ],
-      selectedColorName: store.state.deviceColor
+      selectedColorName: this.$store.state.deviceColor
     };
   },
   computed: {
     gwAvailableDeviceColors() {
+      if (this.$store.getters && this.$store.getters.runtimeContext) {
+        return DeviceColorList.filter(color => ['black', 'white'].includes(color.name));
+      }
+
       const MODEL_ID = process.env.MODEL_CONFIG.id;
       const ModelIdJMapNameList = ModelIdJMapName[MODEL_ID];
       let productInfo;
@@ -84,16 +86,22 @@ export default {
       } else {
         productInfo = process.env.CUSTOMER_CONFIG.routers[ModelIds[MODEL_ID]];
       }
-      return DeviceColorList.filter(color =>
-        productInfo.deviceColors.includes(color.name)
-      );
+      return DeviceColorList.filter(color => productInfo.deviceColors.includes(color.name));
     },
     lowerCaseModelId() {
+      if (this.$store.getters && this.$store.getters.runtimeContext) return '';
       return process.env.MODEL_CONFIG.id.toLowerCase();
+    },
+    deviceColorStorageKey() {
+      return this.lowerCaseModelId ? `${this.lowerCaseModelId}_deviceColor` : 'deviceColor';
     }
   },
   methods: {
     nodeAvailableDeviceColors(sn) {
+      if (this.$store.getters && this.$store.getters.runtimeContext) {
+        return DeviceColorList.filter(color => ['black', 'white'].includes(color.name));
+      }
+
       const modelID = sn?.slice(0, 2);
       const modelVersion = sn?.charAt(9);
       const productInfo =
@@ -101,9 +109,7 @@ export default {
           SnABJMapName?.[modelID]?.[modelVersion]
         ] || {};
       console.log(productInfo);
-      return DeviceColorList.filter(color =>
-        productInfo?.deviceColors?.includes(color.name)
-      );
+      return DeviceColorList.filter(color => productInfo?.deviceColors?.includes(color.name));
     },
     closeMeshEditModal() {
       this.showMeshEditModal = false;
@@ -120,11 +126,12 @@ export default {
           })
           .then(() => {
             router.name = name;
-            this.$store.state.deviceColor = this.selectedColorName;
-            localStorage.setItem(
-              `${this.lowerCaseModelId}_deviceColor`,
-              this.selectedColorName
-            );
+            if (this.$store.getters && this.$store.getters.runtimeContext) {
+              this.$store.commit('setDeviceColor', this.selectedColorName);
+            } else {
+              this.$store.state.deviceColor = this.selectedColorName;
+              localStorage.setItem(this.deviceColorStorageKey, this.selectedColorName);
+            }
             this?.createIntervalTask?.();
             this.$toast(this.$t('trans0040'), 2000, 'success');
             this.showMeshEditModal = false;

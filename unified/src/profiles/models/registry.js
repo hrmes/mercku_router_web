@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * Model Profile registry - static mapping from concrete MODEL_ID to a chunk
  * loader. This is one of the ONLY places in unified/src allowed to mention

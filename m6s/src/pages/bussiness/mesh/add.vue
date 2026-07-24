@@ -51,7 +51,7 @@
                v-show="isStep(1)">
             <div class="main-content">
               <div class="img-container">
-                <img src="~@/assets/images/add/img_add_02.svg" />
+                <img src="../../../assets/images/add/img_add_02.svg" />
               </div>
               <p class="step-item__tip">{{$t('trans1005')}}</p>
             </div>
@@ -92,7 +92,7 @@
              v-if="isAddSuccess">
           <div class="text-center">
             <img class="result-container__img result-container__img--fail"
-                 src="~@/assets/images/add/img_add_success.svg"
+                 src="../../../assets/images/add/img_add_success.svg"
                  alt="" />
           </div>
           <div class="node-sn">
@@ -143,7 +143,7 @@
         <div class="mesh-add-tips-list">
           <div class="mesh-add-tips-list__item list-item">
             <div class="list-item__img">
-              <img src="~@/assets/images/add/img_power_on.svg"
+              <img src="../../../assets/images/add/img_power_on.svg"
                    alt="" />
             </div>
             <div class="list-item__text">
@@ -153,7 +153,7 @@
           </div>
           <div class="mesh-add-tips-list__item list-item">
             <div class="list-item__img">
-              <img src="~@/assets/images/add/img_add_02.svg"
+              <img src="../../../assets/images/add/img_add_02.svg"
                    alt="" />
             </div>
             <div class="list-item__text">
@@ -215,7 +215,7 @@
              :visible.sync='showWirelessMeshTipsDialog'>
       <m-modal-body class="wireless-mesh-tips-modal-body">
         <div class="img-container">
-          <img src="@/assets/images/add/img_together.svg"
+          <img src="../../../assets/images/add/img_together.svg"
                alt="">
         </div>
         <p class="tips">{{$t('trans1100')}}</p>
@@ -291,9 +291,13 @@ export default {
       return this.$store.state.isMobile;
     },
     isM6s() {
+      if (this.$store.getters.runtimeContext) return !this.isM6sSFP;
       return process.env.MODEL_CONFIG.id === Models.M6s;
     },
     isM6sSFP() {
+      if (this.$store.getters.runtimeContext) {
+        return this.$store.getters.effectiveCapabilities.sfp === true;
+      }
       return process.env.MODEL_CONFIG.id === Models.M6s_SFP;
     }
   },
@@ -302,25 +306,25 @@ export default {
   },
   methods: {
     transText(text) {
-      let resultText = '';
-      switch (process.env.MODEL_CONFIG.id) {
-        case Models.M6s_SFP:
-          resultText = this.$t(text).replaceAll(
-            '%s',
-            process.env.CUSTOMER_CONFIG.routers.M6s_SFP.shortName
-          );
-          break;
-        default:
-          resultText = this.$t(text).replaceAll(
-            '%s',
-            process.env.CUSTOMER_CONFIG.routers.M6s.shortName
-          );
-          break;
+      if (this.$store.getters.runtimeContext) {
+        return this.$t(text).replaceAll(
+          '%s',
+          this.$store.getters.branding.productName
+        );
       }
 
-      return resultText;
+      const router = this.isM6sSFP
+        ? process.env.CUSTOMER_CONFIG.routers.M6s_SFP
+        : process.env.CUSTOMER_CONFIG.routers.M6s;
+      return this.$t(text).replaceAll('%s', router.shortName);
     },
     transDeviceId(text) {
+      if (this.$store.getters.runtimeContext) {
+        return this.$t(text).replaceAll(
+          '%s',
+          this.$store.getters.branding.productName
+        );
+      }
       return this.$t(text).replaceAll(
         '%s',
         process.env.CUSTOMER_CONFIG.deviceID
@@ -410,22 +414,17 @@ export default {
     getAddNodeImg(step, type) {
       let img = '';
       if (step === Step.step1) {
-        switch (process.env.MODEL_CONFIG.id) {
-          case Models.M6s_SFP:
-            img = require('@/assets/images/add/sfp/img_add_01.svg');
-            break;
-          default:
-            img = require('@/assets/images/add/img_add_01.svg');
-            break;
-        }
+        img = this.isM6sSFP
+          ? require('../../../assets/images/add/sfp/img_add_01.svg')
+          : require('../../../assets/images/add/img_add_01.svg');
       }
       if (step === Step.step3 && type && this.isM6s) {
         switch (type) {
           case AddNodeType.wireless:
-            img = require('@/assets/images/add/img_wireless_add_03.svg');
+            img = require('../../../assets/images/add/img_wireless_add_03.svg');
             break;
           case AddNodeType.wired:
-            img = require('@/assets/images/add/img_wired_add_03.svg');
+            img = require('../../../assets/images/add/img_wired_add_03.svg');
             break;
           default:
             break;
@@ -434,10 +433,10 @@ export default {
       if (step === Step.step3 && type && this.isM6sSFP) {
         switch (type) {
           case AddNodeType.wireless:
-            img = require('@/assets/images/add/sfp/img_wireless_add_03.svg');
+            img = require('../../../assets/images/add/sfp/img_wireless_add_03.svg');
             break;
           case AddNodeType.wired:
-            img = require('@/assets/images/add/sfp/img_wired_add_03.svg');
+            img = require('../../../assets/images/add/sfp/img_wired_add_03.svg');
             break;
           default:
             break;
@@ -446,16 +445,9 @@ export default {
       return img;
     },
     getProductNetworkingImg() {
-      let img = '';
-      switch (process.env.MODEL_CONFIG.id) {
-        case Models.M6s_SFP:
-          img = require('@/assets/images/add/sfp/img_networking.svg');
-          break;
-        default:
-          img = require('@/assets/images/add/img_networking.svg');
-          break;
-      }
-      return img;
+      return this.isM6sSFP
+        ? require('../../../assets/images/add/sfp/img_networking.svg')
+        : require('../../../assets/images/add/img_networking.svg');
     },
     checkAddNodeType() {
       switch (this.addNodeType) {

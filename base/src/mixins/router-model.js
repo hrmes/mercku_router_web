@@ -26,7 +26,7 @@ import {
   Models,
   RouterSnAB2Model,
   RouterHasModelDistinctionMap
-} from 'base/util/constant.js';
+} from 'base/util/constant';
 
 const RouterModelImgMap = {
   upgrade: {
@@ -121,15 +121,34 @@ export const getNodeImage = {
 };
 export const Products = {
   data() {
+    const customerConfig = process.env.CUSTOMER_CONFIG;
+    if (!customerConfig) {
+      const branding = this.$store.getters.branding || {};
+      const productName = branding.productName || 'Router';
+      const product = {
+        name: productName,
+        shortName: productName,
+        deviceColors: ['black', 'white']
+      };
+      return {
+        Products: {
+          [RouterSnAB2Model.M6]: product,
+          [RouterSnAB2Model.M6a]: product,
+          [RouterSnAB2Model.M6s]: product,
+          [RouterSnAB2Model.M6s_Nano]: product,
+          [RouterSnAB2Model.M6s_PoE_pp]: product
+        }
+      };
+    }
     return {
       Products: {
-        [RouterSnAB2Model.M6]: process.env.CUSTOMER_CONFIG.routers.M6,
+        [RouterSnAB2Model.M6]: customerConfig.routers.M6,
         [RouterSnAB2Model.M6a]: getM6aProductsInfo(),
         [RouterSnAB2Model.M6s]: getM6sProductsInfo(),
         [RouterSnAB2Model.M6s_Nano]:
-          process.env.CUSTOMER_CONFIG.routers.M6s_Nano,
+          customerConfig.routers.M6s_Nano,
         [RouterSnAB2Model.M6s_PoE_pp]:
-          process.env.CUSTOMER_CONFIG.routers.M6s_PoE_pp
+          customerConfig.routers.M6s_PoE_pp
       }
     };
   }

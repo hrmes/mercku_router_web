@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * Static menu definitions — the complete menu tree with NO filtering applied.
  *
@@ -9,24 +10,16 @@
  * Each leaf item carries:
  *   - text: i18n key (transNNNN) matching the existing menu.js files
  *   - name: route name (matches router/definitions.js)
- *   - url: in-app path (without /web prefix — prefix is applied at router level)
+ *   - url: application-relative path; Vue Router's base supplies `/web/`
  *   - config: { auth: [Role...], mode: [RouterMode...] }
- *   - capability (optional): one of CAPABILITY_KEYS — item is shown only when
- *     effectiveCapabilities[capability] === true
+ *   - requiresCapability (optional): semantic Model Profile capability
  *   - requiresCustomerPolicy (optional): 'allowTelnet' | 'allow2LevelAdmin' —
  *     item is shown only when customerProfile.policy[flag] === true
  *
- * §3.1 / Appendix A.3: Schedule, WPS, WAN Ping, Device Limit (via dashboard
- * route), LED are COMMON functions — they appear unconditionally and are NOT
- * capability-gated. The suite will unify their APIs in a later task; until
- * then every model can access them.
- *
- * Capability-gated items (v1): setting.sfp, setting.powersupply,
- * setting.fan. frozenConfig has NO menu entry (only a route, see
- * router/definitions.js).
- *
  * Customer-policy-gated items: setting.super (allow2LevelAdmin),
  * advance.telnet (allowTelnet).
+ * Hardware-gated items: setting.sfp, setting.powersupply, setting.fan,
+ * advance.frozen-config.
  *
  * Role auth is a simple array check (auth.includes(role)) — NO DSL.
  * The check is applied only when customerProfile.policy.allow2LevelAdmin
@@ -106,16 +99,12 @@ export const menuDefinitions = [
       { text: 'trans0639', name: 'region', url: '/setting/region', config: bothAllModes() },
       { text: 'trans0538', name: 'guest', url: '/setting/guest', config: bothRouterOnly() },
       { text: 'trans0644', name: 'upnp', url: '/setting/upnp', config: bothRouterOnly() },
-      // §3.1 / A.3: LED is a common function (not capability-gated).
       { text: 'trans0779', name: 'led', url: '/setting/led', config: bothAllModes() },
-      // §3.1 / A.3: Schedule is a common function (not capability-gated).
       { text: 'trans0962', name: 'schedule', url: '/setting/schedule', config: bothAllModes() },
-      // §3.1 / A.3: WPS is a common function (not capability-gated).
       { text: 'trans1168', name: 'wps', url: '/setting/wps', config: bothAllModes() },
-      // Capability-gated (v1)
-      { text: 'SFP', name: 'sfp', url: '/setting/sfp', config: bothAllModes(), capability: 'sfp' },
-      { text: 'trans1239', name: 'powersupply', url: '/setting/powersupply', config: bothAllModes(), capability: 'poeControl' },
-      { text: 'trans1222', name: 'fan', url: '/setting/fan', config: bothAllModes(), capability: 'fanControl' },
+      { text: 'SFP', name: 'sfp', url: '/setting/sfp', config: bothAllModes(), requiresCapability: 'sfp' },
+      { text: 'trans1239', name: 'powersupply', url: '/setting/powersupply', config: bothAllModes(), requiresCapability: 'poeControl' },
+      { text: 'trans1222', name: 'fan', url: '/setting/fan', config: bothAllModes(), requiresCapability: 'fanControl' },
     ],
   },
   {
@@ -146,6 +135,7 @@ export const menuDefinitions = [
         requiresCustomerPolicy: 'allowTelnet',
       },
       { text: 'trans1019', name: 'backup', url: '/advance/backup', config: bothAllModes() },
+      { text: 'trans1186', name: 'frozen-config', url: '/advance/frozen-config', config: bothAllModes(), requiresCapability: 'frozenConfig' },
     ],
   },
   {

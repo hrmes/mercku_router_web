@@ -21,8 +21,7 @@
  *     AND identity.detectedCapabilities[key] !== false
  *     AND key NOT IN customerProfile.policy.disabledCapabilities
  *
- * The deferred cross-file constraint from Task 2 lives here:
- * `detectedCapabilities=true` CANNOT flip a Model Profile `false` to `true`.
+ * `detectedCapabilities=true` cannot flip a Model Profile false to true.
  */
 import { CAPABILITY_KEYS } from './capabilities';
 
@@ -39,10 +38,7 @@ function deepFreeze(value) {
   return value;
 }
 
-// Deep-clone a plain-JSON-serialisable value. Used so deepFreeze(ctx) cannot
-// reach back into the caller's identity/profile objects (which may be reused
-// if profile caching is added in a later task). JSON round-trip is the
-// simplest polyfill-free clone for our schema-validated plain data.
+// Keep deepFreeze(ctx) from freezing caller-owned schema-validated data.
 function deepClone(value) {
   if (value === undefined) return undefined;
   return JSON.parse(JSON.stringify(value));
@@ -110,6 +106,7 @@ export function compose(identity, modelProfile, customerProfile, diagnostics) {
     behavior: deepClone(modelProfile.behavior),
     branding: deepClone(customerProfile.branding),
     policy: deepClone(customerProfile.policy),
+    i18nMessages: deepClone(customerProfile.i18nMessages || {}),
     pageVariants: deepClone(modelProfile.pageVariants || {}),
     diagnostics: diag,
   };

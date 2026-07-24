@@ -3,7 +3,7 @@
  *
  *   bootstrap({ createApp, fetchIdentity, loadModelProfile, loadCustomerProfile, diagnostics })
  *
- * Sequence (§3.4):
+ * Sequence:
  *   1. fetch + validate identity (fail-closed → retryable error)
  *   2. load Model Profile by identity.modelId (static registry; no fallback,
  *      no admin UI on unknown/fail)
@@ -14,9 +14,6 @@
  *      branding, policy, pageVariants, diagnostics)
  *   6. Object.freeze the runtime context (handled in compose)
  *   7. call `createApp(runtimeContext)` exactly once
- *
- * Task 3 only injects `createApp` in tests — there is no Vue / Router / Store
- * mount logic here. Real `main.js` wiring lands in Task 7.
  *
  * All four dependencies (`fetchIdentity`, `loadModelProfile`,
  * `loadCustomerProfile`, `createApp`) are injectable so the bootstrap can be
@@ -50,8 +47,8 @@ export class BootstrapError extends Error {
 }
 
 /**
- * Predicate used by the error page (Task 7) to decide whether to show a
- * "Retry" button. Identity fetch failures, chunk load failures and schema
+ * Predicate used by the error page to decide whether to show a Retry button.
+ * Identity fetch failures, chunk load failures and schema
  * rejections are retryable. Unknown modelId is NOT retryable (the device
  * suite must ship a matching Model Profile first).
  *

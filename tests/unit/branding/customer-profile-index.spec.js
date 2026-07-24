@@ -1,3 +1,4 @@
+/* eslint-env mocha */
 const { expect } = require('chai');
 
 // These tests exercise the webpack-bundled index.js of each Customer Profile.
@@ -7,7 +8,11 @@ const { expect } = require('chai');
 // silently drop a field.
 
 const merckuProfile = require('../../../unified/src/profiles/customers/0001');
-const neutralProfile = require('../../../unified/src/profiles/customers/neutral');
+const junetProfile = require('../../../unified/src/profiles/customers/0029');
+const {
+  validateCustomerProfile,
+  getCustomerProfileErrors,
+} = require('../../../unified/src/app/profiles/validate');
 
 describe('Customer Profile 0001 index.js (webpack-bundled asset imports)', () => {
   it('imports successfully and exposes a default export', () => {
@@ -26,8 +31,19 @@ describe('Customer Profile 0001 index.js (webpack-bundled asset imports)', () =>
     expect(merckuProfile.default.branding.logoUrl, 'logoUrl must be a non-empty string').to.be.a('string').that.is.not.empty;
   });
 
+  it('attaches a distinct resolved darkLogoUrl', () => {
+    const { branding } = merckuProfile.default;
+    expect(branding.darkLogoUrl, 'darkLogoUrl must be a non-empty string').to.be.a('string').that.is.not.empty;
+    expect(branding.darkLogoUrl).to.not.equal(branding.logoUrl);
+  });
+
   it('attaches a resolved faviconUrl from the imported favicon.ico asset', () => {
     expect(merckuProfile.default.branding.faviconUrl, 'faviconUrl must be a non-empty string').to.be.a('string').that.is.not.empty;
+  });
+
+  it('attaches runtime QR and app icon URLs', () => {
+    expect(merckuProfile.default.branding.qrCodeUrl).to.be.a('string').that.is.not.empty;
+    expect(merckuProfile.default.branding.appIconUrl).to.be.a('string').that.is.not.empty;
   });
 
   it('does NOT attach a loginBackgroundUrl (customer 0001 uses logo on solid color)', () => {
@@ -40,37 +56,25 @@ describe('Customer Profile 0001 index.js (webpack-bundled asset imports)', () =>
     expect(p.branding.languages).to.include('en-US');
     expect(p.branding.languages).to.include('zh-CN');
   });
+
+  it('remains schema-valid after webpack attaches asset URLs', () => {
+    expect(
+      validateCustomerProfile(merckuProfile.default),
+      JSON.stringify(getCustomerProfileErrors())
+    ).to.equal(true);
+  });
 });
 
-describe('Customer Profile neutral index.js (webpack-bundled asset imports)', () => {
-  it('imports successfully and exposes a default export', () => {
-    expect(neutralProfile).to.exist;
-    expect(neutralProfile.default, 'expected ES module default export').to.exist;
-  });
-
-  it('carries the JSON profile fields verbatim', () => {
-    const p = neutralProfile.default;
-    expect(p.profileVersion).to.equal(1);
-    expect(p.branding.productName).to.equal('Router');
-  });
-
-  it('attaches a resolved logoUrl from the shared default logo.svg', () => {
-    expect(neutralProfile.default.branding.logoUrl, 'logoUrl must be a non-empty string').to.be.a('string').that.is.not.empty;
-  });
-
-  it('attaches a resolved faviconUrl from the shared default favicon.ico', () => {
-    expect(neutralProfile.default.branding.faviconUrl, 'faviconUrl must be a non-empty string').to.be.a('string').that.is.not.empty;
-  });
-
-  it('attaches a resolved loginBackgroundUrl from the shared default login-background.svg', () => {
-    expect(neutralProfile.default.branding.loginBackgroundUrl, 'loginBackgroundUrl must be a non-empty string').to.be.a('string').that.is.not.empty;
-  });
-
-  it('preserves theme and policy from the JSON profile', () => {
-    const p = neutralProfile.default;
-    expect(p.branding.theme['--brand-primary']).to.equal('#333333');
-    expect(p.policy.disabledCapabilities).to.have.lengthOf(4);
-    expect(p.policy.allow2LevelAdmin).to.equal(false);
-    expect(p.policy.allowTelnet).to.equal(false);
+describe('Customer Profile 0029 index.js (webpack-bundled asset imports)', () => {
+  it('attaches runtime dark logo, QR and app icon URLs and remains schema-valid', () => {
+    const { branding } = junetProfile.default;
+    expect(branding.darkLogoUrl).to.be.a('string').that.is.not.empty;
+    expect(branding.darkLogoUrl).to.not.equal(branding.logoUrl);
+    expect(branding.qrCodeUrl).to.be.a('string').that.is.not.empty;
+    expect(branding.appIconUrl).to.be.a('string').that.is.not.empty;
+    expect(
+      validateCustomerProfile(junetProfile.default),
+      JSON.stringify(getCustomerProfileErrors())
+    ).to.equal(true);
   });
 });

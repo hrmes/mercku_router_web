@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * Customer Profile registry - static mapping from concrete CUSTOMER_ID to a
  * chunk loader. This is one of the ONLY places in unified/src allowed to
@@ -22,10 +23,12 @@
  * Registered customers:
  *   - 0001 (Mercku) - the baseline customer with full language support.
  *   - 0029 (JUNET)  - Swedish ISP customer; allow2LevelAdmin=true.
- *     Other style-only customer dirs (0002/0003/0004/0032) lack
+ *   - 0032 (Viaero) - blue theme and customer-specific branding/i18n.
+ *     Other style-only customer dirs (0002/0003/0004) lack
  *     customer-conf/<ID>/conf.json and are deferred pending team confirmation.
  */
 export const customerProfileLoaders = Object.freeze({
   '0001': () => import('./0001'),
   '0029': () => import('./0029'),
+  '0032': () => import('./0032'),
 });

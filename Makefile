@@ -47,7 +47,8 @@ ifeq ($(shell echo $(MODEL_LIST) | grep $(MODEL_ID)),)
 endif
 	MODEL=$$(echo $(MODEL_LIST) | tr ' ' '\n' | grep '^$(MODEL_ID)=' | cut -d= -f2); \
 	cd $$MODEL && make CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
-	ln -sf $$MODEL/dist dist
+	MODEL=$$(echo $(MODEL_LIST) | tr ' ' '\n' | grep '^$(MODEL_ID)=' | cut -d= -f2); \
+	ln -sfn $$MODEL/dist dist
 
 # Legacy per-model dev server. Requires CUSTOMER_ID and MODEL_ID.
 dev: dev_depend

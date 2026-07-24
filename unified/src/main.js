@@ -32,7 +32,7 @@ function renderBootstrapError(descriptor) {
     : '';
   root.innerHTML = [
     '<div style="font-family:-apple-system,system-ui,sans-serif;color:#333;max-width:480px;margin:80px auto;padding:0 16px;text-align:center">',
-    `<h1 style="font-size:18px;margin:0 0 12px">Unable to start</h1>`,
+    '<h1 style="font-size:18px;margin:0 0 12px">Unable to start</h1>',
     `<p style="font-size:14px;margin:0 0 24px;color:#666">${descriptor.message}</p>`,
     descriptor.retryable
       ? '<button onclick="location.reload()" style="padding:8px 20px;font-size:14px;cursor:pointer">Retry</button>'

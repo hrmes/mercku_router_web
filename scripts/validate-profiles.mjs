@@ -17,9 +17,9 @@
 //   - For every `<root>/customers/<id>/profile.json`, validates against
 //     customer-profile.schema.json.
 //   - For every `<root>/<kind>/<id>/` directory, verifies `profile.json`
-//     exists. Additionally, for CUSTOMERS only, verifies `index.js` exists
-//     (Task 4) — Model Profile registry loaders do `import('./<id>/profile.json')`
-//     directly, so model dirs have no index.js and no assets.
+//     exists. Registered customers also require `index.js`, because webpack
+//     uses it to attach assets. Model profiles and the neutral fallback load
+//     their JSON directly.
 //   - For every `<root>/customers/<id>/` directory EXCEPT `neutral`, verifies
 //     the `assets/` directory exists and contains `favicon.ico` and at least
 //     one of `logo.png`, `logo.svg` or `logo.webp`. `neutral` is exempt because it imports
@@ -58,12 +58,8 @@ const profilesRoot = process.env.MERCKU_PROFILES_ROOT
 const modelsDir = path.resolve(profilesRoot, 'models');
 const customersDir = path.resolve(profilesRoot, 'customers');
 
-// `neutral` is the fail-closed fallback Customer Profile. It is NOT in the
-// customerProfileLoaders registry (it's the fallback for unknown customerId,
-// not a registered profile) and it imports the shared default assets from
-// `unified/src/assets/branding/default/` rather than shipping its own
-// `assets/` directory. The structural checks below therefore special-case
-// `neutral` for BOTH the registry-correspondence and asset-existence rules.
+// `neutral` is an unregistered fail-closed fallback. Its loader attaches the
+// shared default assets, so this directory only contains profile.json.
 const NEUTRAL_ID = 'neutral';
 
 function listProfileDirs(dir) {
@@ -184,7 +180,7 @@ customerIds.forEach((id) => {
 //   2. Every key in the registry must have a corresponding `<dir>/<key>/`.
 //   3. Every `<dir>/<id>/` (except customers/neutral) must be declared in the
 //      registry. (neutral is the unregistered fallback.)
-// For customers/ ONLY (Task 4):
+// For registered customers only:
 //   4. Every `<dir>/<id>/` must also have `index.js` (webpack assembles the
 //      Customer Profile through index.js, which imports binary assets).
 //   5. Every customers/<id>/ (except neutral) must have an `assets/` directory
@@ -207,8 +203,8 @@ function checkStructural(kind, dir, registryPath) {
     if (!existsSync(profileJsonPath)) {
       fail(`missing: ${path.relative(profilesRoot, profileJsonPath)} (profile.json is required)`);
     }
-    // index.js (customers only — model registry loads profile.json directly)
-    if (kind === 'customers' && !existsSync(indexJsPath)) {
+    // Neutral and models load profile.json directly.
+    if (kind === 'customers' && id !== NEUTRAL_ID && !existsSync(indexJsPath)) {
       fail(`missing: ${path.relative(profilesRoot, indexJsPath)} (index.js is required for webpack to assemble the profile)`);
     }
 

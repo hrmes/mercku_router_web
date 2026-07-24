@@ -1,18 +1,23 @@
 <template>
-  <div class="unified-app">
-    <router-view />
-  </div>
+  <BaseAppShell :menus="menus" />
 </template>
-
 <script>
-export default { name: 'App' };
-</script>
+import BaseAppShell from 'base/layouts/app-shell.vue';
+import { createMenu } from './menu/create-menu';
 
-<style lang="scss">
-.unified-app {
-  width: 100%;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-</style>
+export default {
+  name: 'App',
+  components: { BaseAppShell },
+  computed: {
+    menus() {
+      const { runtimeContext } = this.$store.getters;
+      if (!runtimeContext) return [];
+      return createMenu(
+        runtimeContext,
+        this.$store.getters.role || '',
+        this.$store.getters.mode || ''
+      );
+    }
+  }
+};
+</script>

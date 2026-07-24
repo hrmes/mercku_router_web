@@ -1,18 +1,13 @@
-/**
- * Retryable bootstrap error descriptor. Task 3 ships the descriptor only;
- * Task 7 wires it into a real Vue error page.
- *
- * The descriptor is intentionally plain data (no Vue/Router/Store imports) so
- * it can be produced by bootstrap.js before any Vue instance exists.
- */
-import { isRetryable } from './bootstrap.js';
+/* eslint-disable import/prefer-default-export, import/extensions */
+/** Plain error data that can be rendered before Vue starts. */
+import { isRetryable } from './bootstrap';
 
 /**
  * Build a retryable error descriptor for the bootstrap failure page.
  *
  * @param {Error|BootstrapError} err  the error thrown by bootstrap()
  * @param {Array} [diagnostics]       diagnostics accumulated during bootstrap
- * @returns {Object} frozen descriptor with the shape Task 7 will render:
+ * @returns {Object} frozen descriptor:
  *   {
  *     retryable: boolean,
  *     code: string,

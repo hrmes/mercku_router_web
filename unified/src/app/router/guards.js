@@ -2,12 +2,10 @@
  * installGuards(router, runtimeContext, getCurrentRole, getCurrentMode)
  *
  * Installs a `router.beforeEach` guard that re-checks capability, customer
- * policy, role and mode on EVERY navigation. This is defence-in-depth: even
- * if a user types a capability-gated URL directly, the guard redirects them
- * to a safe default.
+ * policy, role and mode on every navigation.
  *
  * The guard reads filtering metadata from `to.meta`:
- *   - meta.capability (optional): one of CAPABILITY_KEYS
+ *   - meta.requiresCapability (optional): semantic Model Profile capability
  *   - meta.requiresCustomerPolicy (optional): 'allowTelnet' | 'allow2LevelAdmin'
  *   - meta.auth (optional): [Role...] — checked only when allow2LevelAdmin is true
  *   - meta.mode (optional): [RouterMode...] — current mode must be in this list
@@ -17,29 +15,27 @@
  * next() immediately. This matches create-router.js which omits `config`
  * for public routes.
  *
- * `getCurrentRole` and `getCurrentMode` are injectable getters so Task 7
- * can wire them to Store getters (role / mode may change at runtime when
- * the user logs in as a different role or switches router mode). Tests
- * pass simple closures returning fixed values.
+ * Current role and mode are injected because both can change at runtime.
  *
  * When a check fails, the guard redirects to GUARD_REDIRECT_TO
- * ('/web/dashboard'). The dashboard is a public route so the redirect
+ * ('/dashboard'). Vue Router's base exposes it as `/web/dashboard` in the
+ * browser. The dashboard is a public route so the redirect
  * cannot itself be blocked.
  */
 
-export const GUARD_REDIRECT_TO = '/web/dashboard';
+export const GUARD_REDIRECT_TO = '/dashboard';
 
 function isPublicRoute(to) {
   // Public routes have no auth/mode in meta (create-router.js omits `config`
   // for public routes, so meta.auth and meta.mode are undefined).
   if (!to.meta) return true;
   const m = to.meta;
-  return !m.auth && !m.mode && !m.capability && !m.requiresCustomerPolicy;
+  return !m.auth && !m.mode && !m.requiresCustomerPolicy && !m.requiresCapability;
 }
 
 function checkCapability(to, runtimeContext) {
-  if (!to.meta.capability) return true;
-  return runtimeContext.effectiveCapabilities[to.meta.capability] === true;
+  if (!to.meta.requiresCapability) return true;
+  return runtimeContext.effectiveCapabilities[to.meta.requiresCapability] === true;
 }
 
 function checkCustomerPolicy(to, runtimeContext) {

@@ -13,6 +13,8 @@
     "defaultLanguage": "en-US",
     "theme": {
       "--brand-primary": "#00b4e4",
+      "--brand-secondary": "#14c0e6",
+      "--brand-tertiary": "#2bcfe8",
       "--brand-loading": "#00b4e4"
     }
   },

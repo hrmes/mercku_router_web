@@ -1,6 +1,6 @@
 {
   "profileVersion": 1,
-  "expectedBackends": ["mercku_mtk7621"],
+  "expectedBackends": ["mercku_ipq60xx"],
   "capabilities": {
     "sfp": false,
     "poeControl": false,
@@ -10,7 +10,8 @@
   "behavior": {
     "upgradeProbeStartDelayMs": 0,
     "modeSwitchProbeStartDelayMs": 0,
-    "reconnectProbeTimeoutMs": 600000
+    "reconnectProbeTimeoutMs": 600000,
+    "meshRadioStatus": "band24g"
   },
   "pageVariants": {}
 }

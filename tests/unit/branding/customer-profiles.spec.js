@@ -121,41 +121,34 @@ describe('Customer Profile: neutral (fail-closed fallback)', () => {
   });
 });
 
-describe('Neutral Profile drift guard (load.js vs neutral/profile.json)', () => {
-  // The in-memory fallback in load.js must mirror neutral/profile.json so
-  // runtime behavior stays consistent when the neutral/ chunk also fails.
-  // Update both together if you change Neutral branding or policy.
+describe('Neutral Profile runtime fallback', () => {
+  it('uses profile.json as its complete data source and only attaches assets', () => {
+    const runtimeProfile = createNeutralCustomerProfile();
+    const {
+      logoUrl,
+      faviconUrl,
+      loginBackgroundUrl,
+      ...runtimeBranding
+    } = runtimeProfile.branding;
 
-  it('matches branding.productName', () => {
-    expect(createNeutralCustomerProfile().branding.productName).to.equal(
-      neutralProfile.branding.productName
+    expect({
+      ...runtimeProfile,
+      branding: runtimeBranding,
+    }).to.deep.equal(neutralProfile);
+    [logoUrl, faviconUrl, loginBackgroundUrl].forEach((url) => {
+      expect(url).to.be.a('string').that.is.not.empty;
+    });
+  });
+
+  it('returns independent mutable copies', () => {
+    const first = createNeutralCustomerProfile();
+    const second = createNeutralCustomerProfile();
+    first.branding.languages.push('test');
+    first.policy.disabledCapabilities.length = 0;
+
+    expect(second.branding.languages).to.deep.equal(['en-US']);
+    expect(second.policy.disabledCapabilities).to.deep.equal(
+      neutralProfile.policy.disabledCapabilities
     );
-  });
-
-  it('matches branding.wifiName', () => {
-    expect(createNeutralCustomerProfile().branding.wifiName).to.equal(
-      neutralProfile.branding.wifiName
-    );
-  });
-
-  it('matches branding.theme colors', () => {
-    const inMemory = createNeutralCustomerProfile().branding.theme;
-    const onDisk = neutralProfile.branding.theme;
-    expect(inMemory['--brand-primary']).to.equal(onDisk['--brand-primary']);
-    expect(inMemory['--brand-loading']).to.equal(onDisk['--brand-loading']);
-  });
-
-  it('matches policy.disabledCapabilities', () => {
-    expect(
-      createNeutralCustomerProfile().policy.disabledCapabilities
-    ).to.deep.equal(neutralProfile.policy.disabledCapabilities);
-  });
-
-  it('matches policy.allow2LevelAdmin and allowTelnet', () => {
-    const inMemory = createNeutralCustomerProfile().policy;
-    expect(inMemory.allow2LevelAdmin).to.equal(
-      neutralProfile.policy.allow2LevelAdmin
-    );
-    expect(inMemory.allowTelnet).to.equal(neutralProfile.policy.allowTelnet);
   });
 });

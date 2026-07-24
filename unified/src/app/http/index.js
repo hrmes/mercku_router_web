@@ -8,9 +8,8 @@
  * so a route change can abort in-flight requests without surfacing an
  * unhandled rejection.
  *
- * §3.1: Backend capability/permission gating is enforced by the suite, NOT
- * by the web client. The unified http therefore exposes the SAME method set
- * for every model/customer and carries no ID branches.
+ * Backend permission gating belongs to suite. This module has no model or
+ * customer branches.
  *
  * The store is injected explicitly (`createHttp({ store })`) instead of
  * imported, so tests can swap in a fake store and so the http module does
@@ -19,11 +18,31 @@
  * impossible to test in isolation).
  */
 import axios from 'axios';
-import Http from 'base/http';
+import Http, { createMethod } from 'base/http';
 
 axios.defaults.timeout = 60000;
 
 let interceptorsInstalled = false;
+
+const unifiedMethods = {
+  getNewMeshNodeInfo: createMethod('mesh.node.new.info'),
+  getMeshWanIntf: createMethod('mesh.wan.intf.get'),
+  updateMeshWanIntf: createMethod('mesh.wan.intf.update'),
+  getMeshPowerSupplyMode: createMethod('mesh.poe.mode.get'),
+  updateMeshPowerSupplyMode: createMethod('mesh.poe.mode.update'),
+  getMeshFanMode: createMethod('mesh.fan.mode.get'),
+  updateMeshFanMode: createMethod('mesh.fan.mode.update'),
+  getRouterFrozenConfig: createMethod('router.config.frozen.get'),
+  updateRouterFrozenConfig: createMethod('router.config.frozen.update'),
+};
+
+class UnifiedHttp extends Http {}
+
+Object.keys(unifiedMethods).forEach((methodName) => {
+  UnifiedHttp.prototype[methodName] = function requestUnifiedMethod(params, httpConfig) {
+    return this.request(unifiedMethods[methodName], params, httpConfig);
+  };
+});
 
 /**
  * Install the CancelToken request interceptor and the cancellation response
@@ -64,11 +83,7 @@ function installCancelTokenInterceptors(store) {
 /**
  * Build a unified Http instance bound to the given Vuex store.
  *
- * The base class exposes ~100 common methods (login, getRouter, getMeshMode,
- * getMeshMeta, meshWifiUpdate, …) via `Http.prototype`. No model-specific
- * methods are added here — the sample link chain only needs the base set, and
- * per-model additions (e.g. updateMeshWanIntf) will be migrated when the
- * corresponding pages land in a later task.
+ * The base class exposes common API methods through `Http.prototype`.
  *
  * @param {Object} opts
  * @param {Object} opts.store  Vuex store used to track cancel tokens.
@@ -78,7 +93,7 @@ export function createHttp({ store } = {}) {
     throw new TypeError('createHttp: store with commit() is required');
   }
   installCancelTokenInterceptors(store);
-  const http = new Http();
+  const http = new UnifiedHttp();
   return http;
 }
 

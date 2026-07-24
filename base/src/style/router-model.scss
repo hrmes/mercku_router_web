@@ -3,7 +3,8 @@
   &.M6,
   &.M6a,
   &.M6a_Plus,
-  &.M6c {
+  &.M6c,
+  &.router-image--m6 {
     background: url(../assets/images/dashboard/m6/img_black.png) no-repeat
       center;
     background-size: contain;
@@ -33,7 +34,8 @@
   }
   &.M6s,
   &.M6s_SFP,
-  &.M6s_PoE_pp {
+  &.M6s_PoE_pp,
+  &.router-image--m6s {
     background: url(../assets/images/dashboard/m6s/img_black.png) no-repeat
       center;
     background-size: contain;
@@ -65,7 +67,8 @@
       background-size: contain;
     }
   }
-  &.M6s_Nano {
+  &.M6s_Nano,
+  &.router-image--nano {
     background: url(../assets/images/dashboard/nano/img_black.png) no-repeat
       center;
     background-size: contain;

@@ -368,7 +368,11 @@ export default {
   },
   computed: {
     isM6() {
-      return process.env.MODEL_CONFIG.id === M6_MODEL_ID;
+      const runtimeContext = this.$store.getters?.runtimeContext;
+      if (runtimeContext) {
+        return runtimeContext.behavior?.meshRadioStatus === 'band24g';
+      }
+      return (process.env.MODEL_CONFIG || {}).id === M6_MODEL_ID;
     },
     modelID() {
       return this.selectedNodeInfo?.model?.id || '';
@@ -377,7 +381,11 @@ export default {
       return this.selectedNodeInfo?.model?.version?.id || '';
     },
     productName() {
-      const productInfo = process.env.CUSTOMER_CONFIG.routers[
+      const runtimeContext = this.$store.getters?.runtimeContext;
+      if (runtimeContext) {
+        return this.$store.getters.branding?.productName || 'Router';
+      }
+      const productInfo = (process.env.CUSTOMER_CONFIG?.routers || {})[
         SnABJMapName?.[this.modelID]?.[this.modelVersion]
       ];
       return productInfo?.shortName || 'Unknown';
@@ -386,7 +394,8 @@ export default {
       if (SnABJMapName?.[this.modelID]?.[this.modelVersion]) {
         return SnABJMapName[this.modelID][this.modelVersion];
       }
-      return ModelIds[process.env.MODEL_CONFIG.id];
+      if (this.$store.getters?.runtimeContext) return '';
+      return ModelIds[(process.env.MODEL_CONFIG || {}).id] || '';
     },
     lineIconSrc() {
       return this.getNodeImage(this.selectedNodeInfo, 'mesh');

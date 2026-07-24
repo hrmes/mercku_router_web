@@ -153,7 +153,7 @@ export default {
   data() {
     return {
       files: [],
-      accept: process.env.CUSTOMER_CONFIG.accept,
+      accept: (process.env.CUSTOMER_CONFIG || {}).accept || '.ma',
       localNodes: [],
       UploadStatus,
       uploadStatus: UploadStatus.ready,
@@ -205,7 +205,7 @@ export default {
       return '';
     },
     localNodesOrdered() {
-      return this.localNodes.sort((a, b) => {
+      return this.localNodes.sort(a => {
         if (a.isGW) {
           return -1;
         }
@@ -215,9 +215,12 @@ export default {
   },
   methods: {
     transWebsite(text) {
+      const branding = this.$store.getters.branding || {};
+      const website = branding.website || {};
+      const customerConfig = process.env.CUSTOMER_CONFIG || {};
       return this.$t(text).replace(
         '%s',
-        process.env.CUSTOMER_CONFIG.website.url
+        (customerConfig.website || {}).url || website.url || ''
       );
     },
     check(node) {
@@ -235,7 +238,7 @@ export default {
       if (!reg.test(entendName)) {
         uploader.err = this.$t('trans0271').replace(
           '%s',
-          process.env.CUSTOMER_CONFIG.accept
+          this.accept
         );
         return false;
       }
@@ -318,8 +321,9 @@ export default {
               .upgradeMeshNode({ node_ids: nodeIds, local: true })
               .then(() => {})
               .catch(err => {
-                if (err.response.data.error.code === 600402)
+                if (err.response.data.error.code === 600402) {
                   this.upgraded = true;
+                }
               });
             this.upgraded = true;
             this.$upgrade({

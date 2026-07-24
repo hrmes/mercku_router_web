@@ -10,7 +10,8 @@
   "behavior": {
     "upgradeProbeStartDelayMs": 0,
     "modeSwitchProbeStartDelayMs": 0,
-    "reconnectProbeTimeoutMs": 600000
+    "reconnectProbeTimeoutMs": 600000,
+    "meshRadioStatus": "txPower"
   },
   "pageVariants": {}
 }

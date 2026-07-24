@@ -47,12 +47,54 @@
           "type": "string",
           "pattern": "^[a-z]{2}(-[A-Z]{2})?$"
         },
+        "logoUrl": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional webpack-resolved runtime asset URL; absent from profile.json."
+        },
+        "darkLogoUrl": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional webpack-resolved logo for dark theme; absent from profile.json. Header falls back to logoUrl when omitted."
+        },
+        "loginLogoUrl": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional webpack-resolved login-page logo; absent from profile.json. Login falls back to logoUrl when omitted."
+        },
+        "darkLoginLogoUrl": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional webpack-resolved dark-theme login-page logo; absent from profile.json. Login falls back to darkLogoUrl/logoUrl when omitted."
+        },
+        "faviconUrl": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional webpack-resolved runtime asset URL; absent from profile.json."
+        },
+        "loginBackgroundUrl": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional webpack-resolved runtime asset URL; absent from profile.json."
+        },
+        "qrCodeUrl": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional webpack-resolved runtime QR asset URL; absent from profile.json."
+        },
+        "appIconUrl": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional webpack-resolved runtime app icon URL; absent from profile.json."
+        },
         "theme": {
           "type": "object",
           "additionalProperties": false,
           "description": "Whitelist of CSS Variables only. No Sass entry selected by CUSTOMER_ID; no arbitrary CSS/HTML/JS injection.",
           "properties": {
             "--brand-primary": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "--brand-secondary": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "--brand-tertiary": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
             "--brand-loading": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
           }
         }

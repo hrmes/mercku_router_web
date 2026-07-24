@@ -1,3 +1,4 @@
+/* eslint-disable import/prefer-default-export */
 /**
  * createMenu(runtimeContext, role, mode) — filter the static menuDefinitions
  * based on the composed AppRuntimeContext, the current role and the current
@@ -6,9 +7,9 @@
  * Filtering rules (mirror the legacy menu.js behaviour, but driven by the
  * runtime context instead of process.env):
  *
- *   1. Capability gate (§3.1, §3.4):
- *      If a leaf item declares `capability: <key>`, it is shown ONLY when
- *      runtimeContext.effectiveCapabilities[<key>] === true.
+ *   1. Capability gate:
+ *      A leaf with `requiresCapability` is shown only when the composed
+ *      effective capability is true.
  *
  *   2. Customer-policy gate:
  *      If a leaf item declares `requiresCustomerPolicy: <flag>`, it is shown
@@ -53,14 +54,14 @@ function deepFreeze(value) {
   return value;
 }
 
-function isCapabilityAllowed(item, effectiveCapabilities) {
-  if (!item.capability) return true;
-  return effectiveCapabilities[item.capability] === true;
-}
-
 function isCustomerPolicyAllowed(item, policy) {
   if (!item.requiresCustomerPolicy) return true;
   return policy[item.requiresCustomerPolicy] === true;
+}
+
+function isCapabilityAllowed(item, capabilities) {
+  if (!item.requiresCapability) return true;
+  return capabilities[item.requiresCapability] === true;
 }
 
 function isRoleAllowed(item, role, policy) {
@@ -87,9 +88,9 @@ function filterLeaf(item, runtimeContext, role, mode) {
 
   const clone = { ...item };
   // Remove filtering-only metadata so the output matches the legacy menu.js
-  // shape (which never exposed `capability` / `requiresCustomerPolicy`).
-  delete clone.capability;
+  // shape (which never exposed runtime filtering metadata).
   delete clone.requiresCustomerPolicy;
+  delete clone.requiresCapability;
 
   clone.disabled = !isModeCompatible(item, mode);
   return clone;
@@ -101,7 +102,7 @@ export function createMenu(runtimeContext, role, mode) {
   tree.forEach((top) => {
     if (!Array.isArray(top.children) || top.children.length === 0) return;
 
-    // 1. Filter leaves by capability / customer policy / role.
+    // Filter leaves by capability / customer policy / role.
     top.children = top.children
       .map((leaf) => filterLeaf(leaf, runtimeContext, role, mode))
       .filter((leaf) => leaf !== null);
