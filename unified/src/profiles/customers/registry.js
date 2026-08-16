@@ -28,7 +28,7 @@
  *     customer-conf/<ID>/conf.json and are deferred pending team confirmation.
  */
 export const customerProfileLoaders = Object.freeze({
-  '0001': () => import('./0001'),
-  '0029': () => import('./0029'),
-  '0032': () => import('./0032'),
+  '0001': () => import(/* webpackChunkName: "group-profiles" */ './0001'),
+  '0029': () => import(/* webpackChunkName: "group-profiles" */ './0029'),
+  '0032': () => import(/* webpackChunkName: "group-profiles" */ './0032'),
 });

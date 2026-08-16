@@ -160,7 +160,10 @@ Http.prototype.getHomePage = function getHomePage() {
 };
 // 系统日志
 Http.prototype.getSysLog = function getSysLog() {
-  return axios.get(`/log.log?t=${Date.now()}`);
+  // 先调 RPC 让后端刷新日志快照（systemCatLog 拼接写入 /var/log/mercku_web.log），
+  // 再拉取 /log.log 静态文件——直接 GET 拿到的只是上一次快照（开机后为空）
+  return this.request(createMethod('system.log.get'))
+    .then(() => axios.get(`/log.log?t=${Date.now()}`));
 };
 // 内核日志
 Http.prototype.getKernelLog = function getKernelLog() {

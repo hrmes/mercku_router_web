@@ -209,24 +209,28 @@ export default {
   },
   mounted() {
     this.$http
-      .login(
-        { password: '' },
-        {
-          hideToast: true
+      .isinitial()
+      .then(res => {
+        if (!res.data.result.status) {
+          // 已初始化，跳转到主界面
+          this.$router.push({ path: '/dashboard' });
+          return;
         }
-      )
+        // 未初始化，直接显示向导（无需登录，mesh.meta.get / mesh.config.update 已加入公开白名单）
+        this.$http.getMeshMeta().then(res => {
+          const wifi = res.data.result;
+          const b24g = wifi.bands[Bands.b24g];
+          const b5g = wifi.bands[Bands.b5g];
+          this.wifiForm.ssid24g = b24g.ssid;
+          this.wifiForm.password24g = b24g.password;
+          this.wifiForm.ssid5g = b5g.ssid;
+          this.wifiForm.password5g = b5g.password;
+        });
+      })
       .catch(() => {
+        // isinitial 请求失败，按已初始化处理，跳转到登录页
         this.$router.push({ path: '/login' });
       });
-    this.$http.getMeshMeta().then(res => {
-      const wifi = res.data.result;
-      const b24g = wifi.bands[Bands.b24g];
-      const b5g = wifi.bands[Bands.b5g];
-      this.wifiForm.ssid24g = b24g.ssid;
-      this.wifiForm.password24g = b24g.password;
-      this.wifiForm.ssid5g = b5g.ssid;
-      this.wifiForm.password5g = b5g.password;
-    });
   },
   methods: {
     onSsid24gChange() {
@@ -260,6 +264,7 @@ export default {
         if (this.wifiForm.smart_connect) {
           this.wifiForm.password5g = this.wifiForm.password24g;
         }
+        this.$loading.open();
         this.$http
           .updateMeshConfig({
             config: {
@@ -280,6 +285,7 @@ export default {
             }
           })
           .then(() => {
+            this.$loading.close();
             this.stepOption.current = 1;
             this.stepOption.steps[1].success = true;
             const timer = setInterval(() => {
@@ -301,6 +307,9 @@ export default {
               },
               showLoading: false
             });
+          })
+          .catch(() => {
+            this.$loading.close();
           });
       }
     }

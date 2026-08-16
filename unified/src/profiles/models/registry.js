@@ -28,12 +28,12 @@
  * per §3.3. Registry must NOT declare `webpackChunkName` containing IDs.
  */
 export const modelProfileLoaders = Object.freeze({
-  M6R0: () => import('./M6R0/profile.json'),
-  M8: () => import('./M8/profile.json'),
-  M11R1: () => import('./M11R1/profile.json'),
-  M11R2: () => import('./M11R2/profile.json'),
-  M11R4: () => import('./M11R4/profile.json'),
-  M13R0: () => import('./M13R0/profile.json'),
-  M16R0: () => import('./M16R0/profile.json'),
-  GA630: () => import('./GA630/profile.json'),
+  M6R0: () => import(/* webpackChunkName: "group-profiles" */ './M6R0/profile.json'),
+  M8: () => import(/* webpackChunkName: "group-profiles" */ './M8/profile.json'),
+  M11R1: () => import(/* webpackChunkName: "group-profiles" */ './M11R1/profile.json'),
+  M11R2: () => import(/* webpackChunkName: "group-profiles" */ './M11R2/profile.json'),
+  M11R4: () => import(/* webpackChunkName: "group-profiles" */ './M11R4/profile.json'),
+  M13R0: () => import(/* webpackChunkName: "group-profiles" */ './M13R0/profile.json'),
+  M16R0: () => import(/* webpackChunkName: "group-profiles" */ './M16R0/profile.json'),
+  GA630: () => import(/* webpackChunkName: "group-profiles" */ './GA630/profile.json'),
 });

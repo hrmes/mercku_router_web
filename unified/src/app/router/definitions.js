@@ -31,53 +31,100 @@
  */
 import { Role, RouterMode } from 'base/util/constant';
 
-// Lazy imports preserve the legacy per-route code splitting.
-const LoginPage = () => import('../../../../m6s/src/pages/login/index.vue');
-const DashboardPage = () => import('base/pages/bussiness/dashboard/index.vue');
-const WlanPage = () => import('@/pages/wlan/index.vue');
-const UnconnectPage = () => import('@/pages/error/unconnect/index.vue');
-const ModePage = () => import('@/pages/advance/mode.vue');
-const DevicePage = () => import('base/pages/bussiness/dashboard/device.vue');
-const MeshPage = () => import('base/pages/bussiness/dashboard/mesh.vue');
-const MeshAddPage = () => import('../../../../m6s/src/pages/bussiness/mesh/add.vue');
-const InternetPage = () => import('base/pages/bussiness/dashboard/internet.vue');
-const DeviceLimitPage = () => import('base/pages/bussiness/dashboard/limit/index.vue');
-const DeviceLimitTimePage = () => import('base/pages/bussiness/dashboard/limit/time.vue');
-const DeviceLimitUrlPage = () => import('base/pages/bussiness/dashboard/limit/blacklist.vue');
-const WifiPage = () => import('base/pages/bussiness/setting/wifi.vue');
-const WanPage = () => import('base/pages/bussiness/setting/wan.vue');
-const Ipv6Page = () => import('base/pages/bussiness/setting/ipv6.vue');
-const SafePage = () => import('base/pages/bussiness/setting/safe.vue');
-const SuperPage = () => import('base/pages/bussiness/setting/super.vue');
-const BlacklistPage = () => import('base/pages/bussiness/setting/blacklist.vue');
-const TimezonePage = () => import('base/pages/bussiness/setting/timezone.vue');
-const RegionPage = () => import('base/pages/bussiness/setting/region.vue');
-const GuestPage = () => import('base/pages/bussiness/setting/guest.vue');
-const UpnpPage = () => import('base/pages/bussiness/setting/upnp.vue');
-const LedPage = () => import('base/pages/bussiness/setting/led.vue');
-const SchedulePage = () => import('base/pages/bussiness/setting/wifi-schedule.vue');
-const WpsPage = () => import('base/pages/bussiness/setting/wps.vue');
-const SfpPage = () => import('../../../../m6s/src/pages/bussiness/setting/sfp.vue');
-const PowerSupplyPage = () => import('../../../../m6s_poe/src/pages/bussiness/setting/powersupply.vue');
-const FanPage = () => import('../../../../nano/src/pages/bussiness/setting/fan.vue');
-const PortForwardingPage = () => import('base/pages/bussiness/advance/port/index.vue');
-const DmzPage = () => import('base/pages/bussiness/advance/dmz.vue');
-const DhcpPage = () => import('base/pages/bussiness/advance/dhcp.vue');
-const ReservedIpPage = () => import('base/pages/bussiness/advance/rsvdip/index.vue');
-const MacPage = () => import('base/pages/bussiness/advance/mac.vue');
-const DdnsPage = () => import('base/pages/bussiness/advance/ddns.vue');
-const VpnPage = () => import('base/pages/bussiness/advance/vpn/index.vue');
-const DiagnosisPage = () => import('base/pages/bussiness/advance/diagnosis.vue');
-const LogPage = () => import('base/pages/bussiness/advance/log.vue');
-const FirewallPage = () => import('base/pages/bussiness/advance/firewall.vue');
-const WwaPage = () => import('base/pages/bussiness/advance/wwa.vue');
-const Tr069Page = () => import('base/pages/bussiness/advance/tr069.vue');
-const TelnetPage = () => import('base/pages/bussiness/advance/telnet.vue');
-const BackupPage = () => import('base/pages/bussiness/advance/backup.vue');
-const FrozenConfigPage = () => import('../../../../m6a/src/pages/bussiness/advance/frozen-config/index.vue');
-const OnlineUpgradePage = () => import('base/pages/bussiness/upgrade/online.vue');
-const OfflineUpgradePage = () => import('base/pages/bussiness/upgrade/offline.vue');
-const AutoUpgradePage = () => import('base/pages/bussiness/upgrade/auto.vue');
+// Lazy imports grouped by section keep per-route code splitting while
+// reducing the number of tiny generated chunks.
+const LoginPage = () =>
+  import(/* webpackChunkName: "group-public" */ '../../../../m6s/src/pages/login/index.vue');
+const DashboardPage = () =>
+  import(/* webpackChunkName: "group-dashboard" */ 'base/pages/bussiness/dashboard/index.vue');
+const WlanPage = () =>
+  import(/* webpackChunkName: "group-public" */ '@/pages/wlan/index.vue');
+const UnconnectPage = () =>
+  import(/* webpackChunkName: "group-public" */ '@/pages/error/unconnect/index.vue');
+const ModePage = () =>
+  import(/* webpackChunkName: "group-advance" */ '@/pages/advance/mode.vue');
+const DevicePage = () =>
+  import(/* webpackChunkName: "group-dashboard" */ 'base/pages/bussiness/dashboard/device.vue');
+const MeshPage = () =>
+  import(/* webpackChunkName: "group-dashboard" */ 'base/pages/bussiness/dashboard/mesh.vue');
+const MeshAddPage = () =>
+  import(/* webpackChunkName: "group-dashboard" */ '../../../../m6s/src/pages/bussiness/mesh/add.vue');
+const InternetPage = () =>
+  import(/* webpackChunkName: "group-dashboard" */ 'base/pages/bussiness/dashboard/internet.vue');
+const DeviceLimitPage = () =>
+  import(/* webpackChunkName: "group-dashboard" */ 'base/pages/bussiness/dashboard/limit/index.vue');
+const DeviceLimitTimePage = () =>
+  import(/* webpackChunkName: "group-dashboard" */ 'base/pages/bussiness/dashboard/limit/time.vue');
+const DeviceLimitUrlPage = () =>
+  import(/* webpackChunkName: "group-dashboard" */ 'base/pages/bussiness/dashboard/limit/blacklist.vue');
+const WifiPage = () =>
+  import(/* webpackChunkName: "group-setting" */ 'base/pages/bussiness/setting/wifi.vue');
+const WanPage = () =>
+  import(/* webpackChunkName: "group-setting" */ 'base/pages/bussiness/setting/wan.vue');
+const Ipv6Page = () =>
+  import(/* webpackChunkName: "group-setting" */ 'base/pages/bussiness/setting/ipv6.vue');
+const SafePage = () =>
+  import(/* webpackChunkName: "group-setting" */ 'base/pages/bussiness/setting/safe.vue');
+const SuperPage = () =>
+  import(/* webpackChunkName: "group-setting" */ 'base/pages/bussiness/setting/super.vue');
+const BlacklistPage = () =>
+  import(/* webpackChunkName: "group-setting" */ 'base/pages/bussiness/setting/blacklist.vue');
+const TimezonePage = () =>
+  import(/* webpackChunkName: "group-setting" */ 'base/pages/bussiness/setting/timezone.vue');
+const RegionPage = () =>
+  import(/* webpackChunkName: "group-setting" */ 'base/pages/bussiness/setting/region.vue');
+const GuestPage = () =>
+  import(/* webpackChunkName: "group-setting" */ 'base/pages/bussiness/setting/guest.vue');
+const UpnpPage = () =>
+  import(/* webpackChunkName: "group-setting" */ 'base/pages/bussiness/setting/upnp.vue');
+const LedPage = () =>
+  import(/* webpackChunkName: "group-setting" */ 'base/pages/bussiness/setting/led.vue');
+const SchedulePage = () =>
+  import(/* webpackChunkName: "group-setting" */ 'base/pages/bussiness/setting/wifi-schedule.vue');
+const WpsPage = () =>
+  import(/* webpackChunkName: "group-setting" */ 'base/pages/bussiness/setting/wps.vue');
+const SfpPage = () =>
+  import(/* webpackChunkName: "group-setting" */ '../../../../m6s/src/pages/bussiness/setting/sfp.vue');
+const PowerSupplyPage = () =>
+  import(/* webpackChunkName: "group-setting" */ '../../../../m6s_poe/src/pages/bussiness/setting/powersupply.vue');
+const FanPage = () =>
+  import(/* webpackChunkName: "group-setting" */ '../../../../nano/src/pages/bussiness/setting/fan.vue');
+const PortForwardingPage = () =>
+  import(/* webpackChunkName: "group-advance" */ 'base/pages/bussiness/advance/port/index.vue');
+const DmzPage = () =>
+  import(/* webpackChunkName: "group-advance" */ 'base/pages/bussiness/advance/dmz.vue');
+const DhcpPage = () =>
+  import(/* webpackChunkName: "group-advance" */ 'base/pages/bussiness/advance/dhcp.vue');
+const ReservedIpPage = () =>
+  import(/* webpackChunkName: "group-advance" */ 'base/pages/bussiness/advance/rsvdip/index.vue');
+const MacPage = () =>
+  import(/* webpackChunkName: "group-advance" */ 'base/pages/bussiness/advance/mac.vue');
+const DdnsPage = () =>
+  import(/* webpackChunkName: "group-advance" */ 'base/pages/bussiness/advance/ddns.vue');
+const VpnPage = () =>
+  import(/* webpackChunkName: "group-advance" */ 'base/pages/bussiness/advance/vpn/index.vue');
+const DiagnosisPage = () =>
+  import(/* webpackChunkName: "group-advance" */ 'base/pages/bussiness/advance/diagnosis.vue');
+const LogPage = () =>
+  import(/* webpackChunkName: "group-advance" */ 'base/pages/bussiness/advance/log.vue');
+const FirewallPage = () =>
+  import(/* webpackChunkName: "group-advance" */ 'base/pages/bussiness/advance/firewall.vue');
+const WwaPage = () =>
+  import(/* webpackChunkName: "group-advance" */ 'base/pages/bussiness/advance/wwa.vue');
+const Tr069Page = () =>
+  import(/* webpackChunkName: "group-advance" */ 'base/pages/bussiness/advance/tr069.vue');
+const TelnetPage = () =>
+  import(/* webpackChunkName: "group-advance" */ 'base/pages/bussiness/advance/telnet.vue');
+const BackupPage = () =>
+  import(/* webpackChunkName: "group-advance" */ 'base/pages/bussiness/advance/backup.vue');
+const FrozenConfigPage = () =>
+  import(/* webpackChunkName: "group-advance" */ '../../../../m6a/src/pages/bussiness/advance/frozen-config/index.vue');
+const OnlineUpgradePage = () =>
+  import(/* webpackChunkName: "group-upgrade" */ 'base/pages/bussiness/upgrade/online.vue');
+const OfflineUpgradePage = () =>
+  import(/* webpackChunkName: "group-upgrade" */ 'base/pages/bussiness/upgrade/offline.vue');
+const AutoUpgradePage = () =>
+  import(/* webpackChunkName: "group-upgrade" */ 'base/pages/bussiness/upgrade/auto.vue');
 
 const allModes = [
   RouterMode.router,

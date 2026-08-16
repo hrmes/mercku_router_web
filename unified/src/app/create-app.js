@@ -68,6 +68,10 @@ export function createApp(runtimeContext, overrides = {}) {
       }
       throw data;
     }
+    // No response (timeout / network error) — redirect to unconnect page
+    if (!opts.isReconnect && process.env.VUE_APP_OFFLINE_PREVIEW !== '1') {
+      router.push({ path: '/unconnect' });
+    }
     throw err;
   });
 

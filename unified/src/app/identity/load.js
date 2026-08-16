@@ -1,13 +1,13 @@
 /* eslint-disable import/prefer-default-export */
 /**
- * Identity loader. Fetches `/runtime-config.v1.json` (served by the device in
- * production, by the dev middleware in development). The returned identity is
- * validated by `./validate.js` upstream in the bootstrap flow.
+ * Identity loader. POSTs a JSON-RPC request to `/app` (the device backend)
+ * with method `system.runtimeConfig`. The returned identity is validated
+ * by `./validate.js` upstream in the bootstrap flow.
  *
  * `fetchImpl` is injectable for testability. The default uses the global
  * `fetch` (available in modern browsers and Node 18+).
  */
-const DEFAULT_IDENTITY_URL = '/runtime-config.v1.json';
+const DEFAULT_IDENTITY_URL = '/app';
 
 function getDefaultFetch() {
   if (typeof fetch === 'function') {
@@ -24,7 +24,9 @@ export async function fetchIdentity(
   let response;
   try {
     response = await fetchFn(url, {
-      headers: { Accept: 'application/json' },
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ method: 'system.runtimeConfig' }),
       cache: 'no-store',
     });
   } catch (err) {
@@ -40,14 +42,19 @@ export async function fetchIdentity(
     e.code = 'IDENTITY_HTTP_ERROR';
     throw e;
   }
-  let data;
+  let body;
   try {
-    data = await response.json();
+    body = await response.json();
   } catch (err) {
     const e = new Error(`identity response is not valid JSON: ${err.message}`);
     e.code = 'IDENTITY_PARSE_ERROR';
     e.cause = err;
     throw e;
   }
-  return data;
+  if (body && body.error) {
+    const e = new Error(`identity request failed: ${body.error.message || 'unknown error'}`);
+    e.code = 'IDENTITY_RPC_ERROR';
+    throw e;
+  }
+  return body && body.result;
 }

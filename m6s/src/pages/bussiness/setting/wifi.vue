@@ -563,8 +563,8 @@ export default {
         encrypt: formBand.encrypt,
         channel: {
           mode: this.isAutoChannel ? ChannelMode.auto : ChannelMode.manual,
-          number: channel.number,
-          bandwidth: channel.bandwidth
+          number: Number(channel.number),
+          bandwidth: Number(channel.bandwidth)
         }
       };
     },

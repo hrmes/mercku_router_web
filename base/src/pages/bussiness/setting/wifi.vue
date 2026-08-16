@@ -396,6 +396,12 @@ export default {
         });
       }
     },
+    validateSsid5G() {
+      if (!this.form.smart_connect && this.form.b24g.ssid) {
+        return this.form.b24g.ssid !== this.form.b5g.ssid;
+      }
+      return true;
+    },
     changeSmartConnect() {
       const { form } = this;
       form.b5g.enabled = form.b24g.enabled;
@@ -543,8 +549,8 @@ export default {
         encrypt: formBand.encrypt,
         channel: {
           mode: this.isAutoChannel ? ChannelMode.auto : ChannelMode.manual,
-          number: channel.number,
-          bandwidth: channel.bandwidth
+          number: Number(channel.number),
+          bandwidth: Number(channel.bandwidth)
         }
       };
     },
