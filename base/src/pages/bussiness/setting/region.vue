@@ -53,11 +53,13 @@ export default {
         message: this.$t('trans0229'),
         callback: {
           ok: () => {
+            this.$loading.open();
             this.$http
               .setRegion({
                 region_id: this.form.region.id
               })
               .then(() => {
+                this.$loading.close();
                 this.$reconnect({
                   onsuccess: () => {
                     this.$toast(this.$t('trans0040'), 2000, 'success');
@@ -67,6 +69,9 @@ export default {
                   },
                   timeout: 60
                 });
+              })
+              .catch(() => {
+                this.$loading.close();
               });
           }
         }

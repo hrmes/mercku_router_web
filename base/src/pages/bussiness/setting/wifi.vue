@@ -380,6 +380,19 @@ export default {
   mounted() {
     this.getInitData();
   },
+  watch: {
+    // auto 状态下后端读回的手动信道号为空；切回手动时预填第一个可用信道，
+    // 避免空下拉框直接提交（Number(null)=0 会被后端当作非法信道拒绝）
+    isAutoChannel(enabled) {
+      if (enabled) return;
+      if (!this.form.channel.b24gChannel.number && this.channels.b24g.length) {
+        this.form.channel.b24gChannel.number = this.channels.b24g[0].value;
+      }
+      if (!this.form.channel.b5gChannel.number && this.channels.b5g.length) {
+        this.form.channel.b5gChannel.number = this.channels.b5g[0].value;
+      }
+    }
+  },
   methods: {
     onEncryptChange(path, nv, ov) {
       if (nv === EncryptMethod.wpa3) {
@@ -430,6 +443,14 @@ export default {
       }
 
       if (!validResult1 || !validResult2) {
+        return;
+      }
+
+      // 手动信道：信道下拉框不能为空
+      if (!this.isAutoChannel
+        && (!this.form.channel.b24gChannel.number
+          || !this.form.channel.b5gChannel.number)) {
+        this.$toast(this.$t('trans0232'), 2000, 'error');
         return;
       }
 

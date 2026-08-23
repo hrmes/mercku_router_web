@@ -204,6 +204,7 @@
 <script>
 import { isValidInteger, isIP } from 'base/util/util';
 import { Models, IP, IPv6DefaultPlaceholder, WanNetStatus, WanType } from 'base/util/constant';
+import { resolveRuntimeModelId } from 'base/runtime/ui-context';
 
 const defaultPrefixLength = 64;
 const NoPPPoeList = [Models.M6s, Models.M6s_SFP, Models.M6s_Nano, Models.M6s_PoE_pp];
@@ -319,7 +320,10 @@ export default {
       return this.IPv4NetType === WanType.pppoe && !this.isPppoe;
     },
     wanTypeOptions() {
-      if (NoPPPoeList.includes(process.env.MODEL_CONFIG.id)) {
+      // unified 构建无编译期 MODEL_CONFIG（运行时从 store 的 runtimeContext
+      // 解析）；直接读 process.env.MODEL_CONFIG.id 会抛 TypeError 导致
+      // 渲染失败——表现为开关点击无响应（渲染回滚）。
+      if (NoPPPoeList.includes(resolveRuntimeModelId(this.$store))) {
         return [
           {
             value: WanType.auto,

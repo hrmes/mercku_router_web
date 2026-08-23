@@ -13,6 +13,13 @@
             <p class="step-tips">{{$t('trans0167')}}</p>
           </m-form-item>
           <m-form-item class="form-item"
+                       prop="region_id">
+            <m-select :label="$t('trans0639')"
+                      v-model="wifiForm.region_id"
+                      :options="regionsList" />
+            <div class="tip-label">{{$t('trans0646')}}</div>
+          </m-form-item>
+          <m-form-item class="form-item"
                        prop="smart_connect">
             <m-switch :label="$t('trans0397')"
                       @change="changeSmartConnect"
@@ -123,6 +130,53 @@
 import { Bands } from 'base/util/constant';
 import { getStringByte, isValidPassword, isFieldHasComma } from 'base/util/util';
 
+export function resolveRegionCatalogue(locale, defaultLocale, loadCatalogue) {
+  const locales = [locale, defaultLocale, 'en-US']
+    .filter((item, index, list) => item && list.indexOf(item) === index);
+  let lastError;
+
+  for (let index = 0; index < locales.length; index += 1) {
+    try {
+      return loadCatalogue(locales[index]);
+    } catch (error) {
+      lastError = error;
+    }
+  }
+
+  throw lastError;
+}
+
+export function toRegionOptions(catalogue) {
+  return catalogue.map(region => ({
+    text: region.name,
+    value: parseInt(region.code, 10),
+  }));
+}
+
+export function isValidRegion(regionId, options) {
+  return options.some(option => option.value === regionId);
+}
+
+export function buildInitialConfig(wifiForm) {
+  return {
+    wifi: {
+      bands: {
+        '2.4G': {
+          ssid: wifiForm.ssid24g,
+          password: wifiForm.password24g
+        },
+        '5G': {
+          ssid: wifiForm.ssid5g,
+          password: wifiForm.password5g
+        }
+      },
+      smart_connect: wifiForm.smart_connect
+    },
+    admin: { password: wifiForm.password24g },
+    region_id: parseInt(wifiForm.region_id, 10)
+  };
+}
+
 export default {
   data() {
     return {
@@ -135,7 +189,9 @@ export default {
       },
       current: 0,
       countdown: 60,
+      regionsList: [],
       wifiForm: {
+        region_id: '',
         smart_connect: true,
         ssid24g: '',
         password24g: '',
@@ -143,6 +199,12 @@ export default {
         password5g: ''
       },
       wifiFormRules: {
+        region_id: [
+          {
+            rule: value => isValidRegion(value, this.regionsList),
+            message: this.$t('trans0237')
+          }
+        ],
         ssid24g: [
           {
             rule: value => !/^\s*$/g.test(value),
@@ -213,12 +275,14 @@ export default {
       .then(res => {
         if (!res.data.result.status) {
           // 已初始化，跳转到主界面
-          this.$router.push({ path: '/dashboard' });
-          return;
+          return this.$router.push({ path: '/dashboard' });
         }
         // 未初始化，直接显示向导（无需登录，mesh.meta.get / mesh.config.update 已加入公开白名单）
-        this.$http.getMeshMeta().then(res => {
-          const wifi = res.data.result;
+        return Promise.all([
+          this.$http.getMeshMeta(),
+          this.loadRegion()
+        ]).then(([metaRes]) => {
+          const wifi = metaRes.data.result;
           const b24g = wifi.bands[Bands.b24g];
           const b5g = wifi.bands[Bands.b5g];
           this.wifiForm.ssid24g = b24g.ssid;
@@ -233,6 +297,38 @@ export default {
       });
   },
   methods: {
+    loadRegionCatalogue() {
+      const catalogue = resolveRegionCatalogue(
+        this.$i18n.locale,
+        this.$store.getters.branding.defaultLanguage,
+        locale => require(`base/assets/regions/${locale}.json`)
+      );
+      this.regionsList = toRegionOptions(catalogue);
+      return this.regionsList;
+    },
+    loadRegion() {
+      const regionsList = this.loadRegionCatalogue();
+      if (!regionsList.length) {
+        throw new Error('Region catalogue is empty');
+      }
+      const fallbackRegionId = regionsList[0].value;
+
+      return this.$http.getRegion()
+        .then(res => {
+          const region = res.data && res.data.result;
+          if (!region) {
+            this.wifiForm.region_id = fallbackRegionId;
+            return;
+          }
+          const regionId = parseInt(region.ip_country_id || region.id, 10);
+          this.wifiForm.region_id = isValidRegion(regionId, regionsList)
+            ? regionId
+            : fallbackRegionId;
+        })
+        .catch(() => {
+          this.wifiForm.region_id = fallbackRegionId;
+        });
+    },
     onSsid24gChange() {
       if (this.$refs.ssid5g && this.wifiForm.ssid5g) {
         this.$refs.ssid5g.extraValidate(this.validateSsid5G, this.$t('trans0660'));
@@ -267,22 +363,7 @@ export default {
         this.$loading.open();
         this.$http
           .updateMeshConfig({
-            config: {
-              wifi: {
-                bands: {
-                  '2.4G': {
-                    ssid: this.wifiForm.ssid24g,
-                    password: this.wifiForm.password24g
-                  },
-                  '5G': {
-                    ssid: this.wifiForm.ssid5g,
-                    password: this.wifiForm.password5g
-                  }
-                },
-                smart_connect: this.wifiForm.smart_connect
-              },
-              admin: { password: this.wifiForm.password24g }
-            }
+            config: buildInitialConfig(this.wifiForm)
           })
           .then(() => {
             this.$loading.close();

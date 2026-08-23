@@ -84,7 +84,7 @@ describe('identity contract (v1)', () => {
     });
 
     it('backend must be a non-empty string', () => {
-      const backend = identitySchema.properties.backend;
+      const { backend } = identitySchema.properties;
       expect(backend.type).to.equal('string');
       expect(backend.minLength).to.be.greaterThan(0);
     });
@@ -138,8 +138,8 @@ describe('identity contract (v1)', () => {
       expect(ok).to.equal(false);
       const additional = validate.errors.find(
         (e) =>
-          e.keyword === 'additionalProperties'
-          && errorPath(e).includes('detectedCapabilities')
+          e.keyword === 'additionalProperties' &&
+          errorPath(e).includes('detectedCapabilities')
       );
       expect(additional, 'expected additionalProperties error inside detectedCapabilities').to.not.equal(
         undefined

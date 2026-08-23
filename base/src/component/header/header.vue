@@ -705,7 +705,7 @@ export default {
     z-index: 999;
     .logo-wrap {
       img {
-        filter: var(--img-brightness);
+        filter: var(--header-logo-filter, var(--img-brightness));
       }
     }
   }
