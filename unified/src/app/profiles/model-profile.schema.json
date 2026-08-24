@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mercku.local/schemas/profiles/model-profile.v1.json",
+  "title": "Model Profile v1",
+  "description": "Model Profile registers real hardware/backend capability differences plus device-flow behavior facts. v1 is atomic with firmware; only profileVersion 1 is supported.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["profileVersion", "expectedBackends", "capabilities", "behavior"],
+  "properties": {
+    "profileVersion": {
+      "const": 1,
+      "description": "Locked to 1 for v1. Bump only when fields change type/semantics or are removed."
+    },
+    "expectedBackends": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 },
+      "description": "Backend engineering identifiers supported by this model. Dev/CI/diagnostic-only; does not participate in feature selection or block UI."
+    },
+    "capabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sfp", "poeControl", "fanControl", "frozenConfig"],
+      "description": "Frontend product capability baseline for this model. Keys are exactly CAPABILITY_KEYS; no *Api/platform/backend engineering names. Schedule/WPS/WAN Ping/Device Limit/LED are common functions and must NOT appear here.",
+      "properties": {
+        "sfp": { "type": "boolean" },
+        "poeControl": { "type": "boolean" },
+        "fanControl": { "type": "boolean" },
+        "frozenConfig": { "type": "boolean" }
+      }
+    },
+    "behavior": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["upgradeProbeStartDelayMs", "modeSwitchProbeStartDelayMs", "reconnectProbeTimeoutMs", "meshRadioStatus"],
+      "description": "Device flow facts only. Must NOT expose upgrading, Promise finally, error-page jumping, etc.",
+      "properties": {
+        "upgradeProbeStartDelayMs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3600000
+        },
+        "modeSwitchProbeStartDelayMs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3600000
+        },
+        "reconnectProbeTimeoutMs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3600000
+        },
+        "meshRadioStatus": {
+          "type": "string",
+          "enum": ["band24g", "txPower"],
+          "description": "Radio status/control exposed by the shared Mesh topology: M6-style 2.4 GHz band control or read-only transmit power."
+        }
+      }
+    }
+  }
+}

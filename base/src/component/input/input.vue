@@ -14,9 +14,8 @@
                type="text"
                readonly
                :value="addonBefore" />
-        <!-- <div class="extra"
-             v-if="addonBefore">{{addonBefore}}</div> -->
         <input v-if="inputType==='number'"
+               v-bind="$attrs"
                @focus="focus"
                @blur="blur"
                @input="onInput"
@@ -28,6 +27,7 @@
                :type="inputType"
                pattern="[0-9]*">
         <input v-else
+               v-bind="$attrs"
                autocomplete="new-password"
                @focus="focus"
                @blur="blur"
@@ -37,6 +37,7 @@
                v-model="inputValue"
                :placeholder="placeholder"
                :type="inputType"
+               :maxlength="maxlength"
                :class="{'has-icon':isPwdInput,margin:addonBefore}">
       </div>
       <div class="icon-container"
@@ -51,6 +52,7 @@
 
 <script>
 export default {
+  inheritAttrs: false,
   props: {
     type: {
       type: String,
@@ -65,6 +67,10 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    maxlength: {
+      type: String,
+      default: ''
     },
     label: {
       type: String,
@@ -151,6 +157,7 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 .input-container {
+  max-width: 340px;
   &.small {
     .input {
       height: 36px;
@@ -159,7 +166,8 @@ input[type='number'] {
   position: relative;
   &.disabled {
     .icon-container {
-      cursor: default;
+      opacity: 0.2;
+      cursor: not-allowed;
     }
   }
   .inputarea {
@@ -170,13 +178,13 @@ input[type='number'] {
     text-align: left;
     margin-bottom: 5px;
     font-weight: bold;
-    color: var(--input-label-color);
+    color: var(--input_label-color);
     font-size: 14px;
   }
   .input-wrapper {
     height: 50px;
     width: 100%;
-    border-radius: 4px;
+    border-radius: 10px;
     box-sizing: border-box;
     display: flex;
     align-items: center;
@@ -192,32 +200,40 @@ input[type='number'] {
     input {
       font-size: 14px;
       padding: 10px;
-      height: 46px;
+      height: 48px;
       line-height: 1;
       width: 100%;
       outline: 0;
-      border-radius: 4px;
-      border: none;
+      border-radius: 10px;
       box-sizing: border-box;
       -webkit-appearance: none;
-      background: transparent;
-      color: var(--text-default-color);
+      background: var(--input-content-background);
+      border: 1.5px solid var(--input_border-color);
+      color: var(--text_default-color);
+      transition: all 0.2s ease-in-out;
       &::-webkit-input-placeholder {
-        color: var(--input-placehoder-color);
+        color: var(--input_placeholder-color);
       }
       &.margin {
         padding-left: 0px;
       }
+      &:focus {
+        border-color: var(--input_focus_border-color);
+      }
       &:disabled {
-        background: var(--input-disabled-background-color);
-        opacity: var(--input-disabled-opacity);
+        border: none;
+        background: var(--input_disabled-bgc);
+        opacity: var(--input_disabled-opacity);
         cursor: not-allowed;
+      }
+      &:invalid {
+        animation: errorshake 0.3s forwards;
+        border: 2px solid var(--input_error_border-color);
       }
       &.has-icon {
         padding-right: 50px;
       }
     }
-    border: 1.5px solid var(--input-border-color);
   }
   .icon-container {
     position: absolute;
@@ -255,8 +271,9 @@ input[type='number'] {
     &.small {
       width: 100%;
     }
-    width: 340px;
     display: inline-block;
+    max-width: 340px;
+    width: 100%;
   }
 }
 
@@ -264,6 +281,7 @@ input[type='number'] {
   .input-container {
     display: block;
     width: 100%;
+    max-width: 100%;
     margin: 0 auto;
     .input-wrapper {
       height: 50px;

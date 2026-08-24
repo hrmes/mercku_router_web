@@ -5,41 +5,57 @@
       {{$t('trans0474')}}
     </div>
     <div class="page-content">
-      <div class="form">
-        <div class="form-item">
-          <div @click="setSelected(true)"
-               class="radio"
-               :class="{'selected':isBoolDefault}">
-            {{$t('trans0459')}}
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card"
+               data-e2e="mac-card">
+            <div class="form-item">
+              <div @click="setSelected(true)"
+                   data-e2e="mac-default-option"
+                   class="wrapper"
+                   :class="{'selected':isBoolDefault}">
+                <div class="radio"></div>
+                <span>{{$t('trans0459')}}</span>
+              </div>
+              <p class="mac">{{mac.default}}</p>
+            </div>
+            <div class="form-item">
+              <div @click="setSelected(false)"
+                   data-e2e="mac-custom-option"
+                   class="wrapper"
+                   :class="{'selected':!isBoolDefault}">
+                <div class="radio"></div>
+                <span> {{$t('trans0460')}}</span>
+              </div>
+              <m-form ref="form"
+                      :model="mac"
+                      :rules="rules"
+                      v-show="!isBoolDefault">
+                <m-form-item class="last"
+                             prop="current"
+                             ref="current">
+                  <m-input class="input"
+                           ref="macInput"
+                           @input="format"
+                           v-model="mac.current"
+                           maxlength="17"
+                           :placeholder="$t('trans0321')"></m-input>
+                </m-form-item>
+              </m-form>
+            </div>
           </div>
-          <p class="mac">{{mac.default}}</p>
         </div>
-        <div class="form-item">
-          <div @click="setSelected(false)"
-               class="radio"
-               :class="{'selected':!isBoolDefault}">
-            {{$t('trans0460')}}
-          </div>
-          <m-form ref="form"
-                  :model="mac"
-                  :rules="rules"
-                  v-show="!isBoolDefault">
-            <m-form-item prop="current"
-                         ref="current">
-              <m-input class="input"
-                       ref="macInput"
-                       @input="format"
-                       v-model="mac.current"
-                       :placeholder="$t('trans0321')"></m-input>
-            </m-form-item>
-          </m-form>
+
+      </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn"
+                  data-e2e="mac-submit"
+                  v-defaultbutton
+                  @click="updateMac">{{$t('trans0081')}}</button>
         </div>
       </div>
-      <div class="form-button">
-        <button class="btn primary"
-                v-defaultbutton
-                @click="updateMac">{{$t('trans0081')}}</button>
-      </div>
+
     </div>
   </div>
 </template>
@@ -49,7 +65,7 @@ import { formatMac, isMac } from 'base/util/util';
 export default {
   computed: {
     isBoolDefault() {
-      return this.isDefault === true;
+      return this.isDefault;
     }
   },
   data() {
@@ -58,7 +74,7 @@ export default {
         default: '',
         current: ''
       },
-      isDefault: null,
+      isDefault: true,
       rules: {
         current: [
           {
@@ -109,6 +125,7 @@ export default {
             current: formatMac(res.data.result.current)
           };
           this.isDefault = !this.mac.current;
+          if (this.mac.current && this.mac.default === this.mac.current) this.isDefault = true;
           this.$loading.close();
         })
         .catch(() => {
@@ -139,7 +156,8 @@ export default {
                 this.$reconnect({
                   timeout: 60,
                   onsuccess: () => {
-                    this.$toast(this.$t('trans0040'), 3000, 'success');
+                    this.$toast(this.$t('trans0040'), 2000, 'success');
+                    if (this.mac.default === this.mac.current) this.isDefault = true;
                     this.$router.push({ path: '/advance/mac' });
                   },
                   ontimeout: () => {
@@ -158,66 +176,51 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.page-content {
-  flex-direction: column;
+.form-item {
+  margin-bottom: 20px;
+  &:last-child {
+    margin: 0;
+  }
 }
-.form {
-  width: 340px;
+.wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  cursor: pointer;
   .radio {
     position: relative;
-    display: flex;
-    align-items: center;
-    height: 18px;
-    padding-left: 24px;
-    cursor: pointer;
-    user-select: none;
-    &:before {
-      content: '';
-      position: absolute;
-      box-sizing: border-box;
-      top: 0;
-      left: 0;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      border: 1.5px solid var(--checkbox-border-color);
-    }
-    &.selected {
-      &::before {
-        border: 0;
-        background: var(--checkbox-checked-background-color);
-      }
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid var(--checkbox_border-color);
+    margin-right: 10px;
+  }
+  > span {
+    font-weight: 500;
+  }
+  &.selected {
+    .radio {
       &::after {
-        content: '\e65c';
+        content: '';
         position: absolute;
-        top: 1px;
-        left: 2.5px;
-        width: 12px;
-        height: 12px;
-        font-size: 12px;
-        font-family: 'iconfont';
-        color: #fff;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 86%;
+        height: 86%;
+        background-color: var(--primary-color);
+        border-radius: 50%;
       }
     }
   }
-  .mac {
-    padding-left: 24px;
-    margin: 10px 0;
-    height: 20px;
-    color: var(--text-gery-color);
-  }
-  .input {
-    margin-top: 10px;
-  }
 }
-.form-button {
-  padding-top: 25px;
-  margin-top: 0;
-  border-top: 1px solid var(--hr-color);
+.mac {
+  font-size: 12px;
+  color: var(--common-grey-color);
+  margin: 0;
+  padding: 0 28px;
 }
-@media screen and (max-width: 768px) {
-  .form {
-    width: 100%;
-  }
+.mk-form {
+  padding-left: 28px;
 }
 </style>

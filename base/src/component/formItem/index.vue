@@ -3,6 +3,7 @@
        :class="{'form-item-success':success,'form-item-error':error}">
     <slot></slot>
     <span class="error-message"
+          :class="{static:errorMsgIsStatic}"
           v-show="error">{{message}}</span>
   </div>
 </template>
@@ -15,6 +16,10 @@ export default {
     rules: {
       type: Array,
       default: () => []
+    },
+    errorMsgIsStatic: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -104,11 +109,28 @@ export default {
 };
 </script>
 <style lang="scss">
+@keyframes errorshake {
+  25% {
+    transform: translateX(6px);
+  }
+  50% {
+    transform: translateX(-8px);
+  }
+  75% {
+    transform: translateX(4px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
 .form-item {
   margin-bottom: 30px;
   position: relative;
+  &.last {
+    margin-bottom: 0;
+  }
   .error-message {
-    color: var(--form-item-error-color);
+    color: var(--input_error_text-color);
     font-size: 12px;
     display: block;
     padding-top: 4px;
@@ -116,11 +138,25 @@ export default {
     position: absolute;
     top: 100%;
     left: 0;
+    &.static {
+      position: static;
+    }
   }
   &.form-item-error {
     .input-wrapper {
-      border-color: var(--form-item-error-color) !important;
-      transition: border 0.3 linear;
+      input {
+        border: 2px solid var(--input_error_text-color);
+      }
+      animation: errorshake 0.3s forwards;
+    }
+    .select-container {
+      .select {
+        border: 2px solid var(--input_error_text-color);
+        animation: errorshake 0.3s forwards;
+      }
+      .icon-container {
+        border-left: 2px solid var(--input_error_text-color);
+      }
     }
   }
 }

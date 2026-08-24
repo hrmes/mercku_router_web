@@ -4,7 +4,7 @@ import upgradeComponent from './upgrade.vue';
 const defaultOptions = {
   tip: '',
   title: '',
-  timeout: 300,
+  timeout: 180,
   progressVisible: false
 };
 const Upgrade = {

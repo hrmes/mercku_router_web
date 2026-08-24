@@ -1,4 +1,4 @@
-const timezones = require('../timezones/zh-CN.json');
+const timezones = require('base/assets/timezones/zh-CN.json');
 
 export default {
   data() {

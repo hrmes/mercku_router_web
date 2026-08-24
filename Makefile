@@ -10,26 +10,12 @@ CUR_NPM_VER_MINOR := $(shell echo $(CUR_NPM_VER) | cut -f2 -d.)
 CUR_NPM_VER_PATCH := $(shell echo $(CUR_NPM_VER) | cut -f3 -d.)
 IS_NPM_OK := $(shell [ $(CUR_NPM_VER_MAJOR) -gt $(MIN_NPM_VER_MAJOR) -o \( $(CUR_NPM_VER_MAJOR) -eq $(MIN_NPM_VER_MAJOR) -a \( $(CUR_NPM_VER_MINOR) -gt $(MIN_NPM_VER_MINOR) -o \( $(CUR_NPM_VER_MINOR) -eq $(MIN_NPM_VER_MINOR) -a $(CUR_NPM_VER_PATCH) -ge $(MIN_NPM_VER_PATCH) \)  \) \) ] && echo true)
 
-CUSTOMER_LIST = 0001 0002 0003 0004 0005 0006 0007 0013 0014 0019 0025 0029 0031 0056
-MODEL_LIST = M2R2=m2 M6R0=m6 M7R0=m6c M8=m6a M9R0=homeway M9R1=homeway M9R2=homeway
+CUSTOMER_LIST = 0001 0031 0056
+MODEL_LIST = M6R0=m6 M8=m6a M11R1=m6s M11R2=m6s M11R4=m6s M13R0=nano M16R0=m6s_poe GA630=ga630
 
-ifndef CUSTOMER_ID
-$(error CUSTOMER_ID required)
-endif
-
-ifeq ($(shell echo $(CUSTOMER_LIST) | grep $(CUSTOMER_ID)),)
-$(error CUSTOMER_ID should be oneof ($(CUSTOMER_LIST)))
-endif
-
-ifndef MODEL_ID
-$(error MODEL_ID required)
-endif
-
-ifeq ($(shell echo $(MODEL_LIST) | grep $(MODEL_ID)),)
-$(error MODEL_ID should be oneof ($(MODEL_LIST)))
-endif
-
-MODEL=$(subst $(MODEL_ID)=,,$(filter $(MODEL_ID)=%, $(MODEL_LIST)))
+# Legacy per-model builds require CUSTOMER_ID and MODEL_ID. The unified
+# build (build_unified/dev_unified) does NOT - identity is runtime-only.
+# Guard checks are in the legacy recipes so unified targets can run freely.
 
 all: install
 
@@ -47,13 +33,47 @@ prd_depend: package.json package-lock.json check_npm_version
 dev_depend: package.json check_npm_version
 	npm i
 
+# Legacy per-model build. Requires CUSTOMER_ID and MODEL_ID.
 build: prd_depend
-	make -C $(MODEL) CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
-	mkdir -p output
-	tar cf output/webui-$(VERSION)-$(CUSTOMER_ID)-$(MODEL_ID).tar -C $(MODEL) dist
+ifndef CUSTOMER_ID
+	$(error CUSTOMER_ID required)
+endif
+ifeq ($(shell echo $(CUSTOMER_LIST) | grep $(CUSTOMER_ID)),)
+	$(error CUSTOMER_ID should be oneof ($(CUSTOMER_LIST)))
+endif
+ifndef MODEL_ID
+	$(error MODEL_ID required)
+endif
+ifeq ($(shell echo $(MODEL_LIST) | grep $(MODEL_ID)),)
+	$(error MODEL_ID should be oneof ($(MODEL_LIST)))
+endif
+	MODEL=$$(echo $(MODEL_LIST) | tr ' ' '\n' | grep '^$(MODEL_ID)=' | cut -d= -f2); \
+	cd $$MODEL && make CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
+	MODEL=$$(echo $(MODEL_LIST) | tr ' ' '\n' | grep '^$(MODEL_ID)=' | cut -d= -f2); \
+	ln -sfn $$MODEL/dist dist
 
-dev:
-	make -C $(MODEL) dev CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
+# Legacy per-model dev server. Requires CUSTOMER_ID and MODEL_ID.
+dev: dev_depend
+ifndef CUSTOMER_ID
+	$(error CUSTOMER_ID required)
+endif
+ifndef MODEL_ID
+	$(error MODEL_ID required)
+endif
+	MODEL=$$(echo $(MODEL_LIST) | tr ' ' '\n' | grep '^$(MODEL_ID)=' | cut -d= -f2); \
+	cd $$MODEL && make dev CUSTOMER=$(CUSTOMER_ID) MODEL_ID=$(MODEL_ID)
+
+# Unified profile-driven build (Task 10). Produces a single dist-unified/
+# directory shared by all device/customer installs. Does NOT take
+# CUSTOMER_ID or MODEL_ID - identity is provided at runtime via
+# runtime-config.v1.json. Requires Node 17+ with --openssl-legacy-provider
+# for webpack 4 compatibility.
+build_unified: prd_depend
+	NODE_OPTIONS=--openssl-legacy-provider npm run build:unified
+	node scripts/hash-web-dist.mjs dist-unified
+
+dev_unified: dev_depend
+	NODE_OPTIONS=--openssl-legacy-provider npm run dev:unified
 
 
-.PHONY: all install check_npm_version prd_depend dev_depend dev build
+.PHONY: all install check_npm_version prd_depend dev_depend dev build build_unified dev_unified

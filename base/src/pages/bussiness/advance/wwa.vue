@@ -5,30 +5,42 @@
       {{$t('trans0511')}}
     </div>
     <div class="page-content">
-      <m-form class="form"
-              ref="wwa"
-              :model="wwa"
-              :rules="wwaRules">
-        <m-form-item prop="port">
-          <m-input :label="$t('trans0495')"
-                   v-model="wwa.port"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
-        <m-form-item prop="allowed_ip">
-          <m-input :label="`${$t('trans0575')} ${$t('trans0411')}`"
-                   v-model="wwa.allowed_ip"
-                   :placeholder="$t('trans0492')"></m-input>
-        </m-form-item>
-        <div class="form-item">
-          <m-checkbox :text="$t('trans0462')"
-                      :rect="false"
-                      :bold="true"
-                      v-model="wwa.enabled"></m-checkbox>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card"
+               data-e2e="wwa-form-card">
+            <m-form class="form"
+                    ref="wwa"
+                    :model="wwa"
+                    :rules="wwaRules">
+              <m-form-item prop="port">
+                <m-input :label="$t('trans0495')"
+                         data-e2e="wwa-port-input"
+                         v-model="wwa.port"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+              <m-form-item prop="allowed_ip">
+                <m-input :label="`${$t('trans0575')} ${$t('trans0411')}`"
+                         data-e2e="wwa-allowed-ip-input"
+                         v-model="wwa.allowed_ip"
+                         :placeholder="$t('trans0492')"></m-input>
+              </m-form-item>
+              <m-form-item class="last">
+                <m-checkbox :text="$t('trans0462')"
+                            :rect="false"
+                            :bold="true"
+                            v-model="wwa.enabled"></m-checkbox>
+              </m-form-item>
+            </m-form>
+          </div>
         </div>
-      </m-form>
-      <div class="form-button">
-        <button class="btn btn-primary"
-                @click="updateWWA">{{$t('trans0081')}}</button>
+      </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn btn-primary"
+                  data-e2e="wwa-submit"
+                  @click="updateWWA">{{$t('trans0081')}}</button>
+        </div>
       </div>
     </div>
   </div>
@@ -87,7 +99,7 @@ export default {
           .updateWWA(data)
           .then(() => {
             this.$loading.close();
-            this.$toast(this.$t('trans0040'), 3000, 'success');
+            this.$toast(this.$t('trans0040'), 2000, 'success');
           })
           .catch(() => {
             this.$loading.close();

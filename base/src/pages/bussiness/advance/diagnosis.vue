@@ -1,38 +1,65 @@
 <template>
   <div class="page">
-    <div class="page-header">
-      {{$t('trans0419')}}
+    <div v-if="$store.state.isMobile"
+        class="page-header">
+      {{ pageTitle }}
     </div>
     <div class="page-content">
-      <m-form class="form"
-              :model="form"
-              ref="form"
-              :rules="rules">
-        <m-form-item>
-          <m-select v-model="job_type"
-                    :label="$t('trans0070')"
-                    :options="jobs"></m-select>
-        </m-form-item>
-        <m-form-item prop="host">
-          <m-input v-model="form.host"
-                   :label="label"
-                   :placeholder="$t('trans0321')"></m-input>
-        </m-form-item>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card"
+               :data-e2e="isWanPing ? 'wanping-form-card' : 'diagnosis-form-card'">
+            <m-form class="form"
+                    :data-e2e="isWanPing ? 'wanping-form' : 'diagnosis-form'"
+                    :model="form"
+                    ref="form"
+                    :rules="rules">
+              <m-form-item v-if="showJobSelect">
+                <m-select v-model="job_type"
+                          :label="$t('trans0070')"
+                          :options="jobs"></m-select>
+              </m-form-item>
+              <m-form-item class="last"
+                           prop="host">
+                <m-input v-model="form.host"
+                         :data-e2e="isWanPing ? 'wanping-host-input' : 'diagnosis-host-input'"
+                         :label="label"
+                         :placeholder="$t('trans0321')"></m-input>
+              </m-form-item>
+            </m-form>
+          </div>
+        </div>
+        <div class="row-2"
+             v-if="output">
+          <div class="card"
+               :data-e2e="isWanPing ? 'wanping-output-card' : 'diagnosis-output-card'">
+            <div class="log-container"
+                 :data-e2e="isWanPing ? 'wanping-output' : 'diagnosis-output'">
+              <pre>{{ output }}</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn btn-primary"
+                  :data-e2e="isWanPing ? 'wanping-start' : 'diagnosis-start'"
+                  v-defaultbutton
+                  @click="start">
+            {{ $t('trans0467') }}
+          </button>
+        </div>
+      </div>
 
-      </m-form>
-      <div class="form-button">
-        <button class="btn btn-primary"
-                v-defaultbutton
-                @click="start">{{$t('trans0467')}}</button>
-      </div>
-      <div class="log-container"
-           v-show="output">
-        <pre>{{output}}</pre>
-      </div>
     </div>
   </div>
 </template>
 <script>
+import { isValidFieldLength } from 'base/util/util';
+
+const TaskStatus = {
+  done: 'done'
+};
 export default {
   data() {
     return {
@@ -55,6 +82,10 @@ export default {
           {
             rule: value => value,
             message: this.$t('trans0232')
+          },
+          {
+            rule: value => isValidFieldLength(value),
+            message: this.$t('trans0712')
           }
         ]
       },
@@ -63,8 +94,24 @@ export default {
         host: ''
       },
       output: '',
-      label: this.$t('trans0463')
+      label: this.$t('trans0463'),
+      wanIfname: ''
     };
+  },
+  computed: {
+    isWanPing() {
+      return (
+        this.$route &&
+        this.$route.meta &&
+        this.$route.meta.diagnosisMode === 'wanping'
+      );
+    },
+    pageTitle() {
+      return this.isWanPing ? this.$t('trans0434') : this.$t('trans0419');
+    },
+    showJobSelect() {
+      return !this.isWanPing;
+    }
   },
   watch: {
     job_type(v) {
@@ -73,68 +120,104 @@ export default {
       } else {
         this.label = this.$t('trans0436');
       }
+    },
+    isWanPing: {
+      handler(val) {
+        if (val) {
+          this.job_type = this.jobs[0].value;
+          this.form.host = '';
+          this.output = '';
+        }
+      },
+      immediate: true
     }
   },
   methods: {
-    start() {
-      if (this.$refs.form.validate()) {
-        this.$loading.open();
-        this.$http
-          .diagnosis(
-            {
-              job_type: this.job_type,
-              job_params: {
-                host: this.form.host
-              }
-            },
-            {
-              timeout: 90000
-            }
-          )
-          .then(res => {
+    getWanIfname() {
+      return this.$http
+        .getWanNetInfo()
+        .then(res => {
+          const ifname = res?.data?.result?.ifname || '';
+          this.wanIfname = ifname;
+          return ifname;
+        })
+        .catch(() => {
+          this.wanIfname = '';
+          return '';
+        });
+    },
+    buildJobParams() {
+      const params = {
+        host: this.form.host
+      };
+      if (this.isWanPing && this.wanIfname) {
+        params.wan_if = this.wanIfname;
+      }
+      return params;
+    },
+    diagnosis() {
+      this.$loading.open();
+      const init = this.isWanPing && !this.wanIfname
+        ? this.getWanIfname()
+        : Promise.resolve(this.wanIfname);
+      init
+        .then(() =>
+          this.$http.diagnosis({
+            job_type: this.job_type,
+            job_params: this.buildJobParams()
+          })
+        )
+        .then(res => {
+          if (res.data.result.status === TaskStatus.done) {
             this.$loading.close();
             this.output = res.data.result.output;
-          })
-          .catch(() => {
-            this.$loading.close();
-          });
+          } else {
+            setTimeout(this.diagnosis, 3000);
+          }
+        })
+        .catch(() => {
+          this.$loading.close();
+        });
+    },
+    start() {
+      if (this.$refs.form.validate()) {
+        this.diagnosis();
       }
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-.page-content {
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start !important;
-  flex: 1;
-  .log-container {
-    margin-top: 30px;
-    width: 100%;
-    flex: 1;
-    border: solid 1px #bdbdbd;
-    border-radius: 4px;
-    overflow: auto;
-    position: relative;
-    padding: 10px;
-    pre {
-      margin: 0;
-      max-height: 600px;
-      font-family: 'Courier New', Courier, monospace;
-      white-space: pre-wrap;
-      word-wrap: break-word;
+.page {
+  .page-content {
+    .page-content__main {
+      .row-2 {
+        grid-template-columns: 100%;
+      }
     }
   }
 }
+.log-container {
+  width: 100%;
+  max-height: 38vh;
+  border: 1px solid #bdbdbd;
+  border-radius: 4px;
+  overflow: auto;
+  position: relative;
+  padding: 10px;
+  pre {
+    margin: 0;
+    max-height: 600px;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: 700;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+}
+
 @media screen and(max-width:768px) {
-  .page-content {
-    .log-container {
-      min-height: 300px;
-      pre {
-        position: relative;
-      }
-    }
+  .log-container {
+    max-height: 50vh;
   }
 }
 </style>

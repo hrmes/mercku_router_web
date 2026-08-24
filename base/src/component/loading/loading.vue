@@ -1,23 +1,25 @@
 // loading.vue
 <template>
   <transition name="loading">
-    <div v-if="visible"
-         class="loading-container">
+    <div
+      v-if="visible"
+      class="loading-container"
+      id="loading-wrap"
+      data-e2e="global-loading">
       <div class="loading-wrap">
-        <div id="loadingImg" />
+        <div id="loadingImg"></div>
       </div>
-      <div v-if="title"
-           class="title">{{title}}</div>
-      <div v-if="template"
-           class="template"
-           v-html="template"></div>
+      <div v-if="title" class="title">{{ title }}</div>
+      <div v-if="template" class="template" v-html="template"></div>
     </div>
   </transition>
 </template>
 <script>
-import lottie from 'lottie-web';
+import { loadAnimation } from 'lottie-web-light';
+import colorGradientMixin from 'base/mixins/color-gradient';
 
 export default {
+  mixins: [colorGradientMixin],
   data() {
     return {
       visible: false,
@@ -31,18 +33,21 @@ export default {
   },
   computed: {
     animJson() {
-      const name = process.env.CUSTOMER_CONFIG.assetFolderName;
-      return require(`../../assets/lottie/${name}/loading.json`);
+      return require('../../assets/lottie/loading/loading.json');
     }
   },
   methods: {
     loadImg() {
-      lottie.loadAnimation({
+      loadAnimation({
         container: document.getElementById('loadingImg'),
         renderer: 'svg',
         loop: true,
         autoplay: true,
         animationData: this.animJson
+      });
+      this.pathElements.forEach((p, index) => {
+        p.style.fill = this.colorArr[index];
+        p.style.stroke = this.colorArr[index];
       });
     }
   }

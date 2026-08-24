@@ -2,6 +2,26 @@
   <canvas :id="id"></canvas>
 </template>
 <script>
+export function resolveLoadingColor(customerConfig, doc) {
+  if (
+    customerConfig &&
+    customerConfig.loading &&
+    customerConfig.loading.color
+  ) {
+    return customerConfig.loading.color;
+  }
+
+  if (doc && doc.documentElement && doc.defaultView) {
+    const runtimeColor = doc.defaultView
+      .getComputedStyle(doc.documentElement)
+      .getPropertyValue('--brand-loading')
+      .trim();
+    if (runtimeColor) return runtimeColor;
+  }
+
+  return '#00a7e1';
+}
+
 export default {
   props: {
     id: {
@@ -10,7 +30,12 @@ export default {
     },
     color: {
       type: String,
-      default: '#d6001c'
+      default() {
+        return resolveLoadingColor(
+          process.env.CUSTOMER_CONFIG,
+          typeof document === 'undefined' ? undefined : document
+        );
+      }
     },
     size: {
       type: Number,

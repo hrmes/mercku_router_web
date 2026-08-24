@@ -2,16 +2,20 @@
   <div class="select-container">
     <label for="">{{label}}</label>
     <div class="select"
-         @click.stop="open()">
-      <input @blur="blur"
-             @focus="focus"
-             ref="input"
+         ref="select"
+         v-clickoutside="close">
+      <input ref="input"
              class="select-text"
-             :title="selected"
              v-model="selected"
              @input="input"
+             @focus="focus"
              :placeholder="placeholder" />
-      <div class="icon-container">
+      <div ref="clear"
+           class="select-text__clear"
+           @click="clearInput">
+      </div>
+      <div class="icon-container"
+           @click="handleIconClick">
         <span class="icon"
               :class="{'open':opened,'close':!opened}"></span>
       </div>
@@ -58,13 +62,11 @@ export default {
   watch: {
     value(val) {
       this.selected = val;
-    }
-  },
-  mounted() {
-    if (window.addEventListener) {
-      document.body.addEventListener('click', this.close);
-    } else if (window.attachEvent) {
-      document.body.attachEvent('click', this.close);
+      if (this.selected) {
+        this.$refs.clear.classList.add('show');
+      } else {
+        this.$refs.clear.classList.remove('show');
+      }
     }
   },
   methods: {
@@ -76,7 +78,11 @@ export default {
           const popupHeight = popupEl.clientHeight;
           const elHeight = selectEl.clientHeight;
           // 滚动到正中间的位置
-          scrollTo(popupEl, 0, selectEl.offsetTop - popupHeight / 2 + elHeight / 2);
+          scrollTo(
+            popupEl,
+            0,
+            selectEl.offsetTop - popupHeight / 2 + elHeight / 2
+          );
         }
       });
     },
@@ -87,36 +93,74 @@ export default {
       this.selected = option;
       this.$emit('input', this.selected);
       this.opened = false;
-      this.$refs.input.focus();
-    },
-    open() {
-      this.opened = !this.opened;
-      if (this.opened) {
-        this.scrollToSelect();
-      }
     },
     close() {
       this.opened = false;
-    },
-    blur() {
       this.onBlur && this.onBlur();
+      this.$refs.select.classList.remove('focus');
+      this.$refs.clear.classList.remove('show');
       this.$parent.$emit('blur');
     },
     focus() {
+      this.opened = false;
       this.$parent.$emit('focus');
-    }
-  },
-  beforeDestroy() {
-    if (window.addEventListener) {
-      document.body.removeEventListener('click', this.close);
-    } else if (window.attachEvent) {
-      document.body.detachEvent('click', this.close);
+      this.$refs.select.classList.add('focus');
+      if (this.selected) {
+        this.$refs.clear.classList.add('show');
+      }
+    },
+    handleIconClick() {
+      this.$refs.clear.classList.remove('show');
+      if (this.opened) {
+        this.opened = false;
+        this.$refs.select.classList.remove('focus');
+        this.$parent.$emit('blur');
+      } else {
+        this.opened = true;
+        this.$refs.select.classList.add('focus');
+        this.scrollToSelect();
+        this.$parent.$emit('focus');
+      }
+    },
+    clearInput() {
+      this.selected = '';
+      this.$emit('input', this.selected);
+      this.$refs.input.focus();
     }
   }
 };
 </script>
 <style lang="scss" scoped>
 .select-container {
+  width: 340px;
+  cursor: pointer;
+  .select {
+    height: 48px;
+    width: 100%;
+    border-radius: 10px;
+    outline: 0;
+    border: 1.5px solid var(--input_border-color);
+    font-size: 14px;
+    padding: 10px;
+    line-height: 26px;
+    position: relative;
+    padding-right: 75px;
+    transition: border 0.3s ease-in-out;
+    .select-text {
+      height: 100%;
+      width: 100%;
+      border: none;
+      outline: none;
+      color: var(--text_default-color);
+      background: transparent;
+    }
+    &.focus {
+      border-color: var(--input_focus_border-color);
+      .icon-container {
+        border-color: var(--input_focus_border-color);
+      }
+    }
+  }
   &.small {
     .select {
       width: 100%;
@@ -142,45 +186,42 @@ export default {
       }
     }
   }
-  width: 340px;
-  .select {
-    height: 48px;
-    width: 100%;
-    border-radius: 4px;
-    outline: 0;
-    border: 1.5px solid var(--select-input-border-color);
-    font-size: 14px;
-    padding: 10px;
-    line-height: 26px;
-    position: relative;
-    padding-right: 50px;
-    .select-text {
-      height: 100%;
-      width: 100%;
-      border: none;
-      outline: none;
-      background: transparent;
-    }
-  }
   label {
     display: block;
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: bold;
+    color: var(--input_label-color);
   }
-
-  cursor: pointer;
   .select-popup {
     position: absolute;
-    left: -2px;
-    right: -2px;
+    z-index: 888;
+    left: -1px;
+    right: -1px;
     top: 52px;
-    background: var(--select-popup-background-color);
-    border-radius: 5px;
-    max-height: 200px;
-    border: 1px solid var(--select-popup-border-color);
-    overflow: auto;
-    z-index: var(--z-index_pageElement);
+    max-height: 300px;
+    background: var(--select_popup-bgc);
+    border-radius: 7px;
+    box-shadow: 0 10px 15px 0 rgba(0, 0, 0, 0.12);
+    border: 1px solid var(--select_popup_border-color);
+    overflow-y: scroll;
+    @media screen and (min-width: 768px) {
+      &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      &::-webkit-scrollbar-track {
+        background-color: var(--scrollbar_wrap_track-color);
+        border-radius: 100px;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: var(--scrollbar_wrap_thumb-color);
+        border-radius: 100px;
+        &:hover {
+          opacity: 0.5;
+        }
+      }
+    }
     li {
       list-style: none;
       padding: 17px 10px;
@@ -190,15 +231,24 @@ export default {
       overflow: hidden;
       text-overflow: ellipsis;
       &:active {
-        background: var(--select-item-active-background-color);
-        color: var(--select-item-active-color);
+        background: var(--select_item_active-bgc);
+        color: var(--select_item_active-color);
       }
       &:hover {
-        background: var(--select-item-hover-background-color);
-        color: var(--select-item-active-color);
+        background: var(--select_item_hover-bgc);
+        color: var(--select_item_hover-color);
       }
       &.selected {
-        color: var(--select-item-selected-color);
+        position: relative;
+        color: var(--select_item_selected-color);
+        &::after {
+          content: '\e6be';
+          font-family: 'iconfont';
+          position: absolute;
+          top: 50%;
+          right: 10px;
+          transform: translateY(-50%);
+        }
       }
     }
   }
@@ -207,8 +257,10 @@ export default {
     right: 0;
     top: 0;
     text-align: center;
-    height: 48px;
-    width: 50px;
+    height: 45px;
+    width: 40px;
+    transition: border 0.3s ease-in-out;
+    border-left: 1.5px solid var(--input_border-color);
     cursor: pointer;
     .icon {
       width: 12px;
@@ -225,6 +277,40 @@ export default {
       &.close {
         transform: rotate(0);
       }
+    }
+  }
+  .select-text__clear {
+    display: none;
+    position: absolute;
+    top: 50%;
+    right: 50px;
+    transform: translate(0, -50%);
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background-color: #999;
+    &.show {
+      display: block;
+    }
+    &:hover {
+      opacity: 0.8;
+    }
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 2px;
+      height: 10px;
+      background: #fff;
+      border-radius: 50px;
+    }
+    &::before {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+    &::after {
+      transform: translate(-50%, -50%) rotate(45deg);
     }
   }
 }

@@ -1,32 +1,28 @@
 <template>
   <transition name="upgrade">
-    <div class="upgrade-container"
-         v-if="visible">
+    <div class="upgrade-container" v-if="visible">
       <div class="inner">
-        <div class="loading-wrap">
+        <div class="loading-wrap" id="loading-wrap">
           <div id="upgradeLoadingImg" />
         </div>
-        <div v-if="title"
-             class="title">{{title}}</div>
+        <div v-if="title" class="title">{{ title }}</div>
         <div v-html="tip"></div>
         <!-- 升级进度条 -->
-        <div class='progress-wrapper'
-             v-if="progressVisible">
+        <div class="progress-wrapper" v-if="progressVisible">
           <div class="progress">
-            <div class="progress-bar"
-                 :style='styles'>
-            </div>
+            <div class="progress-bar" :style="styles"></div>
           </div>
         </div>
       </div>
     </div>
   </transition>
-
 </template>
 <script>
-import lottie from 'lottie-web';
+import { loadAnimation } from 'lottie-web-light';
+import colorGradientMixin from 'base/mixins/color-gradient';
 
 export default {
+  mixins: [colorGradientMixin],
   data() {
     return {
       visible: false,
@@ -48,8 +44,7 @@ export default {
   },
   computed: {
     animJson() {
-      const name = process.env.CUSTOMER_CONFIG.assetFolderName;
-      return require(`../../assets/lottie/${name}/loading.json`);
+      return require('../../assets/lottie/loading/loading.json');
     }
   },
   methods: {
@@ -70,12 +65,18 @@ export default {
       clearTimeout(this.timer);
     },
     loadImg() {
-      lottie.loadAnimation({
+      loadAnimation({
         container: document.getElementById('upgradeLoadingImg'),
         renderer: 'svg',
         loop: true,
         autoplay: true,
         animationData: this.animJson
+      });
+      this.$nextTick(() => {
+        this.pathElements.forEach((p, index) => {
+          p.style.fill = this.colorArr[index];
+          p.style.stroke = this.colorArr[index];
+        });
       });
     }
   }
@@ -88,8 +89,8 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: var(--z-index_dialog);
-  background: var(--upgrade-background-color);
+  z-index: 9999;
+  background: var(--upgrade-bgc);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -109,7 +110,7 @@ export default {
 
   .inner {
     text-align: center;
-    color: var(--upgrade-text-color);
+    color: var(--upgrade_text-color);
     position: absolute;
     width: 50%;
     left: 50%;
@@ -126,11 +127,11 @@ export default {
     .title {
       font-size: 24px;
       // margin-top: 10px;
-      color: var(--upgrade-text-color);
+      color: var(--upgrade_text-color);
     }
   }
   .tip {
-    color: var(--upgrade-text-color);
+    color: var(--upgrade_text-color);
     display: block;
     margin-top: 10px;
   }
@@ -140,7 +141,7 @@ export default {
     display: inline-block;
     .progress {
       height: 10px;
-      background: var(--progress-background-color);
+      background: var(--progress-bgc);
       border-radius: 50px;
     }
     .progress-bar {
@@ -152,9 +153,9 @@ export default {
       max-width: 100%;
       line-height: 20px;
       overflow: hidden;
-      color: var(--progress-bar-color);
+      color: var(--progress_bar-color);
       text-align: center;
-      background-color: var(--progress-bar-background-color);
+      background-color: var(--progress_bar-bgc);
       transition: width 1s ease;
     }
   }

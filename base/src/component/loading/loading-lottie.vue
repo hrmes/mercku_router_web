@@ -1,11 +1,12 @@
 // loading.vue
 <template>
-  <div class="loading-wrap">
-    <div id="loadingImg"></div>
+  <div id="loading-wrap">
+    <div :id="id"></div>
   </div>
 </template>
 <script>
-import lottie from 'lottie-web';
+import { loadAnimation } from 'lottie-web-light';
+import colorGradientMixin from 'base/mixins/color-gradient';
 
 const Type = {
   loading: 'loading',
@@ -15,10 +16,16 @@ const Type = {
 
 export default {
   name: 'loading-lottie',
+  mixins: [colorGradientMixin],
   props: {
-    loadingType: { type: String, default: 'loading' }
+    loadingType: { type: String, default: 'loading' },
+    id: { type: String, default: 'lottie' },
+    size: { type: Number, default: 36 }
   },
   mounted() {
+    const myDiv = document.getElementById('loading-wrap');
+    myDiv.style.width = `${this.size}px`;
+    myDiv.style.height = `${this.size}px`;
     // 解决json动画找不到dom不渲染问题
     window.requestAnimationFrame(this.loadImg);
   },
@@ -26,16 +33,14 @@ export default {
     animJson() {
       let result;
       switch (this.loadingType) {
-        case Type.loading:
-          result = require(`../../assets/lottie/${process.env.CUSTOMER_CONFIG.assetFolderName}/loading.json`);
-          break;
         case Type.speedTest:
-          result = require(`../../assets/lottie/${process.env.CUSTOMER_CONFIG.assetFolderName}/speed-test.json`);
+          result = require('../../assets/lottie/loading/speed-test.json');
           break;
         case Type.addNode:
-          result = require(`../../assets/lottie/${process.env.CUSTOMER_CONFIG.assetFolderName}/add-node.json`);
+          result = require('../../assets/lottie/loading/add-node.json');
           break;
         default:
+          result = require('../../assets/lottie/loading/loading.json');
           break;
       }
       return result;
@@ -43,27 +48,18 @@ export default {
   },
   methods: {
     loadImg() {
-      lottie.loadAnimation({
-        container: document.getElementById('loadingImg'),
+      loadAnimation({
+        container: document.getElementById(this.id),
         renderer: 'svg',
         loop: true,
         autoplay: true,
         animationData: this.animJson
       });
+      this.pathElements.forEach((p, index) => {
+        p.style.fill = this.colorArr[index];
+        p.style.stroke = this.colorArr[index];
+      });
     }
   }
 };
 </script>
-<style lang="scss" scoped>
-.loading-wrap {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: var(--z-index_frame);
-}
-</style>

@@ -14,14 +14,14 @@
         <p class="upload__text">
           {{ $t('trans0928') }}
         </p>
-        <button class="btn fileinput-button"
+        <button class="btn-default fileinput-button"
                 :disabled="uploadLoading"
                 @click="click">
           <label>{{ label }}</label>
         </button>
       </upload-dragger>
       <template v-else>
-        <button class="btn fileinput-button"
+        <button class="btn-default fileinput-button"
                 :disabled="uploadLoading"
                 @click="click">
           <label>{{ label }}</label>
@@ -83,11 +83,12 @@
             </div>
           </div>
           <div class="delete-wrap">
-            <i class="iconfont icon-ic_close"
+            <i class="iconfont ic_close"
                @click="cancel(file)"></i>
           </div>
         </div>
         <div class="file__error"
+             data-e2e="offline-upgrade-error"
              v-if="uploadFail">
           {{ err || $t('trans0341') }}
         </div>
@@ -99,8 +100,8 @@
 import { toLocaleNumber } from 'base/util/util';
 import { UploadStatus } from 'base/util/constant';
 import UploadDragger from './upload-dragger.vue';
-import folderIcon from '../../assets/images/icon/ic_folder.webp';
-import folderIconError from '../../assets/images/icon/ic_file_error.svg';
+import folderIcon from '../../assets/images/icon/ic_folder.svg';
+import folderIconError from '../../assets/images/icon/ic_folder_error.svg';
 
 export default {
   components: {
@@ -173,7 +174,12 @@ export default {
       this.upload(postFiles);
     },
     getSize(file) {
-      return `${toLocaleNumber(file.size / 1000 / 1000, this.$i18n.locale, 2, 2)}MB`;
+      return `${toLocaleNumber(
+        file.size / 1000 / 1000,
+        this.$i18n.locale,
+        2,
+        2
+      )}MB`;
     },
     click() {
       this.initUploadStatus();
@@ -251,30 +257,36 @@ export default {
       width: 48px;
       height: 32px;
       path {
-        fill: var(--button-background-color);
+        fill: var(--mobile_menu_selected-color);
       }
       &.is-upload-loading {
         path {
-          fill: var(--upload-button-disabled-color);
+          fill: var(--upload_button_disabled-color);
         }
       }
     }
     .upload__text {
       font-size: 12px;
-      color: var(--upload-file-text-color);
+      color: var(--upload_file_text-color);
       text-align: center;
       white-space: pre-line;
       padding: 0;
       margin-top: 0;
     }
     .fileinput-button {
-      width: auto;
-      height: 28px;
+      height: 30px;
       min-width: 80px;
+      border-radius: 20px;
+      padding: 5px 10px;
       cursor: pointer;
+      background-image: linear-gradient(
+          to right,
+          var(--common_card-bgc),
+          var(--common_card-bgc)
+        ),
+        var(--common_btn_default-bgimg);
       &[disabled] {
-        // border-color: var(--upload-button-disabled-color);
-        color: var(--button-disabled-text-color);
+        opacity: 0.3;
         cursor: not-allowed;
         label {
           cursor: not-allowed;
@@ -298,8 +310,8 @@ export default {
     }
   }
   .upload__files {
-    width: 500px;
-    margin-top: 20px;
+    width: 100%;
+    margin: 20px 0 0;
   }
   .file {
     & + .file {
@@ -310,12 +322,12 @@ export default {
       align-items: center;
       transition: all 0.5s cubic-bezier(0.55, 0, 0.1, 1);
       font-size: 14px;
-      color: var(--upload-file-text-color);
+      color: var(--upload_file_text-color);
       border-radius: 5px;
-      background: var(--upload-background-color);
+      background: var(--upload-bgc);
       padding: 20px 10px;
       .icon-wrap {
-        background: var(--upload-icon-background-color);
+        background: var(--upload_icon-bgc);
         padding: 10px;
         border-radius: 50%;
         img {
@@ -329,7 +341,7 @@ export default {
         margin-left: 10px;
         flex: 1;
         .description {
-          color: var(--upload-file-description-color);
+          color: var(--upload_file_des-color);
           display: flex;
           // align-items: center;
           flex-direction: column;
@@ -347,7 +359,7 @@ export default {
               height: 5px;
               border-radius: 50%;
               margin-right: 5px;
-              background: var(--upload-file-info-product-dot-color);
+              background: var(--upload_fileinfo_productdot-color);
             }
           }
           .packageinfo__product {
@@ -355,7 +367,7 @@ export default {
           }
           .packageinfo__version {
             &::before {
-              background: var(--upload-file-info-version-dot-color);
+              background: var(--upload_fileinfo_versiondot-color);
             }
           }
         }
@@ -370,24 +382,24 @@ export default {
           }
           .fileinfo__size {
             margin-left: 5px;
-            color: var(--upload-file-text-color);
+            color: var(--upload_file_text-color);
           }
           .fileinfo__upload-percent {
             font-size: 12px;
-            color: var(--upload-file-text-color);
+            color: var(--upload_file_text-color);
             display: flex;
             align-items: flex-end;
           }
         }
         .filesize {
-          color: var(--upload-file-text-color);
+          color: var(--upload_file_text-color);
         }
         .line {
           width: 100%;
           display: flex;
           flex-direction: column;
           height: 3px;
-          background: var(--upload-progress-color);
+          background: var(--upload_progress-color);
           margin-top: 10px;
           margin-bottom: 10px;
           border-radius: 1.5px;
@@ -395,12 +407,12 @@ export default {
             display: inline-block;
             height: 3px;
             transition: width 1s ease;
-            background: var(--upload-progress-completed-color);
+            background: var(--upload_progress_completed-color);
           }
           .fail {
             display: inline-block;
             height: 3px;
-            background: var(--upload-error-text-color);
+            background: var(--upload_error_text-color);
           }
         }
       }
@@ -409,13 +421,13 @@ export default {
         height: 25px;
         line-height: 25px;
         text-align: center;
-        background: var(--upload-delete-icon-bgc);
+        background: var(--upload_delete_icon-bgc);
         border-radius: 50%;
         margin-left: 10px;
         i {
           font-size: 14px;
           font-weight: 600;
-          color: var(--text-default-color);
+          color: var(--text_default-color);
           cursor: pointer;
         }
       }
@@ -482,6 +494,34 @@ export default {
       }
       .filesize {
         display: block;
+      }
+    }
+    .upload__box {
+      .fileinput-button {
+        width: auto;
+      }
+    }
+  }
+}
+@media screen and (max-width: 374px) {
+  .upload {
+    .file {
+      .file__info {
+        .icon-wrap {
+          img {
+            width: 20px;
+            height: 20px;
+          }
+        }
+        .delete-wrap {
+          width: 20px;
+          height: 20px;
+          line-height: 20px;
+          margin-left: 3px;
+          i {
+            font-size: 12px;
+          }
+        }
       }
     }
   }

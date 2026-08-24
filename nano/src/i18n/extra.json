@@ -1,0 +1,20 @@
+{
+  "pppoe": "trans0144",
+  "static": "trans0148",
+  "dhcp": "trans0146",
+  "600000": "trans0345",
+  "600001": "trans0345",
+  "600002": "trans0345",
+  "600004": "trans0345",
+  "600003": "trans0345",
+  "600005": "trans0345",
+  "600008": "trans0345",
+  "600009": "trans0345",
+  "600102": "trans0345",
+  "downloading": "trans0662",
+  "installing": "trans0385",
+  "download_fail": "trans0663",
+  "install_fail": "trans0296",
+  "install_success": "trans0640",
+  "install_timeout": "trans0641"
+}

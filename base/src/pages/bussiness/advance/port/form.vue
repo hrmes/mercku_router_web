@@ -1,96 +1,102 @@
 <template>
-  <div class="page">
-    <div v-if="$store.state.isMobile"
-         class="page-header">{{$t('trans0422')}}</div>
-    <div class="page-content">
-      <m-form ref="form"
-              class="form"
-              :model="form"
-              :rules="rules">
-        <div class="radio-wrap">
-          <span style="font-weight:bold;margin-bottom:20px">{{$t('trans0408')}}</span>
-          <m-radio-group class="radio-group"
-                         v-model="form.protocol"
-                         direction='vertical'
-                         :options="protocolOptions"></m-radio-group>
-        </div>
-        <m-form-item class="item"
-                     prop="name"
-                     ref="name">
-          <m-input :label="$t('trans0108')"
-                   type="text"
-                   :placeholder="$t('trans0321')"
-                   v-model="form.name" />
-        </m-form-item>
-        <m-form-item class="item"
-                     prop="remoteIp"
-                     ref="remoteIp">
-          <m-input :label="`${$t('trans0425')} ${$t('trans0411')}`"
-                   type="text"
-                   :placeholder="$t('trans0492')"
-                   v-model="form.remoteIp" />
-        </m-form-item>
-        <div class="item more-clearance">
-          <label style="font-weight:bold;">{{$t('trans0426')}}</label>
-          <div class="port-wrap">
-            <m-form-item class="ext-item"
-                         prop="remotePortFrom"
-                         ref="remotePortFrom">
-              <m-input class="ext-input"
-                       type="text"
-                       :placeholder="$t('trans0478')"
-                       v-model="form.remotePortFrom"
-                       :onBlur="onRFChange" />
-            </m-form-item>
-            <i></i>
-            <m-form-item class="ext-item"
-                         prop="remotePortTo"
-                         ref="remotePortTo">
-              <m-input class="ext-input"
-                       type="text"
-                       :placeholder="$t('trans0478')"
-                       v-model="form.remotePortTo"
-                       :onBlur="onRTChange" />
-            </m-form-item>
+  <div class="popup-page">
+    <div class="popup-page__content">
+      <div class="popup-page__content--main">
+        <m-form ref="form"
+                class="form"
+                :model="form"
+                :rules="rules">
+          <m-form-item class="radio-wrap">
+            <label>{{$t('trans0408')}}</label>
+            <m-radio-group class="radio-group"
+                           v-model="form.protocol"
+                           :options="protocolOptions"></m-radio-group>
+          </m-form-item>
+          <m-form-item prop="name"
+                       ref="name">
+            <m-input :label="$t('trans0108')"
+                     type="text"
+                     :placeholder="$t('trans0321')"
+                     v-model="form.name" />
+          </m-form-item>
+          <m-form-item prop="remoteIp"
+                       ref="remoteIp">
+            <m-input :label="`${$t('trans0425')} ${$t('trans0411')}`"
+                     type="text"
+                     :placeholder="$t('trans0492')"
+                     v-model="form.remoteIp" />
+          </m-form-item>
+          <div class="item">
+            <label>{{$t('trans0426')}}</label>
+            <div class="port-wrap">
+              <m-form-item class="form-item"
+                           prop="remotePortFrom"
+                           ref="remotePortFrom"
+                           :errorMsgIsStatic="true">
+                <m-input class="ext-input"
+                         type="text"
+                         :placeholder="$t('trans0478')"
+                         v-model="form.remotePortFrom"
+                         :onBlur="onRFChange" />
+              </m-form-item>
+              <div class="line">
+                <i></i>
+              </div>
+              <m-form-item class="form-item"
+                           prop="remotePortTo"
+                           ref="remotePortTo"
+                           :errorMsgIsStatic="true">
+                <m-input class="ext-input"
+                         type="text"
+                         :placeholder="$t('trans0478')"
+                         v-model="form.remotePortTo"
+                         :onBlur="onRTChange" />
+              </m-form-item>
+            </div>
           </div>
-        </div>
-        <m-form-item class="item"
-                     prop="localIp"
-                     ref="localIp">
-          <m-input :label="$t('trans0427')"
-                   type="text"
-                   :placeholder="$t('trans0321')"
-                   v-model="form.localIp" />
-        </m-form-item>
-        <div class="item more-clearance">
-          <label style="font-weight:bold;">{{$t('trans0428')}}</label>
-          <div class="port-wrap">
-            <m-form-item class="ext-item"
-                         prop="localPortFrom"
-                         ref="localPortFrom">
-              <m-input class="ext-input"
-                       type="text"
-                       :placeholder="$t('trans0478')"
-                       v-model="form.localPortFrom"
-                       :onBlur="onLFChange" />
-            </m-form-item>
-            <i></i>
-            <m-form-item class="ext-item"
-                         prop="localPortTo"
-                         ref="localPortTo">
-              <m-input class="ext-input"
-                       type="text"
-                       :placeholder="$t('trans0478')"
-                       v-model="form.localPortTo" />
-            </m-form-item>
+          <m-form-item prop="localIp"
+                       ref="localIp">
+            <m-input :label="$t('trans0427')"
+                     type="text"
+                     :placeholder="$t('trans0321')"
+                     v-model="form.localIp" />
+          </m-form-item>
+          <div class="item">
+            <label>{{$t('trans0428')}}</label>
+            <div class="port-wrap">
+              <m-form-item class="form-item"
+                           prop="localPortFrom"
+                           ref="localPortFrom"
+                           :errorMsgIsStatic="true">
+                <m-input class="ext-input"
+                         type="text"
+                         :placeholder="$t('trans0478')"
+                         v-model="form.localPortFrom"
+                         :onBlur="onLFChange" />
+              </m-form-item>
+              <div class="line">
+                <i></i>
+              </div>
+              <m-form-item class="form-item"
+                           prop="localPortTo"
+                           ref="localPortTo"
+                           :errorMsgIsStatic="true">
+                <m-input class="ext-input"
+                         type="text"
+                         :placeholder="$t('trans0478')"
+                         v-model="form.localPortTo" />
+              </m-form-item>
+            </div>
           </div>
+        </m-form>
+      </div>
+      <div class="popup-page__content--bottom">
+        <div class="form-button__wrapper">
+          <button class="btn btn-middle btn-default"
+                  @click="closeForm">{{$t('trans0025')}}</button>
+          <button class="btn btn-middle"
+                  @click="submit()">{{$t('trans0081')}}</button>
         </div>
-      </m-form>
-      <div class="btn-info form-button">
-        <button class="btn btn-middle btn-default"
-                @click="$router.go(-1)">{{$t('trans0025')}}</button>
-        <button class="btn btn-middle"
-                @click="submit()">{{$t('trans0081')}}</button>
       </div>
     </div>
   </div>
@@ -99,6 +105,12 @@
 import { ipReg, getStringByte, portReg } from 'base/util/util';
 
 export default {
+  props: {
+    isEdit: {
+      type: Boolean,
+      default: false
+    }
+  },
   data() {
     return {
       protocolOptions: [
@@ -231,7 +243,7 @@ export default {
   },
   computed: {
     formType() {
-      return this.$route.params.id ? 'update' : 'add';
+      return this.isEdit ? 'update' : 'add';
     },
     formParams() {
       return {
@@ -242,14 +254,18 @@ export default {
         local: {
           ip: this.form.localIp,
           port: {
-            from: this.form.localPortFrom ? Number(this.form.localPortFrom) : '',
+            from: this.form.localPortFrom
+              ? Number(this.form.localPortFrom)
+              : '',
             to: this.form.localPortTo ? Number(this.form.localPortTo) : ''
           }
         },
         remote: {
           ip: this.form.remoteIp,
           port: {
-            from: this.form.remotePortFrom ? Number(this.form.remotePortFrom) : '',
+            from: this.form.remotePortFrom
+              ? Number(this.form.remotePortFrom)
+              : '',
             to: this.form.remotePortTo ? Number(this.form.remotePortTo) : ''
           }
         }
@@ -257,8 +273,7 @@ export default {
     }
   },
   mounted() {
-    // 更新判断
-    if (this.$route.params.id) {
+    if (this.isEdit) {
       const { portfw } = this.$store.state.modules;
       if (portfw.id) {
         this.form = {
@@ -273,8 +288,6 @@ export default {
           remotePortTo: portfw.remote.port.to,
           protocol: portfw.protocol
         };
-      } else {
-        this.$router.push('/advance/portforwarding');
       }
     }
   },
@@ -318,52 +331,60 @@ export default {
     onLFChange() {
       this.validateLT();
     },
-    submit() {
-      let fetchMethod = 'meshPortfwAdd';
-      if (this.formType === 'update') {
-        fetchMethod = 'meshPortfwUpdate';
-      }
+    async submit() {
+      const fetchMethod =
+        this.formType === 'update' ? 'meshPortfwUpdate' : 'meshPortfwAdd';
+
       if (this.$refs.form.validate()) {
-        this.$loading.open();
-        this.$http[fetchMethod](this.formParams)
-          .then(() => {
-            this.$loading.close();
-            this.$toast(this.$t('trans0040'), 3000, 'success');
-            this.$router.push('/advance/portforwarding');
-          })
-          .catch(() => {
-            this.$loading.close();
-          });
+        try {
+          this.$loading.open();
+          await this.$http[fetchMethod](this.formParams);
+          this.$toast(this.$t('trans0040'), 2000, 'success');
+          this.$emit('refreshList');
+          this.closeForm();
+        } catch (error) {
+          console.error(error);
+        } finally {
+          this.$loading.close();
+        }
       }
+    },
+    closeForm() {
+      this.$emit('closeForm');
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-.page-content {
-  // width: fit-content;
+.popup-page__content {
   .form {
-    width: fit-content;
-    .ext-item {
-      margin-bottom: 0;
-      width: auto;
-    }
+    width: 100%;
     .item {
-      margin-top: 30px;
+      margin-bottom: 0;
       label {
-        color: var(--input-label-color);
+        font-weight: 700;
+        color: var(--input_label-color);
       }
       .port-wrap {
         display: flex;
         justify-content: space-between;
-        align-items: center;
+        align-items: flex-start;
         margin-top: 5px;
-        .ext-input {
-          width: 120px;
+        .form-item {
+          flex: 1;
         }
-
+        .ext-input {
+          width: 100%;
+        }
+        .line {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 40px;
+          height: 48px;
+        }
         i {
-          width: 50px;
+          width: 80%;
           height: 1px;
           background: #999999;
         }
@@ -372,27 +393,18 @@ export default {
     .radio-wrap {
       display: flex;
       flex-direction: column;
-      span {
-        padding-right: 20px;
+      label {
+        color: var(--input_label-color);
+        font-weight: 700;
+        margin-bottom: 20px;
       }
     }
     .radio-group {
       width: fit-content;
     }
-    .more-clearance {
-      margin-bottom: 65px;
-    }
   }
-  .form-button {
-    margin-top: 0px;
-    padding-top: 25px;
-    border-top: 1px solid var(--hr-color);
-    .btn {
-      width: 160px;
-      &:first-child {
-        margin-right: 20px;
-      }
-    }
+  .form-button__wrapper {
+    justify-content: space-evenly;
   }
 }
 @media screen and (max-width: 768px) {

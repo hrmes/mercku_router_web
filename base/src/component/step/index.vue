@@ -1,11 +1,13 @@
 <template>
   <div class="step-container">
     <div class="steps">
-      <div class="step"
+      <div v-for="(step,index) in option.steps"
            :key="index"
-           :class="{'fail':!step.success && index <= option.current,
-           'success':step.success && index <= option.current}"
-           v-for="(step,index) in option.steps">
+           class="step"
+           :class="{
+                    'current':index==option.current,
+                    'fail':!step.success && index < option.current,
+                    'success':step.success && index < option.current}">
         <div class="step-content">
           <div class="step-number">
             <span v-show="(index === option.current && step.success)
@@ -28,11 +30,15 @@ export default {
   props: { option: { type: Object } },
   computed: {
     width() {
-      return `${(this.option.current * 100) / (this.length - 1)}%`;
+      // eslint-disable-next-line no-nested-ternary
+      const multiplier = this.option.current === 0
+        ? 0 : this.option.current === this.length - 1
+          ? 2 : 1;
+      return `${(this.option.current * 2 + multiplier) * 0.5 / (this.length) * 100}%`;
     },
     length() {
       return this.option.steps.length;
-    }
+    },
   },
   data() {
     return {
@@ -59,50 +65,44 @@ export default {
   methods: {
     layout() {
       this.$nextTick(() => {
-        const width = this.$el.clientWidth;
-        const stepItems = this.$el.querySelectorAll('.step');
-        const stepItemArr = Array.from(stepItems);
-        const stepItemWidth = stepItemArr.reduce((sum, current) => {
-          sum += current.clientWidth;
-          return sum;
-        }, 0);
-        const perOffset = ((width - stepItemWidth) / (this.length - 1) / width) * 100;
-        stepItemArr.forEach((step, index) => {
-          step.style.left = `${(perOffset * index).toFixed(2)}%`;
-        });
+        const gridContainer = this.$el.querySelector('.steps');
+        gridContainer.style.gridTemplateColumns = `repeat(${this.length},1fr)`;
         this.preLength = this.length;
       });
-    }
+    },
   }
 };
 </script>
 <style lang="scss" scoped>
 .step-container {
-  height: 36px;
+  width: 100%;
+  height: 40px;
   position: relative;
   .line {
-    height: 2px;
-    background: var(--step-line-color);
+    height: 8px;
+    background: var(--step_line-color);
     position: absolute;
-    width: 99%;
+    width: 100%;
     top: 50%;
     transform: translateY(-50%);
+    padding: 0 5px;
     z-index: 0;
+    border-radius: 20px;
     .steped {
-      background: var(--step-item-steped-background-color);
-      height: 2px;
+      transition: width 0.5s cubic-bezier(0.645, 0.045, 0.355, 1);
+      background-image: var(--step_item_steped-bgimg);
+      height: 8px;
     }
   }
   .steps {
     width: 100%;
-    display: flex;
+    display: grid;
+    grid-template-rows: 100%;
     position: relative;
     z-index: 1;
     .step {
-      position: absolute;
-      display: flex;
-      top: 0;
       position: relative;
+      display: flex;
       justify-content: center;
       align-items: center;
       &:first-child {
@@ -124,33 +124,48 @@ export default {
         position: relative;
       }
       .step-number {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
-        border: 1px solid var(--step-item-border-color);
+        border: 6px solid var(--step_item_border-color);
+        background-image: linear-gradient(
+          to bottom,
+          var(--common_card-bgc),
+          var(--common_card-bgc)
+        );
+        background-clip: padding-box, border-box;
+        background-origin: padding-box, border-box;
         text-align: center;
-        width: 36px;
-        height: 36px;
-        line-height: 36px;
-        font-weight: bold;
-        font-size: 24px;
-        color: var(--step-item-color);
-        background: var(--step-background-color);
+        font-size: 21px;
+        font-weight: 600;
+        color: var(--step_item-color);
       }
       .step-text {
         text-align: center;
         font-size: 12px;
-        color: var(--step-item-text-color);
+        color: var(--step_item_text-color);
         position: absolute;
         left: 50%;
         top: 46px;
         width: 180px;
         transform: translateX(-50%);
       }
+      &.current {
+        .step-number {
+          color: var(--step_item_current-color);
+          border-color: transparent;
+          background-image: var(--step_item_current_num-bgimg);
+        }
+      }
       &.fail {
         .step-number {
-          background: var(--step-item-failed-background-color);
-          border-color: var(--step-item-failed-border-color);
-          color: var(--step-item-failed-color);
-          position: relative;
+          border-color: transparent;
+          background-image: var(--step_item_after_num-bgimg);
+          color: #fff;
+          box-shadow: var(--step_item_after_num-boxshadow);
           &::before {
             content: '×';
             display: block;
@@ -158,7 +173,7 @@ export default {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -55%);
-            color: var(--step-item-failed-icon-color);
+            color: #fff;
             font-style: normal;
             font-size: 24px;
           }
@@ -166,9 +181,10 @@ export default {
       }
       &.success {
         .step-number {
-          background: var(--step-item-success-background-color);
-          border-color: var(--step-item-success-border-color);
-          color: var(--step-item-success-color);
+          border-color: transparent;
+          background-image: var(--step_item_after_num-bgimg);
+          color: #fff;
+          box-shadow: var(--step_item_after_num-boxshadow);
         }
       }
     }

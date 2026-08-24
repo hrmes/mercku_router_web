@@ -5,21 +5,29 @@
       {{$t('trans0272')}}
     </div>
     <div class="page-content">
-      <m-form ref="form"
-              class='form'
-              :model="form">
-        <m-form-item class="item"
-                     prop='password'>
-          <m-select :label="$t('trans0273')"
-                    v-model="form.timezone"
-                    :options="timezones"
-                    :needProcessing="true"></m-select>
-        </m-form-item>
-      </m-form>
-      <div class="form-button">
-        <button class="btn"
-                v-defaultbutton
-                @click="submit()">{{$t('trans0081')}}</button>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card"
+               data-e2e="timezone-form-card">
+            <m-form-item class="last">
+              <m-select v-model="form.timezone"
+                        data-e2e="timezone-select"
+                        :label="$t('trans0273')"
+                        :options="timezones"
+                        needProcessing
+                        isDrawerStyle
+                        filterable></m-select>
+            </m-form-item>
+          </div>
+        </div>
+      </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn"
+                  data-e2e="timezone-submit"
+                  v-defaultbutton
+                  @click="submit()">{{$t('trans0081')}}</button>
+        </div>
       </div>
     </div>
   </div>
@@ -37,7 +45,7 @@ export default {
   },
   created() {
     let array = [];
-    array = require(`../../../timezones/${this.$i18n.locale}.json`);
+    array = require(`base/assets/timezones/${this.$i18n.locale}.json`);
     this.timezones = array.map(t => ({
       text: `(${t.timezoneDetail}) ${t.coutryName}`,
       mainTitle: t.timezoneDetail,
@@ -74,7 +82,7 @@ export default {
         .setTimezone(data)
         .then(() => {
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
           this.getTimezoneText();
         })
         .catch(() => {
@@ -84,30 +92,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-.page-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  .form {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-    align-items: center;
-  }
-  .form-button {
-    margin-top: 0;
-    padding-top: 25px;
-    border-top: 1px solid var(--hr-color);
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .page-content {
-    .current-timezone {
-      width: 100%;
-    }
-  }
-}
-</style>

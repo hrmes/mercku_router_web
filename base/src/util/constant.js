@@ -1,21 +1,7 @@
 export const IPv6DefaultPlaceholder = '----:----:----:----:----:----:----:----';
 
 export const Customers = {
-  internal: '0000',
-  mercku: '0001',
-  cik: '0002',
-  startca: '0003',
-  inverto: '0004',
-  orion: '0005',
-  realnett: '0006',
-  altima: '0007',
-  fibrestream: '0013',
-  skymesh: '0014',
-  pentanet: '0019',
-  homeway: '0025',
-  junet: '0029',
-  sci: '0031',
-  vistabeam: '0056'
+  mercku: '0001'
 };
 export const IP = {
   IPv4: 'ipv4',
@@ -36,7 +22,8 @@ export const Role = {
 };
 export const RouterStatus = {
   online: 'online',
-  offline: 'offline'
+  offline: 'offline',
+  installing: 'installing'
 };
 export const RouterMode = {
   router: 'router',
@@ -55,19 +42,57 @@ export const WanNetStatus = {
   linked: 'linked',
   unlinked: 'unlinked'
 };
-export const RouterSnModel = {
+export const RouterSnAB2Model = {
   AC: '00',
-  M2: '01',
-  Bee: '02',
   M6: '06',
-  M6c: '07',
   M6a: '08',
-  Homeway: '09'
+  M6s: '11',
+  M6s_Nano: '13',
+  M6s_PoE_pp: '16',
+  GA630: '63'
 };
-export const M6aRouterSnModelVersion = {
+export const Models = {
+  M6: 'M6R0',
+  M6a: 'M8',
+  M6s: 'M11R1',
+  M6s_SFP: 'M11R2',
+  M6s_Nano: 'M13R0',
+  M6s_PoE_pp: 'M16R0',
+  GA630: 'GA630'
+};
+export const ModelIds = Object.entries(Models).reduce((model, [key, value]) => {
+  model[value] = key;
+  return model;
+}, {});
+// M11R4 reuses the existing M6s frontend and customer config.
+ModelIds.M11R4 = 'M6s';
+
+export const SnABJMapName = {
+  '06': { 0: 'M6' },
+  '08': { 0: 'M6a', 1: 'M6a_Plus', 2: 'M6c' },
+  11: { 0: 'M6s', 1: 'M6s', 2: 'M6s_SFP', 4: 'M6s' },
+  13: { 0: 'M6s_Nano' },
+  16: { 0: 'M6s_PoE_pp' },
+  63: { 0: 'GA630' }
+};
+export const ModelIdJMapName = {
+  M6R0: { 0: 'M6' },
+  M8: { 0: 'M6a', 1: 'M6a_Plus', 2: 'M6c' },
+  M11R1: { 1: 'M6s' },
+  M11R2: { 2: 'M6s_SFP' },
+  M11R4: { 4: 'M6s' },
+  M13R0: { 0: 'M6s Nano' },
+  M16R0: { 0: 'M6s PoE_pp' },
+  GA630: { 0: 'GA630' }
+};
+export const RouterHasModelDistinctionMap = {
   M6a: '0',
   M6a_Plus: '1',
-  M6c: '2'
+  M6c: '2',
+  M6s: '1',
+  M6s_SFP: '2',
+  M6s_R4: '4',
+  GA630: '0'
 };
 export const SpeedTestStatus = {
   testing: 'testing',
@@ -78,9 +103,10 @@ export const Bands = {
   '2.4G': '2.4G',
   '5G': '5G',
   b24g: '2.4G',
-  b5g: '5G'
+  b5g: '5G',
+  wired: 'wired'
 };
-export const channelMode = {
+export const ChannelMode = {
   auto: 'auto',
   manual: 'manual'
 };
@@ -112,12 +138,10 @@ export const VPNStatus = {
   disconnected: 'disconnected',
   ready: 'ready'
 };
-
 export const VPNAction = {
   connect: 'connect',
   disconnect: 'disconnect'
 };
-
 export const defaultScrollbarOpt = {
   freeScroll: true,
   disableMouse: false,
@@ -139,22 +163,34 @@ export const Weeks = {
   sat: 'Sat',
   sun: 'Sun'
 };
-export const Models = {
-  m2: 'M2R2',
-  m6: 'M6R0',
-  m6c: 'M7R0',
-  m6a: 'M8',
-  homeway_230v: 'M9R0',
-  homeway_POE1: 'M9R1',
-  homeway_POE2: 'M9R2'
-};
 export const HomewayFanModel = {
   game: 'game',
   standard: 'standard',
   sleep: 'sleep'
 };
-
+export const RefreshSVGPath =
+  'M7.505.57a.5.5 0 0 1 .692-.53l3.5 1.5a.5.5 0 0 1 .08.876l-3 2a.5.5 0 0 1-.772-.345l-.107-.75a7 7 0 1 0 6.123.949 1 1 0 0 1 1.151-1.636 9 9 0 1 1-7.56-1.314z';
 export const AddNodeType = {
   wired: 'wired',
   wireless: 'wireless'
+};
+export const ConnectionQuality = {
+  excellent: 'excellent',
+  fair: 'fair',
+  offline: 'offline'
+};
+export const Color = {
+  good: '#00d061',
+  bad: '#ff6f00',
+  offline: '#b3b3b3'
+};
+export const RouterColor = {
+  black: 'black',
+  white: 'white',
+  grey: 'grey',
+  red: 'red'
+};
+export const RouterPowerSupplyMode = {
+  active: 'active', // 主动模式
+  passive: 'passive' // 被动模式
 };

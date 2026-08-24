@@ -75,7 +75,7 @@ export default {
 <style lang="scss">
 .checkbox-container {
   text-align: left;
-  height: 18px;
+  height: 20px;
   display: inline-block;
   overflow: hidden;
   label {
@@ -89,30 +89,29 @@ export default {
     text-align: center;
     line-height: 17px;
     border-radius: 3px;
-    border: 1.5px solid var(--checkbox-border-color);
-    background: var(--checkbox-background-color);
+    border: 1.5px solid var(--checkbox_border-color);
+    background: var(--checkbox-bgc);
     &.circle-shape {
       border-radius: 50%;
     }
     &.checked {
+      border: none;
+      background-image: var(--checkbox_checked-bgc);
+      padding-left: 2.5px;
       position: relative;
       border: 0;
       background: var(--checkbox-checked-background-color);
       &::after {
-        content: '\e65c';
-        position: absolute;
-        top: 1px;
-        left: 2.5px;
-        width: 12px;
-        height: 12px;
+        content: '\e6be';
+        width: 10px;
+        height: 10px;
         font-size: 12px;
         font-family: 'iconfont';
         color: #fff;
       }
     }
     &.disabled {
-      background: var(--checkbox-disabled-bgc);
-      // border: 1.5px solid var(--checkbox-disabled-border-color);
+      background: var(--checkbox_disabled-bgc);
       cursor: not-allowed;
     }
   }
@@ -124,7 +123,7 @@ export default {
     display: inline;
     font-size: 14px;
     line-height: 18px;
-    color: var(--text-default-color);
+    color: var(--text_default-color);
     margin-left: 12px;
     user-select: none;
     &.bold {

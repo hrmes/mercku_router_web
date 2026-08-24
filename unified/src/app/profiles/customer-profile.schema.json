@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://mercku.local/schemas/profiles/customer-profile.v1.json",
+  "title": "Customer Profile v1",
+  "description": "Customer Profile carries branding and policy only. First version does NOT design arbitrary hiddenMenus, roleRestrictions, or general policy DSL.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["profileVersion", "branding", "policy"],
+  "properties": {
+    "profileVersion": {
+      "const": 1,
+      "description": "Locked to 1 for v1. Bump only when fields change type/semantics or are removed."
+    },
+    "branding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["productName", "wifiName", "website", "policyUrl", "appDownloadUrl", "languages", "defaultLanguage", "theme"],
+      "properties": {
+        "productName": { "type": "string", "minLength": 1 },
+        "wifiName": { "type": "string", "minLength": 1 },
+        "website": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["text", "url"],
+          "properties": {
+            "text": { "type": "string", "minLength": 1 },
+            "url": {
+              "type": "string",
+              "pattern": "^https?://[^\\s]+$"
+            }
+          }
+        },
+        "policyUrl": {
+          "type": "string",
+          "pattern": "^$|^https?://[^\\s]+$"
+        },
+        "appDownloadUrl": {
+          "type": "string",
+          "pattern": "^$|^https?://[^\\s]+$"
+        },
+        "languages": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "type": "string", "pattern": "^[a-z]{2}(-[A-Z]{2})?$" }
+        },
+        "defaultLanguage": {
+          "type": "string",
+          "pattern": "^[a-z]{2}(-[A-Z]{2})?$"
+        },
+        "logoUrl": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional webpack-resolved runtime asset URL; absent from profile.json."
+        },
+        "darkLogoUrl": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional webpack-resolved logo for dark theme; absent from profile.json. Header falls back to logoUrl when omitted."
+        },
+        "loginLogoUrl": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional webpack-resolved login-page logo; absent from profile.json. Login falls back to logoUrl when omitted."
+        },
+        "darkLoginLogoUrl": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional webpack-resolved dark-theme login-page logo; absent from profile.json. Login falls back to darkLogoUrl/logoUrl when omitted."
+        },
+        "faviconUrl": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional webpack-resolved runtime asset URL; absent from profile.json."
+        },
+        "loginBackgroundUrl": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional webpack-resolved runtime asset URL; absent from profile.json."
+        },
+        "qrCodeUrl": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional webpack-resolved runtime QR asset URL; absent from profile.json."
+        },
+        "appIconUrl": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional webpack-resolved runtime app icon URL; absent from profile.json."
+        },
+        "theme": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Whitelist of CSS Variables only. No Sass entry selected by CUSTOMER_ID; no arbitrary CSS/HTML/JS injection.",
+          "properties": {
+            "--brand-primary": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "--brand-secondary": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "--brand-tertiary": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" },
+            "--brand-loading": { "type": "string", "pattern": "^#[0-9a-fA-F]{6}$" }
+          }
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["disabledCapabilities", "allow2LevelAdmin", "allowTelnet"],
+      "properties": {
+        "disabledCapabilities": {
+          "type": "array",
+          "uniqueItems": true,
+          "description": "Can only reference capabilities in CUSTOMER_DISABLEABLE_CAPABILITIES; can only disable Model Profile existing capabilities, cannot enable missing ones.",
+          "items": {
+            "enum": ["sfp", "poeControl", "fanControl", "frozenConfig"]
+          }
+        },
+        "allow2LevelAdmin": { "type": "boolean" },
+        "allowTelnet": { "type": "boolean" }
+      }
+    }
+  }
+}

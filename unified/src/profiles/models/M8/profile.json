@@ -1,0 +1,16 @@
+{
+  "profileVersion": 1,
+  "expectedBackends": ["mercku_mtk7621"],
+  "capabilities": {
+    "sfp": false,
+    "poeControl": false,
+    "fanControl": false,
+    "frozenConfig": true
+  },
+  "behavior": {
+    "upgradeProbeStartDelayMs": 0,
+    "modeSwitchProbeStartDelayMs": 0,
+    "reconnectProbeTimeoutMs": 600000,
+    "meshRadioStatus": "txPower"
+  }
+}

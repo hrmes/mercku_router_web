@@ -1,23 +1,27 @@
 <template>
-  <div class="mk-switch">
+  <div class="mk-switch"
+       v-bind="$attrs">
     <div class="mk-switch__inner"
          :class="{ checked: checked, disabled: disabled }"
          @click="switchValue">
       <div class="mk-switch__circle"
            :class="{ checked: checked, disabled: disabled }"></div>
     </div>
-    <label class="mk-switch__label"
-           v-if="label">{{ label }}</label>
+    <div class="mk-switch__label"
+         :class="{'bold':bold}"
+         v-if="label">{{ label }}</div>
   </div>
 </template>
 <script>
 export default {
+  inheritAttrs: false,
   props: {
     disabled: {
       type: Boolean,
       default: false
     },
     label: { type: String },
+    bold: { type: Boolean, default: true },
     value: {
       type: [Boolean, String, Number],
       default: false
@@ -53,14 +57,18 @@ export default {
   display: flex;
   align-items: center;
   .mk-switch__label {
-    font-weight: bold;
+    flex: 1;
+    display: flex;
+    &.bold {
+      font-weight: 700;
+    }
   }
   .mk-switch__inner {
     cursor: pointer;
-    width: 40px;
-    height: 24px;
+    width: 48px;
+    height: 28px;
     position: relative;
-    background-color: var(--switch-background-color);
+    background-color: var(--switch-bgc);
     border-radius: 22px;
     background-clip: content-box;
     display: inline-block;
@@ -70,33 +78,35 @@ export default {
     margin-right: 10px;
     .mk-switch__circle {
       position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 20px;
-      height: 20px;
-      text-align: center;
-      line-height: 20px;
-      background-color: var(--switch-circle-color);
-      border-radius: 16px;
+      top: 50%;
+      left: 3px;
+      transform: translateY(-50%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 22px;
+      height: 22px;
+      background-color: #fff;
+      border-radius: 50%;
       transition: left 0.3s;
       &::before {
-        content: '\e667';
+        content: '\e6b5';
         font-family: 'iconfont';
-        font-size: 12px;
-        font-weight: 600;
-        color: #bdbdbd;
+        font-size: 13px;
+        font-weight: 400;
+        color: var(--switch_off_icon-color);
       }
     }
     &.checked {
-      border-color: var(--switch-chencked-color);
-      background-color: var(--switch-chencked-color);
+      border-color: var(--switch_checked-color);
+      background-image: var(--switch_checked-color);
       transition: border ease 0.4s, box-shadow ease 0.4s,
-        background-color ease 1.2s;
+        background-image ease 1.2s;
       & .mk-switch__circle {
-        left: 18px;
+        left: 23px;
         &::before {
-          content: '\e65c';
-          color: #0fc866;
+          content: '\e6be';
+          color: var(--switch_on_icon-color);
         }
       }
     }

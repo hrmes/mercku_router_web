@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "revision": "2026-07-21T10:00:00Z-1",
+  "modelId": "M11R4",
+  "customerId": "0007",
+  "backend": "mercku_mtk7621",
+  "detectedCapabilities": {
+    "mysteryFeature": true
+  }
+}

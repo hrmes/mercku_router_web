@@ -43,6 +43,7 @@ const commonMethods = {
   loginout: createMethod('router.logout'),
   isinitial: createMethod('router.is_initial'),
   updateMeshConfig: createMethod('mesh.config.update'),
+  updateRouterInitialize: createMethod('router.initialize'),
   getWanStatus: createMethod('mesh.wan.status.get'),
   getTimezone: createMethod('mesh.info.timezone.get'),
   setTimezone: createMethod('mesh.config.timezone.update'),
@@ -148,7 +149,9 @@ const commonMethods = {
   getMeshWifiStatus: createMethod('mesh.config.wifi.status.get'),
   updateMeshWifiStatus: createMethod('mesh.config.wifi.status.update'),
   getMeshLEDStatus: createMethod('mesh.led.get'),
-  updateMeshLEDStatus: createMethod('mesh.led.update')
+  updateMeshLEDStatus: createMethod('mesh.led.update'),
+  getMeshAutoUpgrade: createMethod('mesh.auto_upgrade.get'),
+  setMeshAutoUpgrade: createMethod('mesh.auto_upgrade.set')
 };
 
 // 获取主页
@@ -157,7 +160,14 @@ Http.prototype.getHomePage = function getHomePage() {
 };
 // 系统日志
 Http.prototype.getSysLog = function getSysLog() {
-  return axios.get(`/log.log?t=${Date.now()}`);
+  // 先调 RPC 让后端刷新日志快照（systemCatLog 拼接写入 /var/log/mercku_web.log），
+  // 再拉取 /log.log 静态文件——直接 GET 拿到的只是上一次快照（开机后为空）
+  return this.request(createMethod('system.log.get'))
+    .then(() => axios.get(`/log.log?t=${Date.now()}`));
+};
+// 内核日志
+Http.prototype.getKernelLog = function getKernelLog() {
+  return axios.get(`/kernel.log?t=${Date.now()}`);
 };
 // 上传镜像
 Http.prototype.uploadFirmware = function uploadFirmware(params, callback) {

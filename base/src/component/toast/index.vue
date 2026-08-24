@@ -9,12 +9,11 @@
 </template>
 
 <script>
-
 export default {
   data() {
     return {
       visible: false,
-      duration: 3000,
+      duration: 2000,
       text: '',
       type: 'success',
       timer: null
@@ -23,82 +22,102 @@ export default {
   mounted() {
     this.startTimer();
   },
+  beforeDestroy() {
+    clearTimeout(this.timer);
+  },
   methods: {
     startTimer() {
       this.timer = setTimeout(() => {
         this.visible = false;
-        this.$el.addEventListener('transitionend', this.close);
       }, this.duration);
     },
-    close() {
-      this.timer = null;
-      this.$el.parentNode.removeChild(this.$el);
+    updateContent({ text = '', duration = 2000, type = 'success' }) {
+      this.text = text;
+      this.duration = duration;
+      this.type = type;
+      this.visible = true;
+      clearTimeout(this.timer);
+      this.startTimer();
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-@media screen and(max-width: 768px) {
-  .toast-container {
-    width: 80%;
-    white-space: normal !important;
-    padding: 10px !important;
-  }
-}
 .toast-container {
-  color: var(--toast-color);
-  // position: fixed;
-  top: 0;
-  padding: 10px 16px;
-  border-radius: 4px;
-  z-index: var(--z-index_toast);
-  left: 50%;
   position: fixed;
-  transform: translate(-50%, 50%);
+  top: 65px;
+  left: 50%;
+  transform: translate(-50%, 10%);
+  z-index: 99999;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  color: var(--text-deafult-color);
+  padding: 10px 15px;
+  border-radius: 4px;
   white-space: nowrap;
   text-align: center;
-  display: flex;
-  align-items: center;
+  > span {
+    flex-grow: 1;
+  }
   &.error {
-    background: var(--toast-error-background-color);
-    border: 0.5px solid var(--toast-error-border-color);
-    &::before {
-      content: '';
-      margin-right: 8px;
-      flex-shrink: 0;
-      display: block;
-      width: 14px;
-      height: 14px;
-      background: url(../../assets/images/icon/ic_default_error.png) center
-        no-repeat;
-      background-size: 100%;
-    }
+    background: var(--toast_error-bgc);
+    box-shadow: var(--toast_error-shadow);
+    // &::before {
+    //   content: '';
+    //   margin-right: 8px;
+    //   flex-shrink: 0;
+    //   display: block;
+    //   width: 14px;
+    //   height: 14px;
+    //   background: url(../../assets/images/icon/ic_default_error.svg) center
+    //     no-repeat;
+    //   background-size: 100%;
+    // }
   }
   &.success {
-    background: var(--toast-success-background-color);
-    border: 0.5px solid var(--toast-success-border-color);
-    &::before {
-      content: '';
-      margin-right: 8px;
-      flex-shrink: 0;
-      display: block;
-      width: 14px;
-      height: 14px;
-      background: url(../../assets/images/icon/ic_default_success.png) center
-        no-repeat;
-      background-size: 100%;
-    }
+    background: var(--toast_success-bgc);
+    box-shadow: var(--toast_success-shadow);
+    // &::before {
+    //   content: '';
+    //   margin-right: 8px;
+    //   flex-shrink: 0;
+    //   display: block;
+    //   width: 15px;
+    //   height: 15px;
+    //   background: url(../../assets/images/icon/ic_default_success.svg) center
+    //     no-repeat;
+    //   background-size: contain;
+    // }
   }
+  /* 淡入淡出效果 */
   &.toast-enter-active {
-    transition: all 0.3s ease-in;
+    transition: opacity 0.3s ease-in, transform 0.3s ease-in;
   }
+
   &.toast-leave-active {
-    transition: all 0.3s ease-out;
-    // leave不知道为什么不生效
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+  }
+
+  /* 进场动画 - 从上到下淡入 */
+  &.toast-enter {
+    opacity: 0;
     transform: translate(-50%, -100%);
   }
-  &.toast-enter {
+
+  /* 离场动画 - 从下到上淡出 */
+  &.toast-leave-to {
+    opacity: 0;
     transform: translate(-50%, -100%);
+  }
+}
+@media screen and(max-width: 768px) {
+  .toast-container {
+    max-width: 90vw;
+    min-width: 280px;
+    transform: translate(-50%, 0%);
+    white-space: normal;
   }
 }
 </style>

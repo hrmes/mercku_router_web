@@ -5,19 +5,29 @@
       {{$t('trans0539')}}
     </div>
     <div class="page-content">
-      <div class="form">
-        <m-form-item>
-          <m-radio-group v-model="mode"
-                         :options="modes"
-                         direction="vertical"></m-radio-group>
-          <p class="note">{{$t('trans0543')}}</p>
-        </m-form-item>
-
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card"
+               data-e2e="mode-form-card">
+            <m-form>
+              <m-form-item class="last">
+                <m-radio-group v-model="mode"
+                               data-e2e="mode-options"
+                               :options="modes"
+                               direction="vertical"></m-radio-group>
+                <p class="des-tips">{{$t('trans0543')}}</p>
+              </m-form-item>
+            </m-form>
+          </div>
+        </div>
       </div>
-      <div class="form-button">
-        <button class="btn primary"
-                v-defaultbutton
-                @click="updateMode">{{$t('trans0081')}}</button>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn primary"
+                  data-e2e="mode-submit"
+                  v-defaultbutton
+                  @click="updateMode">{{$t('trans0081')}}</button>
+        </div>
       </div>
     </div>
   </div>
@@ -71,7 +81,7 @@ export default {
                 this.$reconnect({
                   timeout: 120,
                   onsuccess: () => {
-                    this.$toast(this.$t('trans0040'), 3000, 'success');
+                    this.$toast(this.$t('trans0040'), 2000, 'success');
                     // 如果修改了模式，则跳转到登录页面，否则停留在当前页面
                     if (this.$store.mode !== this.mode) {
                       this.$store.mode = this.mode;
@@ -94,27 +104,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.page-content {
-  flex-direction: column;
-}
-.form {
-  width: 340px;
-  .note {
-    color: #999;
-    font-size: 12px;
-    margin: 0;
-    margin-top: 5px;
-    padding-left: 26px;
-  }
-}
-.form-button {
-  margin-top: 0;
-  padding-top: 25px;
-  border-top: 1px solid var(--hr-color);
-}
-@media screen and (max-width: 768px) {
-  .form {
-    width: 100%;
-  }
+.des-tips {
+  padding-left: 25px;
 }
 </style>

@@ -1,0 +1,87 @@
+.router__img {
+  transition: background 0.4s linear;
+  &.M6,
+  &.M6a,
+  &.M6a_Plus,
+  &.M6c,
+  &.router-image--m6 {
+    background: url(../assets/images/dashboard/m6/img_black.png) no-repeat
+      center;
+    background-size: contain;
+    &.black {
+      background: url(../assets/images/dashboard/m6/img_black.png) no-repeat
+        center;
+      background-size: contain;
+    }
+
+    &.white {
+      background: url(../assets/images/dashboard/m6/img_white.png) no-repeat
+        center;
+      background-size: contain;
+    }
+
+    &.grey {
+      background: url(../assets/images/dashboard/m6/img_grey.png) no-repeat
+        center;
+      background-size: contain;
+    }
+
+    &.red {
+      background: url(../assets/images/dashboard/m6/img_red.png) no-repeat
+        center;
+      background-size: contain;
+    }
+  }
+  &.M6s,
+  &.M6s_SFP,
+  &.M6s_PoE_pp,
+  &.router-image--m6s {
+    background: url(../assets/images/dashboard/m6s/img_black.png) no-repeat
+      center;
+    background-size: contain;
+    &.black {
+      background: url(../assets/images/dashboard/m6s/img_black.png) no-repeat
+        center;
+      background-size: contain;
+    }
+
+    &.white {
+      background: url(../assets/images/dashboard/m6s/img_white.png) no-repeat
+        center;
+      background-size: contain;
+    }
+  }
+  &.GA630 {
+    background: url(../assets/images/dashboard/m6s/img_black.png) no-repeat
+      center;
+    background-size: contain;
+    &.black {
+      background: url(../assets/images/dashboard/m6s/img_black.png) no-repeat
+        center;
+      background-size: contain;
+    }
+
+    &.white {
+      background: url(../assets/images/dashboard/m6s/img_white.png) no-repeat
+        center;
+      background-size: contain;
+    }
+  }
+  &.M6s_Nano,
+  &.router-image--nano {
+    background: url(../assets/images/dashboard/nano/img_black.png) no-repeat
+      center;
+    background-size: contain;
+    &.black {
+      background: url(../assets/images/dashboard/nano/img_black.png) no-repeat
+        center;
+      background-size: contain;
+    }
+
+    &.white {
+      background: url(../assets/images/dashboard/nano/img_white.png) no-repeat
+        center;
+      background-size: contain;
+    }
+  }
+}

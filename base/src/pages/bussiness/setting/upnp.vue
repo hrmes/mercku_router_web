@@ -5,12 +5,20 @@
       {{$t('trans0644')}}
     </div>
     <div class="page-content">
-      <div class="form">
-        <m-switch class="form__switch"
-                  v-model="form.enabled"
-                  :label="$t('trans0644')"
-                  @change="onEnabledChange" />
-        <div class="form__label">{{$t('trans0643')}}</div>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card"
+               data-e2e="upnp-card">
+            <m-form-item class="last">
+              <m-switch class="form__switch"
+                        data-e2e="upnp-switch"
+                        v-model="form.enabled"
+                        :label="$t('trans0644')"
+                        @change="onEnabledChange" />
+              <p class="des-tips">{{$t('trans0643')}}</p>
+            </m-form-item>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -33,7 +41,7 @@ export default {
         })
         .then(() => {
           this.$loading.close();
-          this.$toast(this.$t('trans0040'), 3000, 'success');
+          this.$toast(this.$t('trans0040'), 2000, 'success');
         })
         .catch(() => {
           this.$loading.close();
@@ -60,16 +68,9 @@ export default {
 
 <style lang="scss" scoped>
 .page {
-  .page-content {
-    .form {
-      .form__label {
-        font-size: 12px;
-        color: #999;
-        margin-top: 10px;
-        max-width: 340px;
-      }
-      .form__switch {
-      }
+  .page-content__main {
+    .card {
+      border: none;
     }
   }
 }

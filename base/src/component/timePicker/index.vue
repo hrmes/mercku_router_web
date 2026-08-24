@@ -1,13 +1,14 @@
 <template>
-  <div class="time-picker-panel">
-    <div class="input-wrap"
-         @click="open">
+  <div class="time-picker-panel"
+       :class="{'open':opened}"
+       @click="open">
+    <div class="input-wrap">
       <input type="text"
              :placeholder="$t('trans0100')"
              v-model="inputValue"
              readonly>
       <span class="icon-inner">
-        <i class="iconfont icon-ic_clock">
+        <i class="iconfont ic_clock">
         </i>
       </span>
     </div>
@@ -15,31 +16,35 @@
          ref="combo"
          v-show="opened">
       <div class="select-wrap">
-        <div class="select-inner"
-             ref='h'>
-          <ul class="reset-ul">
-            <li v-for="(v,i) in hs"
-                :key='i'
-                @click.stop="(e)=>select('h',v,e)"
-                :class="{'selected':time.h===v}">{{v}}</li>
-          </ul>
+        <div class="select-inner">
+          <div class="select-inner-container"
+               ref='h'>
+            <ul id='hourList'>
+              <li v-for="(v,i) in hs"
+                  :key='i'
+                  :class="{'selected':time.h===v}"
+                  @click.stop="(e)=>select('h',v,e)">{{v}}</li>
+            </ul>
+          </div>
         </div>
-        <div class="select-inner"
-             ref='m'>
-          <ul class="reset-ul">
-            <li v-for="(v,i) in ms"
-                :key='i'
-                @click.stop="(e)=>select('m',v,e)"
-                :class="{'selected':time.m===v}">{{v}}</li>
-          </ul>
+        <div class="select-inner">
+          <div class="select-inner-container"
+               ref='m'>
+            <ul id='minList'>
+              <li v-for="(v,i) in ms"
+                  :key='i'
+                  :class="{'selected':time.m===v}"
+                  @click.stop="(e)=>select('m',v,e)">{{v}}</li>
+            </ul>
+          </div>
+
         </div>
       </div>
       <div class="button-wrap">
-        <button @click="close">{{$t('trans0025')}}</button>
-        <button @click="ok">{{$t('trans0024')}}</button>
+        <button @click.stop="close">{{$t('trans0025')}}</button>
+        <button @click.stop="ok">{{$t('trans0024')}}</button>
       </div>
     </div>
-
   </div>
 </template>
 <script>
@@ -71,6 +76,14 @@ export default {
       };
     }
   },
+  computed: {
+    hsLength() {
+      return this.hs.length - 1;
+    },
+    msLength() {
+      return this.ms.length - 1;
+    }
+  },
   mounted() {
     if (window.addEventListener) {
       document.body.addEventListener('click', e => {
@@ -85,6 +98,8 @@ export default {
         }
       });
     }
+    this.addScrollListener('h');
+    this.addScrollListener('m');
   },
   beforeDestroy() {
     if (window.addEventListener) {
@@ -92,6 +107,8 @@ export default {
     } else if (window.attachEvent) {
       document.body.detachEvent('click', this.close);
     }
+    this.removeScrollListener('h');
+    this.removeScrollListener('m');
   },
   methods: {
     formatCount(v) {
@@ -99,7 +116,7 @@ export default {
     },
     scrollTo(el, x, y) {
       if (el.scrollTo) {
-        el.scrollTo(x, y);
+        el.scrollTo(x, y - 72);
       } else {
         el.scrollTop = y;
       }
@@ -126,14 +143,15 @@ export default {
       this.scrollTo(el, 0, cTop);
     },
     animateScroll() {
-      if (this.animationEl.scrollTop >= this.distance) {
-        cancelAnimationFrame(this.animationId);
-        return;
-      }
-      let scroll = this.animationEl.scrollTop + 5;
-      scroll = scroll > this.distance ? this.distance : scroll;
-      this.scrollTo(this.animationEl, 0, scroll);
-      this.animationId = requestAnimationFrame(this.animateScroll);
+      // if (this.animationEl.scrollTop >= this.distance) {
+      //   cancelAnimationFrame(this.animationId);
+      //   return;
+      // }
+      // let scroll = this.animationEl.scrollTop + 5;
+      // scroll = scroll > this.distance ? this.distance : scroll;
+      // this.scrollTo(this.animationEl, 0, scroll);
+      // this.animationId = requestAnimationFrame(this.animateScroll);
+      this.scrollTo(this.animationEl, 0, this.distance);
     },
     close() {
       if (!this.opened) {
@@ -153,12 +171,43 @@ export default {
 
       this.distance = sTop;
       this.animationEl = pEl;
+      this.animationEl.style.scrollBehavior = 'smooth';
       this.animateScroll();
+      this.animationEl.style.scrollBehavior = 'auto';
     },
     select(type, v, e) {
       this.selectScroll(e, type);
       this.time[type] = v;
       this.inputValue = `${this.time.h}:${this.time.m}`;
+    },
+    changeTimeValue(type) {
+      const { scrollTop } = this.$refs[type];
+      let index = (scrollTop / 36).toFixed(0);
+      index = this.formatCount(index);
+      this.time[type] = index;
+      this.inputValue = `${this.time.h}:${this.time.m}`;
+    },
+    addScrollListener(type) {
+      if (window.addEventListener) {
+        this.$refs[type].addEventListener('scroll', () => {
+          this.changeTimeValue(type);
+        });
+      } else if (window.attachEvent) {
+        this.$refs[type].attachEvent('onscroll', () => {
+          this.changeTimeValue(type);
+        });
+      }
+    },
+    removeScrollListener(type) {
+      if (window.addEventListener) {
+        this.$refs[type].removeEventListener('scroll', () => {
+          this.changeTimeValue(type);
+        });
+      } else if (window.attachEvent) {
+        this.$refs[type].detachEvent('onscroll', () => {
+          this.changeTimeValue(type);
+        });
+      }
     }
   }
 };
@@ -168,21 +217,26 @@ export default {
   width: 100%;
   min-width: 120px;
   height: 48px;
-  border: 1.5px solid var(--time-picker-pannel-border-color);
+  background: var(--input-content-background);
+  border: 1.5px solid var(--time_picker_pannel_border-color);
   position: relative;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 0 10px;
+  transition: all 0.2s ease-in-out;
+  &.open {
+    border-color: var(--input_focus_border-color);
+  }
   .combox {
     position: absolute;
-    background: var(--time-picker-combox-background-color);
+    background: var(--time_picker_combox-bgc);
     left: 50%;
     bottom: -4px;
     transform: translate(-50%, 100%);
     display: flex;
     flex-direction: column;
     width: 102%;
-    z-index: var(--z-index_pageElement);
-    box-shadow: 0 2px 8px var(--time-picker-combox-shadow-color);
+    z-index: 1000;
+    box-shadow: var(--time_picker_combox-shadow);
     background-clip: padding-box;
     border-radius: 10px;
     overflow: hidden;
@@ -191,46 +245,74 @@ export default {
       display: flex;
     }
     .button-wrap {
-      border-top: 1px solid var(--time-picker-buttons-border-color);
+      border-top: 1px solid var(--time_picker_button_border-color);
       button {
         height: 38px;
         width: 50%;
         border: none;
-        background: var(--time-picker-button-background-color);
+        background: var(--time_picker_button-bgc);
         cursor: pointer;
         outline: none;
         &:hover {
           opacity: 0.7;
         }
         &:first-child {
-          color: var(--time-picker-button-cancel-color);
+          color: var(--time_picker_button_cancel-color);
         }
         &:last-child {
-          color: var(--time-picker-button-confirm-color);
+          color: var(--time_picker_button_confirm-color);
         }
       }
     }
     .select-inner {
+      position: relative;
       flex: 1;
-      height: 192px;
-      overflow-y: scroll;
-      border-right: 1px solid var(--time-picker-popup-border-color);
+      height: 180px;
+      border-right: 1px solid var(--time_picker_popup_border-color);
       box-sizing: border-box;
-      &::-webkit-scrollbar {
+      ::-webkit-scrollbar {
         width: 0px;
       }
-      &::-webkit-scrollbar-track {
+      ::-webkit-scrollbar-track {
         background-color: transparent;
       }
-      &::-webkit-scrollbar-thumb {
-        background: var(--time-picker-popup-scrollbar-color);
+      /* 针对Firefox浏览器的样式 */
+      /* Firefox不支持::-webkit-scrollbar，因此需要使用-moz-scrollbar */
+      * {
+        scrollbar-width: thin;
+        scrollbar-color: transparent transparent;
       }
-      &:last-child {
-        border-right: none;
+
+      *::-moz-scrollbar {
+        width: 0px;
+      }
+
+      *::-moz-scrollbar-track {
+        background-color: transparent;
+      }
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 100%;
+        height: 36px;
+        background: var(--primary-color);
+        box-shadow: var(--button-boxshadow);
+        pointer-events: none;
+        z-index: -1;
+      }
+      .select-inner-container {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        scroll-snap-type: y mandatory;
+        overscroll-behavior: none;
       }
       ul {
-        position: relative;
-        padding-bottom: 156px;
+        list-style: none;
+        margin: 0;
+        padding: 72px 0;
       }
       li {
         margin: 0;
@@ -240,18 +322,16 @@ export default {
         text-align: center;
         height: 36px;
         line-height: 36px;
-        color: var(--time-picker-li-color);
+        color: var(--time_picker_li-color);
         cursor: pointer;
-        &:hover {
-          background: var(--time-picker-popup-item-hover-background-color);
-        }
-        &:active {
-          background: var(--time-picker-popup-item-active-background-color);
-          color: var(--time-picker-popup-item-active-color);
-        }
+        scroll-snap-align: center;
+        // scroll-snap-stop: always;
+        transition: color 0.1s linear;
+        // &:hover {
+        //   background: var(--time_picker_popup_item_hover-bgc);
+        // }
         &.selected {
-          color: #fff;
-          background: var(--time-picker-popup-item-selected-color);
+          color: var(--primary-bgc);
         }
       }
     }
@@ -271,10 +351,10 @@ export default {
       padding: 0;
       height: 30px;
       width: 0;
-      background: var(--time-picker-input-background-color);
-      color: var(--text-default-color);
+      background: var(--time_picker_input-bgc);
+      color: var(--text_default-color);
       &::-webkit-input-placeholder {
-        color: var(--input-placehoder-color);
+        color: var(--input_placeholder-color);
       }
     }
     .icon-inner {

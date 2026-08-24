@@ -3,8 +3,11 @@ import { EncryptMethod, Models } from '../util/constant';
 export default {
   data() {
     let encryptMethods = [];
-    switch (process.env.MODEL_CONFIG.id) {
-      case Models.m2:
+    // Unified runtime builds intentionally have no compile-time MODEL_CONFIG.
+    // Falling through to the conservative common list keeps reused pages
+    // usable; legacy model builds still select their original list.
+    switch ((process.env.MODEL_CONFIG || {}).id) {
+      case Models.M2:
         encryptMethods = [
           {
             value: EncryptMethod.wpawpa2,
@@ -24,8 +27,7 @@ export default {
           }
         ];
         break;
-      case Models.m6:
-      case Models.m6c:
+      case Models.M6:
         encryptMethods = [
           {
             value: EncryptMethod.wpa2wpa3,
@@ -49,11 +51,7 @@ export default {
           }
         ];
         break;
-      case Models.m6a:
-      case Models.m6aPlus:
-      case Models.homeway_230v:
-      case Models.homeway_POE1:
-      case Models.homeway_POE2:
+      case Models.M6a:
         encryptMethods = [
           {
             value: EncryptMethod.open,
@@ -66,6 +64,32 @@ export default {
           {
             value: EncryptMethod.wpa3,
             text: this.$t('trans0572')
+          }
+        ];
+        break;
+      case Models.M6s:
+      case Models.M6s_Nano:
+      case Models.M6s_PoE_pp:
+        encryptMethods = [
+          {
+            value: EncryptMethod.wpawpa2,
+            text: this.$t('trans0557')
+          },
+          {
+            value: EncryptMethod.wpa2,
+            text: this.$t('trans0556')
+          },
+          {
+            value: EncryptMethod.wpa3,
+            text: this.$t('trans0572')
+          },
+          {
+            value: EncryptMethod.wpa2wpa3,
+            text: this.$t('trans0573')
+          },
+          {
+            value: EncryptMethod.open,
+            text: this.$t('trans0554')
           }
         ];
         break;

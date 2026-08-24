@@ -5,27 +5,37 @@
       {{$t('trans0420')}}
     </div>
     <div class="page-content">
-      <m-form ref="form"
-              class='form'
-              :model="dmz"
-              :rules='rules'>
-        <m-form-item class="item"
-                     prop='ip'>
-          <m-input :label="$t('trans0457')"
-                   :placeholder="`${$t('trans0321')}`"
-                   v-model="dmz.ip"></m-input>
-        </m-form-item>
-        <div class="checkbox-wrapper">
-          <m-checkbox v-model="dmz.enabled"
-                      :rect="false"
-                      :text="$t('trans0462')"></m-checkbox>
+      <div class="page-content__main">
+        <div class="row-1">
+          <div class="card"
+               data-e2e="dmz-form-card">
+            <m-form ref="form"
+                    class='form'
+                    :model="dmz"
+                    :rules='rules'>
+              <m-form-item prop='ip'>
+                <m-input :label="$t('trans0457')"
+                         data-e2e="dmz-ip-input"
+                         :placeholder="`${$t('trans0321')}`"
+                         v-model="dmz.ip"></m-input>
+              </m-form-item>
+              <div class="checkbox-wrapper">
+                <m-checkbox v-model="dmz.enabled"
+                            :rect="false"
+                            :bold="true"
+                            :text="$t('trans0462')"></m-checkbox>
+              </div>
+            </m-form>
+          </div>
         </div>
-
-      </m-form>
-      <div class="form-button">
-        <button class="btn"
-                v-defaultbutton
-                @click="submit()">{{$t('trans0081')}}</button>
+      </div>
+      <div class="page-content__bottom">
+        <div class="form-button__wrapper">
+          <button class="btn"
+                  data-e2e="dmz-submit"
+                  v-defaultbutton
+                  @click="submit()">{{$t('trans0081')}}</button>
+        </div>
       </div>
     </div>
   </div>
@@ -43,6 +53,10 @@ export default {
       rules: {
         ip: [
           {
+            rule: value => !/^\s*$/g.test(value),
+            message: this.$t('trans0232')
+          },
+          {
             rule: value => isIP(value),
             message: this.$t('trans0231')
           }
@@ -59,10 +73,9 @@ export default {
       this.$http
         .getDMZ()
         .then(res => {
-          this.$loading.close();
           this.dmz = res.data.result;
         })
-        .catch(() => {
+        .finally(() => {
           this.$loading.close();
         });
     },
@@ -72,10 +85,9 @@ export default {
         this.$http
           .updateDMZ(this.dmz)
           .then(() => {
-            this.$loading.close();
-            this.$toast(this.$t('trans0040'), 3000, 'success');
+            this.$toast(this.$t('trans0040'), 2000, 'success');
           })
-          .catch(() => {
+          .finally(() => {
             this.$loading.close();
           });
       }
@@ -83,27 +95,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-.form {
-  display: flex;
-  flex-direction: column;
-  .btn-wrapper {
-    display: block;
-    text-align: center !important;
-  }
-  .checkbox-wrapper {
-    padding-bottom: 25px;
-    border-bottom: 1px solid var(--hr-color);
-  }
-}
-.form-button {
-  margin-top: 25px;
-}
-@media screen and (max-width: 768px) {
-  .form {
-    .checkbox-wrapper {
-      width: 100%;
-    }
-  }
-}
-</style>

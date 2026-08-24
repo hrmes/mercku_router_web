@@ -1,11 +1,12 @@
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 
-import intl from 'intl';
+import { NumberFormat } from 'intl';
 
 class BasicI18n {
-  constructor(context) {
-    this.context = context;
+  constructor(baseContext, customerContext) {
+    this.baseContext = baseContext;
+    this.customerContext = customerContext;
     this.locales = {};
     this.numberFormats = {};
     this._buildLocales();
@@ -22,27 +23,26 @@ class BasicI18n {
   _buildLocales() {
     // 自定义文件列表
     const customFileNames = ['code-map', 'extra'];
-
-    this.context.keys().forEach(key => {
+    console.log(this.customerContext.keys());
+    console.log(this.baseContext.keys());
+    this.customerContext.keys().forEach(key => {
       // 特定客户语言包
-      if (key.startsWith(`./${process.env.CUSTOMER_CONFIG.id}`)) {
-        const matched = key.match(/([A-Za-z0-9-_]+)\./i);
-        if (matched && matched.length > 1) {
-          const locale = matched[1];
-          this.numberFormats[locale] = {
-            decimal: {
-              style: 'decimal'
-            }
-          };
-          this.locales[locale] = this.context(key);
-        }
+      const matched = key.match(/([A-Za-z0-9-_]+)\./i);
+      if (matched && matched.length > 1) {
+        const locale = matched[1];
+        this.numberFormats[locale] = {
+          decimal: {
+            style: 'decimal'
+          }
+        };
+        this.locales[locale] = this.customerContext(key);
       }
     });
     // 自定义文件处理
     customFileNames.forEach(cfn => {
-      const fileKey = this.context.keys().find(key => key.includes(cfn));
+      const fileKey = this.baseContext.keys().find(key => key.includes(cfn));
       if (fileKey) {
-        const file = this.context(fileKey);
+        const file = this.baseContext(fileKey);
         Object.keys(file).forEach(code => {
           Object.keys(this.locales).forEach(locale => {
             this.locales[locale][code] = this.locales[locale][file[code]];
@@ -50,8 +50,6 @@ class BasicI18n {
         });
       }
     });
-
-    console.log(this.locales);
   }
 
   changeLanguage(lang) {
@@ -82,7 +80,7 @@ class BasicI18n {
       //   minimumFractionDigits,
       //   maximumFractionDigits
       // });
-      return intl.NumberFormat.call(null, locale, {
+      return NumberFormat.call(null, locale, {
         minimumFractionDigits,
         maximumFractionDigits
       }).format(number);

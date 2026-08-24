@@ -1,27 +1,35 @@
 <template>
   <transition name="modal">
     <div class="modal-dialog"
-         v-show="open">
-      <div class="mask"
-           @click="close"
-           @touchstart="close"></div>
-      <div class="modal-content">
+         v-bind="$attrs"
+         v-if="open">
+      <div class="mask"></div>
+      <div v-clickoutside="close"
+           class="modal-content">
         <slot></slot>
       </div>
     </div>
+
   </transition>
 </template>
 <script>
+const Types = {
+  info: 'info',
+  confirm: 'confirm'
+};
+
 export default {
+  inheritAttrs: false,
   props: {
     visible: {
       type: Boolean,
       default: false
     },
-    closeOnClickMask: {
-      type: Boolean,
-      default: true
-    }
+    type: {
+      type: String,
+      default: Types.info
+    },
+
   },
   data() {
     return { open: false };
@@ -38,7 +46,7 @@ export default {
   },
   methods: {
     close() {
-      if (this.closeOnClickMask) {
+      if (this.type === Types.info) {
         this.open = false;
         document.body.style.position = this.position;
         this.$emit('update:visible', false);
@@ -49,7 +57,7 @@ export default {
     document.body.appendChild(this.$el);
   },
   beforeDestroy() {
-    this.$el.parentNode.removeChild(this.$el);
+    this.$el?.parentNode?.removeChild(this.$el);
   }
 };
 </script>
@@ -85,21 +93,29 @@ export default {
     left: 0;
     top: 0;
     height: 100%;
-    background: var(--modal-mask-background-color);
+    background: var(--modal_mask-bgc);
   }
-
   .modal-content {
-    background: var(--modal-content-background);
+    min-width: 380px;
+    background: var(--modal_content-bgc);
     padding: 30px;
     border-radius: 5px;
-    box-shadow: 0 2px 12px 0 var(--modal-shadow-color);
+    box-shadow: 0 2px 12px 0 var(--modal_shadow-color);
   }
 }
 @media screen and (max-width: 768px) {
   .modal-dialog {
     .modal-content {
       width: 80%;
+      min-width: auto;
       padding: 20px;
+    }
+  }
+}
+@media screen and (max-width: 320px) {
+  .modal-dialog {
+    .modal-content {
+      padding: 10px 12px;
     }
   }
 }
