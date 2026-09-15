@@ -5,6 +5,15 @@
   box-sizing: border-box;
 }
 
+// 全局弹窗层默认值：目前仅 0056 客户主题定义了 --z-index_dialog，
+// 其余主题（含默认 0001）未定义 → var() 失效 → m-modal 等组件
+// z-index 退化为 auto，被 dashboard 中任何 z-index>=1 的定位元素
+// 压住（复现：断网提示弹窗被路由器图片/连接线覆盖、遮罩失效）。
+// 主题可按需覆盖此默认值。
+:root {
+  --z-index_dialog: 1000;
+}
+
 @font-face {
   font-family: 'DINAlternate';
   src: url('./iconfont/DIN.ttf');

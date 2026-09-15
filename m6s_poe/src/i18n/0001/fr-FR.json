@@ -1237,5 +1237,7 @@
   "trans1242": "Prend uniquement en charge les appareils alimentés en 48V, non compatibles avec les appareils alimentés en 24V.",
   "trans1243": "PoE actif",
   "trans1244": "Veuillez vous assurer que votre appareil PD est conforme aux normes IEEE 802.3af, 802.3at ou 802.3bt.",
-  "trans1245": "Veuillez vous assurer que votre appareil alimenté prend en charge 48V, sinon cela pourrait endommager l'appareil. Êtes-vous sûr de vouloir passer en mode d'alimentation électrique passif PoE ?"
+  "trans1245": "Veuillez vous assurer que votre appareil alimenté prend en charge 48V, sinon cela pourrait endommager l'appareil. Êtes-vous sûr de vouloir passer en mode d'alimentation électrique passif PoE ?",
+  "trans1251": "Le mot de passe ne peut pas contenir de points-virgules",
+  "trans1252": "Le mot de passe ne peut pas contenir de barres obliques inversées"
 }

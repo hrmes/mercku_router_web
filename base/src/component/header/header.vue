@@ -252,7 +252,8 @@ export default {
         auto: { ischecked: true }
       },
       selectedTheme: 'light',
-      isDarkMode: false
+      isDarkMode: false,
+      prefersDark: false
     };
   },
   mounted() {
@@ -264,6 +265,19 @@ export default {
     }
     this.list = this.getList();
     this.checkTheme();
+    // 跟踪系统主题，'auto' 模式下 logo/暗色态需跟随 OS 深浅切换
+    if (window.matchMedia) {
+      this._themeMql = window.matchMedia('(prefers-color-scheme: dark)');
+      this.prefersDark = this._themeMql.matches;
+      this._themeMqlListener = e => {
+        this.prefersDark = e.matches;
+      };
+      if (this._themeMql.addEventListener) {
+        this._themeMql.addEventListener('change', this._themeMqlListener);
+      } else if (this._themeMql.addListener) {
+        this._themeMql.addListener(this._themeMqlListener);
+      }
+    }
   },
   computed: {
     branding() {
@@ -287,8 +301,13 @@ export default {
     currentTheme() {
       return this.$store.state.theme;
     },
+    // 生效主题：'auto' 时取决于系统深浅色
+    isDarkTheme() {
+      const theme = this.normalizeTheme(this.currentTheme);
+      return theme === 'dark' || (theme === 'auto' && this.prefersDark);
+    },
     currentLogoUrl() {
-      if (this.currentTheme === 'dark' && this.branding.darkLogoUrl) {
+      if (this.isDarkTheme && this.branding.darkLogoUrl) {
         return this.branding.darkLogoUrl;
       }
       return this.branding.logoUrl;
@@ -307,13 +326,9 @@ export default {
       },
       deep: true
     },
-    currentTheme: {
+    isDarkTheme: {
       handler(nv) {
-        if (nv === 'dark') {
-          this.isDarkMode = true;
-        } else {
-          this.isDarkMode = false;
-        }
+        this.isDarkMode = nv;
       },
       immediate: true
     }
@@ -373,28 +388,29 @@ export default {
     jump(menu) {
       // 如果点击的是header的最后一项，则为修改主题，不进行页面跳转，弹出修改主题modal
       if (menu.key === this.list.length - 1) {
-        const current = localStorage.getItem('theme');
-        Object.keys(this.themeOptions).forEach(key => {
-          this.themeOptions[key].ischecked = false;
-        });
-        this.themeOptions[current].ischecked = true;
-        this.ThemechangeVisiable = true;
+        this.openThemeModal();
       } else {
         this.$router.push({ path: menu.url });
       }
     },
     jumpMobile(menu) {
       if (menu.key === this.list.length - 1) {
-        const current = localStorage.getItem('theme');
-        Object.keys(this.themeOptions).forEach(key => {
-          this.themeOptions[key].ischecked = false;
-        });
-        this.themeOptions[current].ischecked = true;
-        this.ThemechangeVisiable = true;
+        this.openThemeModal();
       } else if (!menu.disabled) {
         this.$router.push({ path: menu.url });
         this.mobileNavVisible = !this.mobileNavVisible;
       }
+    },
+    openThemeModal() {
+      // 打开弹窗时把当前主题同步进选中态与 selectedTheme，
+      // 否则用户不点选项直接确认会按残留的 selectedTheme 覆盖主题
+      const current = this.normalizeTheme(localStorage.getItem('theme'));
+      Object.keys(this.themeOptions).forEach(key => {
+        this.themeOptions[key].ischecked = false;
+      });
+      this.themeOptions[current].ischecked = true;
+      this.selectedTheme = current;
+      this.ThemechangeVisiable = true;
     },
     trigerMobileNav() {
       this.mobileNavVisible = !this.mobileNavVisible;
@@ -462,29 +478,29 @@ export default {
         }
       });
     },
+    // 只接受 light/dark/auto，其余值回退 light，避免脏值把选中态与根节点 class 打挂
+    normalizeTheme(value) {
+      return value === 'dark' || value === 'auto' ? value : 'light';
+    },
     checkTheme() {
-      const theme = localStorage.getItem('theme');
-      if (!theme || theme === undefined) {
-        localStorage.setItem('theme', 'light');
-        this.$store.state.theme = 'light';
-        this.themeOptions.light.ischecked = true;
-      } else {
-        this.$store.state.theme = theme;
-        Object.keys(this.themeOptions).forEach(key => {
-          this.themeOptions[key].ischecked = false;
-        });
-        this.themeOptions[theme].ischecked = true;
-      }
+      const theme = this.normalizeTheme(localStorage.getItem('theme'));
+      localStorage.setItem('theme', theme);
+      this.$store.state.theme = theme;
+      Object.keys(this.themeOptions).forEach(key => {
+        this.themeOptions[key].ischecked = false;
+      });
+      this.themeOptions[theme].ischecked = true;
       document
         .querySelector('html')
-        .setAttribute('class', localStorage.getItem('theme'));
+        .setAttribute('class', theme);
     },
     changeThemeMode() {
-      localStorage.setItem('theme', this.selectedTheme);
-      this.$store.state.theme = this.selectedTheme;
+      const theme = this.normalizeTheme(this.selectedTheme);
+      localStorage.setItem('theme', theme);
+      this.$store.state.theme = theme;
       document
         .querySelector('html')
-        .setAttribute('class', this.selectedTheme);
+        .setAttribute('class', theme);
 
       this.ThemechangeVisiable = false;
       if (this.mobileNavVisible) {
@@ -501,6 +517,13 @@ export default {
       document.body.removeEventListener('click', this.close);
     } else if (window.attachEvent) {
       document.body.detachEvent('click', this.close);
+    }
+    if (this._themeMql && this._themeMqlListener) {
+      if (this._themeMql.removeEventListener) {
+        this._themeMql.removeEventListener('change', this._themeMqlListener);
+      } else if (this._themeMql.removeListener) {
+        this._themeMql.removeListener(this._themeMqlListener);
+      }
     }
   }
 };

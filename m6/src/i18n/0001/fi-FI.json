@@ -1226,5 +1226,7 @@
   "trans1231": "DFS",
   "trans1232": "Nopeustestiä ei toistaiseksi tueta PPPoE-internet-yhteyden kautta",
   "trans1233": "Huomioi seuraavaa:",
-  "trans1234": "DFS-toiminnon poistaminen voi rikkoa paikallisia radiomääräyksiä ja johtaa oikeudellisiin ongelmiin. Ole hyvä ja toimi varovaisesti"
+  "trans1234": "DFS-toiminnon poistaminen voi rikkoa paikallisia radiomääräyksiä ja johtaa oikeudellisiin ongelmiin. Ole hyvä ja toimi varovaisesti",
+  "trans1251": "Salasanassa ei voi olla puolipisteitä",
+  "trans1252": "Salasanassa ei voi olla kenoviivoja"
 }

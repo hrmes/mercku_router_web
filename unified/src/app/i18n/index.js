@@ -14,6 +14,13 @@
  * components (`this.$t`, `this.changeLanguage`, `toLocaleNumber`) work
  * unchanged.
  */
+import Vue from 'vue';
+import VueI18n from 'vue-i18n';
+// 'intl' 必须先于 locale-data 执行：intl/index.js 会设置 global.IntlPolyfill，
+// jsonp locale-data 文件通过该全局变量注册数据（真机事故：webpack 把 intl 包
+// 打成两份实例，数据若先于本实例注册会落到另一份上，NumberFormat 调用抛
+// "No locale data has been provided for this object yet"，dashboard 整页空白）。
+import { NumberFormat } from 'intl';
 import 'intl/locale-data/jsonp/zh';
 import 'intl/locale-data/jsonp/en-US';
 import 'intl/locale-data/jsonp/de-DE';
@@ -21,10 +28,6 @@ import 'intl/locale-data/jsonp/fr-FR';
 import 'intl/locale-data/jsonp/fi-FI';
 import 'intl/locale-data/jsonp/bg-BG';
 import 'intl/locale-data/jsonp/sv-SE';
-
-import Vue from 'vue';
-import VueI18n from 'vue-i18n';
-import { NumberFormat } from 'intl';
 
 Vue.use(VueI18n);
 
@@ -94,10 +97,14 @@ export class UnifiedI18n {
   toLocaleNumber(number, locale, minimumFractionDigits = 1, maximumFractionDigits = 1) {
     if (typeof number !== 'number') return number;
     const loc = locale || this.i18n.locale || 'en-US';
-    return NumberFormat.call(null, loc, {
-      minimumFractionDigits,
-      maximumFractionDigits,
-    }).format(number);
+    const opts = { minimumFractionDigits, maximumFractionDigits };
+    // 优先浏览器原生 Intl（与 polyfill 同 CLDR 语义）；polyfill 兜底仅服务
+    // 无原生 Intl 的老 WebView，其数据依赖上方 import 顺序保证。
+    try {
+      return new Intl.NumberFormat(loc, opts).format(number);
+    } catch (err) {
+      return NumberFormat.call(null, loc, opts).format(number);
+    }
   }
 }
 

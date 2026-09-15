@@ -9,6 +9,15 @@
         </div>
         <div class="text-container">{{pageName}}</div>
       </div>
+      <div v-if="isWirelessBridge"
+           class="repeater-mesh-status"
+           :class="{'detail-open':showTable}"
+           data-e2e="mesh-repeater-status">
+        <span>{{repeaterText('status')}}</span>
+        <button class="btn btn-default"
+                data-e2e="mesh-view-repeater"
+                @click="viewRepeater">{{repeaterText('viewRepeater')}}</button>
+      </div>
       <div class="content">
         <div class="topo-container"
              :class="{'show-table':showTable}">
@@ -19,11 +28,12 @@
             </span>
             <div class="info">
               <p class="legend-title">
-                <span>{{$t('trans0302')}}</span>
-                <i class="iconfont ic_connection_quality"
+                <span>{{isWirelessBridge ? repeaterText('savedTopology') : $t('trans0302')}}</span>
+                <i v-if="!isWirelessBridge"
+                   class="iconfont ic_connection_quality"
                    @click.stop="showRssiModal"></i>
               </p>
-              <div v-if="isM6"
+              <div v-if="!isWirelessBridge && isM6"
                    class="switch-wrap">
                 <div class="switch-item">
                   <m-switch v-model="mesh24g"
@@ -41,7 +51,7 @@
                   </label>
                 </div>
               </div>
-              <div v-else
+              <div v-else-if="!isWirelessBridge"
                    class="legend-tx_power">
                 <span>{{$t('trans1102')}}:</span>
                 <m-loading v-if="!tx_power"
@@ -184,7 +194,9 @@
                   </div>
                   <div class="col-3">
                     <span class="band"
-                          :class="{'wired':isWired(sta.connected_network.band)}">{{bandMap[sta.connected_network.band]}}</span>
+                          :class="{'wired':isWired(sta.connected_network.band)}">
+                      {{bandMap[sta.connected_network.band]}}
+                    </span>
                     <span class="guest"
                           v-if="isGuest(sta.connected_network.type)"></span>
                   </div>
@@ -221,7 +233,10 @@
                     :key="index"
                     class="limit-icon">
                   <div class="color"
-                       :class="{selected:selectedColorName===color.name,'light-color':color.name===RouterColor.white}"
+                       :class="{
+                         selected:selectedColorName===color.name,
+                         'light-color':color.name===RouterColor.white
+                       }"
                        :style="{backgroundImage:color.value}"
                        @click="changeDeviceColor(color)">
                   </div>
@@ -299,8 +314,8 @@
 <script>
 import marked from 'marked';
 import { formatMac } from 'base/util/util';
-import { Bands, RouterStatus, Color, RouterHasModelDistinctionMap, SnABJMapName, ModelIds } from 'base/util/constant';
-import meshEditMixin from 'base/mixins/mesh-edit.js';
+import { Bands, RouterStatus, RouterMode, Color, RouterHasModelDistinctionMap, SnABJMapName, ModelIds } from 'base/util/constant';
+import meshEditMixin from 'base/mixins/mesh-edit';
 import { getNodeImage } from 'base/mixins/router-model';
 import genData from 'base/util/topo';
 
@@ -309,6 +324,18 @@ require('echarts/lib/chart/graph');
 
 const GUEST = 'guest'; // 是否是访客
 const M6_MODEL_ID = 'M6R0';
+const REPEATER_COPY = {
+  'zh-CN': {
+    status: '无线中继运行中 · Mesh 已关闭',
+    viewRepeater: '查看中继',
+    savedTopology: '保存的 Mesh 拓扑'
+  },
+  'en-US': {
+    status: 'Wireless repeater active · Mesh disabled',
+    viewRepeater: 'View repeater',
+    savedTopology: 'Saved Mesh topology'
+  }
+};
 export default {
   mixins: [meshEditMixin, getNodeImage],
   data() {
@@ -347,6 +374,7 @@ export default {
     };
   },
   async mounted() {
+    await this.getWorkModeInfo();
     this.createIntervalTask();
     window
       .matchMedia('(prefers-color-scheme: dark)')
@@ -354,10 +382,12 @@ export default {
         this.checkThemeMode(event.matches);
       });
     // 获取当前设备信息
-    if (this.isM6) {
-      this.getMeshBand();
-    } else {
-      this.getTxpower();
+    if (!this.isWirelessBridge) {
+      if (this.isM6) {
+        this.getMeshBand();
+      } else {
+        this.getTxpower();
+      }
     }
     try {
       const selfInfo = await this.$http.getLocalDevice();
@@ -367,6 +397,9 @@ export default {
     }
   },
   computed: {
+    isWirelessBridge() {
+      return this.$store.state.mode === RouterMode.wirelessBridge;
+    },
     isM6() {
       const runtimeContext = this.$store.getters?.runtimeContext;
       if (runtimeContext) {
@@ -487,6 +520,21 @@ export default {
     }
   },
   methods: {
+    repeaterText(key) {
+      const locale = this.$store.state.locale === 'zh-CN' ? 'zh-CN' : 'en-US';
+      return REPEATER_COPY[locale][key];
+    },
+    async getWorkModeInfo() {
+      try {
+        const res = await this.$http.getMeshMode(undefined, { hideToast: true });
+        this.$store.commit('setMode', res.data.result?.mode || RouterMode.router);
+      } catch {
+        // Keep the mode already loaded by the dashboard when this refresh fails.
+      }
+    },
+    viewRepeater() {
+      this.$router.push({ path: '/advance/mode' });
+    },
     onBack(target) {
       if (target) {
         this.$router.replace({ path: target });
@@ -1127,6 +1175,34 @@ $img_folder: '../../../../../base/src/assets/images';
       left: 0;
       z-index: 5;
     }
+    .repeater-mesh-status {
+      position: absolute;
+      top: 0;
+      right: 0;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      color: #b87900;
+      font-size: 13px;
+      &::before {
+        content: '';
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background-color: #c98200;
+      }
+      .btn {
+        width: 150px;
+        height: 36px;
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+        background: transparent;
+      }
+      &.detail-open {
+        right: 48px;
+      }
+    }
     .content {
       width: 100%;
       height: 100%;
@@ -1518,6 +1594,17 @@ $img_folder: '../../../../../base/src/assets/images';
       .back-wrap {
         position: static;
         padding: 0;
+      }
+      .repeater-mesh-status {
+        position: static;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 8px 0 12px;
+        .btn {
+          width: 110px;
+          flex: 0 0 auto;
+        }
+        &.detail-open { right: auto; }
       }
       .content {
         padding-top: 0;

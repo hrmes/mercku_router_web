@@ -214,7 +214,9 @@ import {
   getStringByte,
   isValidPassword,
   isFieldHasComma,
-  isFieldHasSpaces
+  isFieldHasSpaces,
+  isFieldHasSemicolon,
+  isFieldHasBackslash
 } from 'base/util/util';
 import { EncryptMethod, Bands, ChannelMode } from 'base/util/constant';
 import encryptMix from 'base/mixins/encrypt-methods';
@@ -290,6 +292,14 @@ export default {
             message: this.$t('trans0452')
           },
           {
+            rule: value => isFieldHasSemicolon(value),
+            message: this.$t('trans1251')
+          },
+          {
+            rule: value => isFieldHasBackslash(value),
+            message: this.$t('trans1252')
+          },
+          {
             rule: value => isValidPassword(value),
             message: this.$t('trans0169')
           }
@@ -328,6 +338,14 @@ export default {
           {
             rule: value => isFieldHasComma(value),
             message: this.$t('trans0452')
+          },
+          {
+            rule: value => isFieldHasSemicolon(value),
+            message: this.$t('trans1251')
+          },
+          {
+            rule: value => isFieldHasBackslash(value),
+            message: this.$t('trans1252')
           },
           {
             rule: value => isValidPassword(value),

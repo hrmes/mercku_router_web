@@ -1237,5 +1237,7 @@
   "trans1242": "Only supports 48V powered devices, not compatible with 24V powered devices.",
   "trans1243": "Active PoE",
   "trans1244": "Please make sure that your PD device complies with the IEEE 802.3af or 802.3at or 802.3bt standards.",
-  "trans1245": "Please make sure that your powered device supports 48V, otherwise it may cause device damage. Are you sure you want to switch the power supply mode to passive PoE?"
+  "trans1245": "Please make sure that your powered device supports 48V, otherwise it may cause device damage. Are you sure you want to switch the power supply mode to passive PoE?",
+  "trans1251": "Password cannot contain semicolons",
+  "trans1252": "Password cannot contain backslashes"
 }

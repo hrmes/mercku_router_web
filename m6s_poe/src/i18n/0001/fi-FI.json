@@ -1237,5 +1237,7 @@
   "trans1242": "Tukee vain 48V-virtalähteitä, ei yhteensopiva 24V-virtalähteiden kanssa.",
   "trans1243": "Aktiivinen PoE",
   "trans1244": "Varmista, että PD-laitteesi vastaa IEEE 802.3af- tai 802.3at- tai 802.3bt-standardeja.",
-  "trans1245": "Varmista, että virtalähteessäsi on tuki 48V:lle, muuten se voi aiheuttaa laitteen vaurioitumisen. Oletko varma, että haluat vaihtaa virtalähteen tilan passiiviseksi PoE:ksi?"
+  "trans1245": "Varmista, että virtalähteessäsi on tuki 48V:lle, muuten se voi aiheuttaa laitteen vaurioitumisen. Oletko varma, että haluat vaihtaa virtalähteen tilan passiiviseksi PoE:ksi?",
+  "trans1251": "Salasanassa ei voi olla puolipisteitä",
+  "trans1252": "Salasanassa ei voi olla kenoviivoja"
 }
