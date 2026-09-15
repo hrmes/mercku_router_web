@@ -25,6 +25,8 @@ axios.defaults.timeout = 60000;
 let interceptorsInstalled = false;
 
 const unifiedMethods = {
+  startMeshApclientScan: createMethod('mesh.apclient.scan'),
+  getMeshApclientScanList: createMethod('mesh.apclient.get'),
   getNewMeshNodeInfo: createMethod('mesh.node.new.info'),
   getMeshWps: createMethod('mesh.wps.get'),
   updateMeshWps: createMethod('mesh.wps.update'),

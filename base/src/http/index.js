@@ -170,6 +170,8 @@ Http.prototype.getKernelLog = function getKernelLog() {
   return axios.get(`/kernel.log?t=${Date.now()}`);
 };
 // 上传镜像
+// timeout 必须关闭（0）：全局 60s 超时会在大固件上传/后端解析完成前
+// 主动断开 xhr（22MB 固件实测 >60s），前端报 "File upload failed"。
 Http.prototype.uploadFirmware = function uploadFirmware(params, callback) {
   const { CancelToken } = axios;
   const source = CancelToken.source();
@@ -177,6 +179,7 @@ Http.prototype.uploadFirmware = function uploadFirmware(params, callback) {
     url: '/firmware_upload',
     method: 'post',
     data: params,
+    timeout: 0,
     cancelToken: source.token,
     headers: { 'Content-Type': 'multipart/form-data' },
     onUploadProgress: progressEvent => {
@@ -192,6 +195,7 @@ Http.prototype.uploadFile = function uploadFile(params, callback) {
     url: '/file_upload',
     method: 'post',
     data: params,
+    timeout: 0,
     cancelToken: source.token,
     headers: { 'Content-Type': 'multipart/form-data' },
     onUploadProgress: progressEvent => {

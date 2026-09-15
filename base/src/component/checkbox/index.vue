@@ -96,11 +96,15 @@ export default {
     }
     &.checked {
       border: none;
-      background-image: var(--checkbox_checked-bgc);
       padding-left: 2.5px;
       position: relative;
       border: 0;
-      background: var(--checkbox-checked-background-color);
+      // 0056 主题用连字符变量；旧主题（0001 等）只定义下划线变量（渐变色），
+      // 必须带 fallback，否则 background 声明失效 → 勾选后框透明"消失"
+      background: var(
+        --checkbox-checked-background-color,
+        var(--checkbox_checked-bgc)
+      );
       &::after {
         content: '\e6be';
         width: 10px;

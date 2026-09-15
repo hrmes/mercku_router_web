@@ -22,17 +22,20 @@ export const toLocaleNumber = (
 ) => {
   // 有时候传入是不是数字，是占位符字符串
   if (typeof number === 'number') {
-    // 这里是采用浏览器自带的intl对象实现的，某些浏览器会存在兼容性问题，暂时停止使用
-    // return i18n.n(number, {
-    //   key: defaultKey,
-    //   locale,
-    //   minimumFractionDigits,
-    //   maximumFractionDigits
-    // });
-    return NumberFormat.call(null, locale, {
-      minimumFractionDigits,
-      maximumFractionDigits
-    }).format(number);
+    const opts = { minimumFractionDigits, maximumFractionDigits };
+    // 优先浏览器原生 Intl。打包产物中 intl polyfill 会被 webpack 打成两份
+    // 实例，locale 数据只注册到其中一份，polyfill 路径在另一份上会抛
+    // "No locale data has been provided for this object yet"（真机 dashboard
+    // 空白事故），故原生成功即返回；polyfill 仅兜底，再失败退回 toFixed。
+    try {
+      return new Intl.NumberFormat(locale, opts).format(number);
+    } catch (err) {
+      try {
+        return NumberFormat.call(null, locale, opts).format(number);
+      } catch (fallbackErr) {
+        return number.toFixed(minimumFractionDigits);
+      }
+    }
   }
   return number;
 };
@@ -46,6 +49,25 @@ export const isFieldHasComma = value => {
 
 export const isFieldHasSpaces = value => {
   if (value.indexOf(' ') > -1) {
+    return false;
+  }
+  return true;
+};
+
+// 分号是 MTK .dat 多 VAP 字段分隔符（AuthMode=WPA2PSK;WPA2PSK;...），
+// 密码含分号会在 datconf/p1905 链路按 VAP 边界错误拆分；与后端
+// mercku-suite sal 层黑名单（space/semicolon/backslash）保持一致。
+export const isFieldHasSemicolon = value => {
+  if (value.indexOf(';') > -1) {
+    return false;
+  }
+  return true;
+};
+
+// 反斜杠会被底座 mercku_wifi_tool 的 `echo -e` 二次解释
+// （\n 变真实换行损坏 .dat、\\ 被折叠），后端 sal 层已入口拒绝。
+export const isFieldHasBackslash = value => {
+  if (value.indexOf('\\') > -1) {
     return false;
   }
   return true;

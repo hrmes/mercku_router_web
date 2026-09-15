@@ -1237,5 +1237,7 @@
   "trans1242": "Podržava samo uređaje napajane s 48V, nije kompatibilan s uređajima napajanim s 24V.",
   "trans1243": "Aktivni PoE",
   "trans1244": "Molimo vas da se uvjerite da vaš uređaj PD zadovoljava standarde IEEE 802.3af ili 802.3at ili 802.3bt.",
-  "trans1245": "Molimo vas da se uvjerite da vaš napajani uređaj podržava 48V, inače bi moglo doći do oštećenja uređaja. Jeste li sigurni da želite prebaciti na pasivni PoE način napajanja?"
+  "trans1245": "Molimo vas da se uvjerite da vaš napajani uređaj podržava 48V, inače bi moglo doći do oštećenja uređaja. Jeste li sigurni da želite prebaciti na pasivni PoE način napajanja?",
+  "trans1251": "Lozinka ne može sadržavati točku sa zarezom",
+  "trans1252": "Lozinka ne može sadržavati obrnutu kosu crtu"
 }

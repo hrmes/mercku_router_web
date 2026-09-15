@@ -11,7 +11,12 @@ describe('offline-api-middleware fixtures', () => {
   });
 
   it('returns router mode for post-login bootstrap', () => {
-    expect(getMockResult('mesh.mode.get')).to.deep.equal({ mode: 'router' });
+    // fixture 增强后 mesh.mode.get 返回完整模式状态（离线预览模式切换用）
+    expect(getMockResult('mesh.mode.get')).to.deep.equal({
+      mode: 'router',
+      mesh_enabled: true,
+      apclient: null,
+    });
   });
 
   it('provides both Wi-Fi bands for the WLAN page', () => {

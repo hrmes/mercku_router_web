@@ -1242,5 +1242,7 @@
   "trans1247": "Utilisez le WAN (RJ45) pour accéder à Internet",
   "trans1248": "Utiliser SFP pour accéder à Internet",
   "trans1249": "Après avoir terminé la configuration initiale, veuillez vous reconnecter avec le SSID Wi-Fi nouvellement défini pour vous assurer que l'appareil est ajouté avec succès.",
-  "trans1250": "Lorsque vous utilisez SFP pour accéder à Internet, le port WAN deviendra un port LAN"
+  "trans1250": "Lorsque vous utilisez SFP pour accéder à Internet, le port WAN deviendra un port LAN",
+  "trans1251": "Le mot de passe ne peut pas contenir de points-virgules",
+  "trans1252": "Le mot de passe ne peut pas contenir de barres obliques inversées"
 }

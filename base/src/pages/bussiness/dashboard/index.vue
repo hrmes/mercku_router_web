@@ -83,16 +83,17 @@
           </span>
         </div>
       </div>
-        <div class="internet inner">
+      <div class="internet inner"
+           :class="{'wireless-repeater':isWirelessBridge}">
           <div class="card"
                data-e2e="dashboard-internet-card"
-               @click="forward2page('/dashboard/internet')">
+               @click="openInternetCard">
           <div class="row-1">
             <h2 class="main-text">{{$t('trans0366')}}</h2>
-            <h6 class="sub-text internet-type">{{networkTypeArr[netInfo.type]}}</h6>
+            <h6 class="sub-text internet-type">{{internetSummary}}</h6>
           </div>
           <div class="row-2">
-            <div v-if="isRouter"
+            <div v-if="isRouter || isWirelessBridge"
                  class="speed">
               <div class="speed-info upload">
                 <div class="speed-icon-wrap">
@@ -119,7 +120,12 @@
                 </div>
               </div>
             </div>
-            <div v-else
+            <div v-if="isWirelessBridge"
+                 class="uplink-summary">
+              <span>{{repeaterText('uplinkWifi')}}</span>
+              <strong>{{uplinkAp.ssid || '-'}}</strong>
+            </div>
+            <div v-else-if="!isRouter"
                  class="bridge-mode-tip">
               <img v-if="!isMobile"
                    :src="require('base/assets/images/common/img_bridge.png')" />
@@ -129,31 +135,35 @@
         </div>
       </div>
       <div class="functional"
+           :class="{'mesh-disabled':isWirelessBridge}"
            data-e2e="dashboard-functional-panel">
         <div class="row-1">
           <div class="mesh-name"
                :title="meshGatewayInfo.name">
-            {{meshGatewayInfo.name?meshGatewayInfo.name:'-'}}
+            {{meshDisplayName}}
           </div>
           <span class="btn-icon"
                 :class="{disabled:!meshGatewayInfo.name, close:!meshGatewayInfo.name}"
-                v-if="!isMobile"
+                v-if="!isMobile && !isWirelessBridge"
                 @click.stop="editMesh(meshGatewayInfo)">
             <i class="iconfont ic_edit"></i>
             <span class="icon-hover-popover">{{$t('trans0034')}}</span>
           </span>
         </div>
-        <div class="row-2">
+        <div v-if="!isWirelessBridge"
+             class="row-2">
           <div class="model">{{productName}}</div>
           <div class="gateway">{{$t('trans0153')}}</div>
         </div>
         <div class="row-3">
           <button class="btn"
                   data-e2e="dashboard-mesh-action"
-                  @click="forward2page('/dashboard/mesh')">
+                  @click="openMeshPage">
             <i class="iconfont icon-ic_devices_mesh_normal"></i>
             Mesh
           </button>
+          <small v-if="isWirelessBridge"
+                 class="mesh-disabled-note">{{repeaterText('meshDisabled')}}</small>
         </div>
       </div>
     </div>
@@ -233,6 +243,19 @@ import { compareVersion, formatDate } from 'base/util/util';
 import meshEditMixin from 'base/mixins/mesh-edit';
 import { resolveUiBranding } from 'base/runtime/ui-context';
 
+const REPEATER_COPY = {
+  'zh-CN': {
+    internetStatus: '无线中继 · 已连接',
+    uplinkWifi: '上级 Wi-Fi',
+    meshDisabled: 'Mesh 已关闭'
+  },
+  'en-US': {
+    internetStatus: 'Wireless repeater · Connected',
+    uplinkWifi: 'Uplink Wi-Fi',
+    meshDisabled: 'Mesh disabled'
+  }
+};
+
 
 export default {
   mixins: [meshEditMixin],
@@ -247,6 +270,7 @@ export default {
       deviceCountTimer: null,
       wanInfoTimer: null,
       wanNetStatsTimer: null,
+      uplinkAp: {},
       tipsModalVisible: false,
       localDeviceInfo: {
         name: this.$t('trans0278'),
@@ -339,6 +363,17 @@ export default {
     isRouter() {
       return RouterMode.router === this.$store.state.mode;
     },
+    isWirelessBridge() {
+      return RouterMode.wirelessBridge === this.$store.state.mode;
+    },
+    internetSummary() {
+      if (this.isWirelessBridge) return this.repeaterText('internetStatus');
+      return this.networkTypeArr[this.netInfo.type];
+    },
+    meshDisplayName() {
+      if (this.isWirelessBridge) return this.meshGatewayInfo.name || this.productName;
+      return this.meshGatewayInfo.name || '-';
+    },
     tips() {
       return marked(this.$t('trans0574'), { sanitize: true });
     },
@@ -356,6 +391,7 @@ export default {
     }
   },
   mounted() {
+    this.getWorkModeInfo();
     this.getWanNetInfo();
     this.createIntercvalTask();
     this.getWanStatus();
@@ -363,8 +399,8 @@ export default {
     this.getMeshInfo();
   },
   watch: {
-    '$store.mode': function watcher() {
-      console.log(`watch task...mode is:${this.$store.mode}`);
+    '$store.state.mode': function watcher() {
+      console.log(`watch task...mode is:${this.$store.state.mode}`);
       this.clearIntervalTask();
       this.createIntercvalTask();
     },
@@ -387,6 +423,33 @@ export default {
     });
   },
   methods: {
+    repeaterText(key) {
+      const locale = REPEATER_COPY[this.$i18n.locale]
+        ? this.$i18n.locale
+        : 'en-US';
+      return REPEATER_COPY[locale][key];
+    },
+    async getWorkModeInfo() {
+      try {
+        const res = await this.$http.getMeshMode(undefined, { hideToast: true });
+        const result = res.data.result || {};
+        const mode = result.mode || RouterMode.router;
+        this.$store.commit('setMode', mode);
+        this.uplinkAp = mode === RouterMode.wirelessBridge
+          ? (result.apclient || {})
+          : {};
+      } catch (error) {
+        console.error('Error fetching work mode:', error);
+      }
+    },
+    openInternetCard() {
+      this.forward2page(
+        this.isWirelessBridge ? '/advance/mode' : '/dashboard/internet'
+      );
+    },
+    openMeshPage() {
+      this.forward2page('/dashboard/mesh');
+    },
     async checkFirmwareLatest() {
       try {
         const res = await this.$http.firmwareList(undefined, {
@@ -440,7 +503,7 @@ export default {
     createIntercvalTask() {
       console.log(`createInterval task...mode is:${this.$store.state.mode}`);
       this.getDeviceCount();
-      if (this.isRouter) {
+      if (this.isRouter || this.isWirelessBridge) {
         this.getWanNetStats();
       }
     },
@@ -1364,6 +1427,78 @@ $img_folder: '../../../../../base/src/assets/images';
         padding: 0 0 0 8px;
       }
     }
+  }
+}
+.internet.wireless-repeater {
+  .card { grid-template-rows: 50px minmax(0, 1fr); }
+  .row-2 {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+  .speed {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 0;
+  }
+  .speed-info {
+    &.upload { padding-bottom: 2%; }
+    &.download { padding-top: 2%; }
+  }
+  .uplink-summary {
+    flex: 0 0 auto;
+    margin: 0 8%;
+    padding: 10px 0 2px;
+    border-top: 1px solid var(--common_sub_card-bgc);
+    span {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--text_subtitle-color);
+      font-size: 12px;
+    }
+    strong {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+}
+.functional.mesh-disabled {
+  .row-3 {
+    position: relative;
+    .btn {
+      flex: 0 0 auto;
+      width: 240px;
+      height: 48px;
+      border: none;
+      color: #fff;
+      background: #b7bbc2;
+      background-image: none;
+      box-shadow: none;
+      cursor: pointer;
+      opacity: 1;
+    }
+  }
+  .mesh-disabled-note {
+    position: absolute;
+    top: calc(50% + 32px);
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    color: #ff8a00;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+}
+@media screen and (max-width: 768px) {
+  .internet.wireless-repeater {
+    .speed { height: auto; }
+    .uplink-summary { margin: 12px 0 0; }
+  }
+  .functional.mesh-disabled .row-3 .btn {
+    width: 50%;
+    height: 44px;
   }
 }
 </style>

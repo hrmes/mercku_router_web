@@ -46,7 +46,19 @@ module.exports = {
       // base/style/customer/0001/theme.scss. Inject it at the top of every
       // SCSS file so mocha-webpack can compile .vue style blocks.
       sass: {
-        data: `@import "~base/style/customer/0001/theme.scss";`,
+        // 关闭 webpackImporter：sass-loader 7.3.1 的 webpackImporter 与本机
+        // dart-sass 1.32 不兼容 —— dart-sass 会把绝对路径 canonicalize 成
+        // `file:///F:/...` 再交给 importer，webpack importer 解析不了该 URL，
+        // 回退值同样加载失败，报 "Can't find stylesheet to import"，导致所有
+        // 含 .vue 样式块的单测编译失败。仓库内（src/**/*.vue、**/*.scss）没有任何
+        // `~pkg` 形式的导入，关闭后由 dart-sass 原生解析。
+        webpackImporter: false,
+        // 不在 @import 里写绝对路径：dart-sass 1.32 会把 `F:/...` 的盘符
+        // 当成 URL scheme 处理，无论走 webpack importer 还是自身解析都报
+        // "Can't find stylesheet to import"。改为把 theme.scss 所在目录放进
+        // includePaths（dart-sass 原生解析，纯文件系统路径），再按文件名导入。
+        includePaths: [path.resolve(__dirname, 'base/src/style/customer/0001')],
+        data: `@import "theme.scss";`,
       },
     },
   },

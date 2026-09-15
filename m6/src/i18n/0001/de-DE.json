@@ -1238,5 +1238,7 @@
   "trans1243": "Aktives PoE",
   "trans1244": "Bitte stellen Sie sicher, dass Ihr PD-Gerät den IEEE 802.3af- oder 802.3at- oder 802.3bt-Standards entspricht.",
   "trans1245": "Bitte stellen Sie sicher, dass Ihr Stromversorgungsgerät 48V unterstützt, da sonst möglicherweise Geräteschäden auftreten können. Sind Sie sicher, dass Sie den Stromversorgungsmodus auf passives PoE umschalten möchten?",
-  "trans1246": "Deaktivieren"
+  "trans1246": "Deaktivieren",
+  "trans1251": "Das Passwort darf keine Semikolons enthalten",
+  "trans1252": "Das Passwort darf keine umgekehrten Schrägstriche enthalten"
 }
