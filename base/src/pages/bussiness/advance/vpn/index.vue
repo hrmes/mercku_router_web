@@ -63,7 +63,7 @@
               <div class="protocol">
                 <label class="m-title with-colon"
                        v-if="isMobile">{{$t('trans0408')}}:</label>
-                {{vpn.protocol}}
+                {{vpn.protocolText}}
               </div>
               <div class="operator">
                 <span class="limit-icon"
@@ -347,16 +347,16 @@ export default {
               // );
               // }
             }
-            // 处理vpn protocol文本显示
+            // 处理vpn protocol文本显示；protocol 保留原始 ID 供编辑/提交。
             switch (v.protocol) {
               case VPNType.wireguard:
-                v.protocol = this.$t('trans1172');
+                v.protocolText = this.$t('trans1172');
                 break;
               case VPNType.openvpn:
-                v.protocol = this.$t('trans0676');
+                v.protocolText = this.$t('trans0676');
                 break;
               default:
-                v.protocol = v.protocol?.toUpperCase();
+                v.protocolText = v.protocol?.toUpperCase();
                 break;
             }
 

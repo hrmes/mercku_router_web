@@ -15,6 +15,7 @@
           <m-form-item prop='protocol'>
             <m-select :label="$t('trans0408')"
                       v-model="form.protocol"
+                      :disabled="isEdit"
                       :options="protocolsList"></m-select>
           </m-form-item>
           <div v-if="form.protocol.toLowerCase() === VPNType.openvpn">
@@ -61,7 +62,7 @@
                            prop='password'>
                 <m-input :label="$t('trans0003')"
                          type='password'
-                         :placeholder="`${$t('trans0321')}`"
+                         :placeholder="passwordConfigured ? '••••••••' : `${$t('trans0321')}`"
                          v-model="form.password"></m-input>
               </m-form-item>
             </div>
@@ -70,10 +71,10 @@
             <div class="interface__wrapper">
               <m-form-item key="privateKey"
                            prop="wireguard.interface.private_key"
-                           :rules="wireguardRules.key">
+                           :rules="privateKeyRules.length ? privateKeyRules : wireguardRules.key">
                 <m-input :label="$t('trans1177')"
                          type="text"
-                         :placeholder="$t('trans0321')"
+                         :placeholder="privateKeyConfigured ? '••••••••' : $t('trans0321')"
                          v-model="form.wireguard.interface.private_key" />
               </m-form-item>
               <m-form-item key="addresses"
@@ -111,7 +112,7 @@
                              :rules="wireguardRules.preshared_key">
                   <m-input :label="$t('trans1166')"
                            type="text"
-                           :placeholder="$t('trans0321')"
+                           :placeholder="peer.preshared_key_set ? '••••••••' : $t('trans0321')"
                            v-model="peer.preshared_key" />
                 </m-form-item>
                 <m-form-item key="public_key"
@@ -188,7 +189,7 @@
                          prop='password'>
               <m-input :label="`${$t('trans0003')} ${$t('trans0411')}`"
                        type='password'
-                       :placeholder="`${$t('trans0321')}`"
+                       :placeholder="passwordConfigured ? '••••••••' : `${$t('trans0321')}`"
                        v-model="form.password"></m-input>
             </m-form-item>
             <div class="opz-info"
@@ -279,7 +280,7 @@ export default {
       openvpnForm: {
         advance: false,
         configFile: null,
-        configUrl: '',
+        uploadToken: '',
         fileAccept: 'ovpn'
       },
       rules: {
@@ -326,7 +327,10 @@ export default {
         ]
       },
       formParams: null,
-      isEmptyFile: false
+      isEmptyFile: false,
+      passwordConfigured: false,
+      privateKeyConfigured: false,
+      privateKeyRules: []
     };
   },
   mounted() {
@@ -338,18 +342,20 @@ export default {
           name: vpn.name,
           protocol: vpn.protocol.toLowerCase()
         };
+        this.passwordConfigured = vpn.password_set === true;
         if (vpn.protocol?.toLowerCase() === VPNType.openvpn) {
-          this.form.url = vpn.openvpn.url;
-          this.form.username = vpn.username;
-          this.form.password = vpn.password;
-          this.openvpnForm.advance = !!(vpn.password || vpn.username);
-          this.openvpnForm.configFile = {
-            update: true
-          };
+          // The suite GET never returns the auth file path or password. The
+          // existing file is preserved when no new upload token is submitted.
+          this.form.username = vpn.username || '';
+          this.form.password = '';
+          this.openvpnForm.advance = !!(vpn.username || this.passwordConfigured);
+          this.openvpnForm.configFile = vpn.openvpn?.config_present === true
+            ? { update: true }
+            : null;
         } else if (vpn.protocol?.toLowerCase() === VPNType.wireguard) {
-          // Suite `mesh.vpn.get` intentionally omits secrets (private/preshared
-          // keys, credentials). Do not crash on the safe DTO; the edit form
-          // simply starts with blank secret fields.
+          // Suite `mesh.vpn.get` returns non-secret interface/peers plus
+          // `private_key_set` / `preshared_key_set`; secrets stay blank and
+          // are preserved when the user does not enter a replacement.
           const sourceWireguard = vpn.wireguard && typeof vpn.wireguard === 'object'
             ? vpn.wireguard
             : {};
@@ -361,23 +367,33 @@ export default {
           const sourcePeers = Array.isArray(originalWireguard.peers)
             ? originalWireguard.peers
             : [];
+          this.privateKeyConfigured = sourceInterface.private_key_set === true;
+          this.privateKeyRules = [
+            {
+              rule: value => (value === '' && this.privateKeyConfigured) ||
+                (!/^\s*$/g.test(value) && getStringByte(value) === 44),
+              message: this.$t('trans1209')
+            }
+          ];
           const modifiedWireguard = {
             ...originalWireguard,
             interface: {
               ...sourceInterface,
+              private_key: '',
               listen_port: sourceInterface.listen_port || '',
               mtu: sourceInterface.mtu || ''
             },
             peers: sourcePeers.map(peer => ({
               ...peer,
+              preshared_key: '',
               endpoint_port: peer.endpoint_port || ''
             }))
           };
           this.form.wireguard = modifiedWireguard;
         } else {
-          this.form.server = vpn.server;
-          this.form.username = vpn.username;
-          this.form.password = vpn.password;
+          this.form.server = vpn.server || '';
+          this.form.username = vpn.username || '';
+          this.form.password = '';
           if (vpn.protocol?.toLowerCase() === VPNType.pptp) {
             this.pptp = {
               mppe: vpn.pptp?.mppe === true,
@@ -423,7 +439,7 @@ export default {
       const formData = new FormData();
       formData.append('type', 'openvpn');
       formData.append('file', this.openvpnForm.configFile);
-      return this.$http.uploadFile(formData, () => { });
+      return this.$http.uploadFile(formData, () => { }, '/vpn_upload');
     },
     updateFormParams() {
       this.form.name = this.form.name.trim();
@@ -434,25 +450,26 @@ export default {
       };
       if (this.form.protocol === VPNType.openvpn) {
         if (this.openvpnForm.advance) {
-          params.username = this.form.username;
-          params.password = this.form.password;
+          if (this.form.username) params.username = this.form.username;
+          // Blank password means keep the stored credential.
+          if (this.form.password) params.password = this.form.password;
         }
-        if (!this.openvpnForm.configFile.update) {
-          params.openvpn = {
-            url: this.openvpnForm.configUrl
-          };
-        } else {
-          params.openvpn = {
-            url: this.form.url
-          };
+        // Existing config is preserved when no replacement token is provided.
+        if (!this.openvpnForm.configFile || !this.openvpnForm.configFile.update) {
+          params.openvpn = { upload_token: this.openvpnForm.uploadToken };
         }
       } else if (this.form.protocol === VPNType.wireguard) {
         params = JSON.parse(JSON.stringify(this.form));
         params = this.deepClean(params);
+        // GET-only presence flags are not part of the write contract.
+        if (params.wireguard?.interface) delete params.wireguard.interface.private_key_set;
+        if (Array.isArray(params.wireguard?.peers)) {
+          params.wireguard.peers.forEach(peer => { delete peer.preshared_key_set; });
+        }
       } else {
         params.server = this.form.server;
         params.username = this.form.username;
-        params.password = this.form.password;
+        if (this.form.password) params.password = this.form.password;
         if (this.form.protocol === VPNType.pptp) {
           params.pptp = this.pptp;
         }
@@ -486,11 +503,12 @@ export default {
         this.updateFormParams();
         this.$loading.open();
         if (this.formParams.protocol === VPNType.openvpn) {
-          if (!this.openvpnForm.configFile.update) {
+          if (!this.openvpnForm.configFile || !this.openvpnForm.configFile.update) {
             this.upload()
               .then(res => {
-                this.openvpnForm.configUrl = res.data.result.url;
-                this.formParams.openvpn.url = res.data.result.url;
+                // Server-owned staging token; no client filesystem path.
+                this.openvpnForm.uploadToken = res.data.result.token;
+                this.formParams.openvpn = { upload_token: this.openvpnForm.uploadToken };
                 this.submitForm(fetchMethod);
               })
               .catch(() => {

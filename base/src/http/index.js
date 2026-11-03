@@ -188,11 +188,11 @@ Http.prototype.uploadFirmware = function uploadFirmware(params, callback) {
   });
 };
 // 上传文件
-Http.prototype.uploadFile = function uploadFile(params, callback) {
+Http.prototype.uploadFile = function uploadFile(params, callback, url = '/file_upload') {
   const { CancelToken } = axios;
   const source = CancelToken.source();
   return axios({
-    url: '/file_upload',
+    url,
     method: 'post',
     data: params,
     timeout: 0,
