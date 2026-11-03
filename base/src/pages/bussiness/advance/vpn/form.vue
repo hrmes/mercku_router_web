@@ -347,15 +347,28 @@ export default {
             update: true
           };
         } else if (vpn.protocol?.toLowerCase() === VPNType.wireguard) {
-          const originalWireguard = JSON.parse(JSON.stringify(vpn.wireguard));
+          // Suite `mesh.vpn.get` intentionally omits secrets (private/preshared
+          // keys, credentials). Do not crash on the safe DTO; the edit form
+          // simply starts with blank secret fields.
+          const sourceWireguard = vpn.wireguard && typeof vpn.wireguard === 'object'
+            ? vpn.wireguard
+            : {};
+          const originalWireguard = JSON.parse(JSON.stringify(sourceWireguard));
+          const sourceInterface = originalWireguard.interface &&
+            typeof originalWireguard.interface === 'object'
+            ? originalWireguard.interface
+            : {};
+          const sourcePeers = Array.isArray(originalWireguard.peers)
+            ? originalWireguard.peers
+            : [];
           const modifiedWireguard = {
             ...originalWireguard,
             interface: {
-              ...originalWireguard.interface,
-              listen_port: originalWireguard.interface.listen_port || '',
-              mtu: originalWireguard.interface.mtu || ''
+              ...sourceInterface,
+              listen_port: sourceInterface.listen_port || '',
+              mtu: sourceInterface.mtu || ''
             },
-            peers: originalWireguard.peers.map(peer => ({
+            peers: sourcePeers.map(peer => ({
               ...peer,
               endpoint_port: peer.endpoint_port || ''
             }))
@@ -367,8 +380,8 @@ export default {
           this.form.password = vpn.password;
           if (vpn.protocol?.toLowerCase() === VPNType.pptp) {
             this.pptp = {
-              mppe: vpn.pptp.mppe,
-              mppc: vpn.pptp.mppc
+              mppe: vpn.pptp?.mppe === true,
+              mppc: vpn.pptp?.mppc === true
             };
           }
         }
