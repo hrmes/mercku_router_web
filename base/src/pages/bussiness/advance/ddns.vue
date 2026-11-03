@@ -37,7 +37,7 @@
                 <m-input :label="$t('trans0003')"
                          data-e2e="ddns-password-input"
                          type="password"
-                         :placeholder="`${$t('trans0321')}`"
+                         :placeholder="passwordConfigured ? '••••••••' : `${$t('trans0321')}`"
                          v-model="ddns.password"></m-input>
               </m-form-item>
               <m-form-item class="last">
@@ -74,6 +74,7 @@ export default {
         service: 'dyndns',
         enabled: true
       },
+      passwordConfigured: false,
       services: [
         {
           text: this.$t('trans0437'),
@@ -107,11 +108,13 @@ export default {
         ],
         password: [
           {
-            rule: value => value,
+            // Blank keeps the stored credential; only a new provider/account
+            // without any stored password requires input.
+            rule: value => !!value || this.passwordConfigured,
             message: this.$t('trans0232')
           },
           {
-            rule: value => isValidPassword(value, 1, 64),
+            rule: value => !value || isValidPassword(value, 1, 64),
             message: this.$t('trans0125').format(1, 64)
           }
         ]
@@ -128,7 +131,17 @@ export default {
         .getDDNS()
         .then(res => {
           this.$loading.close();
-          this.ddns = res.data.result;
+          const result = res.data.result || {};
+          this.ddns = {
+            enabled: result.enabled === true,
+            service: result.service || 'dyndns',
+            domain: result.domain || '',
+            username: result.username || '',
+            // The Suite GET never returns the stored password. Blank means
+            // "keep the existing credential" on submit.
+            password: ''
+          };
+          this.passwordConfigured = result.password_set === true;
         })
         .catch(() => {
           this.$loading.close();
@@ -136,9 +149,17 @@ export default {
     },
     submit() {
       if (this.$refs.form.validate()) {
+        const params = {
+          enabled: this.ddns.enabled,
+          service: this.ddns.service,
+          domain: this.ddns.domain,
+          username: this.ddns.username
+        };
+        // Blank = preserve the stored password. A non-empty value replaces it.
+        if (this.ddns.password) params.password = this.ddns.password;
         this.$loading.open();
         this.$http
-          .updateDDNS(this.ddns)
+          .updateDDNS(params)
           .then(() => {
             this.$loading.close();
             this.$toast(this.$t('trans0040'), 2000, 'success');
