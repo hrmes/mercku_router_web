@@ -475,10 +475,13 @@ export default {
       );
     },
     getWanNetInfo() {
+      // A pending/failed refresh must not authorize a save with stale VLANs.
+      this.netInfo = {};
       this.$loading.open();
-      this.$http
+      return this.$http
         .getWanNetInfo()
         .then(res => {
+          if (!Array.isArray(res.data?.result?.vlan)) throw new Error('WAN configuration unavailable');
           if (res.data.result) {
             this.netInfo = res.data.result;
             this.netType = this.netInfo.type;
@@ -511,6 +514,10 @@ export default {
             }
           }
         })
+        .catch(() => {
+          this.netInfo = {};
+          this.$toast(this.$t('trans0688'));
+        })
         .finally(() => {
           this.$loading.close();
         });
@@ -538,7 +545,13 @@ export default {
       });
     },
     submit() {
-      const form = { type: this.netType, vlan: [] };
+      if (!Array.isArray(this.netInfo.vlan)) {
+        this.$toast(this.$t('trans0688'));
+        return;
+      }
+      // This page does not edit VLANs. Return the loaded table intact;
+      // explicit [] still means the router really has no configured VLANs.
+      const form = { type: this.netType, vlan: JSON.parse(JSON.stringify(this.netInfo.vlan)) };
 
       switch (this.netType) {
         case WanType.dhcp:

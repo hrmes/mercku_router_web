@@ -19,10 +19,12 @@
                       :options="protocolsList"></m-select>
           </m-form-item>
           <div v-if="form.protocol.toLowerCase() === VPNType.openvpn">
+            <p v-if="unsupportedOpenvpnConfig" class="config-uploader__tip--error">{{$t('trans0688')}}</p>
             <div class="config-uploader">
               <div class="config-uploader__label">{{$t('trans0673')}}</div>
               <div class="config-uploader__inner">
                 <button @click="triggerFileInput"
+                        :disabled="unsupportedOpenvpnConfig"
                         class="config-uploader__button">
                   <span>{{ openvpnForm.configFile ? $t('trans0675') : $t('trans0006') }}</span>
                   <input type="file"
@@ -213,6 +215,7 @@
           <button class="btn btn-middle btn-default"
                   @click="closeForm">{{$t('trans0025')}}</button>
           <button class="btn btn-middle"
+                  :disabled="form.protocol === VPNType.openvpn && unsupportedOpenvpnConfig"
                   @click="submit()">{{$t('trans0081')}}</button>
         </div>
       </div>
@@ -339,6 +342,7 @@ export default {
       },
       formParams: null,
       isEmptyFile: false,
+      unsupportedOpenvpnConfig: false,
       passwordConfigured: false,
       // Legacy GETs return the real password; Suite-only `password_set` does
       // not. Track which one this edit received so a blank submit is blocked
@@ -360,9 +364,9 @@ export default {
         this.passwordConfigured = vpn.password_set === true;
         this.passwordAvailable = typeof vpn.password === 'string' && vpn.password !== '';
         if (vpn.protocol?.toLowerCase() === VPNType.openvpn) {
-          // Legacy wire returns the stored password; Suite returns
-          // `password_set`. Preserve the existing file when no new upload token
-          // is submitted.
+          // Only the proven config_present/token contract is editable here.
+          // A legacy url is a file path, never a trusted upload token.
+          this.unsupportedOpenvpnConfig = typeof vpn.openvpn?.config_present !== 'boolean';
           this.form.username = vpn.username || '';
           this.form.password = this.passwordAvailable ? vpn.password : '';
           this.openvpnForm.advance = !!(vpn.username || this.passwordAvailable || this.passwordConfigured);
@@ -445,9 +449,11 @@ export default {
   },
   methods: {
     triggerFileInput() {
+      if (this.unsupportedOpenvpnConfig) return;
       this.$refs.uploadInput.click();
     },
     onFileChange(ev) {
+      if (this.unsupportedOpenvpnConfig) return;
       const { files } = ev.target;
       if (files && !files.length) return;
       this.isEmptyFile = false;
@@ -511,6 +517,17 @@ export default {
     },
     submit() {
       if (this.form.protocol === VPNType.openvpn) {
+        if (this.unsupportedOpenvpnConfig) {
+          this.$toast(this.$t('trans0688'));
+          return;
+        }
+        // Hidden m-form fields are not validated. Guard before validation or
+        // upload: old non-WG UPDATE deletes a password when it is omitted.
+        if (this.isEdit && (this.passwordConfigured || this.passwordAvailable) &&
+            (!this.openvpnForm.advance || !this.form.password)) {
+          this.$toast(this.$t('trans0232'));
+          return;
+        }
         if (!this.openvpnForm.configFile) {
           this.isEmptyFile = true;
           return;
@@ -529,7 +546,11 @@ export default {
             this.upload()
               .then(res => {
                 // Server-owned staging token; no client filesystem path.
-                this.openvpnForm.uploadToken = res.data.result.token;
+                const token = res.data?.result?.token;
+                if (typeof token !== 'string' || !/^[0-9a-fA-F-]{10,64}$/.test(token)) {
+                  throw new Error('OpenVPN upload unavailable');
+                }
+                this.openvpnForm.uploadToken = token;
                 this.formParams.openvpn = { upload_token: this.openvpnForm.uploadToken };
                 this.submitForm(fetchMethod);
               })
