@@ -516,7 +516,6 @@ export default {
         });
     },
     save(params) {
-      console.log(params);
       this.$dialog.confirm({
         okText: this.$t('trans0024'),
         cancelText: this.$t('trans0025'),

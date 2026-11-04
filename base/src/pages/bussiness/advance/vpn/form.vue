@@ -317,11 +317,22 @@ export default {
         password: [
           {
             rule: value => {
-              if (!value) {
-                return true;
+              if (value) return true;
+              // ADD keeps its existing optional-password rule. On EDIT an empty
+              // field may only be sent when the GET proved there is no stored
+              // credential to lose (old Gen1 deletes the stored password when
+              // the update omits it). OpenVPN follows its auth mode instead of
+              // the PPTP/L2TP required-password rule.
+              if (!this.isEdit) return true;
+              if (this.form.protocol === VPNType.openvpn) {
+                return !this.passwordConfigured && !this.passwordAvailable;
               }
-              return isValidPassword(value, 1, 64);
+              return false;
             },
+            message: this.$t('trans0232')
+          },
+          {
+            rule: value => !value || isValidPassword(value, 1, 64),
             message: this.$t('trans0125').format(1, 64)
           }
         ]
@@ -329,6 +340,10 @@ export default {
       formParams: null,
       isEmptyFile: false,
       passwordConfigured: false,
+      // Legacy GETs return the real password; Suite-only `password_set` does
+      // not. Track which one this edit received so a blank submit is blocked
+      // only when a stored credential could be lost.
+      passwordAvailable: false,
       privateKeyConfigured: false,
       privateKeyRules: []
     };
@@ -343,12 +358,14 @@ export default {
           protocol: vpn.protocol.toLowerCase()
         };
         this.passwordConfigured = vpn.password_set === true;
+        this.passwordAvailable = typeof vpn.password === 'string' && vpn.password !== '';
         if (vpn.protocol?.toLowerCase() === VPNType.openvpn) {
-          // The suite GET never returns the auth file path or password. The
-          // existing file is preserved when no new upload token is submitted.
+          // Legacy wire returns the stored password; Suite returns
+          // `password_set`. Preserve the existing file when no new upload token
+          // is submitted.
           this.form.username = vpn.username || '';
-          this.form.password = '';
-          this.openvpnForm.advance = !!(vpn.username || this.passwordConfigured);
+          this.form.password = this.passwordAvailable ? vpn.password : '';
+          this.openvpnForm.advance = !!(vpn.username || this.passwordAvailable || this.passwordConfigured);
           this.openvpnForm.configFile = vpn.openvpn?.config_present === true
             ? { update: true }
             : null;
@@ -393,7 +410,9 @@ export default {
         } else {
           this.form.server = vpn.server || '';
           this.form.username = vpn.username || '';
-          this.form.password = '';
+          // Legacy PPTP/L2TP edit must submit the real stored password back;
+          // omitting it makes Gen1 clear the credential.
+          this.form.password = this.passwordAvailable ? vpn.password : '';
           if (vpn.protocol?.toLowerCase() === VPNType.pptp) {
             this.pptp = {
               mppe: vpn.pptp?.mppe === true,
@@ -451,8 +470,9 @@ export default {
       if (this.form.protocol === VPNType.openvpn) {
         if (this.openvpnForm.advance) {
           if (this.form.username) params.username = this.form.username;
-          // Blank password means keep the stored credential.
-          if (this.form.password) params.password = this.form.password;
+          // Always send the real value on edit (GET-returned or newly typed);
+          // validation rejects a blank edit that could delete the credential.
+          if (this.isEdit || this.form.password) params.password = this.form.password;
         }
         // Existing config is preserved when no replacement token is provided.
         if (!this.openvpnForm.configFile || !this.openvpnForm.configFile.update) {
@@ -469,7 +489,9 @@ export default {
       } else {
         params.server = this.form.server;
         params.username = this.form.username;
-        if (this.form.password) params.password = this.form.password;
+        // PPTP/L2TP edit must carry the real password explicitly; ADD keeps
+        // the old optional-password shape.
+        if (this.isEdit || this.form.password) params.password = this.form.password;
         if (this.form.protocol === VPNType.pptp) {
           params.pptp = this.pptp;
         }

@@ -37,7 +37,7 @@
                 <m-input :label="$t('trans0003')"
                          data-e2e="ddns-password-input"
                          type="password"
-                         :placeholder="passwordConfigured ? '••••••••' : `${$t('trans0321')}`"
+                         :placeholder="`${$t('trans0321')}`"
                          v-model="ddns.password"></m-input>
               </m-form-item>
               <m-form-item class="last">
@@ -74,7 +74,6 @@ export default {
         service: 'dyndns',
         enabled: true
       },
-      passwordConfigured: false,
       services: [
         {
           text: this.$t('trans0437'),
@@ -108,13 +107,14 @@ export default {
         ],
         password: [
           {
-            // Blank keeps the stored credential; only a new provider/account
-            // without any stored password requires input.
-            rule: value => !!value || this.passwordConfigured,
+            // Legacy DDNS keeps the password in the form. When the GET cannot
+            // return it, the user must re-enter it: an empty UPDATE is rejected
+            // by Gen1 and may clear the stored credential on other firmware.
+            rule: value => !!value,
             message: this.$t('trans0232')
           },
           {
-            rule: value => !value || isValidPassword(value, 1, 64),
+            rule: value => isValidPassword(value, 1, 64),
             message: this.$t('trans0125').format(1, 64)
           }
         ]
@@ -137,11 +137,11 @@ export default {
             service: result.service || 'dyndns',
             domain: result.domain || '',
             username: result.username || '',
-            // The Suite GET never returns the stored password. Blank means
-            // "keep the existing credential" on submit.
-            password: ''
+            // Legacy wire: the authorized GET returns the stored password and
+            // the edit form submits it back unchanged. If the GET omits the
+            // field, leave it blank and require a new value on submit.
+            password: typeof result.password === 'string' ? result.password : ''
           };
-          this.passwordConfigured = result.password_set === true;
         })
         .catch(() => {
           this.$loading.close();
@@ -149,14 +149,15 @@ export default {
     },
     submit() {
       if (this.$refs.form.validate()) {
+        // Legacy Gen1/CH require the explicit password on every update; the
+        // validated value is either the GET-returned credential or a new one.
         const params = {
           enabled: this.ddns.enabled,
           service: this.ddns.service,
           domain: this.ddns.domain,
-          username: this.ddns.username
+          username: this.ddns.username,
+          password: this.ddns.password
         };
-        // Blank = preserve the stored password. A non-empty value replaces it.
-        if (this.ddns.password) params.password = this.ddns.password;
         this.$loading.open();
         this.$http
           .updateDDNS(params)
