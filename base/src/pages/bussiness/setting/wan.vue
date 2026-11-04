@@ -175,6 +175,7 @@
   </div>
 </template>
 <script>
+import isEqual from 'lodash/isEqual';
 import {
   ipRule,
   isMulticast,
@@ -189,6 +190,37 @@ import {
 
 function checkDNS(value) {
   return ipReg.test(value) && !isMulticast(value) && !isLoopback(value);
+}
+
+// Ordinary WAN edits replace the entire VLAN table on legacy firmware.
+// Validate the loaded wire before granting save authority: Gen1 ignores type
+// on UPDATE and silently skips invalid rows/ports; CH requires names.
+function canPreserveVlans(info) {
+  const knownKeys = (value, keys) => value && typeof value === 'object' &&
+    !Array.isArray(value) && Object.keys(value).every(key => keys.includes(key));
+  const validTable = table => Array.isArray(table) && table.every(row => {
+    if (!knownKeys(row, ['enabled', 'id', 'priority', 'name', 'type', 'is_bridged', 'ports']) ||
+      typeof row.enabled !== 'boolean' || !Number.isInteger(row.id) || row.id <= 0 ||
+      !Number.isInteger(row.priority) || typeof row.is_bridged !== 'boolean' ||
+      (row.name !== undefined && typeof row.name !== 'string') || !Array.isArray(row.ports)) return false;
+    if (row.type === undefined) {
+      // CH has no type; its existing contract always includes a name.
+      if (row.is_bridged || typeof row.name !== 'string') return false;
+    } else if (!['NAT', 'BRIDGE'].includes(row.type) ||
+      row.is_bridged !== (row.type === 'BRIDGE') || row.ports.length === 0) return false;
+    return row.ports.every(item => knownKeys(item, ['port', 'tagged']) &&
+      typeof item.tagged === 'boolean' && knownKeys(item.port, ['id', 'name', 'type']) &&
+      Number.isInteger(item.port.id) && item.port.id >= 0 &&
+      (item.port.name === undefined || typeof item.port.name === 'string') &&
+      (item.port.type === undefined || ['wan', 'lan'].includes(item.port.type)) &&
+      (row.type !== undefined || (item.port.name === 'wan' && item.port.type === 'wan')));
+  });
+  if (!info || !validTable(info.vlan)) return false;
+  // Gen1 GET reads the same store twice. A visible disagreement is not an
+  // authoritative snapshot. Entirely omitted rows have no wire count/error
+  // marker and remain a legacy firmware release HOLD.
+  return info.pppoe?.vlan === undefined ||
+    (validTable(info.pppoe.vlan) && isEqual(info.pppoe.vlan, info.vlan));
 }
 
 export default {
@@ -481,7 +513,7 @@ export default {
       return this.$http
         .getWanNetInfo()
         .then(res => {
-          if (!Array.isArray(res.data?.result?.vlan)) throw new Error('WAN configuration unavailable');
+          if (!canPreserveVlans(res.data?.result)) throw new Error('WAN configuration unavailable');
           if (res.data.result) {
             this.netInfo = res.data.result;
             this.netType = this.netInfo.type;
@@ -545,12 +577,13 @@ export default {
       });
     },
     submit() {
-      if (!Array.isArray(this.netInfo.vlan)) {
+      if (!canPreserveVlans(this.netInfo)) {
         this.$toast(this.$t('trans0688'));
         return;
       }
       // This page does not edit VLANs. Return the loaded table intact;
-      // explicit [] still means the router really has no configured VLANs.
+      // [] retains its existing clear semantics; hidden legacy GET omissions
+      // cannot be detected from the wire and still require DUT verification.
       const form = { type: this.netType, vlan: JSON.parse(JSON.stringify(this.netInfo.vlan)) };
 
       switch (this.netType) {

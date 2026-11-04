@@ -162,3 +162,80 @@ if (process.env.MERCKU_WAN_WEB_INPUT) {
     after(() => fs.writeFileSync(process.env.MERCKU_WAN_WEB_OUTPUT, JSON.stringify(output)));
   });
 }
+
+
+const legacyWan = require('./fixtures/legacy-wan-vlan');
+describe('R1 mounted legacy FAL WAN VLAN boundary', () => {
+  for (const platform of ['mt7621', 'ipq60xx', 'mt7981']) {
+    for (const type of ['dhcp', 'static', 'pppoe']) {
+      for (const count of [0, 1, 2]) it(`${platform}/${type}/${count} source-shaped VLANs survive ordinary save`, async () => {
+        const wire = legacyWan(platform, type, count);
+        const h = await editWan(wire);
+        expect(h.calls.length).to.equal(1);
+        expect(h.calls[0].vlan).to.deep.equal(wire.vlan);
+        // The page intentionally submits the authoritative top-level table.
+        if (type === 'pppoe') {
+          expect(h.calls[0].pppoe.password).to.equal('new-password');
+          expect(h.calls[0].pppoe).not.to.have.property('vlan');
+        }
+      });
+    }
+  }
+  const corruptions = {
+    'HW_NAT cannot roundtrip through is_bridged': w => { w.vlan[0].type = 'HW_NAT'; },
+    'actual Gen1 SAL zero type': w => { w.vlan[0].type = 'UNKNOW'; },
+    'unknown future type': w => { w.vlan[0].type = 'OTHER'; },
+    'type and boolean conflict': w => { w.vlan[0].is_bridged = true; },
+    'missing enabled': w => { delete w.vlan[0].enabled; },
+    'missing id': w => { delete w.vlan[0].id; },
+    'missing priority': w => { delete w.vlan[0].priority; },
+    'missing Gen1 type': w => { delete w.vlan[0].type; delete w.pppoe.vlan[0].type; },
+    'missing is_bridged': w => { delete w.vlan[0].is_bridged; },
+    'missing ports': w => { delete w.vlan[0].ports; },
+    'empty Gen1 ports cause parser row skip': w => { w.vlan[0].ports = []; },
+    'missing port id': w => { delete w.vlan[0].ports[0].port.id; },
+    'missing tagged': w => { delete w.vlan[0].ports[0].tagged; },
+    'nonboolean enabled': w => { w.vlan[0].enabled = 1; },
+    'nonboolean tagged': w => { w.vlan[0].ports[0].tagged = 1; },
+    'noninteger id': w => { w.vlan[0].id = '35'; },
+    'unknown row field': w => { w.vlan[0].vendor_mode = 'private'; },
+    'unknown port field': w => { w.vlan[0].ports[0].pvid = true; },
+    'null row': w => { w.vlan[0] = null; },
+    'nested PPPoE table exposes omitted top-level row': w => { w.vlan.pop(); },
+    'nested PPPoE HW_NAT must not be ignored': w => { w.pppoe.vlan[0].type = 'HW_NAT'; }
+  };
+  Object.entries(corruptions).forEach(([name, corrupt]) => it(`${name}: zero UPDATE`, async () => {
+    const wire = legacyWan('mt7621', 'pppoe'); corrupt(wire);
+    // Most cases must fail row validation, not merely duplicate comparison.
+    if (!name.startsWith('nested')) wire.pppoe.vlan = JSON.parse(JSON.stringify(wire.vlan));
+    const h = mount(wan, { http: { getWanNetInfo: async () => ({ data: { result: wire } }) } }); await flush();
+    h.vm.submit(); await flush(); expect(h.calls).to.deep.equal([]); expect(h.toasts.length).to.be.greaterThan(0);
+  }));
+  it('CH missing name cannot silently truncate a DHCP VLAN table', async () => {
+    const wire = legacyWan('mt7981', 'dhcp'); delete wire.vlan[0].name;
+    const h = mount(wan, { http: { getWanNetInfo: async () => ({ data: { result: wire } }) } }); await flush();
+    h.vm.submit(); await flush(); expect(h.calls).to.deep.equal([]);
+  });
+  it('CH empty ports are a valid old GET/UPDATE contract', async () => {
+    const wire = legacyWan('mt7981', 'dhcp'); wire.vlan[0].ports = [];
+    const h = await editWan(wire); expect(h.calls.length).to.equal(1); expect(h.calls[0].vlan).to.deep.equal(wire.vlan);
+  });
+  it('PPPoE duplicate tables may have different object key order', async () => {
+    const wire = legacyWan('mt7621', 'pppoe');
+    wire.pppoe.vlan = wire.vlan.map(row => Object.fromEntries(Object.entries(row).reverse()));
+    const h = await editWan(wire); expect(h.calls.length).to.equal(1);
+  });
+});
+
+// Exercise the guard independently of PPPoE duplicate-table checks.
+describe('R1 unsafe VLANs across ordinary WAN protocols', () => {
+  for (const type of ['dhcp', 'static', 'pppoe']) {
+    for (const enabled of [true, false]) it(`${type} rejects ${enabled ? 'enabled' : 'disabled'} HW_NAT even after a valid GET`, async () => {
+      let wire = legacyWan('ipq60xx', type);
+      const h = mount(wan, { http: { getWanNetInfo: async () => ({ data: { result: wire } }) } }); await flush();
+      wire = legacyWan('ipq60xx', type); wire.vlan[0].type = 'HW_NAT'; wire.vlan[0].enabled = enabled;
+      if (type === 'pppoe') wire.pppoe.vlan = JSON.parse(JSON.stringify(wire.vlan));
+      await h.vm.getWanNetInfo(); h.vm.submit(); await flush(); expect(h.calls).to.deep.equal([]);
+    });
+  }
+});
