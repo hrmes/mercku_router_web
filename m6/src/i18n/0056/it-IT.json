@@ -1219,5 +1219,11 @@
   "trans1224": "Modalità performante",
   "trans1225": "Modalità silenziosa",
   "trans1226": "Supportare solo il mezzo con lo spazio",
-  "trans1227": "La password non può essere tutti gli spazi"
+  "trans1227": "La password non può essere tutti gli spazi",
+  "trans1253": "FRP",
+  "trans1254": "Chiave segreta",
+  "trans1255": "Rigenera",
+  "trans1256": "Porta Web",
+  "trans1257": "Porta SSH",
+  "trans1258": "STCP FRP pubblica i servizi web e SSH di questo router tramite il server FRP. Il visitatore deve usare la stessa chiave segreta."
 }

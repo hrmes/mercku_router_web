@@ -1226,5 +1226,11 @@
   "trans1231": "DFS",
   "trans1232": "Nopeustestiä ei toistaiseksi tueta PPPoE-internet-yhteyden kautta",
   "trans1233": "Huomioi seuraavaa:",
-  "trans1234": "DFS-toiminnon poistaminen voi rikkoa paikallisia radiomääräyksiä ja johtaa oikeudellisiin ongelmiin. Ole hyvä ja toimi varovaisesti"
+  "trans1234": "DFS-toiminnon poistaminen voi rikkoa paikallisia radiomääräyksiä ja johtaa oikeudellisiin ongelmiin. Ole hyvä ja toimi varovaisesti",
+  "trans1253": "FRP",
+  "trans1254": "Salainen avain",
+  "trans1255": "Luo uudelleen",
+  "trans1256": "Web-portti",
+  "trans1257": "SSH-portti",
+  "trans1258": "STCP FRP välittää tämän reitittimen Web- ja SSH-palvelut FRP-palvelimen kautta. Vierailijan on käytettävä samaa salaista avainta."
 }

@@ -1244,5 +1244,11 @@
   "trans1249": "Kun olet suorittanut alkuasennuksen, muodosta yhteys uudelleen äskettäin asetettuun Wi-Fi-SSID-tunnukseen varmistaaksesi, että laite lisätään onnistuneesti.",
   "trans1250": "Kun käytät SFP:tä Internetiin pääsyyn, WAN-portista tulee LAN-portti",
   "trans1251": "Salasanassa ei voi olla puolipisteitä",
-  "trans1252": "Salasanassa ei voi olla kenoviivoja"
+  "trans1252": "Salasanassa ei voi olla kenoviivoja",
+  "trans1253": "FRP",
+  "trans1254": "Salainen avain",
+  "trans1255": "Luo uudelleen",
+  "trans1256": "Web-portti",
+  "trans1257": "SSH-portti",
+  "trans1258": "STCP FRP välittää tämän reitittimen Web- ja SSH-palvelut FRP-palvelimen kautta. Vierailijan on käytettävä samaa salaista avainta."
 }

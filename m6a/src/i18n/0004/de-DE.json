@@ -1226,5 +1226,11 @@
   "trans1231": "DFS",
   "trans1232": "Die Geschwindigkeitsmessung wird vorübergehend unter der PPPoE-Internetzugangsmethode nicht unterstützt",
   "trans1233": "Bitte beachten Sie:",
-  "trans1234": "Das Deaktivieren der DFS-Funktion kann gegen lokale Funkvorschriften verstoßen und zu rechtlichen Problemen führen. Bitte gehen Sie vorsichtig vor"
+  "trans1234": "Das Deaktivieren der DFS-Funktion kann gegen lokale Funkvorschriften verstoßen und zu rechtlichen Problemen führen. Bitte gehen Sie vorsichtig vor",
+  "trans1253": "FRP",
+  "trans1254": "Geheimer Schlüssel",
+  "trans1255": "Neu erzeugen",
+  "trans1256": "Web-Port",
+  "trans1257": "SSH-Port",
+  "trans1258": "STCP FRP veröffentlicht die Web- und SSH-Dienste dieses Routers über den FRP-Server. Der Besucher muss denselben geheimen Schlüssel verwenden."
 }

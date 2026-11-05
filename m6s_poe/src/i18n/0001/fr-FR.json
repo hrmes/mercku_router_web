@@ -1239,5 +1239,11 @@
   "trans1244": "Veuillez vous assurer que votre appareil PD est conforme aux normes IEEE 802.3af, 802.3at ou 802.3bt.",
   "trans1245": "Veuillez vous assurer que votre appareil alimenté prend en charge 48V, sinon cela pourrait endommager l'appareil. Êtes-vous sûr de vouloir passer en mode d'alimentation électrique passif PoE ?",
   "trans1251": "Le mot de passe ne peut pas contenir de points-virgules",
-  "trans1252": "Le mot de passe ne peut pas contenir de barres obliques inversées"
+  "trans1252": "Le mot de passe ne peut pas contenir de barres obliques inversées",
+  "trans1253": "FRP",
+  "trans1254": "Clé secrète",
+  "trans1255": "Régénérer",
+  "trans1256": "Port Web",
+  "trans1257": "Port SSH",
+  "trans1258": "STCP FRP expose les services Web et SSH de ce routeur via le serveur FRP. Le visiteur doit utiliser la même clé secrète."
 }

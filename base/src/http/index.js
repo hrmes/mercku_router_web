@@ -123,6 +123,8 @@ const commonMethods = {
   meshNetworkReboot: createMethod('mesh.network.reboot'),
   getWWA: createMethod('router.wwa.get'),
   updateWWA: createMethod('router.wwa.update'),
+  getFRP: createMethod('router.frp.get'),
+  updateFRP: createMethod('router.frp.update'),
   meshGuestGet: createMethod('mesh.guestwifi.get'),
   meshGuestUpdate: createMethod('mesh.guestwifi.update'),
   meshGuestAdd: createMethod('mesh.guestwifi.add'),

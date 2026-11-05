@@ -1244,5 +1244,11 @@
   "trans1249": "Nach Abschluss der Ersteinrichtung stellen Sie bitte erneut eine Verbindung mit der neu eingestellten WLAN-SSID her, um sicherzustellen, dass das Gerät erfolgreich hinzugefügt wurde.",
   "trans1250": "Wenn Sie SFP für den Zugriff auf das Internet verwenden, wird der WAN-Port zu einem LAN-Port",
   "trans1251": "Das Passwort darf keine Semikolons enthalten",
-  "trans1252": "Das Passwort darf keine umgekehrten Schrägstriche enthalten"
+  "trans1252": "Das Passwort darf keine umgekehrten Schrägstriche enthalten",
+  "trans1253": "FRP",
+  "trans1254": "Geheimer Schlüssel",
+  "trans1255": "Neu erzeugen",
+  "trans1256": "Web-Port",
+  "trans1257": "SSH-Port",
+  "trans1258": "STCP FRP veröffentlicht die Web- und SSH-Dienste dieses Routers über den FRP-Server. Der Besucher muss denselben geheimen Schlüssel verwenden."
 }

@@ -1239,5 +1239,11 @@
   "trans1244": "Varmista, että PD-laitteesi vastaa IEEE 802.3af- tai 802.3at- tai 802.3bt-standardeja.",
   "trans1245": "Varmista, että virtalähteessäsi on tuki 48V:lle, muuten se voi aiheuttaa laitteen vaurioitumisen. Oletko varma, että haluat vaihtaa virtalähteen tilan passiiviseksi PoE:ksi?",
   "trans1251": "Salasanassa ei voi olla puolipisteitä",
-  "trans1252": "Salasanassa ei voi olla kenoviivoja"
+  "trans1252": "Salasanassa ei voi olla kenoviivoja",
+  "trans1253": "FRP",
+  "trans1254": "Salainen avain",
+  "trans1255": "Luo uudelleen",
+  "trans1256": "Web-portti",
+  "trans1257": "SSH-portti",
+  "trans1258": "STCP FRP välittää tämän reitittimen Web- ja SSH-palvelut FRP-palvelimen kautta. Vierailijan on käytettävä samaa salaista avainta."
 }

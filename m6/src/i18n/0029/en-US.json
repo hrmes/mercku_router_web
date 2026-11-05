@@ -1238,5 +1238,11 @@
   "trans1243": "Active PoE",
   "trans1244": "Please make sure that your PD device complies with the IEEE 802.3af or 802.3at or 802.3bt standards.",
   "trans1245": "Please make sure that your powered device supports 48V, otherwise it may cause device damage. Are you sure you want to switch the power supply mode to passive PoE?",
-  "trans1246": "Disable"
+  "trans1246": "Disable",
+  "trans1253": "FRP",
+  "trans1254": "Secret Key",
+  "trans1255": "Regenerate",
+  "trans1256": "Web Port",
+  "trans1257": "SSH Port",
+  "trans1258": "STCP FRP publishes this router's web and SSH services through the FRP server. The visitor must use the same secret key."
 }

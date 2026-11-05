@@ -1239,5 +1239,11 @@
   "trans1244": "Molimo vas da se uvjerite da vaš uređaj PD zadovoljava standarde IEEE 802.3af ili 802.3at ili 802.3bt.",
   "trans1245": "Molimo vas da se uvjerite da vaš napajani uređaj podržava 48V, inače bi moglo doći do oštećenja uređaja. Jeste li sigurni da želite prebaciti na pasivni PoE način napajanja?",
   "trans1251": "Lozinka ne može sadržavati točku sa zarezom",
-  "trans1252": "Lozinka ne može sadržavati obrnutu kosu crtu"
+  "trans1252": "Lozinka ne može sadržavati obrnutu kosu crtu",
+  "trans1253": "FRP",
+  "trans1254": "Tajni ključ",
+  "trans1255": "Ponovno generiraj",
+  "trans1256": "Web port",
+  "trans1257": "SSH port",
+  "trans1258": "STCP FRP objavljuje web i SSH usluge ovog usmjerivača kroz FRP poslužitelj. Posjetitelj mora koristiti isti tajni ključ."
 }

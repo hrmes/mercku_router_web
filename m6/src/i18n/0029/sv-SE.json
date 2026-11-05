@@ -1238,5 +1238,11 @@
   "trans1243": "Aktiv PoE",
   "trans1244": "Kontrollera att din PD-enhet följer IEEE 802.3af eller 802.3at eller 802.3bt-standarderna.",
   "trans1245": "Kontrollera att din strömförsörjda enhet stöder 48V, annars kan det orsaka skador på enheten. Är du säker på att du vill byta strömförsörjningsläge till passiv PoE?",
-  "trans1246": "Inaktivera"
+  "trans1246": "Inaktivera",
+  "trans1253": "FRP",
+  "trans1254": "Hemlig nyckel",
+  "trans1255": "Generera igen",
+  "trans1256": "Webbport",
+  "trans1257": "SSH-port",
+  "trans1258": "STCP FRP publicerar routerns webb- och SSH-tjänster via FRP-servern. Besökaren måste använda samma hemliga nyckel."
 }

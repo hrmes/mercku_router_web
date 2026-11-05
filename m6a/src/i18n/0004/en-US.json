@@ -1226,5 +1226,11 @@
   "trans1231": "DFS",
   "trans1232": "Speed testing is temporarily not supported under PPPoE internet access method",
   "trans1233": "Please note:",
-  "trans1234": "Disabling DFS functionality may violate local radio regulations and could lead to legal issues. Please proceed with caution"
+  "trans1234": "Disabling DFS functionality may violate local radio regulations and could lead to legal issues. Please proceed with caution",
+  "trans1253": "FRP",
+  "trans1254": "Secret Key",
+  "trans1255": "Regenerate",
+  "trans1256": "Web Port",
+  "trans1257": "SSH Port",
+  "trans1258": "STCP FRP publishes this router's web and SSH services through the FRP server. The visitor must use the same secret key."
 }

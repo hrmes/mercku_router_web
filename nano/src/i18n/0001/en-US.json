@@ -1244,5 +1244,11 @@
   "trans1249": "After completing the initial setup, please reconnect to the newly set Wi-Fi SSID to ensure the device is added successfully.",
   "trans1250": "When using SFP to access the Internet, the WAN port will become a LAN port",
   "trans1251": "Password cannot contain semicolons",
-  "trans1252": "Password cannot contain backslashes"
+  "trans1252": "Password cannot contain backslashes",
+  "trans1253": "FRP",
+  "trans1254": "Secret Key",
+  "trans1255": "Regenerate",
+  "trans1256": "Web Port",
+  "trans1257": "SSH Port",
+  "trans1258": "STCP FRP publishes this router's web and SSH services through the FRP server. The visitor must use the same secret key."
 }

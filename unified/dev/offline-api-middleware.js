@@ -178,6 +178,23 @@ const previewModeState = {
   apclient: null,
 };
 
+// Stateful FRP preview: mirrors the device contract (the key is cleared while
+// disabled) so the offline page behaves like the real one outside the browser.
+const previewFrpState = {
+  enabled: false,
+  sk: '',
+  web_port: 80,
+  ssh_port: 22,
+};
+
+function updatePreviewFrp(params = {}) {
+  const enabled = params.enabled === true || params.enabled === '1';
+  previewFrpState.enabled = enabled;
+  previewFrpState.sk = enabled ? String(params.sk || '') : '';
+  if (Number(params.web_port)) previewFrpState.web_port = Number(params.web_port);
+  if (Number(params.ssh_port)) previewFrpState.ssh_port = Number(params.ssh_port);
+}
+
 function updatePreviewMode(params = {}) {
   const mode = params.mode || previewModeState.mode;
   previewModeState.mode = mode;
@@ -208,6 +225,13 @@ function getMockResult(method, params) {
   }
   if (method === 'mesh.mode.update') {
     updatePreviewMode(params);
+    return {};
+  }
+  if (method === 'router.frp.get') {
+    return { ...previewFrpState };
+  }
+  if (method === 'router.frp.update') {
+    updatePreviewFrp(params);
     return {};
   }
   return Object.prototype.hasOwnProperty.call(MOCK_RESULTS, method)

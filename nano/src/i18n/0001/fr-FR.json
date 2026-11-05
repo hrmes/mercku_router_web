@@ -1244,5 +1244,11 @@
   "trans1249": "Après avoir terminé la configuration initiale, veuillez vous reconnecter avec le SSID Wi-Fi nouvellement défini pour vous assurer que l'appareil est ajouté avec succès.",
   "trans1250": "Lorsque vous utilisez SFP pour accéder à Internet, le port WAN deviendra un port LAN",
   "trans1251": "Le mot de passe ne peut pas contenir de points-virgules",
-  "trans1252": "Le mot de passe ne peut pas contenir de barres obliques inversées"
+  "trans1252": "Le mot de passe ne peut pas contenir de barres obliques inversées",
+  "trans1253": "FRP",
+  "trans1254": "Clé secrète",
+  "trans1255": "Régénérer",
+  "trans1256": "Port Web",
+  "trans1257": "Port SSH",
+  "trans1258": "STCP FRP expose les services Web et SSH de ce routeur via le serveur FRP. Le visiteur doit utiliser la même clé secrète."
 }

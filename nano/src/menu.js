@@ -226,6 +226,12 @@ export default function getMenu(role, mode = RouterMode.router) {
         name: 'advance.backup',
         text: 'trans1019',
         config
+      },
+      {
+        url: '/advance/frp',
+        name: 'advance.frp',
+        text: 'trans1253',
+        config
       }
     ]
   };

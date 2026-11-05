@@ -1240,5 +1240,11 @@
   "trans1245": "Bitte stellen Sie sicher, dass Ihr Stromversorgungsgerät 48V unterstützt, da sonst möglicherweise Geräteschäden auftreten können. Sind Sie sicher, dass Sie den Stromversorgungsmodus auf passives PoE umschalten möchten?",
   "trans1246": "Deaktivieren",
   "trans1251": "Das Passwort darf keine Semikolons enthalten",
-  "trans1252": "Das Passwort darf keine umgekehrten Schrägstriche enthalten"
+  "trans1252": "Das Passwort darf keine umgekehrten Schrägstriche enthalten",
+  "trans1253": "FRP",
+  "trans1254": "Geheimer Schlüssel",
+  "trans1255": "Neu erzeugen",
+  "trans1256": "Web-Port",
+  "trans1257": "SSH-Port",
+  "trans1258": "STCP FRP veröffentlicht die Web- und SSH-Dienste dieses Routers über den FRP-Server. Der Besucher muss denselben geheimen Schlüssel verwenden."
 }

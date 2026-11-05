@@ -1219,5 +1219,11 @@
   "trans1224": "Modo de rendimiento",
   "trans1225": "Modo silencioso",
   "trans1226": "Solo soporta el medio con espacio",
-  "trans1227": "La contraseña no puede ser solo espacios"
+  "trans1227": "La contraseña no puede ser solo espacios",
+  "trans1253": "FRP",
+  "trans1254": "Clave secreta",
+  "trans1255": "Regenerar",
+  "trans1256": "Puerto Web",
+  "trans1257": "Puerto SSH",
+  "trans1258": "STCP FRP publica los servicios web y SSH de este router a través del servidor FRP. El visitante debe usar la misma clave secreta."
 }

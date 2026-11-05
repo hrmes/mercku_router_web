@@ -45,6 +45,7 @@ import firewall from 'base/pages/bussiness/advance/firewall.vue';
 import wwa from 'base/pages/bussiness/advance/wwa.vue';
 import tr069 from 'base/pages/bussiness/advance/tr069.vue';
 import backup from 'base/pages/bussiness/advance/backup.vue';
+import frp from 'base/pages/bussiness/advance/frp.vue';
 
 // upgrade page
 import online from 'base/pages/bussiness/upgrade/online.vue';
@@ -397,6 +398,15 @@ const routes = {
       path: '/advance/backup',
       name: 'advance.backup',
       component: backup,
+      meta: {
+        layout: 'primary',
+        hasAside: true
+      }
+    },
+    {
+      path: '/advance/frp',
+      name: 'advance.frp',
+      component: frp,
       meta: {
         layout: 'primary',
         hasAside: true
