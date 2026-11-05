@@ -16,6 +16,7 @@
               <m-form-item>
                 <m-switch :label="$t('trans0462')"
                           data-e2e="frp-switch"
+                          :disabled="!ready || busy"
                           v-model="frp.enabled"
                           @change="onEnabledChange"></m-switch>
               </m-form-item>
@@ -29,12 +30,13 @@
                 <button type="button"
                         class="btn btn-text frp-key__refresh"
                         data-e2e="frp-regenerate"
-                        :disabled="!frp.enabled"
+                        :disabled="!ready || busy || !frp.enabled"
                         @click="regenerateSk">{{$t('trans1255')}}</button>
               </m-form-item>
               <m-form-item prop="web_port">
                 <m-input :label="$t('trans1256')"
                          data-e2e="frp-web-port-input"
+                         :disabled="!ready || busy"
                          v-model="frp.web_port"
                          :placeholder="$t('trans0321')"></m-input>
               </m-form-item>
@@ -42,6 +44,7 @@
                            class="last">
                 <m-input :label="$t('trans1257')"
                          data-e2e="frp-ssh-port-input"
+                         :disabled="!ready || busy"
                          v-model="frp.ssh_port"
                          :placeholder="$t('trans0321')"></m-input>
               </m-form-item>
@@ -53,6 +56,7 @@
         <div class="form-button__wrapper">
           <button class="btn btn-primary"
                   data-e2e="frp-submit"
+                  :disabled="!ready || busy"
                   @click="save">{{$t('trans0081')}}</button>
         </div>
       </div>
@@ -93,6 +97,8 @@ export default {
       }
     ];
     return {
+      ready: false,
+      busy: false,
       frp: { ...initial },
       // Last configuration acknowledged by the device: restored whenever a
       // toggle/regenerate request fails, so the page never lies about state.
@@ -114,14 +120,22 @@ export default {
   },
   methods: {
     getFrp() {
+      if (this.busy) return Promise.resolve(false);
+      this.ready = false;
+      this.busy = true;
       return this.$http
         .getFRP()
         .then(res => {
           const config = normalizeFrpConfig(res && res.data && res.data.result);
           this.frp = { ...config };
           this.saved = { ...config };
+          this.ready = true;
+          return true;
         })
-        .catch(() => {});
+        .catch(() => false)
+        .finally(() => {
+          this.busy = false;
+        });
     },
     restoreSaved() {
       this.frp = { ...this.saved };
@@ -131,15 +145,32 @@ export default {
      * resulting state is pushed to the device immediately.
      */
     onEnabledChange(enabled) {
-      this.frp = withEnabledState(this.frp, enabled === true);
+      if (!this.ready || this.busy) {
+        this.restoreSaved();
+        return Promise.resolve(false);
+      }
+      try {
+        this.frp = withEnabledState(this.frp, enabled === true);
+      } catch (error) {
+        this.restoreSaved();
+        this.$toast(this.$t('trans0077'));
+        return Promise.resolve(false);
+      }
       return this.apply();
     },
     regenerateSk() {
-      if (!this.frp.enabled) return Promise.resolve(false);
-      this.frp = { ...this.frp, sk: generateFrpSk() };
+      if (!this.ready || this.busy || !this.frp.enabled) return Promise.resolve(false);
+      try {
+        this.frp = { ...this.frp, sk: generateFrpSk() };
+      } catch (error) {
+        this.restoreSaved();
+        this.$toast(this.$t('trans0077'));
+        return Promise.resolve(false);
+      }
       return this.apply();
     },
     save() {
+      if (!this.ready || this.busy) return Promise.resolve(false);
       if (!this.validate()) return Promise.resolve(false);
       return this.apply();
     },
@@ -151,11 +182,13 @@ export default {
      * failed request rolls the form back to the last acknowledged state.
      */
     apply() {
+      if (!this.ready || this.busy) return Promise.resolve(false);
       if (!this.validate()) {
         this.restoreSaved();
         return Promise.resolve(false);
       }
       const params = buildFrpUpdateParams(this.frp);
+      this.busy = true;
       this.$loading.open();
       return this.$http
         .updateFRP(params)
@@ -171,6 +204,9 @@ export default {
           this.$loading.close();
           this.restoreSaved();
           return false;
+        })
+        .finally(() => {
+          this.busy = false;
         });
     }
   }

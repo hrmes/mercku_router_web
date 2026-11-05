@@ -26,8 +26,13 @@ const MIN_PORT = 1;
 const MAX_PORT = 65535;
 
 function getCrypto() {
-  if (typeof globalThis !== 'undefined' && globalThis.crypto) {
+  if (typeof globalThis !== 'undefined' && globalThis.crypto &&
+      typeof globalThis.crypto.getRandomValues === 'function') {
     return globalThis.crypto;
+  }
+  if (typeof window !== 'undefined' && window.crypto &&
+      typeof window.crypto.getRandomValues === 'function') {
+    return window.crypto;
   }
   return null;
 }
@@ -35,21 +40,18 @@ function getCrypto() {
 /**
  * Generate a random secret key for STCP FRP.
  *
- * Uses crypto.getRandomValues when the runtime provides it (browsers do) and
- * falls back to Math.random for older WebViews / test environments.
+ * Requires crypto.getRandomValues; never fall back to a non-cryptographic
+ * random source for an access credential.
  */
 export function generateFrpSk(length = FRP_SK_LENGTH) {
   const size = Number(length) > 0 ? Math.floor(Number(length)) : FRP_SK_LENGTH;
   const bytes = new Uint8Array(size);
   const cryptoObj = getCrypto();
 
-  if (cryptoObj && typeof cryptoObj.getRandomValues === 'function') {
-    cryptoObj.getRandomValues(bytes);
-  } else {
-    for (let i = 0; i < size; i += 1) {
-      bytes[i] = Math.floor(Math.random() * 256);
-    }
+  if (!cryptoObj) {
+    throw new Error('Secure random number generation is unavailable');
   }
+  cryptoObj.getRandomValues(bytes);
 
   let sk = '';
   for (let i = 0; i < size; i += 1) {
