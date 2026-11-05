@@ -463,7 +463,8 @@ export default {
     getRouteMeta() {
       this.$http.getRouter().then(res => {
         this.routerMeta = res.data.result;
-        this.uptime = this.routerMeta.uptime || 0;
+        // API 返回的 uptime 带厘秒小数（/proc/uptime）；取整避免后续每秒 +=1 的浮点累积误差漏进秒位显示
+        this.uptime = Math.floor(this.routerMeta.uptime || 0);
         this.uptimeTimer = setInterval(() => {
           this.uptime += 1;
         }, 1000);
