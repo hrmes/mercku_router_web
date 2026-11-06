@@ -34,3 +34,12 @@ SKIP：真实设备 E2E、DUT、MQTT、刷机、部署，遵循本轮禁止项�
 实现结束后重新核对 GET→submit→Suite normalize→HAL/consumer：普通保存无整表重造；编辑仅变更目标 enabled/id/priority/tagged；关闭 splice 目标；未知/歧义不猜测；嵌套表一致。未新增后端业务重复实现或扩展冻结合同。新增默认条目使用现有 WAN4 编码，M11R2 不参与。
 
 剩余风险：前端无法识别旧后端静默省略行，也无 GET/UPDATE CAS；其他管理员并发修改可能被旧快照覆盖。实际 DUT 固件消费者版本、联网成功和电话/IPTV 业务均未验证，不能将 Host 测试当作运行时通过。既有全表替换合同及这些未决项未被本轮重新设计。
+
+## C1-F1 Coordinator Review 补修
+
+- Internet VLAN 有修改且启用时，在合并后的完整表中排除目标行，检查其他 enabled=true 条目，使用 Number(id) 数字比较 VID。冲突复用旧 M6a 的 trans1051（“VLAN ID不能重复”）错误 toast 并拒绝提交。未修改的历史配置、普通 WAN 保存及关闭仍走原有语义。
+- 端口误匹配已证实：合法 Gen1 GET 行 name=internet、非桥接、单 port.id=4 但 port.type=lan 时，旧 internetIndex 会授权编辑。最小修正仅排除明确 type=lan；继续接受旧 GET 缺 type、空名称与 WAN type，不新增平台推测。
+- 新增 31 项 mounted 测试：新建/编辑、DHCP/PPPoE、字符串/数字 ID、相同/不同 VID、其他行禁用、多行保留、历史重复不改/关闭/编辑、LAN4 误匹配。C1 原空表/单条等用例继续运行。
+- PASS：`./node_modules/.bin/mocha tests/unit/pages/web-compat-f1.spec.js`，123 passing（含 WAN/VPN 邻域）；WAN 页 ESLint、git diff --check。修复前新增用例观察到 21 项失败，修复后通过。未操作 DUT、Push 或运行全量测试。
+- 独立未修问题（复现已确认）：空 GET 表 → 开启 Internet → VID=100 → 保持默认 Priority=0 → submit：没有 UPDATE，toast trans0688。原因：util.js isValidInteger 正则 /^-?[1-9]\d*$/ 不接受 0，而 C1 调用 isValidInteger(priority,0,7)。临时 mounted 复现用例 1 passing，日志 `/tmp/wan-vlan-f1-priority-zero.log`；未保留锁定错误行为的测试。当前编辑需选择 Priority 1–7 才能越过该已有校验，Priority 0 修复需独立后续任务，不包含在本次 VID 冲突补修中。
+- 既有 M11R2、静默 GET 漏行、并发覆盖和 Host-only 边界不变；本轮未修改 Suite/Profile/Executor/Store，也未重构整表提交。

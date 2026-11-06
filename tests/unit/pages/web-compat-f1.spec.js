@@ -288,3 +288,52 @@ describe('C1 platform VLAN contracts', () => {
     await flush(); h.vm.submit(); await flush(); expect(h.calls).to.deep.equal([]);
   });
 });
+
+describe('C1 F1 Internet VID collisions', () => {
+  for (const type of ['dhcp', 'pppoe']) {
+    for (const create of [false, true]) {
+      for (const enabled of [false, true]) {
+        for (const id of ['100', 100, '101']) it(`${type} ${create ? 'create' : 'edit'} VID ${id} (${typeof id}), other enabled=${enabled}`, async () => {
+          const wire = legacyWan('mt7621', type, 2);
+          wire.vlan[1].enabled = enabled;
+          if (create) wire.vlan.shift();
+          if (type === 'pppoe') wire.pppoe.vlan = JSON.parse(JSON.stringify(wire.vlan));
+          const before = JSON.parse(JSON.stringify(wire));
+          const h = mount(wan, { http: { getWanNetInfo: async () => ({ data: { result: wire } }) } });
+          await flush(); h.vm.vlan.enabled = true; h.vm.vlan.id = id; h.vm.vlan.priority = 3;
+          await flush(); h.vm.submit(); await flush();
+          const conflict = enabled && Number(id) === 100;
+          expect(h.calls.length).to.equal(conflict ? 0 : 1);
+          if (conflict) expect(h.toasts).to.include('trans1051');
+          else {
+            const rows = h.calls[0].vlan;
+            expect(rows.find(row => row.name === 'internet').id).to.equal(Number(id));
+            expect(rows.find(row => row.name === 'voice')).to.deep.equal(before.vlan.find(row => row.name === 'voice'));
+            if (type === 'pppoe') expect(h.calls[0].pppoe.vlan).to.deep.equal(rows);
+          }
+          expect(wire).to.deep.equal(before);
+        });
+      }
+    }
+    for (const action of ['ordinary', 'disable', 'priority']) it(`${type} historical duplicate: ${action}`, async () => {
+      const wire = legacyWan('mt7621', type, 2);
+      wire.vlan[1].enabled = true; wire.vlan[1].id = wire.vlan[0].id;
+      if (type === 'pppoe') wire.pppoe.vlan = JSON.parse(JSON.stringify(wire.vlan));
+      const h = mount(wan, { http: { getWanNetInfo: async () => ({ data: { result: wire } }) } });
+      await flush();
+      if (action === 'disable') h.vm.vlan.enabled = false;
+      if (action === 'priority') h.vm.vlan.priority = 7;
+      await flush(); h.vm.submit(); await flush();
+      expect(h.calls.length).to.equal(action === 'priority' ? 0 : 1);
+      if (action === 'ordinary') expect(h.calls[0].vlan).to.deep.equal(wire.vlan);
+      if (action === 'disable') expect(h.calls[0].vlan).to.deep.equal(wire.vlan.slice(1));
+    });
+  }
+  it('does not match an explicitly LAN-typed port 4 as Internet', async () => {
+    const wire = legacyWan('mt7621', 'dhcp', 1);
+    wire.vlan[0].ports[0].port.type = 'lan';
+    const h = mount(wan, { http: { getWanNetInfo: async () => ({ data: { result: wire } }) } });
+    await flush(); expect(h.vm.vlanEditable).to.equal(false);
+    h.vm.submit(); await flush(); expect(h.calls[0].vlan).to.deep.equal(wire.vlan);
+  });
+});

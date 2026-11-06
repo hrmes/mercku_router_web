@@ -270,7 +270,8 @@ function internetDefault() {
   return { enabled: false, id: 2, priority: 0, ports: [{ port: { id: 4, name: 'wan', type: 'wan' }, tagged: false }] };
 }
 function internetIndex(table) {
-  const safe = row => !row.is_bridged && row.ports.length === 1 && row.ports[0].port.id === 4;
+  const safe = row => !row.is_bridged && row.ports.length === 1 &&
+    row.ports[0].port.id === 4 && row.ports[0].port.type !== 'lan';
   const named = table.map((row, i) => (row.name === 'internet' ? i : -1)).filter(i => i >= 0);
   if (named.length) return named.length === 1 && safe(table[named[0]]) ? named[0] : -2;
   const unnamed = table.map((row, i) => (!row.name && row.type === 'NAT' && safe(row) ? i : -1)).filter(i => i >= 0);
@@ -678,6 +679,14 @@ export default {
           if (['M8', 'M6R0'].includes(model)) row.type = 'NAT';
           if (model === 'M6R0') delete row.name;
           table.push(row);
+        }
+        if (this.vlan.enabled) {
+          const targetIndex = index >= 0 ? index : table.length - 1;
+          if (table.some((row, i) => i !== targetIndex && row.enabled === true &&
+            Number(row.id) === Number(table[targetIndex].id))) {
+            this.$toast(this.$t('trans1051'), 2000, 'error');
+            return;
+          }
         }
       }
       const form = { type: this.netType, vlan: table };
