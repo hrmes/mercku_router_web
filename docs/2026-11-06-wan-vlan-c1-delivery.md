@@ -43,3 +43,11 @@ SKIP：真实设备 E2E、DUT、MQTT、刷机、部署，遵循本轮禁止项�
 - PASS：`./node_modules/.bin/mocha tests/unit/pages/web-compat-f1.spec.js`，123 passing（含 WAN/VPN 邻域）；WAN 页 ESLint、git diff --check。修复前新增用例观察到 21 项失败，修复后通过。未操作 DUT、Push 或运行全量测试。
 - 独立未修问题（复现已确认）：空 GET 表 → 开启 Internet → VID=100 → 保持默认 Priority=0 → submit：没有 UPDATE，toast trans0688。原因：util.js isValidInteger 正则 /^-?[1-9]\d*$/ 不接受 0，而 C1 调用 isValidInteger(priority,0,7)。临时 mounted 复现用例 1 passing，日志 `/tmp/wan-vlan-f1-priority-zero.log`；未保留锁定错误行为的测试。当前编辑需选择 Priority 1–7 才能越过该已有校验，Priority 0 修复需独立后续任务，不包含在本次 VID 冲突补修中。
 - 既有 M11R2、静默 GET 漏行、并发覆盖和 Host-only 边界不变；本轮未修改 Suite/Profile/Executor/Store，也未重构整表提交。
+
+## C1-F2 Priority=0 补修（提交 Coordinator Review）
+
+- F1 记录的 Priority=0 阻断已修复：仅在 WAN 页面添加局部 isValidVlanPriority，接受数字 0–7 及字符串 "0"–"7"；拒绝空串/空白、null/undefined、负数、8 以上、小数、非法字符串及非数字/字符串类型。提交仍归一化为 Number。公共 util.isValidInteger 未修改。
+- VLAN ID、F1 VID 冲突检测、目标识别、普通保存、关闭语义和整表保护逻辑保持原样。未修改 Suite、Profile、Executor、Store。
+- 新增 mounted 回归 44 项：DHCP/PPPoE 空表开启保持默认 0，提交 wire 回读后再次保存；已有 Internet 数字/字符串 0、1、7；非法值；多行保留与 PPPoE 嵌套表一致；Priority=0 时仍拒绝 VID 冲突。
+- 修复前定向 F2 用例 8 failing；修复后 `./node_modules/.bin/mocha tests/unit/pages/web-compat-f1.spec.js`：167 passing（包括 C1/F1 与 WAN/VPN 邻域）。WAN 页 ESLint 和 git diff --check 均 PASS。日志 `/tmp/wan-vlan-f2-red.log`、`/tmp/wan-vlan-f2-green.log`。
+- 未运行全量测试或操作 DUT，未 Push。本轮为局部校验修复，未重新构建发布包；此前构建产物不包含 F1/F2 修复，部署验收前应重新构建打包。三平台 Host-only、M11R2 BLOCKED、旧 GET 静默省略和并发覆盖边界不变。

@@ -337,3 +337,46 @@ describe('C1 F1 Internet VID collisions', () => {
     h.vm.submit(); await flush(); expect(h.calls[0].vlan).to.deep.equal(wire.vlan);
   });
 });
+
+describe('C1 F2 WAN VLAN priority', () => {
+  for (const type of ['dhcp', 'pppoe']) {
+    it(`${type} creates Internet with untouched default priority zero`, async () => {
+      const wire = legacyWan('mt7621', type, 0);
+      const h = mount(wan, { http: { getWanNetInfo: async () => ({ data: { result: wire } }) } });
+      await flush(); h.vm.vlan.enabled = true; h.vm.vlan.id = '100';
+      expect(h.vm.vlan.priority).to.equal(0);
+      await flush(); h.vm.submit(); await flush();
+      expect(h.calls.length).to.equal(1); expect(h.calls[0].vlan[0].priority).to.equal(0);
+      const saved = h.calls[0];
+      if (type === 'pppoe') expect(saved.pppoe.vlan).to.deep.equal(saved.vlan);
+      // Refresh from the submitted wire, then perform an ordinary save.
+      h.vm.$http.getWanNetInfo = async () => ({ data: { result: { ...wire, ...saved } } });
+      await h.vm.getWanNetInfo(); await flush(); h.vm.submit(); await flush();
+      expect(h.calls[1].vlan).to.deep.equal(saved.vlan);
+      if (type === 'pppoe') expect(h.calls[1].pppoe.vlan).to.deep.equal(saved.vlan);
+    });
+    for (const priority of [0, '0', 1, '1', 7, '7', -1, '-1', 8, '8', '', ' ', null, undefined, 1.5, '1.5', 'abc', '1e0', false, [0]]) {
+      it(`${type} validates ${JSON.stringify(priority)} (${typeof priority})`, async () => {
+        const wire = legacyWan('mt7621', type, 2);
+        const h = mount(wan, { http: { getWanNetInfo: async () => ({ data: { result: wire } }) } });
+        await flush(); h.vm.vlan.priority = priority;
+        await flush(); h.vm.submit(); await flush();
+        const valid = [0, '0', 1, '1', 7, '7'].includes(priority);
+        expect(h.calls.length).to.equal(valid ? 1 : 0);
+        if (valid) {
+          expect(h.calls[0].vlan[0].priority).to.equal(Number(priority));
+          expect(h.calls[0].vlan[1]).to.deep.equal(wire.vlan[1]);
+          if (type === 'pppoe') expect(h.calls[0].pppoe.vlan).to.deep.equal(h.calls[0].vlan);
+        }
+      });
+    }
+    it(`${type} priority zero does not bypass VID conflict`, async () => {
+      const wire = legacyWan('mt7621', type, 2); wire.vlan[1].enabled = true;
+      if (type === 'pppoe') wire.pppoe.vlan = JSON.parse(JSON.stringify(wire.vlan));
+      const h = mount(wan, { http: { getWanNetInfo: async () => ({ data: { result: wire } }) } });
+      await flush(); h.vm.vlan.priority = 0; h.vm.vlan.id = '100';
+      await flush(); h.vm.submit(); await flush();
+      expect(h.calls).to.deep.equal([]); expect(h.toasts).to.include('trans1051');
+    });
+  }
+});

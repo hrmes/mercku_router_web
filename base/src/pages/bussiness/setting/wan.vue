@@ -269,6 +269,9 @@ function canPreserveVlans(info) {
 function internetDefault() {
   return { enabled: false, id: 2, priority: 0, ports: [{ port: { id: 4, name: 'wan', type: 'wan' }, tagged: false }] };
 }
+function isValidVlanPriority(value) {
+  return ['number', 'string'].includes(typeof value) && /^[0-7]$/.test(value);
+}
 function internetIndex(table) {
   const safe = row => !row.is_bridged && row.ports.length === 1 &&
     row.ports[0].port.id === 4 && row.ports[0].port.type !== 'lan';
@@ -653,7 +656,7 @@ export default {
       const table = JSON.parse(JSON.stringify(this.netInfo.vlan));
       if (!isEqual(this.vlan, this.vlanOriginal)) {
         if (!this.vlanEditable || (this.vlan.enabled &&
-          (!this.$refs.vlanForm.validate() || !isValidInteger(this.vlan.priority, 0, 7)))) {
+          (!this.$refs.vlanForm.validate() || !isValidVlanPriority(this.vlan.priority)))) {
           this.$toast(this.$t('trans0688'));
           return;
         }
