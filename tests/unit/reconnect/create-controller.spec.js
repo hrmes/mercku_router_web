@@ -604,15 +604,96 @@ describe('reconnect async completion evidence', () => {
     } finally { controller.dispose(); }
   });
   it('ignores late completions after timeout, disposal or replacement', async () => {
-    let complete; let succeeded = 0; let expired = 0;
+    let complete; let succeeded = 0; let expired = 0; let unconfirmed = 0;
     const controller = createReconnectController({ http: {
       getRouter: async () => ({}), waitForOperation: () => new Promise(resolve => { complete = resolve; }),
     }, behavior: DEFAULT_BEHAVIOR });
     try {
-      controller.reconnect({ timeout: 0.01, operation: { id: 'late' }, onSuccess: () => { succeeded++; }, onTimeout: () => { expired++; } });
+      controller.reconnect({ timeout: 0.01, operation: { id: 'late' }, onSuccess: () => { succeeded++; }, onTimeout: () => { expired++; }, onError: () => { unconfirmed += 1; } });
       await new Promise(resolve => setTimeout(resolve, 20)); complete();
       await new Promise(resolve => setTimeout(resolve, 0));
-      expect(expired).to.equal(1); expect(succeeded).to.equal(0);
+      expect(expired).to.equal(0); expect(unconfirmed).to.equal(1); expect(succeeded).to.equal(0);
     } finally { controller.dispose(); }
+  });
+});
+
+describe('F1 network and operation outcomes', () => {
+  it('reports an observation deadline after HTTP recovery through onError with its original id', async () => {
+    const scheduler = createFakeScheduler();
+    const errors = []; let timeouts = 0; let successes = 0; let complete;
+    const ctrl = createReconnectController({ scheduler, behavior: behavior(), http: {
+      getRouter: async () => ({}),
+      waitForOperation: () => new Promise(resolve => { complete = resolve; }),
+    } });
+    ctrl.reconnect({ timeout: 10, operation: { id: 'original' },
+      onError: error => errors.push(error), onTimeout: () => { timeouts += 1; },
+      onSuccess: () => { successes += 1; } });
+    await drainMicrotasks();
+    scheduler.tick(10000);
+    expect(timeouts).to.equal(0);
+    expect(errors).to.have.length(1);
+    expect(errors[0].response.data).to.deep.include({ async: { id: 'original', status: 'unknown' } });
+    expect(errors[0].response.data.error.reason).to.equal('outcome-unknown');
+    expect(ctrl.getState()).to.equal('unconfirmed');
+    complete(); await drainMicrotasks(); scheduler.tick(20000);
+    expect(successes).to.equal(0); expect(errors).to.have.length(1);
+    expect(scheduler.pendingCount()).to.equal(0); ctrl.dispose();
+  });
+
+  it('keeps the network timeout when no probe has succeeded, even with an operation id', async () => {
+    const scheduler = createFakeScheduler(); let timeouts = 0; let errors = 0; let reads = 0;
+    const ctrl = createReconnectController({ scheduler, behavior: behavior(), http: {
+      getRouter: async () => { throw Error('offline'); },
+      waitForOperation: async () => { reads += 1; },
+    } });
+    ctrl.reconnect({ timeout: 11, operation: { id: 'offline-operation' },
+      onTimeout: () => { timeouts += 1; }, onError: () => { errors += 1; } });
+    await drainMicrotasks(); scheduler.tick(5000); await drainMicrotasks();
+    scheduler.tick(6000); await drainMicrotasks();
+    expect(timeouts).to.equal(1); expect(errors).to.equal(0); expect(reads).to.equal(0);
+    expect(ctrl.getState()).to.equal('timeout'); expect(scheduler.pendingCount()).to.equal(0);
+    ctrl.dispose();
+  });
+
+  it('ignores replaced and cancelled observations and pending HTTP probes', async () => {
+    const scheduler = createFakeScheduler(); const probes = []; const completions = [];
+    const calls = [];
+    const ctrl = createReconnectController({ scheduler, behavior: behavior(), http: {
+      getRouter: () => new Promise(resolve => probes.push(resolve)),
+      waitForOperation: id => { calls.push(id); return new Promise(resolve => completions.push(resolve)); },
+    } });
+    let successes = 0; let errors = 0; let timeouts = 0;
+    const options = id => ({ timeout: 10, operation: { id },
+      onSuccess: () => { successes += 1; }, onError: () => { errors += 1; },
+      onTimeout: () => { timeouts += 1; } });
+    ctrl.reconnect(options('old')); ctrl.reconnect(options('new'));
+    probes[0](); await drainMicrotasks(); expect(calls).to.deep.equal([]);
+    probes[1](); await drainMicrotasks(); expect(calls).to.deep.equal(['new']);
+    ctrl.cancel(); completions[0](); await drainMicrotasks(); scheduler.tick(20000);
+    expect([successes, errors, timeouts]).to.deep.equal([0, 0, 0]);
+    expect(scheduler.pendingCount()).to.equal(0); ctrl.dispose();
+  });
+});
+
+describe('F1 terminal callback arbitration', () => {
+  it('ignores a duplicate or replaced deadline callback after an operation error', async () => {
+    const scheduler = createFakeScheduler(); const deadlines = [];
+    const setTimeout = scheduler.setTimeout;
+    scheduler.setTimeout = (callback, delay) => { deadlines.push(callback); return setTimeout(callback, delay); };
+    let errors = 0; let timeouts = 0; let successes = 0;
+    const ctrl = createReconnectController({ scheduler, behavior: behavior(), http: {
+      getRouter: async () => ({}), waitForOperation: async () => { throw Error('unconfirmed'); },
+    } });
+    const options = { timeout: 10, operation: { id: 'one' },
+      onError: () => { errors += 1; }, onTimeout: () => { timeouts += 1; },
+      onSuccess: () => { successes += 1; } };
+    ctrl.reconnect(options); await drainMicrotasks(); deadlines[0](); deadlines[0]();
+    expect([errors, timeouts, successes]).to.deep.equal([1, 0, 0]);
+    ctrl.reconnect({ ...options, operation: { id: 'two' } }); deadlines[0]();
+    await drainMicrotasks();
+    expect([errors, timeouts, successes]).to.deep.equal([2, 0, 0]);
+    ctrl.dispose(); deadlines[1]();
+    expect([errors, timeouts, successes]).to.deep.equal([2, 0, 0]);
+    expect(scheduler.pendingCount()).to.equal(0);
   });
 });

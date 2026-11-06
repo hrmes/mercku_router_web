@@ -149,10 +149,9 @@ export function createApp(runtimeContext, overrides = {}) {
       onSuccess: () => { stop(); adapted.onSuccess(); },
       onTimeout: () => {
         stop(); adapted.onTimeout();
-        if (opts.operation) showOperationError(operationError(opts.operation.id).response.data);
       },
       onError: error => {
-        stop(); adapted.onTimeout();
+        stop(); adapted.onError(error);
         const data = (error.response && error.response.data) ||
           operationError(opts.operation.id).response.data;
         showOperationError(data);
@@ -216,9 +215,10 @@ function buildRouter(runtimeContext, store) {
 
 /**
  * Adapt legacy reconnect/upgrade option shape to the controller's
- * `{ timeout, delayMs, onSuccess, onTimeout }` contract.
+ * `{ timeout, delayMs, onSuccess, onTimeout, onError }` contract.
  *
  * Legacy callers use `delayTime` in seconds and lower-case callback names.
+ * onerror only cleans page-local UI; the public layer owns operation messages.
  */
 function adaptReconnectOpts(opts) {
   const hasExplicitDelayMs = typeof opts.delayMs === 'number';
@@ -231,6 +231,7 @@ function adaptReconnectOpts(opts) {
     delayMs,
     onSuccess: typeof opts.onsuccess === 'function' ? opts.onsuccess : () => {},
     onTimeout: typeof opts.ontimeout === 'function' ? opts.ontimeout : () => {},
+    onError: typeof opts.onerror === 'function' ? opts.onerror : () => {},
   };
 }
 

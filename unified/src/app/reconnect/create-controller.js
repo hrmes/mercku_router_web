@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { operationError } from '../http/operations';
 /* eslint-disable import/prefer-default-export */
 /**
  * Reconnect Controller — unified state machine for the legacy
@@ -18,7 +19,8 @@ import axios from 'axios';
  *       probe call: http.getRouter(undefined, { isReconnect: true })
  *       probes every 5s after the first; when operation is supplied, HTTP
  *       reachability is followed by confirmation of that exact request id;
- *       onTimeout fires when `timeout` seconds elapse without success.
+ *       onTimeout is reserved for HTTP not recovering before the deadline;
+ *       an operation error or deadline after HTTP recovery uses onError.
  *   - upgrade({ onSuccess, onTimeout }):
  *       delays behavior.upgradeProbeStartDelayMs before reconnecting with
  *       timeout = behavior.reconnectProbeTimeoutMs / 1000.
@@ -161,13 +163,14 @@ export function createReconnectController({
 
   function startProbing(opts) {
     if (disposed) return;
+    const run = generation;
     // First probe fires immediately.
     fireProbe(opts);
     // Subsequent probes every PROBE_INTERVAL_MS. The legacy code probes at
     // count%5==0 (after the first tick), which approximates to one probe
     // every 5s — setInterval matches that directly.
     probeHandle.value = sched.setInterval(() => {
-      if (disposed) return;
+      if (disposed || run !== generation) return;
       fireProbe(opts);
     }, PROBE_INTERVAL_MS);
   }
@@ -177,6 +180,7 @@ export function createReconnectController({
     // Reset any previous run — calling reconnect twice on the same controller
     // is supported by the legacy code (each invocation sets up a new timer).
     cleanup();
+    const run = generation;
     setState('delaying');
     probeInFlight = false;
 
@@ -197,15 +201,21 @@ export function createReconnectController({
     // Total timeout is measured from reconnect() invocation — matches legacy
     // semantics where `count` starts at `timeout` and decrements every tick.
     timeoutHandle.value = sched.setTimeout(() => {
-      if (disposed) return;
+      if (disposed || run !== generation) return;
+      const confirming = opts.operation && state === 'confirming';
       cleanup();
-      setState('timeout');
-      onTimeout(opts.operation ? { reason: 'outcome-unknown', id: opts.operation.id } : undefined);
+      if (confirming) {
+        setState('unconfirmed');
+        if (typeof opts.onError === 'function') opts.onError(operationError(opts.operation.id));
+      } else {
+        setState('timeout');
+        onTimeout();
+      }
     }, timeoutSec * 1000);
 
     if (delayMs > 0) {
       delayHandle.value = sched.setTimeout(() => {
-        if (disposed) return;
+        if (disposed || run !== generation) return;
         startProbing(wrapped);
       }, delayMs);
     } else {

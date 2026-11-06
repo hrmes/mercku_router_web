@@ -75,9 +75,10 @@
       </div>
       <div class="step-item step-item2"
            v-show="stepOption.current===1">
-        <m-loading :color="loadingColor"
+        <m-loading v-if="countdown > 0"
+                   :color="loadingColor"
                    :size="36"></m-loading>
-        <p class="cutdown">{{$t('trans0294')}}{{countdown}}s</p>
+        <p v-if="countdown > 0" class="cutdown">{{$t('trans0294')}}{{countdown}}s</p>
         <div class="tip"
              style="margin-top:5px;">
           {{$t('trans0171')}}
@@ -189,6 +190,7 @@ export default {
       },
       current: 0,
       countdown: 60,
+      countdownTimer: null,
       regionsList: [],
       wifiForm: {
         region_id: '',
@@ -296,6 +298,11 @@ export default {
         this.$router.push({ path: '/login' });
       });
   },
+  beforeDestroy() {
+    clearInterval(this.countdownTimer);
+    this.countdownTimer = null;
+    this.countdown = 0;
+  },
   methods: {
     loadRegionCatalogue() {
       const catalogue = resolveRegionCatalogue(
@@ -368,6 +375,8 @@ export default {
           .then(res => {
             this.$loading.close();
             this.stepOption.current = 1;
+            this.countdown = 60;
+            clearInterval(this.countdownTimer);
             const timer = setInterval(() => {
               this.countdown -= 1;
               if (this.countdown === 0) {
@@ -375,16 +384,23 @@ export default {
                 // The reconnect controller owns the deadline and unknown-result message.
               }
             }, 1000);
+            this.countdownTimer = timer;
+            const stopCountdown = () => {
+              clearInterval(timer);
+              this.countdownTimer = null;
+              this.countdown = 0;
+            };
             this.$reconnect({
               operation: res && res.data && res.data.async,
               timeout: 60,
               onsuccess: () => {
                 this.stepOption.steps[1].success = true;
-                clearInterval(timer);
+                stopCountdown();
                 this.$router.push({ path: '/login' });
               },
+              onerror: stopCountdown,
               ontimeout: () => {
-                clearInterval(timer);
+                stopCountdown();
                 this.$router.push({ path: '/unconnect' });
               },
               showLoading: false

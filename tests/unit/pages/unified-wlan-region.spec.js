@@ -270,9 +270,46 @@ describe('Firstboot observation deadline ownership', () => {
     try {
       wlanPage.methods.step1.call(vm);
       await new Promise(resolve => setTimeout(resolve, 0));
+      vm.countdown = 1; // Final visual tick of this observation, after start reset.
       tick(); expect(vm.countdown).to.equal(0); expect(routes).to.deep.equal([]);
       reconnect.ontimeout(); expect(routes).to.deep.equal(['/unconnect']);
       expect(vm.stepOption.steps[1].success).to.equal(false);
     } finally { Object.assign(global, original); }
+  });
+});
+
+describe('F1 Firstboot operation-error cleanup', () => {
+  it('stops the countdown on operation error without navigation or a success marker', async () => {
+    const original = { setInterval: global.setInterval, clearInterval: global.clearInterval };
+    const cleared = []; let reconnect;
+    global.setInterval = () => 23;
+    global.clearInterval = value => cleared.push(value);
+    const routes = [];
+    const vm = {
+      $refs: { wifiForm: { validate: () => true } },
+      wifiForm: { region_id: 124, ssid24g: 'test', ssid5g: 'test5', password24g: 'pass12345', password5g: 'pass12345' },
+      $loading: { open() {}, close() {} },
+      $http: { updateMeshConfig: async () => ({ data: { async: { id: 'original', status: 'running' } } }) },
+      stepOption: { steps: [{}, { success: false }] }, countdown: 60,
+      $reconnect: options => { reconnect = options; }, $router: { push: route => routes.push(route.path) },
+    };
+    try {
+      wlanPage.methods.step1.call(vm); await new Promise(resolve => setTimeout(resolve, 0));
+      expect(reconnect.onerror).to.be.a('function');
+      reconnect.onerror({ error: { reason: 'outcome-unknown' } });
+      expect(cleared).to.include(23); expect(vm.countdown).to.equal(0); expect(vm.countdownTimer).to.equal(null);
+      expect(vm.stepOption.steps[1].success).to.equal(false); expect(routes).to.deep.equal([]);
+    } finally { original.clearInterval(vm.countdownTimer); Object.assign(global, original); }
+  });
+
+  it('cleans its local timer when the wizard is destroyed', () => {
+    const original = global.clearInterval; const cleared = [];
+    global.clearInterval = value => cleared.push(value);
+    const vm = { countdownTimer: 23, countdown: 55 };
+    try {
+      expect(wlanPage.beforeDestroy).to.be.a('function');
+      wlanPage.beforeDestroy.call(vm);
+      expect(cleared).to.deep.equal([23]); expect(vm.countdownTimer).to.equal(null);
+    } finally { global.clearInterval = original; }
   });
 });
