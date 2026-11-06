@@ -32,7 +32,7 @@ function sfc(relative) {
 }
 const wan = sfc('pages/bussiness/setting/wan.vue');
 const vpn = sfc('pages/bussiness/advance/vpn/form.vue');
-const components = { MForm: sfc('component/form/index.vue'), MFormItem: sfc('component/formItem/index.vue'),
+const components = { MSwitch: sfc('component/switch/index.vue'), MForm: sfc('component/form/index.vue'), MFormItem: sfc('component/formItem/index.vue'),
   MCheckbox: sfc('component/checkbox/index.vue'), MInput: sfc('component/input/input.vue'),
   MSelect: { props: ['value', 'options'], template: '<select :value="value" @change="$emit(\'input\', $event.target.value)"><option v-for="o in options" :value="o.value">{{o.text}}</option></select>' } };
 const flush = async () => { await new Promise(resolve => setTimeout(resolve, 0)); await Vue.nextTick(); };
@@ -41,7 +41,7 @@ function mount(page, { row = {}, http = {}, isEdit = true } = {}) {
   const calls = [], toasts = [];
   const vm = new Vue({ ...page, components, propsData: { isEdit }, mocks: {},
     beforeCreate() {
-      this.$t = key => key; this.$store = { state: { isMobile: false, modules: { vpn: row } } };
+      this.$t = key => key; this.$store = { state: { isMobile: false, mode: 'router', _runtimeContext: { identity: { modelId: 'M8' } }, modules: { vpn: row } } };
       this.$loading = { open() {}, close() {} }; this.$toast = msg => toasts.push(msg);
       this.$dialog = { confirm: options => options.callback.ok() }; this.$router = { push() {} }; this.$reconnect = () => {};
       this.$http = { getWanNetInfo: async () => ({ data: { result: {} } }),
@@ -176,7 +176,8 @@ describe('R1 mounted legacy FAL WAN VLAN boundary', () => {
         // The page intentionally submits the authoritative top-level table.
         if (type === 'pppoe') {
           expect(h.calls[0].pppoe.password).to.equal('new-password');
-          expect(h.calls[0].pppoe).not.to.have.property('vlan');
+          if (wire.pppoe.vlan !== undefined) expect(h.calls[0].pppoe.vlan).to.deep.equal(wire.vlan);
+          else expect(h.calls[0].pppoe).not.to.have.property('vlan');
         }
       });
     }
@@ -238,4 +239,52 @@ describe('R1 unsafe VLANs across ordinary WAN protocols', () => {
       await h.vm.getWanNetInfo(); h.vm.submit(); await flush(); expect(h.calls).to.deep.equal([]);
     });
   }
+});
+
+describe('C1 Internet VLAN editing', () => {
+  it('updates only the named Internet row and deletes only it on disable', async () => {
+    const wire = getWire('dhcp', JSON.parse(JSON.stringify(vlan)));
+    wire.vlan[0].name = 'internet';
+    const h = mount(wan, { http: { getWanNetInfo: async () => ({ data: { result: wire } }) } });
+    await flush();
+    h.vm.$store.state._runtimeContext = { identity: { modelId: 'M8' } };
+    h.vm.vlan.id = '36'; await flush(); h.vm.submit(); await flush();
+    expect(h.calls[0].vlan[0].id).to.equal(36);
+    expect(h.calls[0].vlan[1]).to.deep.equal(wire.vlan[1]);
+    h.vm.vlan.enabled = false; await flush(); h.vm.submit(); await flush();
+    expect(h.calls[1].vlan).to.deep.equal([wire.vlan[1]]);
+  });
+});
+
+describe('C1 platform VLAN contracts', () => {
+  for (const [platform, model] of [['mt7621', 'M8'], ['ipq60xx', 'M6R0'], ['mt7981', 'M11R4']]) {
+    for (const count of [0, 1, 2]) it(`${platform} safely edits ${count} rows`, async () => {
+      const wire = legacyWan(platform, 'pppoe', count);
+      const h = mount(wan, { http: { getWanNetInfo: async () => ({ data: { result: wire } }) } });
+      h.vm.$store.state._runtimeContext.identity.modelId = model;
+      await flush();
+      h.vm.vlan.enabled = true; h.vm.vlan.id = '40'; h.vm.vlan.priority = 7;
+      await flush();
+      expect(h.vm.$el.querySelector('[data-e2e="wan-vlan-card"]')).not.to.equal(null);
+      h.vm.submit(); await flush();
+      expect(h.calls.length).to.equal(1);
+      expect(h.calls[0].vlan.length).to.equal(Math.max(count, 1));
+      expect(h.calls[0].vlan[0].id).to.equal(40);
+      if (count === 2) expect(h.calls[0].vlan[1]).to.deep.equal(wire.vlan[1]);
+      if (platform !== 'mt7981') expect(h.calls[0].pppoe.vlan).to.deep.equal(h.calls[0].vlan);
+      h.vm.vlan.enabled = false; await flush(); h.vm.submit(); await flush();
+      expect(h.calls[1].vlan).to.deep.equal(wire.vlan.slice(1));
+    });
+  }
+  for (const reason of ['ambiguous', 'duplicate', 'unknown', 'sfp', 'bridge', 'invalid']) it(`refuses ${reason} editing`, async () => {
+    const wire = legacyWan('ipq60xx', 'dhcp', 1);
+    if (reason === 'ambiguous') wire.vlan.push(JSON.parse(JSON.stringify(wire.vlan[0])));
+    if (reason === 'duplicate') { wire.vlan[0].name = 'internet'; wire.vlan.push(JSON.parse(JSON.stringify(wire.vlan[0]))); }
+    const h = mount(wan, { http: { getWanNetInfo: async () => ({ data: { result: wire } }) } });
+    if (reason === 'unknown') h.vm.$store.state._runtimeContext.identity.modelId = 'unknown';
+    if (reason === 'sfp') h.vm.$store.state._runtimeContext.identity.modelId = 'M11R2';
+    if (reason === 'bridge') h.vm.$store.state.mode = 'bridge';
+    await flush(); h.vm.vlan.enabled = true; h.vm.vlan.id = reason === 'invalid' ? 4095 : 50;
+    await flush(); h.vm.submit(); await flush(); expect(h.calls).to.deep.equal([]);
+  });
 });

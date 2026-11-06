@@ -160,6 +160,48 @@
             </m-form>
           </div>
         </div>
+          <div v-if="vlanEditable" class="card form__vlan"
+               data-e2e="wan-vlan-card">
+            <m-form-item :class="{ last: !vlan.enabled }">
+              <m-switch
+                :label="$t('trans0683')"
+                data-e2e="wan-vlan-toggle"
+                v-model="vlan.enabled"
+              ></m-switch>
+              <div class="des-tips">{{ $t('trans0682') }}</div>
+            </m-form-item>
+            <!-- Internet VLAN ID -->
+            <m-form v-if="vlan.enabled"
+                    data-e2e="wan-vlan-form"
+                    :model="vlan"
+                    ref="vlanForm">
+              <m-form-item prop="id" :rules="vlanIdRules" ref="vlanId">
+                <m-input
+                  data-e2e="wan-vlan-id-input"
+                  :label="$t('trans0684')"
+                  type="text"
+                  placeholder="2-4094"
+                  v-model="vlan.id"
+                ></m-input>
+              </m-form-item>
+              <m-form-item>
+                <m-select
+                  :label="$t('trans0686')"
+                  data-e2e="wan-vlan-priority-select"
+                  v-model="vlan.priority"
+                  :options="priorities"
+                ></m-select>
+              </m-form-item>
+              <m-form-item class="last">
+                <m-checkbox
+                  :text="$t('trans0685')"
+                  :rect="false"
+                  style="margin-right: 10px"
+                  v-model="vlan.ports[0].tagged"
+                ></m-checkbox>
+              </m-form-item>
+            </m-form>
+          </div>
       </div>
       <div class="page-content__bottom">
         <div class="form-button__wrapper">
@@ -223,6 +265,20 @@ function canPreserveVlans(info) {
     (validTable(info.pppoe.vlan) && isEqual(info.pppoe.vlan, info.vlan));
 }
 
+// The UI owns one unambiguous Internet row, never the entire table.
+function internetDefault() {
+  return { enabled: false, id: 2, priority: 0, ports: [{ port: { id: 4, name: 'wan', type: 'wan' }, tagged: false }] };
+}
+function internetIndex(table) {
+  const safe = row => !row.is_bridged && row.ports.length === 1 && row.ports[0].port.id === 4;
+  const named = table.map((row, i) => (row.name === 'internet' ? i : -1)).filter(i => i >= 0);
+  if (named.length) return named.length === 1 && safe(table[named[0]]) ? named[0] : -2;
+  const unnamed = table.map((row, i) => (!row.name && row.type === 'NAT' && safe(row) ? i : -1)).filter(i => i >= 0);
+  if (unnamed.length) return unnamed.length === 1 ? unnamed[0] : -2;
+  // An unnamed non-bridge row may be Internet with an unsupported port layout.
+  return table.some(row => !row.name && !row.is_bridged) ? -2 : -1;
+}
+
 export default {
   data() {
     return {
@@ -247,6 +303,8 @@ export default {
       ],
       netType: WanType.dhcp,
       netInfo: {},
+      vlan: internetDefault(),
+      vlanOriginal: internetDefault(),
       staticForm: {
         ip: '',
         mask: '',
@@ -449,6 +507,11 @@ export default {
     this.getWanNetInfo();
   },
   computed: {
+    vlanEditable() {
+      const model = this.$store.state._runtimeContext?.identity?.modelId;
+      return this.$store.state.mode === 'router' && ['M8', 'M6R0', 'M11R1', 'M11R4', 'M16R0', 'GA630'].includes(model) &&
+        canPreserveVlans(this.netInfo) && internetIndex(this.netInfo.vlan) !== -2;
+    },
     isPppoe() {
       return this.netType === WanType.pppoe;
     },
@@ -516,6 +579,10 @@ export default {
           if (!canPreserveVlans(res.data?.result)) throw new Error('WAN configuration unavailable');
           if (res.data.result) {
             this.netInfo = res.data.result;
+            const index = internetIndex(this.netInfo.vlan);
+            this.vlan = index >= 0
+              ? JSON.parse(JSON.stringify(this.netInfo.vlan[index])) : internetDefault();
+            this.vlanOriginal = JSON.parse(JSON.stringify(this.vlan));
             this.netType = this.netInfo.type;
             if (this.isDhcp) {
               const dns = (this.netInfo.dhcp && this.netInfo.dhcp.dns) || [];
@@ -581,10 +648,38 @@ export default {
         this.$toast(this.$t('trans0688'));
         return;
       }
-      // This page does not edit VLANs. Return the loaded table intact;
-      // [] retains its existing clear semantics; hidden legacy GET omissions
-      // cannot be detected from the wire and still require DUT verification.
-      const form = { type: this.netType, vlan: JSON.parse(JSON.stringify(this.netInfo.vlan)) };
+      const table = JSON.parse(JSON.stringify(this.netInfo.vlan));
+      if (!isEqual(this.vlan, this.vlanOriginal)) {
+        if (!this.vlanEditable || (this.vlan.enabled &&
+          (!this.$refs.vlanForm.validate() || !isValidInteger(this.vlan.priority, 0, 7)))) {
+          this.$toast(this.$t('trans0688'));
+          return;
+        }
+        const index = internetIndex(table);
+        if (!this.vlan.enabled) {
+          if (index >= 0) table.splice(index, 1);
+        } else if (index >= 0) {
+          table[index].enabled = true;
+          table[index].id = Number(this.vlan.id);
+          table[index].priority = Number(this.vlan.priority);
+          table[index].ports[0].tagged = this.vlan.ports[0].tagged;
+        } else {
+          const row = {
+            ...internetDefault(),
+            enabled: true,
+            id: Number(this.vlan.id),
+            priority: Number(this.vlan.priority),
+            is_bridged: false,
+            name: 'internet'
+          };
+          row.ports[0].tagged = this.vlan.ports[0].tagged;
+          const model = this.$store.state._runtimeContext.identity.modelId;
+          if (['M8', 'M6R0'].includes(model)) row.type = 'NAT';
+          if (model === 'M6R0') delete row.name;
+          table.push(row);
+        }
+      }
+      const form = { type: this.netType, vlan: table };
 
       switch (this.netType) {
         case WanType.dhcp:
@@ -607,6 +702,9 @@ export default {
             account: this.pppoeForm.account,
             password: this.pppoeForm.password
           };
+          if (this.netInfo.pppoe?.vlan !== undefined) {
+            form.pppoe.vlan = JSON.parse(JSON.stringify(table));
+          }
           if (!this.autodns.pppoe) {
             form.pppoe.dns = [this.pppoeForm.dns1];
             if (this.pppoeForm.dns2) {
