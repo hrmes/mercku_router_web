@@ -62,6 +62,7 @@ export function generateFrpSk(length = FRP_SK_LENGTH) {
 }
 
 export function isValidFrpPort(value) {
+  if (typeof value !== 'string' && typeof value !== 'number') return false;
   if (value === '' || value === null || value === undefined) return false;
   if (!/^\d+$/.test(String(value))) return false;
   const port = Number(value);
@@ -82,7 +83,11 @@ export function isValidFrpServer(value) {
 }
 
 function toPortValue(value, fallback) {
-  return isValidFrpPort(value) ? String(Number(value)) : String(fallback);
+  if (isValidFrpPort(value)) return String(Number(value));
+  if (fallback !== undefined) return String(fallback);
+  // Dynamic targets must stay invalid until the user corrects them. Only
+  // legacy Web/SSH migration supplies default target ports.
+  return typeof value === 'string' || typeof value === 'number' ? String(value) : '';
 }
 
 // A conservative UI naming policy for portable FRPC configurations.
@@ -101,7 +106,7 @@ export function cloneFrpConfig(config) {
   return { ...config, proxies: config.proxies.map(proxy => ({ ...proxy })) };
 }
 
-function normalizeFrpProxy(raw, defaultPort = FRP_DEFAULT_WEB_PORT) {
+function normalizeFrpProxy(raw, defaultPort) {
   const source = raw && typeof raw === 'object' ? raw : {};
   return {
     name: typeof source.name === 'string' ? source.name.trim() : '',

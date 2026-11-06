@@ -62,6 +62,11 @@ ports default to 80 / 22. Explicit lists, including empty lists, always take
 precedence over stale legacy fields. A malformed non-array `proxies` value
 blocks editing instead of silently creating defaults.
 
+The 80/22 target-port fallback applies only to legacy migration. Missing or
+malformed `proxies[].local_port` values remain blank or retain their invalid
+text in the form. Save, enable and key regeneration are blocked until the user
+enters a valid target port; reading a dynamic proxy never redirects it to 80.
+
 Updates send only the canonical `proxies` array, without legacy per-service
 fields or internal UI row keys. Firmware must support this list contract before
 the updated frontend can manage device tunnels; read compatibility alone does

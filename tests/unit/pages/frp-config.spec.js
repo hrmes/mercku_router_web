@@ -179,6 +179,24 @@ describe('FRP list configuration helpers', () => {
       .map(proxy => proxy.local_port)).to.deep.equal(['8080', '2222']);
   });
 
+  it('keeps malformed dynamic ports invalid and limits defaults to legacy migration', () => {
+    [undefined, null, '', 0, -1, 65536, 'abc', '70000', '1e3', '0x50', true, {}, [80]]
+      .forEach(value => {
+        const config = sampleConfig(true);
+        config.proxies[0].local_port = value;
+        const expected = typeof value === 'string' || typeof value === 'number'
+          ? String(value) : '';
+        const form = normalizeFrpConfig(config);
+        expect(form.proxies[0].local_port).to.equal(expected);
+        expect(isValidFrpPort(form.proxies[0].local_port)).to.equal(false);
+        expect(withEnabledState(form, true).proxies[0].local_port).to.equal(expected);
+        expect(normalizeFrpConfig(form).proxies[0].local_port).to.equal(expected);
+
+        const legacy = normalizeFrpConfig({ web_port: value, ssh_port: value });
+        expect(legacy.proxies.map(proxy => proxy.local_port)).to.deep.equal(['80', '22']);
+      });
+  });
+
   it('normalizes the enabled flag without accepting arbitrary truthy strings', () => {
     [true, 1, '1'].forEach(enabled => expect(normalizeFrpConfig({ enabled }).enabled).to.equal(true));
     [false, 0, 'true'].forEach(enabled => {
@@ -406,6 +424,34 @@ describe('FRP editable proxy list behavior', () => {
 });
 
 describe('FRP proxy list form integration', () => {
+  [false, true].forEach(enabled => {
+    [undefined, null, 0, 65536, 'abc', '1e3', '0x50'].forEach(value => {
+      it(`blocks device port ${String(value)} writes while enabled=${enabled}`, async () => {
+        const config = sampleConfig(enabled);
+        config.proxies[0].local_port = value;
+        const { wrapper, calls } = mountPage(config);
+        try {
+          await flush();
+          const expected = value === undefined || value === null ? '' : String(value);
+          const port = wrapper.findAll('[data-e2e="frp-proxy-port-input"]').at(0);
+          expect(wrapper.vm.ready).to.equal(true);
+          expect(port.element.value).to.equal(expected);
+          expect(await wrapper.vm.save()).to.equal(false);
+          expect(await wrapper.vm.onEnabledChange(true)).to.equal(false);
+          expect(await wrapper.vm.regenerateSk()).to.equal(false);
+          expect(calls).to.have.lengthOf(0);
+          expect(wrapper.vm.frp.proxies[0].local_port).to.equal(expected);
+
+          await port.setValue('8443');
+          await wrapper.vm.$nextTick();
+          expect(await wrapper.vm.save()).to.equal(true);
+          expect(calls[0].proxies[0].local_port).to.equal(8443);
+          expect(calls[0].proxies[1].local_port).to.equal(22);
+        } finally { wrapper.destroy(); }
+      });
+    });
+  });
+
   it('validates nested names/IPs/ports on all added rows', async () => {
     const { wrapper, calls } = mountPage(sampleConfig(true));
     try {
