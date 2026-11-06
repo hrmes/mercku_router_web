@@ -372,7 +372,7 @@ export default {
               this.countdown -= 1;
               if (this.countdown === 0) {
                 clearInterval(timer);
-                this.$router.push({ path: '/unconnect' });
+                // The reconnect controller owns the deadline and unknown-result message.
               }
             }, 1000);
             this.$reconnect({

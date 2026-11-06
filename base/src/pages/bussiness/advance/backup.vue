@@ -117,7 +117,7 @@ export default {
       this.$loading.open();
       this.isDownloading = true;
       this.$http
-        .getRouterConfigBackup()
+        .getRouterConfigBackup(undefined, { hideToast: true })
         .then(res => {
           if (res.status) {
             this.downloadTimer = setTimeout(() => {

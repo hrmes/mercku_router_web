@@ -251,3 +251,28 @@ describe('Firstboot async response association', () => {
     } finally { if (reconnect) reconnect.ontimeout(); }
   });
 });
+
+describe('Firstboot observation deadline ownership', () => {
+  it('keeps the visual countdown from cancelling the controller before it can report unknown', async () => {
+    const original = { setInterval: global.setInterval, clearInterval: global.clearInterval };
+    let tick; let reconnect; const routes = [];
+    global.setInterval = callback => { tick = callback; return 17; };
+    global.clearInterval = () => {};
+    const vm = {
+      $refs: { wifiForm: { validate: () => true } },
+      wifiForm: { region_id: 124, ssid24g: 'test', ssid5g: 'test5', password24g: 'pass12345',
+        password5g: 'pass12345', adminPassword: 'pass12345' },
+      $loading: { open() {}, close() {} },
+      $http: { updateMeshConfig: async () => ({ data: { async: { id: 'pending', status: 'running' } } }) },
+      stepOption: { steps: [{}, { success: false }] }, countdown: 1,
+      $reconnect: options => { reconnect = options; }, $router: { push: route => routes.push(route.path) },
+    };
+    try {
+      wlanPage.methods.step1.call(vm);
+      await new Promise(resolve => setTimeout(resolve, 0));
+      tick(); expect(vm.countdown).to.equal(0); expect(routes).to.deep.equal([]);
+      reconnect.ontimeout(); expect(routes).to.deep.equal(['/unconnect']);
+      expect(vm.stepOption.steps[1].success).to.equal(false);
+    } finally { Object.assign(global, original); }
+  });
+});
