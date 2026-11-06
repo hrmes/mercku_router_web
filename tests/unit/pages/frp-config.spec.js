@@ -3,72 +3,59 @@ const { expect } = require('chai');
 const fs = require('fs');
 const path = require('path');
 const vm = require('vm');
-const { shallowMount } = require('@vue/test-utils');
-
+const { mount } = require('@vue/test-utils');
 const {
-  FRP_DEFAULT_SSH_PORT,
-  FRP_DEFAULT_WEB_PORT,
-  FRP_SK_LENGTH,
-  buildFrpUpdateParams,
-  generateFrpSk,
-  isValidFrpPort,
-  normalizeFrpConfig,
-  withEnabledState
+  FRP_SK_LENGTH, buildFrpUpdateParams, cloneFrpConfig, createFrpProxyNames,
+  generateFrpSk, isValidFrpPort, isValidFrpProxyName, isValidFrpServer,
+  normalizeFrpConfig, withEnabledState
 } = require('../../../base/src/util/frp');
-
 const { getMockResult } = require('../../../unified/dev/offline-api-middleware');
-const frpPageModule = require('../../../base/src/pages/bussiness/advance/frp.vue');
+const frpPage = require('../../../base/src/pages/bussiness/advance/frp.vue').default;
+const Form = require('../../../base/src/component/form/index.vue').default;
+const FormItem = require('../../../base/src/component/formItem/index.vue').default;
+const Input = require('../../../base/src/component/input/input.vue').default;
+const Switch = require('../../../base/src/component/switch/index.vue').default;
 
-const frpPage = frpPageModule.default;
+function sampleConfig(enabled = false) {
+  return {
+    enabled,
+    server_addr: 'frps.example.com',
+    server_port: 7000,
+    token: 'server-token',
+    sk: enabled ? 'SHAREDKEY' : '',
+    proxies: [
+      { name: 'office_web', local_ip: '192.168.1.20', local_port: 80 },
+      { name: 'office_ssh', local_ip: '192.168.1.30', local_port: 22 }
+    ]
+  };
+}
 
-function createPageContext(overrides = {}) {
+function createPageContext(config = sampleConfig(), overrides = {}) {
   const calls = [];
   const context = {
+    ...frpPage.data.call({ $t: key => key }),
     ready: true,
-    busy: false,
-    frp: {
-      enabled: false,
-      sk: '',
-      web_port: String(FRP_DEFAULT_WEB_PORT),
-      ssh_port: String(FRP_DEFAULT_SSH_PORT)
-    },
-    saved: {
-      enabled: false,
-      sk: '',
-      web_port: String(FRP_DEFAULT_WEB_PORT),
-      ssh_port: String(FRP_DEFAULT_SSH_PORT)
-    },
     $refs: { frp: { validate: () => true } },
+    $nextTick: callback => callback(),
     $loading: { open() {}, close() {} },
     $toast() {},
     $t: key => key,
     calls,
     $http: {
-      updateFRP(params) {
-        calls.push(params);
-        return Promise.resolve({ data: { result: {} } });
-      }
-    },
-    ...overrides
-  };
-  // Methods call each other through `this`, so give the fake instance the
-  // page's method set (overrides above still win when a test replaces one).
-  Object.keys(frpPage.methods).forEach((name) => {
-    if (!Object.prototype.hasOwnProperty.call(context, name)) {
-      context[name] = frpPage.methods[name];
+      getFRP: () => Promise.resolve({ data: { result: config } }),
+      updateFRP(params) { calls.push(params); return Promise.resolve(); }
     }
-  });
-  return context;
+  };
+  Object.assign(context, frpPage.methods);
+  context.frp = context.withProxyKeys(normalizeFrpConfig(config));
+  context.saved = cloneFrpConfig(context.frp);
+  return Object.assign(context, overrides);
 }
 
 function loadFrpRuntime(globals) {
-  const source = fs.readFileSync(
-    path.resolve(process.cwd(), 'base/src/util/frp.js'),
-    'utf8'
-  );
+  const source = fs.readFileSync(path.resolve(process.cwd(), 'base/src/util/frp.js'), 'utf8');
   return vm.runInNewContext(
-    `${source.replace(/^export /gm, '')}\n({ generateFrpSk });`,
-    globals
+    `${source.replace(/^export /gm, '')}\n({ generateFrpSk });`, globals
   );
 }
 
@@ -77,439 +64,443 @@ function withoutSecureRandom(callback) {
   const descriptors = targets.map(target => Object.getOwnPropertyDescriptor(target, 'crypto'));
   try {
     targets.forEach(target => Object.defineProperty(target, 'crypto', {
-      configurable: true,
-      value: null
+      configurable: true, value: null
     }));
     return callback();
   } finally {
     targets.forEach((target, index) => {
-      if (descriptors[index]) {
-        Object.defineProperty(target, 'crypto', descriptors[index]);
-      } else {
-        delete target.crypto;
-      }
+      if (descriptors[index]) Object.defineProperty(target, 'crypto', descriptors[index]);
+      else delete target.crypto;
     });
   }
 }
 
-describe('FRP (STCP) configuration helpers', () => {
-  it('falls back to web 80 / ssh 22 when the device returns nothing', () => {
-    expect(normalizeFrpConfig()).to.deep.equal({
-      enabled: false,
-      sk: '',
-      web_port: String(FRP_DEFAULT_WEB_PORT),
-      ssh_port: String(FRP_DEFAULT_SSH_PORT)
-    });
-    expect(normalizeFrpConfig({})).to.deep.equal(normalizeFrpConfig());
+const flush = () => new Promise(resolve => setTimeout(resolve, 0));
+
+function mountPage(config = sampleConfig()) {
+  const calls = [];
+  const wrapper = mount({
+    ...frpPage,
+    components: { 'm-form': Form, 'm-form-item': FormItem, 'm-input': Input, 'm-switch': Switch }
+  }, {
+    mocks: {
+      $store: { state: {} },
+      $t: key => key,
+      $loading: { open() {}, close() {} },
+      $toast() {},
+      $http: {
+        getFRP: () => Promise.resolve({ data: { result: config } }),
+        updateFRP: params => { calls.push(params); return Promise.resolve(); }
+      }
+    }
+  });
+  return { wrapper, calls };
+}
+
+describe('FRP list configuration helpers', () => {
+  it('migrates empty legacy responses into the Web 80 / SSH 22 defaults', () => {
+    expect(normalizeFrpConfig().proxies).to.deep.equal([
+      { name: '', local_ip: '127.0.0.1', local_port: '80' },
+      { name: '', local_ip: '127.0.0.1', local_port: '22' }
+    ]);
   });
 
-  it('keeps valid ports and rejects unusable ones', () => {
+  it('migrates all existing Web/SSH names and LAN targets without losing settings', () => {
     const config = normalizeFrpConfig({
       enabled: true,
-      sk: 'K3Y',
+      sk: 'KEY',
+      web_name: 'existing_web',
+      ssh_name: 'existing_ssh',
+      web_ip: '192.168.10.20',
       web_port: 8080,
-      ssh_port: '2222'
+      ssh_ip: '192.168.10.30',
+      ssh_port: 2222
     });
-
-    expect(config.enabled).to.equal(true);
-    expect(config.sk).to.equal('K3Y');
-    expect(config.web_port).to.equal('8080');
-    expect(config.ssh_port).to.equal('2222');
-
-    ['', 0, -1, 65536, 'abc', null].forEach((value) => {
-      expect(isValidFrpPort(value), `port ${value}`).to.equal(false);
-      const port = normalizeFrpConfig({ web_port: value }).web_port;
-      expect(port).to.equal(String(FRP_DEFAULT_WEB_PORT));
-    });
-
-    expect(isValidFrpPort('65535')).to.equal(true);
-    expect(isValidFrpPort(1)).to.equal(true);
+    expect(config.sk).to.equal('KEY');
+    expect(config.proxies).to.deep.equal([
+      { name: 'existing_web', local_ip: '192.168.10.20', local_port: '8080' },
+      { name: 'existing_ssh', local_ip: '192.168.10.30', local_port: '2222' }
+    ]);
   });
 
-  it('coerces the enabled flag from booleans and 1/0 wire values', () => {
-    expect(normalizeFrpConfig({ enabled: true }).enabled).to.equal(true);
-    expect(normalizeFrpConfig({ enabled: 1 }).enabled).to.equal(true);
-    expect(normalizeFrpConfig({ enabled: '1' }).enabled).to.equal(true);
-    expect(normalizeFrpConfig({ enabled: false }).enabled).to.equal(false);
-    expect(normalizeFrpConfig({ enabled: 0 }).enabled).to.equal(false);
-    expect(normalizeFrpConfig({ enabled: 'true' }).enabled).to.equal(false);
+  it('prefers an explicit proxy list over stale legacy fields, including an empty list', () => {
+    expect(normalizeFrpConfig({ proxies: [], web_name: 'ghost', web_port: 80 }).proxies)
+      .to.deep.equal([]);
+    const config = normalizeFrpConfig({ ...sampleConfig(), web_name: 'ghost' });
+    expect(config.proxies[0].name).to.equal('office_web');
   });
 
-  it('generates an unambiguous random key of the default length', () => {
-    const sk = generateFrpSk();
+  it('rejects a malformed list instead of silently replacing it with default proxies', () => {
+    [null, {}, 'invalid'].forEach(proxies => {
+      expect(() => normalizeFrpConfig({ proxies })).to.throw('Invalid FRP proxy list');
+    });
+  });
 
-    expect(sk).to.have.lengthOf(FRP_SK_LENGTH);
-    // 0/O, 1/l/I are intentionally absent from the alphabet.
-    expect(sk).to.match(/^[A-HJ-NP-Za-km-z2-9]+$/);
-    expect(generateFrpSk()).to.not.equal(sk);
+  it('sends all proxies with numeric ports and excludes UI keys and legacy fields', () => {
+    const config = normalizeFrpConfig(sampleConfig(true));
+    config.proxies.push({ _key: 123, name: ' nas ', local_ip: ' 192.168.1.50 ', local_port: '5000' });
+    const wire = buildFrpUpdateParams(config);
+    expect(wire.proxies).to.have.lengthOf(3);
+    expect(wire.proxies[2]).to.deep.equal({
+      name: 'nas', local_ip: '192.168.1.50', local_port: 5000
+    });
+    expect(wire).to.not.have.property('web_port');
+    expect(wire).to.not.have.property('ssh_name');
+    expect(wire.proxies[2]).to.not.have.property('_key');
+    expect(buildFrpUpdateParams({ ...config, enabled: false }).sk).to.equal('');
+  });
+
+  it('deep clones rows so editing, adding or removing drafts never changes the saved state', () => {
+    const saved = normalizeFrpConfig(sampleConfig());
+    const draft = cloneFrpConfig(saved);
+    draft.proxies[0].name = 'changed';
+    draft.proxies.splice(1, 1);
+    expect(saved.proxies).to.have.lengthOf(2);
+    expect(saved.proxies[0].name).to.equal('office_web');
+  });
+
+  it('validates proxy names, server addresses and strict port ranges', () => {
+    ['office_web', '1', 'router-01.ssh', 'x'.repeat(128)]
+      .forEach(value => expect(isValidFrpProxyName(value)).to.equal(true));
+    ['', 'bad name', 'name=value', '[name]', '.web', 'x'.repeat(129)]
+      .forEach(value => expect(isValidFrpProxyName(value)).to.equal(false));
+    ['frps.example.com', 'frps', '192.168.1.2']
+      .forEach(value => expect(isValidFrpServer(value)).to.equal(true));
+    ['', '999.1.2.3', 'https://frps.example.com', 'frps:7000', 'bad host']
+      .forEach(value => expect(isValidFrpServer(value)).to.equal(false));
+    ['', 0, -1, 65536, 'abc', null, '1e3', '0x50', '80.0', true]
+      .forEach(value => expect(isValidFrpPort(value)).to.equal(false));
+    [1, '65535'].forEach(value => expect(isValidFrpPort(value)).to.equal(true));
+  });
+
+  it('retains valid device ports and falls back only when normalizing unusable responses', () => {
+    expect(normalizeFrpConfig({ server_port: -1 }).server_port).to.equal('7000');
+    expect(normalizeFrpConfig({ web_port: 8080, ssh_port: '2222' }).proxies
+      .map(proxy => proxy.local_port)).to.deep.equal(['8080', '2222']);
+  });
+
+  it('normalizes the enabled flag without accepting arbitrary truthy strings', () => {
+    [true, 1, '1'].forEach(enabled => expect(normalizeFrpConfig({ enabled }).enabled).to.equal(true));
+    [false, 0, 'true'].forEach(enabled => {
+      expect(normalizeFrpConfig({ enabled }).enabled).to.equal(false);
+    });
+  });
+
+  it('suggests stable device-specific legacy names and avoids a shared anonymous default', () => {
+    expect(createFrpProxyNames(' DEVICE:01 ')).to.deep.equal({
+      web_name: 'router_DEVICE_01_web', ssh_name: 'router_DEVICE_01_ssh'
+    });
+    expect(createFrpProxyNames()).to.deep.equal({ web_name: '', ssh_name: '' });
+  });
+
+  it('preserves proxy lists across disable and re-enable while rotating an empty key', () => {
+    const enabled = withEnabledState(sampleConfig(), true);
+    expect(enabled.sk).to.have.lengthOf(FRP_SK_LENGTH);
+    const disabled = withEnabledState(enabled, false);
+    expect(disabled.sk).to.equal('');
+    const next = withEnabledState(disabled, true);
+    expect(next.sk).to.not.equal(enabled.sk);
+    expect(next.proxies).to.deep.equal(enabled.proxies);
+    expect(withEnabledState({ ...disabled, sk: 'SUPPLIED' }, true).sk).to.equal('SUPPLIED');
+  });
+
+  it('generates unambiguous secure random keys', () => {
+    const key = generateFrpSk();
+    expect(key).to.have.lengthOf(FRP_SK_LENGTH);
+    expect(key).to.match(/^[A-HJ-NP-Za-km-z2-9]+$/);
+    expect(generateFrpSk()).to.not.equal(key);
     expect(generateFrpSk(8)).to.have.lengthOf(8);
   });
 
-  it('uses window.crypto in WebViews without globalThis', () => {
-    let randomCalls = 0;
-    const crypto = {
-      getRandomValues(bytes) {
-        expect(this).to.equal(crypto);
-        randomCalls += 1;
-        bytes.fill(2);
-        return bytes;
-      }
-    };
-    const runtime = loadFrpRuntime({ globalThis: undefined, window: { crypto } });
-
+  it('supports window.crypto in older WebViews without globalThis', () => {
+    const runtime = loadFrpRuntime({
+      globalThis: undefined, window: { crypto: { getRandomValues: bytes => bytes.fill(2) } }
+    });
     expect(runtime.generateFrpSk()).to.equal('C'.repeat(FRP_SK_LENGTH));
-    expect(randomCalls).to.equal(1);
   });
 
-  it('rejects key generation without secure randomness and never uses Math.random', () => {
-    let insecureCalls = 0;
-    const runtime = loadFrpRuntime({
-      globalThis: undefined,
-      window: {},
-      Math: Object.assign(Object.create(Math), {
-        random() {
-          insecureCalls += 1;
-          return 0.5;
-        }
-      })
-    });
-
-    expect(() => runtime.generateFrpSk()).to.throw('Secure random number generation is unavailable');
-    expect(insecureCalls).to.equal(0);
-  });
-
-  it('propagates secure random provider failures without an insecure fallback', () => {
-    const runtime = loadFrpRuntime({
-      globalThis: { crypto: { getRandomValues() { throw new Error('provider failed'); } } }
-    });
-
-    expect(() => runtime.generateFrpSk()).to.throw('provider failed');
-  });
-
-  it('clears the key on disable and always mints a new one on re-enable', () => {
-    const enabled = withEnabledState(
-      { enabled: false, sk: '', web_port: '8080', ssh_port: '2222' },
-      true
-    );
-
-    expect(enabled.enabled).to.equal(true);
-    expect(enabled.sk).to.have.lengthOf(FRP_SK_LENGTH);
-    expect(enabled.web_port).to.equal('8080');
-
-    const disabled = withEnabledState(enabled, false);
-    expect(disabled.enabled).to.equal(false);
-    expect(disabled.sk).to.equal('');
-
-    const reEnabled = withEnabledState(disabled, true);
-    expect(reEnabled.sk).to.have.lengthOf(FRP_SK_LENGTH);
-    expect(reEnabled.sk).to.not.equal(enabled.sk);
-  });
-
-  it('sends ports as numbers and never leaks a key while disabled', () => {
-    expect(buildFrpUpdateParams({
-      enabled: true,
-      sk: 'K3Y',
-      web_port: '8080',
-      ssh_port: '2222'
-    })).to.deep.equal({
-      enabled: true,
-      sk: 'K3Y',
-      web_port: 8080,
-      ssh_port: 2222
-    });
-
-    expect(buildFrpUpdateParams({
-      enabled: false,
-      sk: 'K3Y',
-      web_port: '80',
-      ssh_port: '22'
-    })).to.deep.equal({
-      enabled: false,
-      sk: '',
-      web_port: 80,
-      ssh_port: 22
-    });
+  it('never falls back to Math.random and propagates secure provider failures', () => {
+    const runtime = loadFrpRuntime({ globalThis: undefined, window: {} });
+    expect(() => runtime.generateFrpSk()).to.throw('Secure random');
+    const broken = loadFrpRuntime({ globalThis: {
+      crypto: { getRandomValues() { throw new Error('provider failed'); } }
+    } });
+    expect(() => broken.generateFrpSk()).to.throw('provider failed');
   });
 });
 
-describe('FRP page behaviour', () => {
-  it('blocks all write paths until the initial configuration arrives', async () => {
-    let resolveRead;
-    const context = createPageContext({ ready: false });
-    context.$http.getFRP = () => new Promise(resolve => { resolveRead = resolve; });
-    const read = context.getFrp();
-
-    expect(context.busy).to.equal(true);
-    // A switch emits v-model before change; even a direct event must be safe.
-    context.frp.enabled = true;
-    expect(await context.onEnabledChange(true)).to.equal(false);
-    expect(await context.regenerateSk()).to.equal(false);
-    expect(await context.save()).to.equal(false);
-    expect(await context.apply()).to.equal(false);
-    expect(await context.getFrp()).to.equal(false);
+describe('FRP editable proxy list behavior', () => {
+  it('adds and removes draft rows without requests or saved-state mutations', () => {
+    const context = createPageContext();
+    const saved = cloneFrpConfig(context.saved);
+    context.addProxy();
+    expect(context.frp.proxies).to.have.lengthOf(3);
+    expect(context.frp.proxies[2].local_port).to.equal('');
+    expect(context.frp.proxies[2].local_ip).to.equal('127.0.0.1');
+    context.frp.proxies[0].name = 'edited';
+    context.removeProxy(1);
+    expect(context.saved).to.deep.equal(saved);
     expect(context.calls).to.have.lengthOf(0);
-
-    resolveRead({ data: { result: {
-      enabled: true, sk: 'DEVICEKEY', web_port: 8080, ssh_port: 2222
-    } } });
-    expect(await read).to.equal(true);
-    expect(context.ready).to.equal(true);
-    expect(context.busy).to.equal(false);
-    expect(context.frp.sk).to.equal('DEVICEKEY');
-    expect(context.saved).to.deep.equal(context.frp);
-
-    expect(await context.save()).to.equal(true);
-    expect(context.calls[0].sk).to.equal('DEVICEKEY');
+    expect(frpPage.computed.proxyNamesChanged.call(context)).to.equal(true);
   });
 
-  it('keeps writes blocked after a failed read and permits retrying the read', async () => {
-    const context = createPageContext({ ready: false });
-    context.$http.getFRP = () => Promise.reject(new Error('read failed'));
+  it('keeps row keys unique after deleting a middle row and adding another', () => {
+    const context = createPageContext();
+    context.addProxy();
+    const last = context.frp.proxies[2]._key;
+    context.removeProxy(1);
+    context.addProxy();
+    expect(context.frp.proxies[1]._key).to.equal(last);
+    expect(new Set(context.frp.proxies.map(proxy => proxy._key)).size).to.equal(3);
+  });
 
-    expect(await context.getFrp()).to.equal(false);
-    expect(context.ready).to.equal(false);
-    expect(context.busy).to.equal(false);
-    expect(await context.onEnabledChange(true)).to.equal(false);
-    expect(await context.save()).to.equal(false);
-    expect(await context.apply()).to.equal(false);
-    expect(context.calls).to.have.lengthOf(0);
+  it('migrates legacy rows and suggests names without marking suggestions acknowledged', async () => {
+    const context = createPageContext({ web_port: 8080, ssh_port: 2222 });
+    context.$http.getRouter = () => Promise.resolve({ data: { result: { sn: 'DEVICE01' } } });
+    expect(await context.getFrp()).to.equal(true);
+    expect(context.frp.proxies.map(proxy => proxy.name))
+      .to.deep.equal(['router_DEVICE01_web', 'router_DEVICE01_ssh']);
+    expect(context.saved.proxies[0].name).to.equal('');
+    expect(context.frp.proxies[0].local_port).to.equal('8080');
+  });
 
-    context.$http.getFRP = () => Promise.resolve({ data: { result: {
-      enabled: true, sk: 'EXISTINGKEY', web_port: 8080, ssh_port: 2222
-    } } });
+  it('preserves supplied list names and suggests generic names only for missing entries', async () => {
+    const config = sampleConfig();
+    config.proxies.push({ name: '', local_ip: '192.168.1.50', local_port: 5000 });
+    const context = createPageContext(config);
+    context.$http.getRouter = () => Promise.resolve({ data: { result: { sn: 'DEVICE01' } } });
+    await context.getFrp();
+    expect(context.frp.proxies.map(proxy => proxy.name))
+      .to.deep.equal(['office_web', 'office_ssh', 'router_DEVICE01_proxy_3']);
+  });
+
+  it('keeps manual configuration available when metadata lookup fails', async () => {
+    const context = createPageContext({});
+    context.$http.getRouter = () => Promise.reject(new Error('metadata unavailable'));
     expect(await context.getFrp()).to.equal(true);
     expect(context.ready).to.equal(true);
-    expect(context.frp.sk).to.equal('EXISTINGKEY');
+    expect(context.frp.proxies[0].name).to.equal('');
   });
 
-  it('does not start reads or further writes while a device update is pending', async () => {
+  it('does not resurrect default rows or request metadata for an explicitly empty list', async () => {
+    const context = createPageContext({ ...sampleConfig(), proxies: [] });
+    context.$http.getRouter = () => { throw new Error('must not fetch'); };
+    expect(await context.getFrp()).to.equal(true);
+    expect(context.frp.proxies).to.deep.equal([]);
+    expect(await context.save()).to.equal(true);
+    expect(context.calls[0].proxies).to.deep.equal([]);
+  });
+
+  it('blocks edits, copying and writes before a successful read', async () => {
+    const context = createPageContext(sampleConfig(), { ready: false });
+    const saved = cloneFrpConfig(context.saved);
+    context.addProxy();
+    context.removeProxy(0);
+    expect(await context.copyProxyName(0)).to.equal(false);
+    expect(await context.save()).to.equal(false);
+    expect(await context.onEnabledChange(true)).to.equal(false);
+    expect(context.frp).to.deep.equal(saved);
+    expect(context.calls).to.have.lengthOf(0);
+  });
+
+  it('blocks concurrent list changes while a write is pending', async () => {
     let resolveUpdate;
-    let reads = 0;
     const context = createPageContext();
-    context.$http.getFRP = () => { reads += 1; return Promise.resolve(); };
     context.$http.updateFRP = params => {
       context.calls.push(params);
       return new Promise(resolve => { resolveUpdate = resolve; });
     };
-
-    const update = context.onEnabledChange(true);
-    const submittedKey = context.calls[0].sk;
-    expect(context.busy).to.equal(true);
+    const request = context.save();
+    context.addProxy();
+    context.removeProxy(0);
+    expect(await context.save()).to.equal(false);
     expect(await context.getFrp()).to.equal(false);
     expect(await context.regenerateSk()).to.equal(false);
+    expect(await context.copyProxyName(0)).to.equal(false);
+    expect(context.frp.proxies).to.have.lengthOf(2);
+    resolveUpdate();
+    expect(await request).to.equal(true);
+  });
+
+  it('keeps writes blocked after a failed read and allows retrying', async () => {
+    const context = createPageContext();
+    context.$http.getFRP = () => Promise.reject(new Error('read failed'));
+    expect(await context.getFrp()).to.equal(false);
     expect(await context.save()).to.equal(false);
-    expect(reads).to.equal(0);
-    expect(context.calls).to.have.lengthOf(1);
-
-    resolveUpdate({ data: { result: {} } });
-    expect(await update).to.equal(true);
-    expect(context.frp.sk).to.equal(submittedKey);
-    expect(context.saved.sk).to.equal(submittedKey);
-    expect(context.busy).to.equal(false);
+    context.$http.getFRP = () => Promise.resolve({ data: { result: sampleConfig() } });
+    expect(await context.getFrp()).to.equal(true);
   });
 
-  it('disables form controls until a successful read and during updates', async () => {
-    let resolveRead;
-    const wrapper = shallowMount(frpPage, {
-      mocks: {
-        $store: { state: {} },
-        $t: key => key,
-        $http: { getFRP: () => new Promise(resolve => { resolveRead = resolve; }) }
-      },
-      stubs: {
-        'm-form': { template: '<div><slot /></div>' },
-        'm-form-item': { template: '<div><slot /></div>' },
-        'm-switch': { props: ['disabled'], template: '<button :disabled="disabled" />' },
-        'm-input': { props: ['disabled'], template: '<input :disabled="disabled" />' }
-      }
+  it('fails closed when the device returns a malformed proxy list', async () => {
+    const context = createPageContext();
+    context.$http.getFRP = () => Promise.resolve({ data: { result: { proxies: {} } } });
+    expect(await context.getFrp()).to.equal(false);
+    expect(context.ready).to.equal(false);
+  });
+
+  it('saves the complete edited list and reads it back', async () => {
+    const context = createPageContext(sampleConfig(true));
+    context.addProxy();
+    Object.assign(context.frp.proxies[2], {
+      name: 'nas', local_ip: '192.168.1.50', local_port: '5000'
     });
-    const disabled = selector => wrapper.find(`[data-e2e="${selector}"]`).element.disabled;
-    try {
-      ['frp-switch', 'frp-regenerate', 'frp-web-port-input', 'frp-ssh-port-input', 'frp-submit']
-        .forEach(selector => expect(disabled(selector), selector).to.equal(true));
-
-      resolveRead({ data: { result: { enabled: true, sk: 'DEVICEKEY' } } });
-      await new Promise(resolve => setTimeout(resolve, 0));
-      ['frp-switch', 'frp-regenerate', 'frp-web-port-input', 'frp-ssh-port-input', 'frp-submit']
-        .forEach(selector => expect(disabled(selector), selector).to.equal(false));
-
-      wrapper.setData({ busy: true });
-      await wrapper.vm.$nextTick();
-      expect(disabled('frp-submit')).to.equal(true);
-      expect(disabled('frp-switch')).to.equal(true);
-    } finally {
-      wrapper.destroy();
-    }
+    expect(await context.save()).to.equal(true);
+    expect(context.calls[0].proxies[2].local_port).to.equal(5000);
+    context.$http.getFRP = () => Promise.resolve({ data: { result: context.calls[0] } });
+    await context.getFrp();
+    expect(context.frp.proxies[2].name).to.equal('nas');
+    expect(context.frp.sk).to.equal('SHAREDKEY');
+    expect(frpPage.computed.proxyNamesChanged.call(context)).to.equal(false);
   });
 
-  it('restores the switch and shows an error if a secure key cannot be generated', async () => {
-    const errors = [];
-    const context = createPageContext({ $toast: message => errors.push(message) });
-    context.frp.enabled = true;
-
-    const result = await withoutSecureRandom(() => context.onEnabledChange(true));
-
-    expect(result).to.equal(false);
-    expect(context.frp).to.deep.equal(context.saved);
-    expect(context.frp.enabled).to.equal(false);
-    expect(context.calls).to.have.lengthOf(0);
-    expect(errors).to.deep.equal(['trans0077']);
+  it('restores all rows and nested fields when saving edits/deletions/additions fails', async () => {
+    const context = createPageContext(sampleConfig(true));
+    const saved = cloneFrpConfig(context.saved);
+    context.frp.proxies[0].name = 'edited';
+    context.removeProxy(1);
+    context.addProxy();
+    context.$http.updateFRP = () => Promise.reject(new Error('device rejected'));
+    expect(await context.save()).to.equal(false);
+    expect(context.frp).to.deep.equal(saved);
+    context.frp.proxies[0].local_ip = '192.168.1.99';
+    expect(context.saved).to.deep.equal(saved);
   });
 
-  it('preserves the acknowledged key if secure regeneration fails', async () => {
-    const errors = [];
-    const config = { enabled: true, sk: 'OLDKEY', web_port: '80', ssh_port: '22' };
-    const context = createPageContext({
-      frp: { ...config }, saved: { ...config }, $toast: message => errors.push(message)
-    });
-
-    const result = await withoutSecureRandom(() => context.regenerateSk());
-
-    expect(result).to.equal(false);
-    expect(context.frp).to.deep.equal(config);
+  it('never replaces a typed invalid port with a default while enabling', async () => {
+    const context = createPageContext();
+    context.frp.proxies[0].local_port = '70000';
+    context.$refs.frp.validate = () => false;
+    expect(await context.onEnabledChange(true)).to.equal(false);
+    expect(context.frp.proxies[0].local_port).to.equal('70000');
     expect(context.calls).to.have.lengthOf(0);
-    expect(errors).to.deep.equal(['trans0077']);
-    // Disabling an existing service does not require a new random key.
-    expect(await withoutSecureRandom(() => context.onEnabledChange(false))).to.equal(true);
+  });
+
+  it('can stop the acknowledged service despite invalid or deleted draft rows', async () => {
+    const context = createPageContext(sampleConfig(true));
+    context.frp.proxies = [];
+    context.$refs.frp.validate = () => false;
+    expect(await context.onEnabledChange(false)).to.equal(true);
+    expect(context.calls[0].proxies).to.have.lengthOf(2);
+    expect(context.calls[0].enabled).to.equal(false);
     expect(context.calls[0].sk).to.equal('');
   });
 
-  it('enabling mints a key and posts the complete configuration', async () => {
+  it('preserves all proxy entries through key regeneration and enable/disable', async () => {
+    const context = createPageContext(sampleConfig(true));
+    const { proxies } = sampleConfig();
+    await context.regenerateSk();
+    await context.onEnabledChange(false);
+    await context.onEnabledChange(true);
+    context.calls.forEach(params => expect(params.proxies).to.deep.equal(proxies));
+  });
+
+  it('restores acknowledged state if secure key generation fails', async () => {
     const context = createPageContext();
-
-    await frpPage.methods.onEnabledChange.call(context, true);
-
-    expect(context.frp.enabled).to.equal(true);
-    expect(context.frp.sk).to.have.lengthOf(FRP_SK_LENGTH);
-    expect(context.calls).to.have.lengthOf(1);
-    expect(context.calls[0]).to.deep.equal({
-      enabled: true,
-      sk: context.frp.sk,
-      web_port: FRP_DEFAULT_WEB_PORT,
-      ssh_port: FRP_DEFAULT_SSH_PORT
-    });
-    // The acknowledged state is what a failed request would roll back to.
-    expect(context.saved).to.deep.equal(context.frp);
-  });
-
-  it('disabling clears the key and posts an empty one', async () => {
-    const context = createPageContext({
-      frp: { enabled: true, sk: 'OLDKEY', web_port: '80', ssh_port: '22' },
-      saved: { enabled: true, sk: 'OLDKEY', web_port: '80', ssh_port: '22' }
-    });
-
-    await frpPage.methods.onEnabledChange.call(context, false);
-
-    expect(context.frp.enabled).to.equal(false);
-    expect(context.frp.sk).to.equal('');
-    expect(context.calls[0]).to.deep.equal({
-      enabled: false,
-      sk: '',
-      web_port: 80,
-      ssh_port: 22
-    });
-  });
-
-  it('re-enabling after a disable mints a different key', async () => {
-    const context = createPageContext();
-
-    await frpPage.methods.onEnabledChange.call(context, true);
-    const firstSk = context.frp.sk;
-    await frpPage.methods.onEnabledChange.call(context, false);
-    expect(context.frp.sk).to.equal('');
-    await frpPage.methods.onEnabledChange.call(context, true);
-
-    expect(context.calls).to.have.lengthOf(3);
-    expect(context.frp.sk).to.have.lengthOf(FRP_SK_LENGTH);
-    expect(context.frp.sk).to.not.equal(firstSk);
-  });
-
-  it('rolls the form back to the acknowledged state when the device rejects', async () => {
-    const context = createPageContext({
-      $http: {
-        updateFRP() {
-          return Promise.reject(new Error('rpc failed'));
-        }
-      }
-    });
-
-    await frpPage.methods.onEnabledChange.call(context, true);
-
+    expect(await withoutSecureRandom(() => context.onEnabledChange(true))).to.equal(false);
     expect(context.frp).to.deep.equal(context.saved);
-    expect(context.frp.enabled).to.equal(false);
-    expect(context.frp.sk).to.equal('');
-  });
-
-  it('does not regenerate a key while FRP is disabled', async () => {
-    const context = createPageContext();
-
-    await frpPage.methods.regenerateSk.call(context);
-
-    expect(context.calls).to.have.lengthOf(0);
-    expect(context.frp.sk).to.equal('');
-  });
-
-  it('saves edited ports without touching the current key', async () => {
-    const context = createPageContext({
-      frp: { enabled: true, sk: 'STABLEKEY', web_port: '8080', ssh_port: '2222' },
-      saved: { enabled: true, sk: 'STABLEKEY', web_port: '80', ssh_port: '22' }
-    });
-
-    await frpPage.methods.save.call(context);
-
-    expect(context.calls[0]).to.deep.equal({
-      enabled: true,
-      sk: 'STABLEKEY',
-      web_port: 8080,
-      ssh_port: 2222
-    });
-    expect(context.frp.web_port).to.equal('8080');
-  });
-
-  it('keeps the typed ports when validation fails', async () => {
-    const context = createPageContext({
-      $refs: { frp: { validate: () => false } },
-      frp: { enabled: false, sk: '', web_port: '70000', ssh_port: '22' }
-    });
-
-    const result = await frpPage.methods.save.call(context);
-
-    expect(result).to.equal(false);
-    expect(context.calls).to.have.lengthOf(0);
-    expect(context.frp.web_port).to.equal('70000');
+    const enabled = createPageContext(sampleConfig(true));
+    expect(await withoutSecureRandom(() => enabled.regenerateSk())).to.equal(false);
+    expect(enabled.frp.sk).to.equal('SHAREDKEY');
+    expect(await withoutSecureRandom(() => enabled.onEnabledChange(false))).to.equal(true);
   });
 });
 
-describe('offline FRP fixtures', () => {
-  it('mirrors the enable/disable key contract', () => {
-    expect(getMockResult('router.frp.get')).to.deep.equal({
-      enabled: false,
-      sk: '',
-      web_port: 80,
-      ssh_port: 22
-    });
+describe('FRP proxy list form integration', () => {
+  it('validates nested names/IPs/ports on all added rows', async () => {
+    const { wrapper, calls } = mountPage(sampleConfig(true));
+    try {
+      await flush();
+      wrapper.vm.addProxy();
+      await wrapper.vm.$nextTick();
+      Object.assign(wrapper.vm.frp.proxies[2], {
+        name: 'nas', local_ip: '300.1.2.3', local_port: '70000'
+      });
+      await wrapper.vm.$nextTick();
+      expect(await wrapper.vm.save()).to.equal(false);
+      await wrapper.vm.$nextTick();
+      expect(wrapper.findAll('.form-item-error').length).to.equal(2);
+      Object.assign(wrapper.vm.frp.proxies[2], {
+        local_ip: '192.168.1.50', local_port: '5000'
+      });
+      expect(await wrapper.vm.save()).to.equal(true);
+      expect(calls[0].proxies).to.have.lengthOf(3);
+    } finally { wrapper.destroy(); }
+  });
 
-    getMockResult('router.frp.update', {
-      enabled: true,
-      sk: 'PREVIEWKEY',
-      web_port: 8080,
-      ssh_port: 2222
-    });
-    expect(getMockResult('router.frp.get')).to.deep.equal({
-      enabled: true,
-      sk: 'PREVIEWKEY',
-      web_port: 8080,
-      ssh_port: 2222
-    });
+  it('rejects blank and duplicate names across arbitrary rows', async () => {
+    const { wrapper } = mountPage(sampleConfig(true));
+    try {
+      await flush();
+      wrapper.vm.addProxy();
+      Object.assign(wrapper.vm.frp.proxies[2], { name: ' office_web ', local_port: '5000' });
+      await wrapper.vm.$nextTick();
+      expect(wrapper.vm.validate()).to.equal(false);
+      await wrapper.vm.$nextTick();
+      expect(wrapper.findAll('.form-item-error').length).to.equal(2);
+      wrapper.vm.frp.proxies[2].name = '';
+      expect(wrapper.vm.validate()).to.equal(false);
+    } finally { wrapper.destroy(); }
+  });
 
-    getMockResult('router.frp.update', {
-      enabled: false,
-      sk: '',
-      web_port: 8080,
-      ssh_port: 2222
-    });
-    const disabled = getMockResult('router.frp.get');
-    expect(disabled.enabled).to.equal(false);
-    expect(disabled.sk).to.equal('');
+  it('keeps validation paths and input values correct after deleting a middle row', async () => {
+    const { wrapper, calls } = mountPage(sampleConfig(true));
+    try {
+      await flush();
+      wrapper.vm.addProxy();
+      Object.assign(wrapper.vm.frp.proxies[2], {
+        name: 'nas', local_ip: '192.168.1.50', local_port: '5000'
+      });
+      await wrapper.vm.$nextTick();
+      wrapper.vm.removeProxy(1);
+      await wrapper.vm.$nextTick();
+      const fields = wrapper.findAll('[data-e2e="frp-proxy-name-input"]');
+      expect(fields.at(1).element.value).to.equal('nas');
+      expect(await wrapper.vm.save()).to.equal(true);
+      expect(calls[0].proxies.map(proxy => proxy.name)).to.deep.equal(['office_web', 'nas']);
+    } finally { wrapper.destroy(); }
+  });
+
+  it('allows an empty disabled list but prevents enabling without a proxy', async () => {
+    const { wrapper, calls } = mountPage({ ...sampleConfig(), proxies: [] });
+    try {
+      await flush();
+      expect(await wrapper.vm.onEnabledChange(true)).to.equal(false);
+      expect(calls).to.have.lengthOf(0);
+      expect(wrapper.vm.frp.enabled).to.equal(false);
+      expect(await wrapper.vm.save()).to.equal(true);
+      expect(calls[0].proxies).to.deep.equal([]);
+    } finally { wrapper.destroy(); }
+  });
+
+  it('disables add/remove/input controls during updates', async () => {
+    const { wrapper } = mountPage();
+    try {
+      await flush();
+      wrapper.setData({ busy: true });
+      await wrapper.vm.$nextTick();
+      ['frp-proxy-add', 'frp-proxy-remove', 'frp-proxy-name-input',
+        'frp-proxy-ip-input', 'frp-proxy-port-input', 'frp-proxy-name-copy']
+        .forEach(selector => {
+          expect(wrapper.find(`[data-e2e="${selector}"]`).element.disabled).to.equal(true);
+        });
+    } finally { wrapper.destroy(); }
+  });
+});
+
+describe('offline FRP list fixtures', () => {
+  it('persists arbitrary lists, preserves empty lists and returns independent copies', () => {
+    const original = getMockResult('router.frp.get');
+    try {
+      const config = sampleConfig(true);
+      config.proxies.push({ name: 'nas', local_ip: '192.168.1.50', local_port: 5000 });
+      getMockResult('router.frp.update', config);
+      const read = getMockResult('router.frp.get');
+      expect(read).to.deep.equal(config);
+      read.proxies[0].name = 'mutated';
+      expect(getMockResult('router.frp.get').proxies[0].name).to.equal('office_web');
+      getMockResult('router.frp.update', { ...config, enabled: false, proxies: [] });
+      expect(getMockResult('router.frp.get').proxies).to.deep.equal([]);
+      expect(getMockResult('router.frp.get').sk).to.equal('');
+    } finally { getMockResult('router.frp.update', original); }
   });
 });

@@ -182,17 +182,31 @@ const previewModeState = {
 // disabled) so the offline page behaves like the real one outside the browser.
 const previewFrpState = {
   enabled: false,
+  server_addr: '',
+  server_port: 7000,
+  token: '',
   sk: '',
-  web_port: 80,
-  ssh_port: 22,
+  proxies: [
+    { name: 'router_OFFLINE-PREVIEW_web', local_ip: '127.0.0.1', local_port: 80 },
+    { name: 'router_OFFLINE-PREVIEW_ssh', local_ip: '127.0.0.1', local_port: 22 }
+  ],
 };
 
 function updatePreviewFrp(params = {}) {
   const enabled = params.enabled === true || params.enabled === '1';
   previewFrpState.enabled = enabled;
   previewFrpState.sk = enabled ? String(params.sk || '') : '';
-  if (Number(params.web_port)) previewFrpState.web_port = Number(params.web_port);
-  if (Number(params.ssh_port)) previewFrpState.ssh_port = Number(params.ssh_port);
+  ['server_addr', 'token'].forEach(key => {
+    if (typeof params[key] === 'string') previewFrpState[key] = params[key];
+  });
+  if (Number(params.server_port)) previewFrpState.server_port = Number(params.server_port);
+  if (Array.isArray(params.proxies)) {
+    previewFrpState.proxies = params.proxies.map(proxy => ({
+      name: String(proxy.name || ''),
+      local_ip: String(proxy.local_ip || '127.0.0.1'),
+      local_port: Number(proxy.local_port)
+    }));
+  }
 }
 
 function updatePreviewMode(params = {}) {
@@ -228,7 +242,7 @@ function getMockResult(method, params) {
     return {};
   }
   if (method === 'router.frp.get') {
-    return { ...previewFrpState };
+    return { ...previewFrpState, proxies: previewFrpState.proxies.map(proxy => ({ ...proxy })) };
   }
   if (method === 'router.frp.update') {
     updatePreviewFrp(params);
