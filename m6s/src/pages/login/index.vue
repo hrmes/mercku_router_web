@@ -244,6 +244,7 @@ export default {
         });
     },
     curLockCount(err) {
+      if (this.isRuntimeProfile && (!err || !err.error || err.error.reason || Number(err.error.code) !== 300102)) return;
       this.lockCountLeft -= 1;
       setCookie('lockCountLeft', this.lockCountLeft, 1);
 

@@ -1,3 +1,4 @@
+import axios from 'axios';
 /* eslint-disable import/prefer-default-export */
 /**
  * Reconnect Controller — unified state machine for the legacy
@@ -15,7 +16,8 @@
  *       timeout: seconds, total (includes delay)
  *       delayMs: ms before first probe (0 → probe immediately)
  *       probe call: http.getRouter(undefined, { isReconnect: true })
- *       probes every 5s after the first; onSuccess fires on first resolve;
+ *       probes every 5s after the first; when operation is supplied, HTTP
+ *       reachability is followed by confirmation of that exact request id;
  *       onTimeout fires when `timeout` seconds elapse without success.
  *   - upgrade({ onSuccess, onTimeout }):
  *       delays behavior.upgradeProbeStartDelayMs before reconnecting with
@@ -25,7 +27,8 @@
  *
  * State machine:
  *   idle → delaying → probing → success | timeout
- *   idle → probing → success | timeout   (when delayMs === 0)
+ *   idle → probing → confirming → success | unconfirmed | timeout
+ *   (confirming is used only with an explicitly supplied operation receipt)
  *
  * `scheduler` is injectable. Default uses the host's setTimeout/setInterval
  * so production code can call without a scheduler. Tests inject a fake
@@ -75,6 +78,8 @@ export function createReconnectController({
   // avoid overlapping HTTP calls — we preserve that semantics.
   let probeInFlight = false;
   let disposed = false;
+  let generation = 0;
+  let observation = null;
 
   function setState(next) {
     if (disposed) return;
@@ -95,10 +100,16 @@ export function createReconnectController({
   }
 
   function cleanup() {
+    generation += 1;
+    if (observation) { observation.cancel('reconnect-ended'); observation = null; }
     clearTimer(timeoutHandle, sched.clearTimeout);
     clearTimer(delayHandle, sched.clearTimeout);
     clearTimer(probeHandle, sched.clearInterval);
     probeInFlight = false;
+  }
+
+  function cancel() {
+    cleanup(); state = 'idle';
   }
 
   function dispose() {
@@ -111,18 +122,33 @@ export function createReconnectController({
     if (disposed) return;
     if (probeInFlight) return; // legacy `responsed` guard
     probeInFlight = true;
+    const run = generation;
     setState('probing');
     Promise.resolve(
       http.getRouter(undefined, { isReconnect: true })
     )
-      .then(() => {
-        if (disposed) return;
+      .then(async () => {
+        if (disposed || run !== generation) return;
+        if (opts.operation) {
+          observation = axios.CancelToken.source();
+          setState('confirming');
+          try {
+            await http.waitForOperation(opts.operation.id, { cancelToken: observation.token,
+              timeoutMs: opts.timeoutMs });
+          } catch (error) {
+            if (disposed || run !== generation) return;
+            cleanup(); setState('unconfirmed');
+            if (typeof opts.onError === 'function') opts.onError(error);
+            return;
+          }
+        }
+        if (disposed || run !== generation) return;
         cleanup();
         setState('success');
         if (typeof opts.onSuccess === 'function') opts.onSuccess();
       })
       .catch(() => {
-        if (disposed) return;
+        if (disposed || run !== generation) return;
         probeInFlight = false;
         // The interval will fire the next probe.
       })
@@ -160,7 +186,13 @@ export function createReconnectController({
     const delayMs = typeof opts.delayMs === 'number' ? opts.delayMs : 0;
     const onSuccess = typeof opts.onSuccess === 'function' ? opts.onSuccess : () => {};
     const onTimeout = typeof opts.onTimeout === 'function' ? opts.onTimeout : () => {};
-    const wrapped = { onSuccess, onTimeout };
+    const wrapped = {
+      onSuccess,
+      onTimeout,
+      onError: opts.onError,
+      operation: opts.operation,
+      timeoutMs: timeoutSec * 1000,
+    };
 
     // Total timeout is measured from reconnect() invocation — matches legacy
     // semantics where `count` starts at `timeout` and decrements every tick.
@@ -168,7 +200,7 @@ export function createReconnectController({
       if (disposed) return;
       cleanup();
       setState('timeout');
-      onTimeout();
+      onTimeout(opts.operation ? { reason: 'outcome-unknown', id: opts.operation.id } : undefined);
     }, timeoutSec * 1000);
 
     if (delayMs > 0) {
@@ -212,6 +244,7 @@ export function createReconnectController({
     reconnect,
     upgrade,
     dispose,
+    cancel,
     getState,
   };
 }

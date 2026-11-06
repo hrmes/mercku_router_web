@@ -31,6 +31,14 @@ describe('UnifiedI18n runtime customer catalogue', () => {
     expect(i18n.translate('200101', 'en-US')).to.equal('Incorrect account or password');
   });
 
+  it('provides operation messages even for the neutral customer without catalogues', () => {
+    const context = runtimeContext();
+    delete context.i18nMessages;
+    const i18n = new UnifiedI18n(context);
+    expect(i18n.translate('operation.busy', 'en-US')).to.contain('busy');
+    expect(i18n.translate('operation.outcome-unknown', 'zh-CN')).to.not.equal('operation.outcome-unknown');
+  });
+
   it('formats numbers for every runtime language without missing locale data', () => {
     const i18n = new UnifiedI18n(runtimeContext());
     expect(() => i18n.toLocaleNumber(1.024, 'en-US')).to.not.throw();

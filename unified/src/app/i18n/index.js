@@ -28,6 +28,7 @@ import 'intl/locale-data/jsonp/fr-FR';
 import 'intl/locale-data/jsonp/fi-FI';
 import 'intl/locale-data/jsonp/bg-BG';
 import 'intl/locale-data/jsonp/sv-SE';
+import buildMessages from '../../profiles/customers/build-messages';
 
 Vue.use(VueI18n);
 
@@ -72,7 +73,7 @@ export class UnifiedI18n {
     this.i18n = new VueI18n({
       locale: initialLocale,
       fallbackLocale: defaultLanguage,
-      messages,
+      messages: buildMessages(messages, {}, {}),
     });
   }
 

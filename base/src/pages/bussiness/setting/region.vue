@@ -58,9 +58,10 @@ export default {
               .setRegion({
                 region_id: this.form.region.id
               })
-              .then(() => {
+              .then(res => {
                 this.$loading.close();
                 this.$reconnect({
+                  operation: res && res.data && res.data.async,
                   onsuccess: () => {
                     this.$toast(this.$t('trans0040'), 2000, 'success');
                   },

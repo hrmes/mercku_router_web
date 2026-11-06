@@ -1,3 +1,5 @@
+import operationMessages from './operation-messages.json';
+
 /**
  * Assemble one customer's locale catalogues and legacy alias maps.
  *
@@ -10,7 +12,7 @@ export default function buildMessages(catalogues, codeMap, extra) {
   const messages = {};
 
   Object.keys(catalogues).forEach((locale) => {
-    const catalogue = { ...catalogues[locale] };
+    const catalogue = { ...catalogues[locale], operation: { ...operationMessages['en-US'], ...operationMessages[locale], ...catalogues[locale].operation } };
     Object.keys(aliases).forEach((key) => {
       catalogue[key] = catalogue[aliases[key]];
     });

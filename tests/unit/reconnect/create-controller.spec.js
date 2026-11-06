@@ -576,3 +576,43 @@ describe('createReconnectController', () => {
     });
   });
 });
+
+describe('reconnect async completion evidence', () => {
+  it('requires the exact response id after HTTP recovers, before onSuccess', async () => {
+    let complete; let succeeded = 0; const ids = [];
+    const controller = createReconnectController({
+      http: { getRouter: async () => ({}), waitForOperation: (id) => {
+        ids.push(id); return new Promise(resolve => { complete = resolve; });
+      } }, behavior: DEFAULT_BEHAVIOR,
+    });
+    try {
+      controller.reconnect({ timeout: 1, operation: { id: 'this-response' }, onSuccess: () => { succeeded++; } });
+      await new Promise(resolve => setTimeout(resolve, 0));
+      expect(succeeded).to.equal(0); expect(ids).to.deep.equal(['this-response']);
+      complete(); await new Promise(resolve => setTimeout(resolve, 0)); expect(succeeded).to.equal(1);
+    } finally { controller.dispose(); }
+  });
+  it('does not turn an unknown operation into success, and reports it once', async () => {
+    let succeeded = 0; let errors = 0;
+    const controller = createReconnectController({ http: {
+      getRouter: async () => ({}), waitForOperation: async () => { throw Error('unknown'); },
+    }, behavior: DEFAULT_BEHAVIOR });
+    try {
+      controller.reconnect({ timeout: 1, operation: { id: 'unknown' }, onSuccess: () => { succeeded++; }, onError: () => { errors++; } });
+      await new Promise(resolve => setTimeout(resolve, 0));
+      expect(succeeded).to.equal(0); expect(errors).to.equal(1); expect(controller.getState()).to.equal('unconfirmed');
+    } finally { controller.dispose(); }
+  });
+  it('ignores late completions after timeout, disposal or replacement', async () => {
+    let complete; let succeeded = 0; let expired = 0;
+    const controller = createReconnectController({ http: {
+      getRouter: async () => ({}), waitForOperation: () => new Promise(resolve => { complete = resolve; }),
+    }, behavior: DEFAULT_BEHAVIOR });
+    try {
+      controller.reconnect({ timeout: 0.01, operation: { id: 'late' }, onSuccess: () => { succeeded++; }, onTimeout: () => { expired++; } });
+      await new Promise(resolve => setTimeout(resolve, 20)); complete();
+      await new Promise(resolve => setTimeout(resolve, 0));
+      expect(expired).to.equal(1); expect(succeeded).to.equal(0);
+    } finally { controller.dispose(); }
+  });
+});

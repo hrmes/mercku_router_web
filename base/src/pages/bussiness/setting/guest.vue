@@ -438,9 +438,10 @@ export default {
       this.$loading.open();
       this.$http
         .meshGuestUpdate(this.formParams)
-        .then(() => {
+        .then(res => {
           this.$loading.close();
           this.$reconnect({
+            operation: res && res.data && res.data.async,
             onsuccess: () => {
               if (enabled) {
                 this.guest = {

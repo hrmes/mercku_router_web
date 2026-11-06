@@ -95,3 +95,22 @@ describe('M6s login runtime branding compatibility', () => {
     expect(document.cookie).to.include('session=json-response-session');
   });
 });
+
+describe('Unified login failure accounting', () => {
+  it('does not count session expiry, connection failures or other errors as password mistakes', () => {
+    const vm = { isRuntimeProfile: true, lockCountLeft: 3, $toast() { throw Error('duplicate toast'); } };
+    [undefined, Error('offline'), { error: { code: 200101 } },
+      { error: { code: 109999, reason: 'unavailable' } },
+      { error: { code: 300102, reason: 'session-expired' } },
+    ].forEach(error => Login.methods.curLockCount.call(vm, error));
+    expect(vm.lockCountLeft).to.equal(3);
+  });
+  it('counts a confirmed password rejection once and keeps the page-owned message', () => {
+    const messages = [];
+    const vm = { isRuntimeProfile: true, lockCountLeft: 3,
+      $t: key => key, $toast: message => messages.push(message) };
+    Login.methods.curLockCount.call(vm, { error: { code: 300102 } });
+    expect(vm.lockCountLeft).to.equal(2);
+    expect(messages).to.deep.equal([300102]);
+  });
+});

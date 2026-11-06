@@ -19,6 +19,7 @@
  */
 import axios from 'axios';
 import Http, { createMethod } from 'base/http';
+import { createOperationTracker, operationPolicy } from './operations';
 
 axios.defaults.timeout = 60000;
 
@@ -40,7 +41,59 @@ const unifiedMethods = {
   updateRouterFrozenConfig: createMethod('router.config.frozen.update'),
 };
 
-class UnifiedHttp extends Http {}
+class UnifiedHttp extends Http {
+  constructor(store) {
+    super();
+    this.store = store;
+    this.operations = createOperationTracker({
+      query: (id, cancelToken) => axios({
+        url: '/app',
+        method: 'post',
+        data: { method: 'router.operation.query', params: { id } },
+        timeout: 10000,
+        cancelToken,
+        operationQuery: true,
+        hideToast: true,
+      }).then(response => response.data.result),
+    });
+    this.onOperationWaiting = () => {};
+  }
+
+  waitForOperation(id, options = {}) {
+    if (options.cancelToken) return this.operations.wait(id, options);
+    const source = axios.CancelToken.source();
+    this.store.commit('pushToken', { cancelToken: source.cancel });
+    return this.operations.wait(id, { ...options, cancelToken: source.token });
+  }
+
+  request(config, params, options = {}) {
+    return super.request(config, params, {
+      ...options,
+      registerCancel: cancel => this.store.commit('pushToken', { cancelToken: cancel }),
+    });
+  }
+
+  async onResponse(response, options) {
+    const { method } = options.data;
+    const operation = response.data && response.data.async;
+    if (!operation || method === 'router.operation.query' || operationPolicy(method) !== 'wait') {
+      return response;
+    }
+    const source = axios.CancelToken.source();
+    this.store.commit('pushToken', { cancelToken: source.cancel });
+    if (options.cancelToken) options.cancelToken.promise.then(source.cancel);
+    const stopLoading = this.onOperationWaiting(operation.id);
+    try {
+      await this.waitForOperation(operation.id, { cancelToken: source.token });
+      return response;
+    } catch (error) {
+      if (axios.isCancel(error)) return new Promise(() => {});
+      throw error;
+    } finally {
+      if (typeof stopLoading === 'function') stopLoading();
+    }
+  }
+}
 
 Object.keys(unifiedMethods).forEach((methodName) => {
   UnifiedHttp.prototype[methodName] = function requestUnifiedMethod(params, httpConfig) {
@@ -65,16 +118,22 @@ function installCancelTokenInterceptors(store) {
   interceptorsInstalled = true;
 
   axios.interceptors.request.use((config) => {
-    config.cancelToken = new axios.CancelToken((cancel) => {
-      store.commit('pushToken', { cancelToken: cancel });
-    });
+    if (!config.cancelToken) {
+      config.cancelToken = new axios.CancelToken((cancel) => {
+        if (config.registerCancel) config.registerCancel(cancel);
+        else store.commit('pushToken', { cancelToken: cancel });
+      });
+    }
+    if (config.operationQuery && config.cancelToken) {
+      config.cancelToken.promise.then(error => { error.operationQuery = true; });
+    }
     return config;
   });
 
   axios.interceptors.response.use(
     (response) => response,
     (error) => {
-      if (axios.isCancel(error)) {
+      if (axios.isCancel(error) && !error.operationQuery) {
         // Cancelled by a route change — terminate the Promise chain without
         // surfacing an error to the page component.
         return new Promise(() => {});
@@ -97,7 +156,7 @@ export function createHttp({ store } = {}) {
     throw new TypeError('createHttp: store with commit() is required');
   }
   installCancelTokenInterceptors(store);
-  const http = new UnifiedHttp();
+  const http = new UnifiedHttp(store);
   return http;
 }
 

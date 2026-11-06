@@ -504,8 +504,9 @@ export default {
 
             this.$http
               .meshWifiUpdate(wifi)
-              .then(() => {
+              .then(res => {
                 this.$reconnect({
+                  operation: res && res.data && res.data.async,
                   onsuccess: () => {
                     this.$router.push({ path: '/dashboard' });
                   },

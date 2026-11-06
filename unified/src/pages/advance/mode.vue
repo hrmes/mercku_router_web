@@ -610,10 +610,10 @@ export default {
           });
           return undefined;
         })
-        .catch(() => {
+        .catch(error => {
           this.$store.state.changeMode = false;
           this.$loading.close();
-          this.$toast(this.text('operationFailed'), 3000, 'error');
+          if (!(error && error.error)) this.$toast(this.text('operationFailed'), 3000, 'error');
           this.getMode();
         });
     },

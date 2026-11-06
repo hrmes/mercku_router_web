@@ -2,6 +2,7 @@
 /** Wire and mount the profile-driven Vue application. */
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import axios from 'axios';
 
 import toast from 'base/component/toast/index';
 import dialog from 'base/component/dialog/index';
@@ -11,6 +12,8 @@ import { installBasePageFormatters } from './base-page-formatters';
 
 import { createStore } from './store';
 import { createHttp } from './http';
+import { operationError } from './http/operations';
+import { errorMessageKey, isPasswordRejection } from './http/error-message';
 import { UnifiedI18n } from './i18n';
 import { setCurrentI18n } from '../i18n';
 import { setCurrentStore } from '../store';
@@ -49,6 +52,47 @@ export function createApp(runtimeContext, overrides = {}) {
     store,
   });
 
+  const translate = key => i18nInstance.translate(key);
+  function showOperationError(data) {
+    const error = data.error || {};
+    const operation = data.async;
+    if (error.reason === 'outcome-unknown' && operation) {
+      dialog.confirm({
+        message: translate(errorMessageKey(error)),
+        okText: translate('operation.check'),
+        cancelText: translate('trans0025'),
+        callback: {
+          ok: () => {
+            const stop = http.onOperationWaiting(operation.id);
+            http.waitForOperation(operation.id)
+              .then(() => toast(translate('operation.completed'), 2000, 'success'))
+              .catch(err => {
+                if (!axios.isCancel(err)) {
+                  showOperationError((err.response && err.response.data) || data);
+                }
+              })
+              .finally(stop);
+          },
+        },
+      });
+    } else toast(translate(errorMessageKey(error)));
+  }
+  let waiting = 0;
+  let loadingGeneration = 0;
+  http.onOperationWaiting = () => {
+    const generation = loadingGeneration;
+    waiting += 1;
+    loading.open({ title: translate('operation.applying') });
+    if (loading.instance) loading.instance.title = translate('operation.applying');
+    let stopped = false;
+    return () => {
+      if (stopped || generation !== loadingGeneration) return;
+      stopped = true;
+      waiting = Math.max(0, waiting - 1);
+      if (!waiting) loading.close();
+    };
+  };
+
   http.setExHandler((err, options) => {
     const opts = options || {};
     const { response } = err;
@@ -60,12 +104,20 @@ export function createApp(runtimeContext, overrides = {}) {
       }
       const { error } = data || {};
       if (error) {
-        if (!opts.hideToast) toast(i18nInstance.translate(error.code));
+        const passwordError = opts.data && opts.data.method === 'router.login' &&
+          isPasswordRejection(data);
+        if (!opts.hideToast && !passwordError) showOperationError(data);
       } else if (!opts.isReconnect) {
         if (process.env.VUE_APP_OFFLINE_PREVIEW !== '1') {
           router.push({ path: '/unconnect' });
         }
       }
+      throw data;
+    }
+    // A transport failure is not evidence of a wrong password.
+    if (opts.data && opts.data.method === 'router.login') {
+      const data = { error: { code: 109999, reason: 'unavailable' } };
+      if (!opts.hideToast) showOperationError(data);
       throw data;
     }
     // No response (timeout / network error) — redirect to unconnect page
@@ -75,17 +127,49 @@ export function createApp(runtimeContext, overrides = {}) {
     throw err;
   });
 
-  Vue.prototype.$loading = loading;
+  Vue.prototype.$loading = {
+    ...loading,
+    open: options => loading.open(options),
+    close: () => { if (!waiting) loading.close(); },
+  };
   Vue.prototype.$toast = toast;
   Vue.prototype.$dialog = dialog;
   Vue.prototype.$http = http;
   Vue.prototype.changeLanguage = i18nInstance.changeLanguage.bind(i18nInstance);
-  Vue.prototype.$reconnect = (opts = {}) => (
-    reconnectController.reconnect(adaptReconnectOpts(opts))
-  );
+  let stopReconnectLoading = () => {};
+  Vue.prototype.$reconnect = (opts = {}) => {
+    stopReconnectLoading();
+    const adapted = adaptReconnectOpts(opts);
+    const stop = opts.operation && opts.showLoading !== false
+      ? http.onOperationWaiting(opts.operation.id) : () => {};
+    stopReconnectLoading = stop;
+    reconnectController.reconnect({
+      ...adapted,
+      operation: opts.operation,
+      onSuccess: () => { stop(); adapted.onSuccess(); },
+      onTimeout: () => {
+        stop(); adapted.onTimeout();
+        if (opts.operation) showOperationError(operationError(opts.operation.id).response.data);
+      },
+      onError: error => {
+        stop(); adapted.onTimeout();
+        const data = (error.response && error.response.data) ||
+          operationError(opts.operation.id).response.data;
+        showOperationError(data);
+      },
+    });
+  };
   Vue.prototype.$upgrade = (opts = {}) => (
     reconnectController.upgrade(adaptReconnectOpts(opts))
   );
+  router.beforeEach((to, from, next) => {
+    store.commit('clearToken');
+    reconnectController.cancel();
+    stopReconnectLoading();
+    loadingGeneration += 1;
+    waiting = 0; loading.close();
+    next();
+  });
   installBasePageFormatters(Vue, i18nInstance);
 
   registerComponents(Vue);
@@ -111,6 +195,7 @@ export function createApp(runtimeContext, overrides = {}) {
     beforeDestroy() {
       removeViewportListener();
       reconnectController.dispose();
+      stopReconnectLoading();
     },
     render: (h) => h(App),
   });

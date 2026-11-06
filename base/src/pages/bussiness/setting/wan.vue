@@ -628,8 +628,9 @@ export default {
         message: this.$t('trans0229'),
         callback: {
           ok: () => {
-            this.$http.meshWanUpdate(params).then(() => {
+            this.$http.meshWanUpdate(params).then(res => {
               this.$reconnect({
+                operation: res && res.data && res.data.async,
                 onsuccess: () => {
                   this.$router.push({ path: '/dashboard' });
                 },

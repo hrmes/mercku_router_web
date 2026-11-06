@@ -19,6 +19,10 @@ class Http {
     this.exHandler = fn;
   }
 
+  onResponse(response) {
+    return response;
+  }
+
   request(config, params, axiosCfg = {}) {
     const data = { method: config.action };
 
@@ -31,7 +35,7 @@ class Http {
       method: 'post',
       data
     };
-    return axios(options).catch(err => {
+    return axios(options).then(response => this.onResponse(response, options)).catch(err => {
       this.exHandler(err, options);
     });
   }

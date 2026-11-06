@@ -1,0 +1,81 @@
+{
+  "en-US": {
+    "busy": "The router is busy. Please try again later.",
+    "invalid-input": "Invalid settings. Please check and try again.",
+    "session-expired": "Your session has expired. Please sign in again.",
+    "apply-failed": "Could not apply the settings. Please check and try again.",
+    "outcome-unknown": "The result is not confirmed. Please check whether the settings took effect.",
+    "unavailable": "Cannot connect to the router right now. Please try again later.",
+    "applying": "Applying settings, please wait…",
+    "check": "Check status again",
+    "completed": "The operation has completed.",
+    "failed": "The operation failed. Please try again later."
+  },
+  "zh-CN": {
+    "busy": "路由器正忙，请稍后重试",
+    "invalid-input": "配置参数有误，请检查后重试",
+    "session-expired": "登录已过期，请重新登录",
+    "apply-failed": "配置应用失败，请检查后重试",
+    "outcome-unknown": "配置结果尚未确认，请稍后检查是否生效",
+    "unavailable": "暂时无法连接路由器，请稍后重试",
+    "applying": "正在应用配置，请稍候…",
+    "check": "再次检查状态",
+    "completed": "操作已完成",
+    "failed": "操作失败，请稍后重试"
+  },
+  "de-DE": {
+    "busy": "Der Router ist beschäftigt. Bitte versuchen Sie es später erneut.",
+    "invalid-input": "Ungültige Einstellungen. Bitte prüfen und erneut versuchen.",
+    "session-expired": "Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.",
+    "apply-failed": "Die Einstellungen konnten nicht angewendet werden. Bitte prüfen und erneut versuchen.",
+    "outcome-unknown": "Das Ergebnis ist noch nicht bestätigt. Bitte prüfen Sie, ob die Einstellungen wirksam sind.",
+    "unavailable": "Der Router ist derzeit nicht erreichbar. Bitte versuchen Sie es später erneut.",
+    "applying": "Einstellungen werden angewendet. Bitte warten…",
+    "check": "Status erneut prüfen",
+    "completed": "Der Vorgang ist abgeschlossen."
+  },
+  "fr-FR": {
+    "busy": "Le routeur est occupé. Veuillez réessayer plus tard.",
+    "invalid-input": "Paramètres invalides. Veuillez vérifier et réessayer.",
+    "session-expired": "Votre session a expiré. Veuillez vous reconnecter.",
+    "apply-failed": "Impossible d’appliquer les paramètres. Veuillez vérifier et réessayer.",
+    "outcome-unknown": "Le résultat n’est pas confirmé. Veuillez vérifier si les paramètres ont été appliqués.",
+    "unavailable": "Le routeur est inaccessible pour le moment. Veuillez réessayer plus tard.",
+    "applying": "Application des paramètres, veuillez patienter…",
+    "check": "Vérifier à nouveau",
+    "completed": "L’opération est terminée."
+  },
+  "fi-FI": {
+    "busy": "Reititin on varattu. Yritä myöhemmin uudelleen.",
+    "invalid-input": "Virheelliset asetukset. Tarkista ja yritä uudelleen.",
+    "session-expired": "Istunto on vanhentunut. Kirjaudu uudelleen sisään.",
+    "apply-failed": "Asetuksia ei voitu ottaa käyttöön. Tarkista ja yritä uudelleen.",
+    "outcome-unknown": "Tulosta ei ole vahvistettu. Tarkista, tulivatko asetukset voimaan.",
+    "unavailable": "Reitittimeen ei saada yhteyttä juuri nyt. Yritä myöhemmin uudelleen.",
+    "applying": "Asetuksia otetaan käyttöön, odota…",
+    "check": "Tarkista tila uudelleen",
+    "completed": "Toiminto on valmis."
+  },
+  "bg-BG": {
+    "busy": "Рутерът е зает. Опитайте отново по-късно.",
+    "invalid-input": "Невалидни настройки. Проверете и опитайте отново.",
+    "session-expired": "Сесията ви изтече. Влезте отново.",
+    "apply-failed": "Настройките не можаха да бъдат приложени. Проверете и опитайте отново.",
+    "outcome-unknown": "Резултатът не е потвърден. Проверете дали настройките са влезли в сила.",
+    "unavailable": "В момента няма връзка с рутера. Опитайте отново по-късно.",
+    "applying": "Прилагане на настройките, моля изчакайте…",
+    "check": "Проверете отново",
+    "completed": "Операцията приключи."
+  },
+  "sv-SE": {
+    "busy": "Routern är upptagen. Försök igen senare.",
+    "invalid-input": "Ogiltiga inställningar. Kontrollera och försök igen.",
+    "session-expired": "Sessionen har löpt ut. Logga in igen.",
+    "apply-failed": "Inställningarna kunde inte tillämpas. Kontrollera och försök igen.",
+    "outcome-unknown": "Resultatet är inte bekräftat. Kontrollera om inställningarna har trätt i kraft.",
+    "unavailable": "Kan inte ansluta till routern just nu. Försök igen senare.",
+    "applying": "Tillämpar inställningar, vänta…",
+    "check": "Kontrollera status igen",
+    "completed": "Åtgärden är slutförd."
+  }
+}

@@ -365,10 +365,9 @@ export default {
           .updateMeshConfig({
             config: buildInitialConfig(this.wifiForm)
           })
-          .then(() => {
+          .then(res => {
             this.$loading.close();
             this.stepOption.current = 1;
-            this.stepOption.steps[1].success = true;
             const timer = setInterval(() => {
               this.countdown -= 1;
               if (this.countdown === 0) {
@@ -377,8 +376,10 @@ export default {
               }
             }, 1000);
             this.$reconnect({
+              operation: res && res.data && res.data.async,
               timeout: 60,
               onsuccess: () => {
+                this.stepOption.steps[1].success = true;
                 clearInterval(timer);
                 this.$router.push({ path: '/login' });
               },

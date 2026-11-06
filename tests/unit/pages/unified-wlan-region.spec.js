@@ -227,3 +227,27 @@ describe('unified WLAN region catalogue', () => {
     expect(context.wifiForm.region_id).to.equal(124);
   });
 });
+
+describe('Firstboot async response association', () => {
+  it('passes its exact receipt to reconnect and marks completion only on confirmed success', async () => {
+    const operation = { id: 'firstboot-response', status: 'running' };
+    let reconnect;
+    const vm = {
+      $refs: { wifiForm: { validate: () => true } },
+      wifiForm: { region_id: 124, ssid24g: 'test', ssid5g: 'test5', password24g: 'pass12345',
+        password5g: 'pass12345', adminPassword: 'pass12345' },
+      $loading: { open() {}, close() {} },
+      $http: { updateMeshConfig: async () => ({ data: { result: { status: true }, async: operation } }) },
+      stepOption: { steps: [{}, { success: false }] }, countdown: 60,
+      $reconnect: options => { reconnect = options; }, $router: { push() {} },
+    };
+    wlanPage.methods.step1.call(vm);
+    await new Promise(resolve => setTimeout(resolve, 0));
+    try {
+      expect(reconnect.operation).to.equal(operation);
+      expect(vm.stepOption.steps[1].success).to.equal(false);
+      reconnect.onsuccess();
+      expect(vm.stepOption.steps[1].success).to.equal(true);
+    } finally { if (reconnect) reconnect.ontimeout(); }
+  });
+});
