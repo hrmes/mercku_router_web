@@ -424,6 +424,30 @@ describe('FRP editable proxy list behavior', () => {
 });
 
 describe('FRP proxy list form integration', () => {
+  it('keeps the acknowledged key when an invalid draft blocks regeneration', async () => {
+    const { wrapper, calls } = mountPage(sampleConfig(true));
+    try {
+      await flush();
+      const savedKey = wrapper.vm.saved.sk;
+      wrapper.vm.frp.proxies[0].local_port = '70000';
+      await wrapper.vm.$nextTick();
+
+      expect(await wrapper.vm.regenerateSk()).to.equal(false);
+      expect(wrapper.vm.frp.sk).to.equal(savedKey);
+      expect(wrapper.vm.saved.sk).to.equal(savedKey);
+      expect(wrapper.vm.frp.proxies[0].local_port).to.equal('70000');
+      expect(calls).to.have.lengthOf(0);
+
+      wrapper.vm.frp.proxies[0].local_port = '8443';
+      await wrapper.vm.$nextTick();
+      expect(await wrapper.vm.regenerateSk()).to.equal(true);
+      expect(calls).to.have.lengthOf(1);
+      expect(calls[0].sk).to.not.equal(savedKey);
+      expect(wrapper.vm.frp.sk).to.equal(calls[0].sk);
+      expect(wrapper.vm.saved.sk).to.equal(calls[0].sk);
+    } finally { wrapper.destroy(); }
+  });
+
   [false, true].forEach(enabled => {
     [undefined, null, 0, 65536, 'abc', '1e3', '0x50'].forEach(value => {
       it(`blocks device port ${String(value)} writes while enabled=${enabled}`, async () => {

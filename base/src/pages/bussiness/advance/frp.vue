@@ -338,6 +338,7 @@ export default {
     },
     regenerateSk() {
       if (!this.ready || this.busy || !this.frp.enabled) return Promise.resolve(false);
+      if (!this.validate()) return Promise.resolve(false);
       try {
         this.frp = { ...this.frp, sk: generateFrpSk() };
       } catch (error) {
