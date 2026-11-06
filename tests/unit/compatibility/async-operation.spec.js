@@ -105,4 +105,16 @@ describe('async operation HTTP contract', () => {
     } finally { axios.defaults.adapter = previous; }
   });
 
+  it('continues observing real admission/publication states until completion', async () => {
+    const statuses = ['queued', 'admitting', 'publishing', 'accepted', 'running', 'waiting'];
+    let reads = 0;
+    const tracker = createOperationTracker({ intervalMs: 1, query: async () => {
+      const status = statuses[reads]; reads += 1;
+      return status ? { status } : completed;
+    } });
+    expect(await tracker.wait(id)).to.deep.equal(completed);
+    expect(reads).to.equal(statuses.length + 1);
+    expect(tracker.size()).to.equal(0);
+  });
+
 });
