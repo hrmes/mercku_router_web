@@ -272,11 +272,15 @@ export default {
     }
   },
   mounted() {
+    // 初始化数据（isinitial / mesh.meta / region）加载完成前用全局遮罩挡住表单，
+    // 避免用户在空值界面上修改；加载完成或离开本页时统一关闭。
+    this.$loading.open();
     this.$http
       .isinitial()
       .then(res => {
         if (!res.data.result.status) {
           // 已初始化，跳转到主界面
+          this.$loading.close();
           return this.$router.push({ path: '/dashboard' });
         }
         // 未初始化，直接显示向导（无需登录，mesh.meta.get / mesh.config.update 已加入公开白名单）
@@ -291,10 +295,13 @@ export default {
           this.wifiForm.password24g = b24g.password;
           this.wifiForm.ssid5g = b5g.ssid;
           this.wifiForm.password5g = b5g.password;
+          // 回填完成，放开表单
+          this.$loading.close();
         });
       })
       .catch(() => {
         // isinitial 请求失败，按已初始化处理，跳转到登录页
+        this.$loading.close();
         this.$router.push({ path: '/login' });
       });
   },
@@ -302,6 +309,8 @@ export default {
     clearInterval(this.countdownTimer);
     this.countdownTimer = null;
     this.countdown = 0;
+    // 加载未完成就离开页面时兜底关遮罩（已关闭时为 no-op）
+    this.$loading.close();
   },
   methods: {
     loadRegionCatalogue() {

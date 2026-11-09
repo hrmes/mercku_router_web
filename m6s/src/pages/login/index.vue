@@ -133,6 +133,11 @@ export default {
       .isinitial()
       .then(res => {
         if (res.data.result.status) {
+          if (this.$route.query.from === 'wizard') {
+            this.initial = true;
+            this.loading = false;
+            return;
+          }
           this.$http.login({ password: '' }).then(() => {
             this.towlan();
           });

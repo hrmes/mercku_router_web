@@ -12,6 +12,11 @@
 // 主题可按需覆盖此默认值。
 :root {
   --z-index_dialog: 1000;
+  // 全局 loading 遮罩必须高于所有弹窗层：m-modal 使用
+  // --z-index_dialog(1000)，限速弹窗移动端固定为 1000，popup-page 为
+  // 1001。此前遮罩复用 --z-index_frame（多数主题未定义 → auto），
+  // 保存请求进行中弹窗会压在遮罩之上。
+  --z-index_loading: 1100;
 }
 
 @font-face {

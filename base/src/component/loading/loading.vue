@@ -60,7 +60,7 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: var(--z-index_frame);
+  z-index: var(--z-index_loading);
   background: rgba(0, 0, 0, 0.75);
   display: flex;
   flex-direction: column;

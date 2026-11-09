@@ -17,7 +17,7 @@
         <span>{{website.text}}</span>
       </a>
       <div v-else
-           @click.stop="forward2Page('/dashboard')"
+           @click.stop="forward2Page(isWlanPage ? '/login' : '/dashboard')"
            class="logo-wrap__logo"
            :class="{'is-wlan-page':isWlanPage}">
         <img v-if="currentLogoUrl"
@@ -335,8 +335,10 @@ export default {
   },
   methods: {
     forward2Page(target) {
-      if (this.navVisible && this.$route.path !== target) {
-        this.$router.push({ path: target });
+      if ((this.navVisible || this.isWlanPage) && this.$route.path !== target) {
+        this.$router.push(this.isWlanPage && target === '/login'
+          ? { path: target, query: { from: 'wizard' } }
+          : { path: target });
       }
       if (this.mobileI18nVisible) {
         this.mobileI18nVisible = false;
@@ -624,9 +626,6 @@ export default {
         height: 100%;
         object-fit: contain;
         object-position: left center;
-      }
-      &.is-wlan-page {
-        cursor: default;
       }
     }
   }

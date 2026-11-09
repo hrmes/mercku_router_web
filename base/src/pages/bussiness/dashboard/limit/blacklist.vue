@@ -212,8 +212,10 @@ export default {
             this.$loading.close();
             this.modalShow = false;
             this.$toast(this.$t('trans0040'), 2000, 'success');
-            this.blacklistLimit.parent_control.blacklist =
-              this.parentControlLimitList;
+            if (this.blacklistLimit && this.blacklistLimit.parent_control) {
+              this.blacklistLimit.parent_control.blacklist =
+                this.parentControlLimitList;
+            }
           })
           .catch(() => {
             this.$loading.close();

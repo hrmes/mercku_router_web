@@ -6,7 +6,13 @@
         <span>{{$t('trans0014')}}</span>
       </div>
       <div class="main__content">
-        <m-form ref="form"
+        <div v-if="loading"
+             class="speed-loading">
+          <m-loading id="speed-limit-loading"
+                     :size="36"></m-loading>
+        </div>
+        <m-form v-else
+                ref="form"
                 :model="form"
                 :rules='rules'
                 class="form">
@@ -57,6 +63,7 @@ export default {
       return v <= 1000000;
     }
     return {
+      loading: false,
       form: {
         up: '',
         down: '',
@@ -118,14 +125,21 @@ export default {
       return v * 1000;
     },
     getSpeed() {
-      this.$http.getSpeedLimit({ mac: this.mac }).then(res => {
-        const speed = res.data.result;
-        this.form = {
-          ...speed,
-          up: this.b_to_Kb(speed.up),
-          down: this.b_to_Kb(speed.down)
-        };
-      });
+      this.loading = true;
+      this.$http
+        .getSpeedLimit({ mac: this.mac })
+        .then(res => {
+          const speed = res.data.result;
+          this.form = {
+            ...speed,
+            up: this.bps_to_Kbps(speed.up),
+            down: this.bps_to_Kbps(speed.down)
+          };
+          this.loading = false;
+        })
+        .catch(() => {
+          this.loading = false;
+        });
     },
     submit() {
       if (this.form.enabled && !this.form.up && !this.form.down) {
@@ -218,6 +232,12 @@ export default {
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+.speed-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 190px;
 }
 .form {
   .item {
