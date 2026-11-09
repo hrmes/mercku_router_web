@@ -178,6 +178,37 @@ const previewModeState = {
   apclient: null,
 };
 
+// Stateful FRP preview: mirrors the device contract (the key is cleared while
+// disabled) so the offline page behaves like the real one outside the browser.
+const previewFrpState = {
+  enabled: false,
+  server_addr: '',
+  server_port: 7000,
+  token: '',
+  sk: '',
+  proxies: [
+    { name: 'router_OFFLINE-PREVIEW_web', local_ip: '127.0.0.1', local_port: 80 },
+    { name: 'router_OFFLINE-PREVIEW_ssh', local_ip: '127.0.0.1', local_port: 22 }
+  ],
+};
+
+function updatePreviewFrp(params = {}) {
+  const enabled = params.enabled === true || params.enabled === '1';
+  previewFrpState.enabled = enabled;
+  previewFrpState.sk = enabled ? String(params.sk || '') : '';
+  ['server_addr', 'token'].forEach(key => {
+    if (typeof params[key] === 'string') previewFrpState[key] = params[key];
+  });
+  if (Number(params.server_port)) previewFrpState.server_port = Number(params.server_port);
+  if (Array.isArray(params.proxies)) {
+    previewFrpState.proxies = params.proxies.map(proxy => ({
+      name: String(proxy.name || ''),
+      local_ip: String(proxy.local_ip || '127.0.0.1'),
+      local_port: Number(proxy.local_port)
+    }));
+  }
+}
+
 function updatePreviewMode(params = {}) {
   const mode = params.mode || previewModeState.mode;
   previewModeState.mode = mode;
@@ -208,6 +239,13 @@ function getMockResult(method, params) {
   }
   if (method === 'mesh.mode.update') {
     updatePreviewMode(params);
+    return {};
+  }
+  if (method === 'router.frp.get') {
+    return { ...previewFrpState, proxies: previewFrpState.proxies.map(proxy => ({ ...proxy })) };
+  }
+  if (method === 'router.frp.update') {
+    updatePreviewFrp(params);
     return {};
   }
   return Object.prototype.hasOwnProperty.call(MOCK_RESULTS, method)

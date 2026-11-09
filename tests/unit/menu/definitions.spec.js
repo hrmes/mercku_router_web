@@ -45,7 +45,7 @@ describe('menuDefinitions (static menu tree)', () => {
       });
     });
 
-    ['portforwarding', 'dmz', 'dhcp', 'rsvdip', 'mac', 'ddns', 'vpn', 'mode', 'diagnosis', 'log', 'firewall', 'wwa', 'tr069', 'backup'].forEach((name) => {
+    ['portforwarding', 'dmz', 'dhcp', 'rsvdip', 'mac', 'ddns', 'vpn', 'mode', 'diagnosis', 'log', 'firewall', 'wwa', 'tr069', 'backup', 'frp'].forEach((name) => {
       it(`includes advance.${name} as a common item`, () => {
         expect(names).to.include(name);
       });

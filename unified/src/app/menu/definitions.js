@@ -135,6 +135,7 @@ export const menuDefinitions = [
         requiresCustomerPolicy: 'allowTelnet',
       },
       { text: 'trans1019', name: 'backup', url: '/advance/backup', config: bothAllModes() },
+      { text: 'trans1253', name: 'frp', url: '/advance/frp', config: bothAllModes() },
       { text: 'trans1186', name: 'frozen-config', url: '/advance/frozen-config', config: bothAllModes(), requiresCapability: 'frozenConfig' },
     ],
   },
