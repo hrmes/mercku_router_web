@@ -178,6 +178,39 @@ const previewModeState = {
   apclient: null,
 };
 
+// Keep the configured SK in preview state; reads expose only its presence.
+const previewFrpState = {
+  enabled: false,
+  server_addr: '',
+  server_port: 7000,
+  token: '',
+  sk: '',
+  proxies: [
+    { name: 'router_OFFLINE-PREVIEW_web', local_ip: '127.0.0.1', local_port: 80 },
+    { name: 'router_OFFLINE-PREVIEW_ssh', local_ip: '127.0.0.1', local_port: 22 }
+  ],
+};
+
+function updatePreviewFrp(params = {}) {
+  const enabled = params.enabled === true || params.enabled === 1 || params.enabled === '1';
+  const sk = typeof params.sk === 'string' && params.sk.trim() ? params.sk : previewFrpState.sk;
+  if (enabled && !sk) return false;
+  previewFrpState.enabled = enabled;
+  previewFrpState.sk = sk;
+  ['server_addr', 'token'].forEach(key => {
+    if (typeof params[key] === 'string') previewFrpState[key] = params[key];
+  });
+  if (Number(params.server_port)) previewFrpState.server_port = Number(params.server_port);
+  if (Array.isArray(params.proxies)) {
+    previewFrpState.proxies = params.proxies.map(proxy => ({
+      name: String(proxy.name || ''),
+      local_ip: String(proxy.local_ip || '127.0.0.1'),
+      local_port: Number(proxy.local_port)
+    }));
+  }
+  return true;
+}
+
 function updatePreviewMode(params = {}) {
   const mode = params.mode || previewModeState.mode;
   previewModeState.mode = mode;
@@ -210,17 +243,24 @@ function getMockResult(method, params) {
     updatePreviewMode(params);
     return {};
   }
+  if (method === 'router.frp.get') {
+    const { sk, proxies, ...config } = previewFrpState;
+    return { ...config, hasSk: !!sk, proxies: proxies.map(proxy => ({ ...proxy })) };
+  }
+  if (method === 'router.frp.update') {
+    return updatePreviewFrp(params) ? {} : undefined;
+  }
   return Object.prototype.hasOwnProperty.call(MOCK_RESULTS, method)
     ? MOCK_RESULTS[method]
     : {};
 }
 
 function sendResult(res, result) {
-  res.status(200);
+  res.status(result === undefined ? 400 : 200);
   res.setHeader('Content-Type', 'application/json; charset=utf-8');
   res.setHeader('Cache-Control', 'no-store');
   res.setHeader('X-Mercku-Offline-Preview', '1');
-  res.end(JSON.stringify({ result }));
+  res.end(JSON.stringify(result === undefined ? { error: { code: 'trans1286' } } : { result }));
 }
 
 function serveOfflineApi(req, res, next) {

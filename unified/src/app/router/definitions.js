@@ -119,6 +119,8 @@ const BackupPage = () =>
   import(/* webpackChunkName: "group-advance" */ 'base/pages/bussiness/advance/backup.vue');
 const FrozenConfigPage = () =>
   import(/* webpackChunkName: "group-advance" */ '../../../../m6a/src/pages/bussiness/advance/frozen-config/index.vue');
+const FrpPage = () =>
+  import(/* webpackChunkName: "group-advance" */ 'base/pages/bussiness/advance/frp.vue');
 const OnlineUpgradePage = () =>
   import(/* webpackChunkName: "group-upgrade" */ 'base/pages/bussiness/upgrade/online.vue');
 const OfflineUpgradePage = () =>
@@ -277,6 +279,7 @@ export const routeDefinitions = [
     requiresCustomerPolicy: 'allowTelnet',
   },
   { name: 'backup', path: '/advance/backup', component: BackupPage, meta: primaryMeta, config: bothAllModes() },
+  { name: 'frp', path: '/advance/frp', component: FrpPage, meta: primaryMeta, config: bothAllModes() },
   {
     name: 'frozen-config',
     path: '/advance/frozen-config',

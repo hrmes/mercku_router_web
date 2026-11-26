@@ -40,7 +40,7 @@ describe('routeDefinitions (static route tree)', () => {
       'timezone', 'region', 'guest', 'upnp', 'led', 'schedule', 'wps',
       'portforwarding', 'dmz', 'dhcp', 'rsvdip', 'mac', 'ddns', 'vpn',
       'mode', 'diagnosis', 'log', 'firewall', 'wwa', 'tr069', 'telnet',
-      'backup',
+      'backup', 'frp',
       'sfp', 'powersupply', 'fan', 'frozen-config',
       'online', 'offline', 'auto',
     ].forEach((name) => {
