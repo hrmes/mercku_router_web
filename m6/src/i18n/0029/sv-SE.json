@@ -1271,5 +1271,10 @@
   "trans1282": "Lokal IP",
   "trans1283": "Lokal port",
   "trans1284": "Inga proxyer. Klicka på ”+” för att lägga till en.",
-  "trans1285": "Lägg till minst en proxy innan fjärråtkomst aktiveras"
+  "trans1285": "Lägg till minst en proxy innan fjärråtkomst aktiveras",
+  "trans1286": "Ange samma SK som besökaren använder.",
+  "trans1287": "En SK är inställd. Lämna fältet tomt för att behålla den.",
+  "trans1288": "När du ändrar SK ska du ange samma SK även hos besökaren.",
+  "trans1289": "En SK krävs för att aktivera FRP.",
+  "trans1290": "Inställningen för reglaget börjar gälla när du sparar."
 }

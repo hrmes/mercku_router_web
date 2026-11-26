@@ -1272,5 +1272,10 @@
   "trans1282": "Lokalni IP",
   "trans1283": "Lokalni priključak",
   "trans1284": "Nema proxyja. Kliknite „+” za dodavanje.",
-  "trans1285": "Dodajte barem jedan proxy prije uključivanja udaljenog pristupa"
+  "trans1285": "Dodajte barem jedan proxy prije uključivanja udaljenog pristupa",
+  "trans1286": "Unesite isti SK kao kod posjetitelja.",
+  "trans1287": "SK je postavljen. Ostavite polje prazno da biste ga zadržali.",
+  "trans1288": "Nakon promjene SK-a postavite isti SK i kod posjetitelja.",
+  "trans1289": "Za uključivanje FRP-a potreban je SK.",
+  "trans1290": "Postavka prekidača primjenjuje se nakon spremanja."
 }

@@ -3,8 +3,7 @@
 The shared FRP page has a dynamic list of STCP proxies. Each entry contains a
 name, local IPv4 address and local port. The “+ Add Proxy” button adds an editable
 row; rows can be removed, and names can be copied for visitor configuration.
-Adding, editing and removing rows stays local until Save (or an enable/key
-regeneration action that applies the complete draft).
+Changes to Enable and the configuration stay in the form until Save.
 
 FRPS server settings and the STCP shared secret remain common to all entries.
 `127.0.0.1` targets the router itself. A reachable LAN address targets that
@@ -12,7 +11,7 @@ device's service. This forwards individual TCP services, not an entire LAN.
 
 ## Device API contract
 
-`router.frp.get` returns, and `router.frp.update` accepts, a complete configuration:
+`router.frp.get` returns the stored configuration:
 
 ```json
 {
@@ -20,7 +19,7 @@ device's service. This forwards individual TCP services, not an entire LAN.
   "server_addr": "frps.example.com",
   "server_port": 7000,
   "token": "server-auth-token",
-  "sk": "shared-stcp-secret",
+  "hasSk": true,
   "proxies": [
     { "name": "office_web", "local_ip": "127.0.0.1", "local_port": 80 },
     { "name": "office_ssh", "local_ip": "192.168.1.30", "local_port": 22 },
@@ -35,10 +34,20 @@ device's service. This forwards individual TCP services, not an entire LAN.
 | `server_addr` | `serverAddr`, hostname or IPv4, without scheme/path/port |
 | `server_port` | `serverPort`, integer 1–65535; default 7000 |
 | `token` | `auth.token`, optional according to server requirements |
-| `sk` | Every STCP proxy's `secretKey` |
+| `hasSk` | Read-only boolean indicating whether an SK is stored |
+| `sk` | Optional write-only replacement for every STCP proxy's `secretKey` |
 | `proxies[].name` | Proxy `name`; corresponding visitor's `serverName` |
 | `proxies[].local_ip` | Proxy `localIP`; default 127.0.0.1 |
 | `proxies[].local_port` | Proxy `localPort`, integer 1–65535 |
+
+`router.frp.update` accepts the same configuration fields other than `hasSk`.
+It accepts an optional `sk` and preserves the stored SK when `sk` is omitted or
+blank. A supplied nonblank SK is stored even while disabled. When `enabled` is
+true, the device must reject the update without changing the stored state if
+there is no supplied or stored SK. Reads must omit `sk`. Router Web can derive
+the presence indicator from a legacy read containing `sk` and discards that
+value before populating the form. For deployment, the device firmware must
+implement the new update semantics.
 
 Firmware must treat `proxies` as the authoritative replacement list: remove
 entries omitted by an update, preserve every provided entry and its name, and
@@ -64,8 +73,8 @@ blocks editing instead of silently creating defaults.
 
 The 80/22 target-port fallback applies only to legacy migration. Missing or
 malformed `proxies[].local_port` values remain blank or retain their invalid
-text in the form. Save, enable and key regeneration are blocked until the user
-enters a valid target port; reading a dynamic proxy never redirects it to 80.
+text in the form. Saving is blocked until the user enters a valid target port;
+reading a dynamic proxy never redirects it to 80.
 
 Updates send only the canonical `proxies` array, without legacy per-service
 fields or internal UI row keys. Firmware must support this list contract before
@@ -80,10 +89,12 @@ marked accordingly. If metadata fails, manual entry remains available.
 
 ## Application and failure behavior
 
-Enabling preserves a supplied SK or securely generates one when blank. Disabling
-clears the SK. Toggle and regenerate actions apply immediately. Disabling uses
-the last acknowledged list and skips draft validation, so incomplete edits or
-an empty draft cannot prevent stopping the service.
+Save applies the full draft and the device uses `enabled` to start or stop
+`frpc`. The form requires an SK when enabling FRP for the first time. Users can
+save a disabled configuration without an SK, or set the SK ahead of enabling
+FRP. The SK field is blank on load and after a successful save. When an SK is
+already stored, the page indicates that leaving the field blank keeps it.
+Entering a replacement shows a reminder to update the visitor's SK.
 
 The form and saved snapshot hold independent copies of every proxy. Failed
 writes restore the entire acknowledged list, including added/deleted/edited

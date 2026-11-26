@@ -1,65 +1,15 @@
-/* global globalThis */
 /**
  * FRP (STCP) helpers shared by the "FRP" advance-settings page.
  *
- * The page sends one `router.frp.update` command containing the complete
- * configuration, so everything that decides the wire payload lives here and
- * stays unit-testable without mounting the Vue component.
- *
- * Rules implemented here:
- *   - legacy Web/SSH settings are migrated into a proxy list;
- *   - the secret key is only part of the payload while FRP is enabled;
- *   - disabling clears the key; enabling accepts a user-supplied key or
- *     generates a new random key when no key was supplied.
+ * Save sends the complete proxy list. The optional `sk` field replaces the
+ * saved secret only when the user enters a new one.
  */
 export const FRP_DEFAULT_WEB_PORT = 80;
 export const FRP_DEFAULT_SSH_PORT = 22;
 export const FRP_DEFAULT_SERVER_PORT = 7000;
 export const FRP_DEFAULT_LOCAL_IP = '127.0.0.1';
-export const FRP_SK_LENGTH = 16;
-
-// Ambiguous glyphs (0/O, 1/l/I) are excluded so the key can be typed by hand
-// on the visitor side without guessing.
-const SK_ALPHABET =
-  'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
-
 const MIN_PORT = 1;
 const MAX_PORT = 65535;
-
-function getCrypto() {
-  if (typeof globalThis !== 'undefined' && globalThis.crypto &&
-      typeof globalThis.crypto.getRandomValues === 'function') {
-    return globalThis.crypto;
-  }
-  if (typeof window !== 'undefined' && window.crypto &&
-      typeof window.crypto.getRandomValues === 'function') {
-    return window.crypto;
-  }
-  return null;
-}
-
-/**
- * Generate a random secret key for STCP FRP.
- *
- * Requires crypto.getRandomValues; never fall back to a non-cryptographic
- * random source for an access credential.
- */
-export function generateFrpSk(length = FRP_SK_LENGTH) {
-  const size = Number(length) > 0 ? Math.floor(Number(length)) : FRP_SK_LENGTH;
-  const bytes = new Uint8Array(size);
-  const cryptoObj = getCrypto();
-
-  if (!cryptoObj) {
-    throw new Error('Secure random number generation is unavailable');
-  }
-  cryptoObj.getRandomValues(bytes);
-
-  let sk = '';
-  for (let i = 0; i < size; i += 1) {
-    sk += SK_ALPHABET.charAt(bytes[i] % SK_ALPHABET.length);
-  }
-  return sk;
-}
 
 export function isValidFrpPort(value) {
   if (typeof value !== 'string' && typeof value !== 'number') return false;
@@ -148,24 +98,6 @@ export function normalizeFrpConfig(raw) {
   };
 }
 
-/**
- * Apply an enable/disable transition.
- *
- * Disabling drops the key. Enabling keeps a supplied key, or creates one
- * when empty, allowing visitors to use credentials provided by their server.
- */
-export function withEnabledState(config, enabled) {
-  const next = normalizeFrpConfig(config);
-  next.enabled = enabled === true;
-  next.sk = next.enabled ? (next.sk || generateFrpSk()) : '';
-  return next;
-}
-
-/**
- * Build the `router.frp.update` parameters. `sk` is always transmitted as an
- * empty string while disabled (the device clears the stored key), and ports
- * are sent as numbers.
- */
 export function buildFrpUpdateParams(config) {
   const next = normalizeFrpConfig(config);
   return {
@@ -173,7 +105,7 @@ export function buildFrpUpdateParams(config) {
     server_addr: next.server_addr,
     server_port: Number(next.server_port),
     token: next.token,
-    sk: next.enabled ? next.sk : '',
+    ...(next.sk.trim() ? { sk: next.sk } : {}),
     proxies: next.proxies.map(proxy => ({ ...proxy, local_port: Number(proxy.local_port) })),
   };
 }

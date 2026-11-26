@@ -1277,5 +1277,10 @@
   "trans1282": "Local IP",
   "trans1283": "Local Port",
   "trans1284": "No proxies. Click “+” to add a proxy.",
-  "trans1285": "Add at least one proxy before enabling remote access"
+  "trans1285": "Add at least one proxy before enabling remote access",
+  "trans1286": "Enter the same SK as the visitor.",
+  "trans1287": "An SK is set. Leave this field blank to keep it.",
+  "trans1288": "After changing the SK, update the visitor to use the same SK.",
+  "trans1289": "An SK is required to enable FRP.",
+  "trans1290": "The switch setting takes effect after you save."
 }

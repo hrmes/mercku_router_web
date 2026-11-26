@@ -1,7 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 
 const initialConfig = {
-  enabled: false, server_addr: 'frps.example.com', server_port: 7000, token: '', sk: '',
+  enabled: false, server_addr: 'frps.example.com', server_port: 7000, token: '', sk: 'preview-secret',
   proxies: [
     { name: 'office_web', local_ip: '127.0.0.1', local_port: 80 },
     { name: 'office_ssh', local_ip: '192.168.1.30', local_port: 22 }
@@ -12,12 +12,14 @@ const field = (page: Page, index: number, name: string) =>
   rows(page).nth(index).locator(`[data-e2e="frp-proxy-${name}-input"]`);
 
 async function save(page: Page) {
-  await Promise.all([
+  const [response] = await Promise.all([
     page.waitForResponse(response => response.url().endsWith('/app') &&
       response.request().postDataJSON()?.method === 'router.frp.update'),
     page.locator('[data-e2e="frp-submit"]').click()
   ]);
   await expect(page.locator('[data-e2e="frp-submit"]')).toBeEnabled();
+  expect(response.ok()).toBe(true);
+  return response.request().postDataJSON().params;
 }
 
 async function readConfig(page: Page) {
@@ -64,7 +66,8 @@ test.describe('FRP editable STCP proxy list', () => {
     expect((await readConfig(page)).proxies).toHaveLength(2);
     await page.locator('[data-e2e="frp-sk-input"]').fill('customer-shared-secret');
     await page.locator('[data-e2e="frp-switch"] .mk-switch__inner').click();
-    await expect(page.locator('[data-e2e="frp-submit"]')).toBeEnabled();
+    expect(await readConfig(page)).toMatchObject({ enabled: false, proxies: initialConfig.proxies });
+    expect(await save(page)).toMatchObject({ enabled: true, sk: 'customer-shared-secret' });
     await page.reload();
     await expect(rows(page)).toHaveCount(3);
     await expect(field(page, 2, 'name')).toHaveValue('nas');
@@ -83,7 +86,9 @@ test.describe('FRP editable STCP proxy list', () => {
     expect(config.proxies[2]).toEqual({
       name: 'office_nas', local_ip: '192.168.1.50', local_port: 5000
     });
-    expect(config.sk).toBe('customer-shared-secret');
+    expect(config.hasSk).toBe(true);
+    expect(config).not.toHaveProperty('sk');
+    await expect(page.locator('[data-e2e="frp-sk-input"]')).toHaveValue('');
     await expect(page.locator('[data-e2e="global-loading"]')).not.toBeVisible();
     const card = await page.locator('[data-e2e="frp-form-card"]').boundingBox();
     expect(card!.width).toBeGreaterThan(1000);
@@ -136,28 +141,29 @@ test.describe('FRP editable STCP proxy list', () => {
     await save(page);
   });
 
-  test('keeps empty lists empty, prevents empty enabling and lets users stop with invalid drafts', async ({ page }) => {
+  test('keeps the SK across disable and re-enable and validates empty lists on Save', async ({ page }) => {
     await page.locator('[data-e2e="frp-switch"] .mk-switch__inner').click();
-    await expect(page.locator('[data-e2e="frp-submit"]')).toBeEnabled();
+    expect(await save(page)).not.toHaveProperty('sk');
     await rows(page).nth(0).locator('[data-e2e="frp-proxy-remove"]').click();
     await rows(page).nth(0).locator('[data-e2e="frp-proxy-remove"]').click();
     await page.locator('[data-e2e="frp-submit"]').click();
     await expect(page.locator('.form-item-error')).toHaveCount(1);
     expect((await readConfig(page)).enabled).toBe(true);
     await page.locator('[data-e2e="frp-switch"] .mk-switch__inner').click();
-    await expect(rows(page)).toHaveCount(2);
+    await expect(rows(page)).toHaveCount(0);
     await expect(page.locator('[data-e2e="frp-sk-input"]')).toHaveValue('');
-    await rows(page).nth(0).locator('[data-e2e="frp-proxy-remove"]').click();
-    await rows(page).nth(0).locator('[data-e2e="frp-proxy-remove"]').click();
-    await save(page);
+    expect(await save(page)).not.toHaveProperty('sk');
     await page.reload();
     await expect(rows(page)).toHaveCount(0);
-    expect((await readConfig(page)).proxies).toEqual([]);
+    expect(await readConfig(page)).toMatchObject({ enabled: false, hasSk: true, proxies: [] });
     await page.locator('[data-e2e="frp-switch"] .mk-switch__inner').click();
+    await page.locator('[data-e2e="frp-submit"]').click();
     await expect(page.locator('.form-item-error')).toHaveCount(1);
     expect((await readConfig(page)).enabled).toBe(false);
-    await page.locator('[data-e2e="frp-proxy-add"]').click();
+    await addNas(page);
     await expect(rows(page)).toHaveCount(1);
+    expect(await save(page)).not.toHaveProperty('sk');
+    expect(await readConfig(page)).toMatchObject({ enabled: true, hasSk: true });
   });
 
   test('migrates legacy Web and SSH settings and saves them as a list', async ({ page }) => {

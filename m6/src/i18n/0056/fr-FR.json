@@ -1252,5 +1252,10 @@
   "trans1282": "IP locale",
   "trans1283": "Port local",
   "trans1284": "Aucun proxy. Cliquez sur « + » pour en ajouter un.",
-  "trans1285": "Ajoutez au moins un proxy avant d’activer l’accès distant"
+  "trans1285": "Ajoutez au moins un proxy avant d’activer l’accès distant",
+  "trans1286": "Saisissez le même SK que celui du visiteur.",
+  "trans1287": "Un SK est défini. Laissez ce champ vide pour le conserver.",
+  "trans1288": "Après avoir modifié le SK, configurez le même SK côté visiteur.",
+  "trans1289": "Un SK est requis pour activer FRP.",
+  "trans1290": "Le réglage de l’interrupteur prend effet après l’enregistrement."
 }

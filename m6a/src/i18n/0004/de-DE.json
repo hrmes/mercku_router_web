@@ -1259,5 +1259,10 @@
   "trans1282": "Lokale IP",
   "trans1283": "Lokaler Port",
   "trans1284": "Keine Proxys. Mit „+“ einen Proxy hinzufügen.",
-  "trans1285": "Vor dem Aktivieren mindestens einen Proxy hinzufügen"
+  "trans1285": "Vor dem Aktivieren mindestens einen Proxy hinzufügen",
+  "trans1286": "Geben Sie denselben SK wie beim Besucher ein.",
+  "trans1287": "Ein SK ist eingerichtet. Lassen Sie dieses Feld leer, um ihn beizubehalten.",
+  "trans1288": "Wenn Sie den SK ändern, verwenden Sie den neuen SK auch beim Besucher.",
+  "trans1289": "Zum Aktivieren von FRP ist ein SK erforderlich.",
+  "trans1290": "Die Schalterstellung wird nach dem Speichern wirksam."
 }

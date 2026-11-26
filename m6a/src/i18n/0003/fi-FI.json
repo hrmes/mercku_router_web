@@ -1259,5 +1259,10 @@
   "trans1282": "Paikallinen IP",
   "trans1283": "Paikallinen portti",
   "trans1284": "Ei välityksiä. Lisää välitys painamalla ”+”.",
-  "trans1285": "Lisää vähintään yksi välitys ennen etäkäytön käyttöönottoa"
+  "trans1285": "Lisää vähintään yksi välitys ennen etäkäytön käyttöönottoa",
+  "trans1286": "Anna sama SK kuin vierailijalla.",
+  "trans1287": "SK on asetettu. Säilytä nykyinen SK jättämällä kenttä tyhjäksi.",
+  "trans1288": "Kun vaihdat SK:n, päivitä sama SK myös vierailijalle.",
+  "trans1289": "FRP:n käyttöönotto edellyttää SK:ta.",
+  "trans1290": "Kytkimen asetus tulee voimaan tallennuksen jälkeen."
 }

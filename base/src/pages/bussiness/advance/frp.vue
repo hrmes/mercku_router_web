@@ -17,15 +17,15 @@
                 <m-switch :label="$t('trans0462')"
                           data-e2e="frp-switch"
                           :disabled="!ready || busy"
-                          v-model="frp.enabled"
-                          @change="onEnabledChange"></m-switch>
+                          v-model="frp.enabled"></m-switch>
               </m-form-item>
+              <p v-if="frp.enabled !== saved.enabled" class="frp-tips">{{$t('trans1290')}}</p>
               <p class="frp-tips">{{$t('trans1258')}}</p>
               <div class="frp-connection-grid">
                 <section class="frp-server">
                   <h2 class="frp-section">{{$t('trans1259')}}</h2>
                   <div class="frp-server-endpoint">
-                    <m-form-item prop="server_addr">
+                    <m-form-item :key="`server-addr-${frp.enabled}`" prop="server_addr">
                       <m-input :label="$t('trans1260')"
                                data-e2e="frp-server-addr-input"
                                :disabled="!ready || busy"
@@ -51,21 +51,16 @@
                 </section>
                 <section class="frp-access">
                   <h2 class="frp-section">{{$t('trans1263')}}</h2>
-                  <m-form-item prop="sk">
-                    <div class="frp-key">
-                      <m-input :label="$t('trans1254')"
-                               data-e2e="frp-sk-input"
-                               type="password"
-                               :disabled="!ready || busy"
-                               v-model="frp.sk"
-                               :placeholder="$t('trans0321')"></m-input>
-                      <button type="button"
-                              class="btn btn-text frp-key__refresh"
-                              data-e2e="frp-regenerate"
-                              :disabled="!ready || busy || !frp.enabled"
-                              @click="regenerateSk">{{$t('trans1255')}}</button>
-                    </div>
+                  <m-form-item :key="`sk-${frp.enabled}`" prop="sk" :error-msg-is-static="true">
+                    <m-input :label="$t('trans1254')"
+                             data-e2e="frp-sk-input"
+                             type="password"
+                             :disabled="!ready || busy"
+                             v-model="frp.sk"
+                             :placeholder="$t('trans0321')"
+                             :aria-describedby="skHint ? 'frp-sk-hint' : null"></m-input>
                   </m-form-item>
+                  <p v-if="skHint" id="frp-sk-hint" class="frp-tips">{{$t(skHint)}}</p>
                   <p class="frp-tips">{{$t('trans1271')}}</p>
                 </section>
               </div>
@@ -84,7 +79,7 @@
                   {{$t('trans1279')}}
                 </button>
               </div>
-              <m-form-item prop="proxies" class="frp-list-state">
+              <m-form-item :key="`proxies-${frp.enabled}`" prop="proxies" class="frp-list-state">
                 <p v-if="!frp.proxies.length" class="frp-tips">{{$t('trans1284')}}</p>
               </m-form-item>
               <div v-for="(proxy, index) in frp.proxies"
@@ -163,11 +158,9 @@ import {
   buildFrpUpdateParams,
   cloneFrpConfig,
   createFrpProxyNames,
-  generateFrpSk,
   isValidFrpServer,
   isValidFrpProxyName,
-  normalizeFrpConfig,
-  withEnabledState
+  normalizeFrpConfig
 } from 'base/util/frp';
 
 export default {
@@ -191,12 +184,12 @@ export default {
     return {
       ready: false,
       busy: false,
+      savedHasSk: false,
       nextProxyKey: initial.proxies.length,
       portRules,
       ipRules,
       frp: cloneFrpConfig(initial),
-      // Last configuration acknowledged by the device: restored whenever a
-      // toggle/regenerate request fails, so the page never lies about state.
+      // Last configuration acknowledged by the device, excluding the SK.
       saved: cloneFrpConfig(initial),
       frpRules: {
         server_addr: [
@@ -206,8 +199,8 @@ export default {
         server_port: portRules,
         sk: [
           {
-            rule: () => !this.frp.enabled || !!this.frp.sk,
-            message: this.$t('trans0232')
+            rule: value => !this.frp.enabled || this.savedHasSk || !!value.trim(),
+            message: this.$t('trans1286')
           }
         ],
         proxies: [
@@ -220,6 +213,11 @@ export default {
     this.getFrp();
   },
   computed: {
+    skHint() {
+      if (!this.ready) return null;
+      if (this.savedHasSk) return this.frp.sk.trim() ? 'trans1288' : 'trans1287';
+      return !this.frp.enabled && !this.frp.sk.trim() ? 'trans1289' : null;
+    },
     proxyNamesChanged() {
       return JSON.stringify(this.frp.proxies.map(proxy => proxy.name.trim())) !==
         JSON.stringify(this.saved.proxies.map(proxy => proxy.name.trim()));
@@ -299,6 +297,8 @@ export default {
         .then(res => {
           const raw = res && res.data && res.data.result;
           const config = this.withProxyKeys(normalizeFrpConfig(raw));
+          this.savedHasSk = raw && typeof raw.hasSk === 'boolean' ? raw.hasSk : !!config.sk.trim();
+          config.sk = '';
           this.saved = cloneFrpConfig(config);
           return this.suggestProxyNames(config, !raw || !Array.isArray(raw.proxies)).then(form => {
             this.frp = cloneFrpConfig(form);
@@ -311,80 +311,30 @@ export default {
           this.busy = false;
         });
     },
-    restoreSaved() {
-      this.frp = cloneFrpConfig(this.saved);
-    },
-    /**
-     * Enabling keeps a supplied secret or generates one; disabling clears it. The
-     * resulting state is pushed to the device immediately.
-     */
-    onEnabledChange(enabled) {
-      if (!this.ready || this.busy) {
-        this.restoreSaved();
-        return Promise.resolve(false);
-      }
-      try {
-        const next = withEnabledState(enabled ? this.frp : this.saved, enabled === true);
-        // Validate the draft as entered; normalization must not turn an invalid
-        // target port into a default when the user enables the service.
-        this.frp = enabled ? { ...this.frp, enabled: next.enabled, sk: next.sk }
-          : { ...cloneFrpConfig(this.saved), enabled: false, sk: '' };
-      } catch (error) {
-        this.restoreSaved();
-        this.$toast(this.$t('trans0077'));
-        return Promise.resolve(false);
-      }
-      return this.apply(enabled === true);
-    },
-    regenerateSk() {
-      if (!this.ready || this.busy || !this.frp.enabled) return Promise.resolve(false);
-      if (!this.validate()) return Promise.resolve(false);
-      try {
-        this.frp = { ...this.frp, sk: generateFrpSk() };
-      } catch (error) {
-        this.restoreSaved();
-        this.$toast(this.$t('trans0077'));
-        return Promise.resolve(false);
-      }
-      return this.apply();
-    },
-    save() {
-      if (!this.ready || this.busy) return Promise.resolve(false);
-      if (!this.validate()) return Promise.resolve(false);
-      return this.apply();
-    },
     validate() {
       return !!this.$refs.frp && this.$refs.frp.validate();
     },
-    /**
-     * Send the whole configuration to the device. Callers validate first; a
-     * failed request rolls the form back to the last acknowledged state.
-     */
-    apply(shouldValidate = true) {
-      if (!this.ready || this.busy) return Promise.resolve(false);
-      if (shouldValidate && !this.validate()) {
-        this.frp.enabled = this.saved.enabled;
-        return Promise.resolve(false);
-      }
+    save() {
+      if (!this.ready || this.busy || !this.validate()) return Promise.resolve(false);
       const params = buildFrpUpdateParams(this.frp);
       this.busy = true;
       this.$loading.open();
       return this.$http
         .updateFRP(params)
         .then(() => {
-          this.$loading.close();
-          const applied = this.withProxyKeys(normalizeFrpConfig(params));
+          const applied = this.withProxyKeys(normalizeFrpConfig({ ...params, sk: '' }));
+          if (params.sk) this.savedHasSk = true;
           this.frp = cloneFrpConfig(applied);
           this.saved = cloneFrpConfig(applied);
           this.$toast(this.$t('trans0040'), 2000, 'success');
           return true;
         })
         .catch(() => {
-          this.$loading.close();
-          this.restoreSaved();
+          this.frp = cloneFrpConfig(this.saved);
           return false;
         })
         .finally(() => {
+          this.$loading.close();
           this.busy = false;
         });
     }
@@ -434,16 +384,6 @@ export default {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 110px;
     gap: 16px;
-  }
-  .frp-key {
-    display: flex;
-    align-items: flex-end;
-    gap: 12px;
-
-    .input-container {
-      flex: 1;
-      min-width: 0;
-    }
   }
   .page-header {
     display: flex;
@@ -615,29 +555,6 @@ export default {
       > .form-item:first-child {
         margin-bottom: 20px;
       }
-    }
-  }
-  .frp-key__refresh {
-    display: block;
-    flex-shrink: 0;
-    width: auto;
-    margin: 0;
-    padding: 0 4px;
-    height: 48px;
-    min-width: 0;
-    text-align: right;
-    background: none;
-    border: none;
-    box-shadow: none;
-    color: var(--button_text_text-color);
-    text-decoration: underline;
-    white-space: nowrap;
-
-    &:disabled {
-      color: var(--text_gery-color);
-      opacity: 0.6;
-      cursor: not-allowed;
-      text-decoration: none;
     }
   }
 }
